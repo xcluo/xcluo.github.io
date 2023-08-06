@@ -2,7 +2,7 @@ xcluo的个人主页
 # luo
 ## x
 ## c
-![test](https://dummyimage.com/600x400/eee/aaa){align=left, width=300}
+![test](https://dummyimage.com/600x400/eee/aaa){align=left, width=300, height=1000}
 ![test](https://dummyimage.com/600x400/eee/aaa){align=right, width=500}
 
 
