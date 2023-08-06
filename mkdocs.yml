@@ -9,11 +9,11 @@ site_description: xcluo的个人仓库
 nav:
   - AI:
     - 炼丹技巧: AI/Tricks/index.md
-    - AI_labs: AI/AI_labs/index.md
+    - AI_Labs: AI/AI_Labs/index.md
     - 论文笔记: AI/Paper_Reading/index.md
     - 机器学习库: 
       - Tensorflow: AI/AI_Platforms/Tensorflow/index.md
-      - PyTroch: AI/AI_Platforms/PyTroch/index.md
+      - PyTorch: AI/AI_Platforms/PyTorch/index.md
       - Transformers: AI/AI_Platforms/Transformers/index.md
       - PaddlePaddle: AI/AI_Platforms/PaddlePaddle/index.md
   
@@ -34,6 +34,7 @@ nav:
   - 软件:
     - 集成开发环境: Software/IDE/index.md
     - Conda: Software/Conda/index.md
+    # - Conda: Software/Conda/test.html
    
 
 
@@ -57,12 +58,14 @@ theme:
         icon: material/weather-sunny
         name: 切换至日间模式
   features:
-    - navigation.tabs     # 使用Tab来进行分类
-    - navigation.sections # nav节点缩进
+    - navigation.tabs     # 左侧出现分类目录
+    - navigation.expand   # 左侧目录缺省全部展开
+    # - navigation.sections # 不使用nav节点缩进
     - navigation.top      # 网页上滑出现一键返回顶部的按钮
-    # - navigation.indexes  # Tab会有一个index.md 而不是在打开Tab时打开第一篇文章
-    - navigation.expand   # 打开Tab时左侧目录全部展开
-    - toc.integrate       # 右侧产生目录
+    # - navigation.indexes  # 打开目录下的index.md，而不是第一篇文章第一篇文章
+    - navigation.sticky   # 页面顶部横条导航栏
+    - navigation.path     # 页面上部出现文件目录路径
+    - toc.integrate       # 右侧自动生成网页目录
     - search.suggest      # 搜索输入一些字母时推荐补全整个单词
     - search.highlight    # 搜索出的文章关键词加入高亮
     - content.code.copy   # 代码块区域出现代码复制按钮
@@ -102,9 +105,12 @@ plugins:
         - en
         - ja
   - tags # 给单篇文章添加标签 https://squidfunk.github.io/mkdocs-material/setup/setting-up-tags/?h=tags
+  - glightbox
 
 
 markdown_extensions:
+  - attr_list
+  - md_in_html
   - pymdownx.arithmatex: # latex支持
       generic: true
   - attr_list # 给图片后面添加{width="300"}设置大小
