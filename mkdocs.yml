@@ -9,7 +9,7 @@ site_description: xcluo的个人仓库
 nav:
   - AI:
     - 炼丹技巧: AI/Tricks/index.md
-    - AI_Labs: AI/AI_Labs/index.md
+    - AI_Lab: AI/AI_Lab/index.md
     - 论文笔记: AI/Paper_Reading/index.md
     - 机器学习库: 
       - Tensorflow: AI/AI_Platforms/Tensorflow/index.md
@@ -20,23 +20,35 @@ nav:
   - 编程语言:
     - Java: Programing/Java/index.md
     - Python: Programing/Python/index.md
-    - Shell: Programing/Shell/index.md
+    - Shell:
+      - Bash: Programing/Shell/Bash/index.md
+      - PowerShell: Programing/Shell/PowerShell/index.md
     - Git: Programing/Git/index.md
     - FTP: Programing/FTP/index.md
     - MATLAB: Programing/MATLAB/index.md
+    - Latex: Programing/Latex/index.md
+    - Markdown: Programing/Markdown/index.md
 
-
+  - 软件:
+    - 集成开发环境:
+      - IDEA: Software/IDE/IDEA/index.md
+      - PyCharm: Software/IDE/PyCharm/index.md
+      - VSCode: Software/IDE/VSCode/index.md
+    - 编译环境:
+      - Conda: Software/Compiler/Conda/index.md
+      - CUDA: Software/Compiler/CUDA/index.md
+      - Maven: Software/Compiler/Maven/index.md
+    - 办公软件:
+      - Office: Software/Office/Office/index.md
+      - Adboe: Software/Office/Adobe/index.md
+   
   - 系统:
     - Linux: System/Linux/index.md
     - Windows: System/Windows/index.md
     - 虚拟机: System/Virtual_Machine/index.md
-  
-  - 软件:
-    - 集成开发环境: Software/IDE/index.md
-    - Conda: Software/Conda/index.md
-   
 
-
+  - 资源:
+    - 资源: Resource/index.md
 
 # [UI]界面
 
@@ -128,9 +140,9 @@ extra_javascript:
   # latex支持
   # check https://squidfunk.github.io/mkdocs-material/reference/mathjax/?h=math for more information
   # notice `curl https://polyfill.io/v3/polyfill.min.js?features=es6 > docs/mkdocs/javascripts/polyfill.min.js && curl https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js > docs/mkdocs/javascripts/tex-mml-chtml.js` not works... because there are other resources that need to load
-  - mkdocs/javascripts/mathjax.js
+  - packages/mkdocs/javascripts/mathjax.js
   - https://polyfill.io/v3/polyfill.min.js?features=es6
   - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js # https://cdn.bytedance.com/?query=mathjax&version=3.2.0
 # extra_css:
-  - mkdocs/css/no-footer.css # 不使用底部的翻页
-  - mkdocs/css/unordered-list-symbols.css # multiplt unordered list symbols
+  - packages/mkdocs/css/no-footer.css # 不使用底部的翻页
+  - packages/mkdocs/css/unordered-list-symbols.css # multiplt unordered list symbols
