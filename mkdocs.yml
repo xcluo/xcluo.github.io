@@ -8,14 +8,16 @@ site_description: xcluo的个人仓库
 # [Navigtion]
 nav:
   - AI:
-    - 炼丹技巧: AI/Tricks/index.md
-    - AI_Lab: AI/AI_Lab/index.md
+    - AI_Lab: AI/AI_Lab/AI_Lab.md
     - 论文笔记: AI/Paper_Reading/index.md
-    - 机器学习库: 
-      - Tensorflow: AI/AI_Platforms/Tensorflow/index.md
-      - PyTorch: AI/AI_Platforms/PyTorch/index.md
-      - Transformers: AI/AI_Platforms/Transformers/index.md
-      - PaddlePaddle: AI/AI_Platforms/PaddlePaddle/index.md
+    - 基本组件: 
+      - Tokenizer: AI/Component/Tokenizer/index.md
+    - 机器学习库:
+      - Tensorflow: AI/AI_Platform/Tensorflow/index.md
+      - PyTorch: AI/AI_Platform/PyTorch/index.md
+      - Transformers: AI/AI_Platform/Transformers/index.md
+      - PaddlePaddle: AI/AI_Platform/PaddlePaddle/index.md
+    - 炼丹技巧: AI/Trick/index.md
   
   - 编程语言:
     - Java: Programing/Java/index.md
