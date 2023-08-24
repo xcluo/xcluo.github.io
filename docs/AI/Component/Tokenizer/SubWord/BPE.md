@@ -1,6 +1,8 @@
 [BPE (Byte Pair Encoding, 字节对编码)](https://www.derczynski.com/papers/archive/BPE_Gage.pdf) 是一种简单的数据压缩技术，它迭代地合并序列中最频繁的字节为单个未使用的字节。在分词任务中，合并的则是字符或字符序列。
 
-### 算法流程
+- [Paper](media/pdf/BPE.pdf)
+
+### 方法介绍
 #### 基本原理
 算法流程如下：
 
@@ -92,3 +94,9 @@ vocab2 = {'①', '①②', '#②③'}
 print(tokenze('①②③', vocab1))   # ['①', '#②③']
 print(tokenze('①②③', vocab2))   # [<unk>]
 ```
+
+#### BPE词表生成
+- 训练集和测试集一起参与词表的生成  
+> 保证词表一致性
+- 翻译或生成任务中，不同语种的数据也可统一参与词表的生成  
+> 避免一些专有名词在不同语种中划分为不同的subword序列

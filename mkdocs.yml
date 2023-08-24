@@ -12,6 +12,8 @@ nav:
     - 论文笔记: AI/Paper_Reading/index.md
     - 基本组件: 
       - Tokenizer: AI/Component/Tokenizer/index.md
+      - Position Embedding: AI/Component/Position_Embedding/index.md
+    - 评判指标: AI/Metrics/metrics.md
     - 机器学习库:
       - Tensorflow: AI/AI_Platform/Tensorflow/index.md
       - PyTorch: AI/AI_Platform/PyTorch/index.md
