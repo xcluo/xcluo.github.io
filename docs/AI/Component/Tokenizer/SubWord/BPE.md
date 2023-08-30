@@ -1,5 +1,6 @@
-[BPE (Byte Pair Encoding, 字节对编码)](https://www.derczynski.com/papers/archive/BPE_Gage.pdf) 是一种简单的数据压缩技术，它迭代地合并序列中最频繁的字节为单个未使用的字节。在分词任务中，合并的则是字符或字符序列。
+[BPE (Byte Pair Encoding, 字节对编码)](https://www.derczynski.com/papers/archive/BPE_Gage.pdf) 是一种简单的数据压缩技术，它迭代地合并序列中最频繁的字节为单个未使用的字节。在分词任务中，合并的则是字符或字符序列。    
 
+-  BPE是一个确定(无歧义)的、subwords替换word的贪心算法
 - [Paper](media/pdf/BPE.pdf)
 
 ### 方法介绍
@@ -7,7 +8,7 @@
 算法流程如下：
 
 1. 设定字典中最大subwords个数|V|
-1. 将所有单词拆分为subword序列，并在最后添加一个停止符</w>，同时标记出该单词出现的次数。例如，"low"这个单词出现了 5 次，那么它将会被处理为{'l o w </w>': 5}
+1. 将所有单词拆分为subword序列，并在最后添加一个停止符`</w>`，同时标记出该单词出现的次数。例如，`"low"`这个单词出现了 5 次，那么它将会被处理为`{'l o w </w>': 5}`
 1. 统计每一个连续字节对的出现频率，选择最高频者合并成新的subword
 1. 重复第3步直到达到第1步设定的subwords词表大小|V|或下一个最高频的字节对出现频率为1
 
@@ -89,12 +90,13 @@ for i in range(num_merges):
 
 ### 注意事项
 #### 特殊编码示例
-```python
-vocab1 = {'①', '#②③'}
-vocab2 = {'①', '①②', '#②③'}
-print(tokenze('①②③', vocab1))   # ['①', '#②③']
-print(tokenze('①②③', vocab2))   # [<unk>]
-```
+1. 部分贪心匹配 --> `<unk>`
+    ```python
+    vocab1 = {'①', '#②③'}
+    vocab2 = {'①', '①②', '#②③'}
+    print(tokenze('①②③', vocab1))   # ['①', '#②③']
+    print(tokenze('①②③', vocab2))   # [<unk>]
+    ```
 
 #### BPE词表生成
 - 训练集和测试集一起参与词表的生成  
