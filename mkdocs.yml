@@ -9,17 +9,20 @@ site_description: xcluo的个人仓库
 nav:
   - AI:
     - AI_Lab: AI/AI_Lab/AI_Lab.md
-    - 论文笔记: AI/Paper_Reading/index.md
-    - 基本组件: 
-      - Tokenizer: AI/Component/Tokenizer/index.md
-      - Position Embedding: AI/Component/Position_Embedding/index.md
+    - 论文笔记:
+      - 语言模型: AI/Paper_Reading/LM/index.md
+      - 基本组件: 
+        - Tokenizer: AI/Paper_Reading/Component/Tokenizer/index.md
+        - Embedding:
+          - Position Embedding: AI/Paper_Reading/Component/Embedding/Position_Embedding/index.md
+      - 炼丹技巧: AI/Paper_Reading/Trick/index.md
     - 评判指标: AI/Metrics/metrics.md
     - 机器学习库:
       - Tensorflow: AI/AI_Platform/Tensorflow/index.md
       - PyTorch: AI/AI_Platform/PyTorch/index.md
       - Transformers: AI/AI_Platform/Transformers/index.md
       - PaddlePaddle: AI/AI_Platform/PaddlePaddle/index.md
-    - 炼丹技巧: AI/Trick/index.md
+    
   
   - 编程语言:
     - Java: Programing/Java/index.md
@@ -32,6 +35,7 @@ nav:
     - MATLAB: Programing/MATLAB/index.md
     - Latex: Programing/Latex/index.md
     - Markdown: Programing/Markdown/index.md
+    - MkDocs: Programing/MkDocs/index.md
 
   - 软件:
     - 集成开发环境:
@@ -125,6 +129,8 @@ plugins:
 
 markdown_extensions:
   - attr_list
+  - pymdownx.tasklist:        # todo list
+      custom_checkbox: true
   - md_in_html
   - pymdownx.arithmatex: # latex支持
       generic: true
@@ -147,6 +153,11 @@ extra_javascript:
   - packages/mkdocs/javascripts/mathjax.js
   - https://polyfill.io/v3/polyfill.min.js?features=es6
   - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js # https://cdn.bytedance.com/?query=mathjax&version=3.2.0
+  # katex
+  - packages/mkdocs/javascripts/katex.js
+  - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.js  
+  - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/contrib/auto-render.min.js
 # extra_css:
   - packages/mkdocs/css/no-footer.css # 不使用底部的翻页
   - packages/mkdocs/css/unordered-list-symbols.css # multiplt unordered list symbols
+  - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.css
