@@ -35,6 +35,7 @@ nav:
     - MATLAB: Programing/MATLAB/index.md
     - Latex: Programing/Latex/index.md
     - Markdown: Programing/Markdown/index.md
+    - SQL: Programing/SQL/index.md
     - MkDocs: Programing/MkDocs/index.md
 
   - 软件:
@@ -57,6 +58,10 @@ nav:
 
   - 资源:
     - 资源: Resource/index.md
+
+  - 杂项:
+    - 酒: MISC/Wine/index.md
+    - 车: MISC/Car/index.md
 
 # [UI]界面
 

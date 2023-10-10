@@ -55,7 +55,7 @@ $$
 <figure markdown>
   ![Image title](media/image/LeX/fig_extrapolation_result.png)
 </figure>
-- LeX的外推效果比ALiBi表现更优越
+- LeX方案在context windows $[0, L]$和外推$[L, l^{'}]$场景下，效果均表现最好
 
 <figure markdown>
   ![Image title](media/image/LeX/fig_block_causal_attention.png){width=250, align=left}

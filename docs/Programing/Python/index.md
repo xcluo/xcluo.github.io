@@ -1,12 +1,16 @@
-xcluo的个人主页
-# luo
-## x
-## c
+### 基础部分
+
+### 细节部分
+
+### 进阶: 爬虫
+
+### 进阶: GUI
+
+
 ![2](https://dummyimage.com/600x400/eee/aaa){align=left, width=300}
 ![1](https://dummyimage.com/600x400/eee/aaa){align=right, width=500}
 
 ![3](https://dummyimage.com/600x400/eee/aaa)
-### xcluo
 
 
 <figure markdown>
