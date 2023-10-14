@@ -3,7 +3,8 @@
 1. `AH (Auto Hold)`，自动驻车，汽车停稳后汽车自动刹车，且抬起刹车后仍能维持驻车状态
 1. `SST (Stop & Start)`，自动启停，在车辆行驶过程中临时停车(例如等红灯)的时候，自动熄火；当需要继续前进的时候，系统自动重启发动机
 > 自动驻车通过刹车停止，自动启停通过熄火停止
-1. `CCS (Cruise Control System)`，定速巡航
+1. `CCS (Cruise Control System)`，定速巡航，汽车固定时速行驶
+> 踩刹车会取消定速循环；踩油门会加速，松开后(不会取消)会回到定速巡航设定时速
 1. `ACC(Adaptive Cruise Control)`，自适应巡航
 1. `AEB (Autonomous Emergency Braking)`，自动紧急制动
 

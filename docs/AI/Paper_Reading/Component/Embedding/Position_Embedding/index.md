@@ -13,3 +13,4 @@
     - [LeX](PE_patch/LeX.md)
 2. 插值法(Interpolation)：直接长文本二次训练
     - [Position Interpolation](PE_patch/Position_Interpolation.md)
+    - [YaRN](PE_patch/YaRN.md)
