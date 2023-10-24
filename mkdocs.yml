@@ -37,6 +37,7 @@ nav:
     - Markdown: Programing/Markdown/index.md
     - SQL: Programing/SQL/index.md
     - MkDocs: Programing/MkDocs/index.md
+    - 轮子: Programing/wheel/index.md
 
   - 软件:
     - 集成开发环境:
