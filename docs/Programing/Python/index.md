@@ -1,9 +1,9 @@
 ### 基础部分
 
 ### 细节部分
-1. [`Iterable`]() 可迭代对象，包括Iterator和Generator
-1. 匿名函数 [`lambda`]()
-1. 流处理
+1. [`Iterable`](details/Iterable.md) 可迭代对象，包括Iterator和Generator
+1. [`lambda`](details/lambda.md) 匿名函数 
+1. [`Stream`](details/Stream.md) `Iterable`流处理
 
 ### 常用第三方库
 #### 算法类
@@ -26,57 +26,5 @@
 ### 进阶: 爬虫
 
 ### 进阶: GUI
-
-
-![2](https://dummyimage.com/600x400/eee/aaa){align=left, width=300}
-![1](https://dummyimage.com/600x400/eee/aaa){align=right, width=500}
-
-![3](https://dummyimage.com/600x400/eee/aaa)
-
-
-<figure markdown>
-  ![Image title](https://dummyimage.com/600x400/){ width=300, align=left}
-  ![Image title](https://dummyimage.com/600x400/){ width=300, align=right}
-  <figcaption>Image caption2</figcaption>
-</figure>
-
-
-
-
-
-$$
-\begin{aligned}
-x &= a+b+c+{} \\
-y &=d+e+f+g
-\end{aligned}
-\\
-% ss
-\begin{align}
-x &= a+b+c+{} \\
-y &=d+e+f+g
-\end{align}
-\tag{1}
-$$
-
-$$
-y=
-\begin{cases}
-    -x,\quad x\leq 0 \\
-    x,\quad x>0
-\end{cases}
-\tag{1}
-\\
-y = \left\{
-    \begin{aligned}
-        -x,\  x &<= 0 \\
-        x,\  x &> 0 \\
-    \end{aligned}
-\right.
-$$
-
-
-$$
-a = 1 \\
-\tag{1} \\
-\label{*}
-$$
+1. [`tkinter`]()
+1. [`pyqt`]()
