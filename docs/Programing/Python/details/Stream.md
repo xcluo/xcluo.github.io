@@ -1,8 +1,9 @@
-### 返回`Iterator`
+### 返回`Iterable`
 #### 1. `filter`
 #### 2. `map`
-#### 3. `sorted`
-#### 4. `reversed`
+#### 3. `zip`
+#### 4. `sorted`
+#### 5. `reversed`
 
 ### 返回`bool`值
 判断 `Iterable` 中元素状态，当元素为以下值之一，元素逻辑状态值为`False`，否则为`True`
