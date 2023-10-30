@@ -15,7 +15,8 @@ nav:
         - Tokenizer: AI/Paper_Reading/Component/Tokenizer/index.md
         - Embedding:
           - Position Embedding: AI/Paper_Reading/Component/Embedding/Position_Embedding/index.md
-      - 炼丹技巧: AI/Paper_Reading/Trick/index.md
+      - 炼丹技巧: 
+        - 显存优化: AI/Paper_Reading/Trick/Memory_Saving/index.md
     - 评判指标: AI/Metrics/metrics.md
     - 机器学习库:
       - Tensorflow: AI/AI_Platform/Tensorflow/index.md
