@@ -1,9 +1,12 @@
 ### 基础部分
+1. [`class`](basic/class.md) 类
+
 
 ### 细节部分
 1. [`Iterable`](details/Iterable.md) 可迭代对象，包括Iterator和Generator
 1. [`lambda`](details/lambda.md) 匿名函数 
 1. [`Stream`](details/Stream.md) `Iterable`流处理
+1. [`Decorator`](details/Decorator.md) 修饰符
 
 ### 常用第三方库
 #### 算法类
@@ -22,6 +25,9 @@
 ### 进阶：文件读写
 
 ### 进阶：数据处理
+
+### 进阶：AI Libraries
+1. [`Gensim`](ai_libs/Gensim/index.md)
 
 ### 进阶: 爬虫
 
