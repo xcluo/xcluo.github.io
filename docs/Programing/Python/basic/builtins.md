@@ -1,0 +1,34 @@
+### 数值相关
+#### `abs`
+#### `min/max`
+#### `sum`
+#### `pow`
+#### `round`
+
+### 类型相关
+#### `chr`
+#### `str`
+#### `int`
+#### `float`
+#### `bool`
+#### `bin`
+#### `hex`
+#### `oct`
+#### `ord`
+#### `type`
+#### `isinstance`
+
+### 容器相关
+#### `len`
+#### `list`
+#### `tuple`
+#### `dict`
+#### `set`
+#### `zip`
+#### `range`
+#### `enumerate`
+#### `iter`
+#### `next`
+#### `sorted`
+#### `reversed`
+#### `all/any`

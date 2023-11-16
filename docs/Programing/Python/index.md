@@ -1,5 +1,6 @@
 ### 基础部分
 1. [`class`](basic/class.md) 类
+1. [`内置方法`](basic/builtins.md)
 
 
 ### 细节部分
