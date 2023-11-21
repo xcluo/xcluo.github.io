@@ -34,14 +34,35 @@ exec/eval(
 )
 # eval执行返回结果，exec执行不返回结果
 a = 1
-print(eval('a+2'), a)      # > None, 3
-print(exec('a+2'), a)      # > 3, 1
+print(eval('a+2'), a)   # > None, 3
+print(exec('a+2'), a)   # > 3, 1
 ```
-> `eval`函数的`expression`参数出现`=`时会报错`SyntaxError`
+> `eval`函数的`expression`参数出现`=`时会报错`SyntaxError`  
+> 出现修改传入值的情况下一般会选择使用`exec`函数
 
-    > 因此出现修改输入值的场景下一般会选择使用`exec`函数
+
+1. `callable`：判断对象是否是可调用的
+```python
+callable(
+    object
+) -> bool
+```
+> 当`object`是一个方法、函数或者类时是可调用的；当`object`是个类对象且类中实现了 `__call__` 方法时也是可调用的
+
 ### 类型相关
-1. `chr`
+1. `chr/ord`：将单个整型数值转换为对应的unicode字符串/将单个unicode字符转化为整型数值
+```python
+# chr
+chr(
+    i                   # type(i)=int, 表示要转换的整型数值，0 <= i <= 0x10ffff
+) -> str
+
+# ord
+ord(
+    c                   # type(c)=str, 表示要转换的unicode字符
+) -> int
+```
+> `ord` 与 `chr` 功能相反
 1. `str`
 1. `int`
 1. `float`
@@ -49,7 +70,6 @@ print(exec('a+2'), a)      # > 3, 1
 1. `bin`
 1. `hex`
 1. `oct`
-1. `ord`
 1. `type`
 1. `isinstance`
 
@@ -62,8 +82,18 @@ print(exec('a+2'), a)      # > 3, 1
 1. `zip`
 1. `range`
 1. `enumerate`
+1. `filter`
+1. `map`
 1. `iter`
 1. `next`
 1. `sorted`
 1. `reversed`
 1. `all/any`
+
+判断 `Iterable` 中元素状态，当元素为以下值之一，元素逻辑状态值为`False`，否则为`True`
+
+- `None`
+- `0`
+- `Iterable`中元素个数为0
+- `False`
+> `iterable` 中各元素可为条件逻辑，通过`all`或`any`以组建为`or`或`and`逻辑表达式

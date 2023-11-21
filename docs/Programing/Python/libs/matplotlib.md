@@ -18,6 +18,15 @@ plot(
 ) 
 ```
 #### 散点图 `sactter`
+```python
+scatter(
+    x,
+    y,
+    s=None,
+    c=None,
+    marker=None,
+)
+```
 #### 直方图 `hist`
 长方形编辑表示频数
 #### 条形图 `bar`
