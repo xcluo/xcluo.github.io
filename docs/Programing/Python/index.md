@@ -20,14 +20,16 @@
 1. [`tf.app.flags`]()：用于接受从终端传入的命令行参数
 1. [`matplotlib`](libs/matplotlib.md)：提供数据绘图功能的第三方库
 1. [`wordlcoud`](libs/wordcloud.md)：绘制词汇组成类似云的彩色图形
-1. [`json`]()：提供了在JSON数据和Python对象之间进行转换和序列化的功能。
+1. [`json`](libs/json.md)：提供了在JSON数据和Python对象之间进行转换和序列化的功能。
+1. [`emoji`](libs/emoji.md)：提供了一些emoji的相关操作，emoji收集、更新很全
 
 ### 进阶：文件读写
 
 ### 进阶：数据处理
 
 ### 进阶：AI Libraries
-1. [`Gensim`](ai_libs/Gensim/index.md)
+1. [`sklearn`](ai_libs/sklearn/sklearn.md)
+1. [`gensim`](ai_libs/gensim/gensim.md)
 
 ### 进阶: 爬虫
 
