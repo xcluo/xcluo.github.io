@@ -10,10 +10,11 @@
 
 ### 常用第三方库
 #### 算法类
-1. [`AhoCorasick`]()：多模式匹配中的经典算法
+1. [`Aho-Corasick`](libs/ahocorasick.md)：A-C算法，多模式匹配中的经典算法
 1. [`collections`](libs/collections.md)：Python内建的一个集合模块，提供了许多有用的集合类和方法。
 
 #### 功能类
+1. [`threading`](libs/threading.md)：多线程
 1. [`tqdm`](libs/tqdm.md)：Iterable的遍历进度显示库
 1. [`os`](libs/os.md)：提供一些方便使用操作系统相关功能的函数
 1. [`argparse`]()：用于命令项选项与参数解析的模块
