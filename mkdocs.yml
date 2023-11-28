@@ -128,10 +128,11 @@ extra:
 # [Extensions]
 plugins:
   - search: # 现在还不支持中文搜索 支持之后可以设置语言
-    # insider已经支持中文的分词搜索了 https://squidfunk.github.io/mkdocs-material/blog/2022/chinese-search-support/
+      # insider已经支持中文的分词搜索了 https://squidfunk.github.io/mkdocs-material/blog/2022/chinese-search-support/
+      # 支持语种表：https://squidfunk.github.io/mkdocs-material/plugins/search/
       lang:
         - en
-        - ja
+      separator: '[\s\u200b\-]'                     # 安装jieba后才生效中文搜索
   - tags # 给单篇文章添加标签 https://squidfunk.github.io/mkdocs-material/setup/setting-up-tags/?h=tags
   - glightbox
 
@@ -167,6 +168,9 @@ extra_javascript:
   - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.js  
   - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/contrib/auto-render.min.js
 # extra_css:
-  - packages/mkdocs/css/no-footer.css # 不使用底部的翻页
-  - packages/mkdocs/css/unordered-list-symbols.css # multiplt unordered list symbols
+  # - packages/mkdocs/css/no-footer.css # 不使用底部的翻页
+  # - packages/mkdocs/css/unordered-list-symbols.css # multiplt unordered list symbols
   - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.css
+
+extra_css:
+  - packages/stylesheets/extra.css
