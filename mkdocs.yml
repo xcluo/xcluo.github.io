@@ -72,6 +72,7 @@ nav:
 ## [top] 顶部栏
 theme:
   name: material
+  # custom_dir: custom_theme/         # 自定义主题文件夹
   palette:
     - scheme: default # 日间模式
       primary: indigo # 上方的
@@ -167,10 +168,9 @@ extra_javascript:
   - packages/mkdocs/javascripts/katex.js
   - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.js  
   - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/contrib/auto-render.min.js
-# extra_css:
+
+extra_css:
+  # - packages/stylesheets/extra.css    # 自定义css
   # - packages/mkdocs/css/no-footer.css # 不使用底部的翻页
   # - packages/mkdocs/css/unordered-list-symbols.css # multiplt unordered list symbols
   - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.css
-
-extra_css:
-  - packages/stylesheets/extra.css

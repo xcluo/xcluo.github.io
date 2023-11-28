@@ -1,4 +1,5 @@
-pre, code {
-  color: red;
-  background-color: black;
+.md-typeset code {
+    color: white;
+    background-color: black;
 }
+
