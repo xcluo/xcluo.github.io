@@ -1,8 +1,8 @@
 ### 数值相关
 1. `min/max`：获取`iterable`中最小值/最大值
 ```python
-min/max(iterable, *, key=None)
-min/max(*args, key=None)
+def min/max(iterable, *, key=None)
+def min/max(*args, key=None)
 ```
 > 如果多个元素符合`key`对应的条件，返回第一次出现的元素
 1. `sum`：返回`iterable`元素值的和，即
@@ -14,7 +14,7 @@ return ret
 ```
 1. `pow`：执行幂指数函数，如果指定求模函数底，进一步求模
 ```python
-pow(
+def pow(
     base,       # 指数函数底
     exp,        # 指数函数幂指数
     mod=None    # 求模函数底，未指定不求模
@@ -26,7 +26,7 @@ pow(
 ### 命令执行相关
 1. `eval/exec`
 ```python
-exec/eval(
+def exec/eval(
     expression,     # type(expression)=str，表示要执行的语句
     globals=None,
     locals=None,
@@ -43,7 +43,7 @@ print(exec('a+2'), a)   # > 3, 1
 
 1. `callable`：判断对象是否是可调用的
 ```python
-callable(
+def callable(
     object
 ) -> bool
 ```
@@ -53,12 +53,12 @@ callable(
 1. `chr/ord`：将单个整型数值转换为对应的unicode字符串/将单个unicode字符转化为整型数值
 ```python
 # chr
-chr(
+def chr(
     i                   # type(i)=int, 表示要转换的整型数值，0 <= i <= 0x10ffff
 ) -> str
 
 # ord
-ord(
+def ord(
     c                   # type(c)=str, 表示要转换的unicode字符
 ) -> int
 ```

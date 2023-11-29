@@ -13,8 +13,7 @@ emits = trie.parse_text(text)       # 基于既有关键字词典和ahocorasick�
 ```
 
 #### 实现代码
-`ahocorasick.py`
-```python
+```python title='ahocorasick.py'
 # coding=utf-8
 import collections
 import queue

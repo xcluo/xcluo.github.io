@@ -72,7 +72,7 @@ nav:
 ## [top] 顶部栏
 theme:
   name: material
-  # custom_dir: custom_theme/         # 自定义主题文件夹
+  # custom_dir: packages/stylesheets/custom_css         # 自定义主题文件夹
   palette:
     - scheme: default # 日间模式
       primary: indigo # 上方的
@@ -148,13 +148,19 @@ markdown_extensions:
   - attr_list # 给图片后面添加{width="300"}设置大小
   - toc:
       permalink: true # 固定标题位置为当前位置
-  - pymdownx.highlight: # 代码块高亮
-      # linenums: true # 显示代码块中代码行号
-      # auto_title: true # 显示代码块编程语言名
-  - pymdownx.superfences # 代码块高亮插件
+
+  # 代码块特征设置
+  - pymdownx.superfences      # enable代码设置
+  - pymdownx.highlight:
+      # linenums: true          # 显示代码块中代码行号
+      # auto_title: true        # 显示代码块编程语言名
+      use_pygments: true
+      
+
   - meta # 支持Markdown文件上方自定义标题标签等
   - admonition # https://squidfunk.github.io/mkdocs-material/reference/admonitions/#inline-blocks
   - pymdownx.details # admonition需要
+
 
 
 extra_javascript:
@@ -170,7 +176,11 @@ extra_javascript:
   - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/contrib/auto-render.min.js
 
 extra_css:
-  # - packages/stylesheets/extra.css    # 自定义css
   # - packages/mkdocs/css/no-footer.css # 不使用底部的翻页
   # - packages/mkdocs/css/unordered-list-symbols.css # multiplt unordered list symbols
   - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.css
+  - packages/stylesheets/extra.css          # 自定义css
+  - packages/stylesheets/custom_css.css     # 自定义css
+
+extra_templates:
+  - packages/stylesheets/extra.html
