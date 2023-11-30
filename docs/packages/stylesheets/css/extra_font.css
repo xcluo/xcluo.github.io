@@ -1,0 +1,35 @@
+/*
+font-style: 字体风格，{++normal++, italic, oblique}
+font-weight: 字体粗细，{lighter, ++normal++, bold, bolder, 100~999}，400≈normal，700≈bold 
+font-family: 字体，{微软雅黑}
+font-variant: 字体变化，{++normal++, small-caps}，small-caps为小字体的大写字母
+font-size: 字体大小
+
+text-decorattion: 设置文本下划线，上划线，删除线等 {none, underline, overline, line-through}
+text-align: 设置文本对齐方式, {++left++, right, center, justify}，仅对块级元素有效
+
+white-space: 空白字符处理方式，,{++normal++, nowrap, pre}，
+        normal为空格、空行无效、自动换行；
+        nowrap为空格、空行无效、超出页面页不换行；
+        pre保留原始文本
+
+color: 字颜色
+background-color: 背景颜色
+*/
+
+
+.italic_span {
+    font-style: italic;
+}
+
+.bold_span {
+    font-weight: bold;
+}
+
+.underline_span {
+    text-decoration: overline;
+}
+
+.delete_span {
+    text-decoration: line-through;
+}   

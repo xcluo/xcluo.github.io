@@ -179,8 +179,9 @@ extra_css:
   # - packages/mkdocs/css/no-footer.css # 不使用底部的翻页
   # - packages/mkdocs/css/unordered-list-symbols.css # multiplt unordered list symbols
   - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.css
-  - packages/stylesheets/extra_code.css           # code.css
-  - packages/stylesheets/extra_img.css            # image.css
+  - packages/stylesheets/css/extra_code.css           # code.css
+  - packages/stylesheets/css/extra_img.css            # image.css
+  - packages/stylesheets/css/extra_font.css           # font.css
 
 extra_templates:
   - packages/stylesheets/extra.html
