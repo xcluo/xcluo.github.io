@@ -33,3 +33,9 @@ background-color: 背景颜色
 .delete_span {
     text-decoration: line-through;
 }   
+
+
+.hl_span {
+    font-weight: bold;
+    color: orange;
+}
