@@ -3,6 +3,7 @@ site_name: xcluo的个人仓库           # 网页标签名
 site_url: https://xcluo.github.io   # 个人网页的url域名
 site_author: xcluo
 site_description: xcluo的个人仓库
+# use_directory_urls: false
 
 
 # [Navigtion]

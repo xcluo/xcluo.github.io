@@ -1,11 +1,9 @@
 ### 可迭代对象间的关系
 
-<div class="one-image-container">
-  <img src="iterable_iterator_ienerator.png" >
-
-  <img src="image/iterable_iterator_ienerator.png" >
-  <p>生成器/迭代器/可迭代对象关系图</p>
-<div>
+<figure markdown>
+  ![Image title](image/iterable_iterator_generator.png){width=80%}
+  <figcaption>生成器/迭代器/可迭代对象关系图</figcaption>
+</figure>
 
 
 
