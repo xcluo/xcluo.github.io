@@ -1,9 +1,13 @@
 ### 可迭代对象间的关系
-<figure markdown>
 
-  ![Image title](image/Iterable_Iterator_Generator.png){width=80%}
-  <figcaption>生成器/迭代器/可迭代对象关系图</figcaption>
-</figure>
+<div class="one-image-container">
+  <img src="iterable_iterator_ienerator.png" >
+
+  <img src="image/iterable_iterator_ienerator.png" >
+  <p>生成器/迭代器/可迭代对象关系图</p>
+<div>
+
+
 
 [`Generator`](#generator)派生出[`Iterator`](#iterator)，[`Iterator`](#iterator)派生出[`Iterable`](#iterable)
 
