@@ -74,19 +74,24 @@ nav:
 theme:
   name: material
   # custom_dir: packages/stylesheets/custom_css         # 自定义主题文件夹
+  
+  # 主题色板，色板主题执行列表循环切换，可不止2个
   palette:
-    - scheme: default # 日间模式
-      primary: indigo # 上方的
-      accent: orange # 链接等可交互元件的高亮色
+    - scheme: default           # 缺省日间模式
+      primary: green            # 顶部颜色
+      accent: orange            # 鼠标移动至链接等可交互元件的高亮显示颜色
       toggle:
-        icon: material/weather-night # 图标
-        name: 切换至夜间模式 # 鼠标悬浮提示
-    - scheme: slate # 夜间模式
-      primary: indigo
-      accent: orange
+        icon: material/weather-night    # 当前模式图标
+        name: 切换至夜间模式     # 鼠标悬浮提示
+
+    - scheme: slate             # 切换夜间模式
+      primary: grey             # 顶部颜色
+      accent: orange            # 鼠标移动至链接等可交互元件的高亮显示颜色
       toggle:
-        icon: material/weather-sunny
-        name: 切换至日间模式
+        icon: material/weather-sunny   # 当前模式图标
+        name: 切换至日间模式    # 鼠标悬浮提示
+    
+
   features:
     - navigation.tabs     # 左侧出现分级目录
     # - navigation.expand   # 左侧分级目录缺省全部展开
@@ -157,7 +162,7 @@ markdown_extensions:
       # auto_title: true        # 显示代码块编程语言名
       use_pygments: true
       
-
+  - pymdownx.caret
   - meta # 支持Markdown文件上方自定义标题标签等
   - admonition # https://squidfunk.github.io/mkdocs-material/reference/admonitions/#inline-blocks
   - pymdownx.details # admonition需要
