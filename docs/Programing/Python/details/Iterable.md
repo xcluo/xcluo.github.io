@@ -1,11 +1,10 @@
+
+<div class='one-image-container'>
+  <img src="/Programing\Python\details\image\iterable_iterator_generator.png">
+  <p>Python容器关系图</p>
+</div>
+
 ### 可迭代对象间的关系
-
-<figure markdown>
-  ![Image title](image/iterable_iterator_generator.png){width=80%}
-  <figcaption>生成器/迭代器/可迭代对象关系图</figcaption>
-</figure>
-
-
 
 [`Generator`](#generator)派生出[`Iterator`](#iterator)，[`Iterator`](#iterator)派生出[`Iterable`](#iterable)
 
