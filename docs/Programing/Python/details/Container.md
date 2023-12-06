@@ -4,9 +4,9 @@
   <p>Python容器关系图</p>
 </div>
 
-### 可迭代对象间的关系
+### 容器间的关系
 
-[`Generator`](#generator)派生出[`Iterator`](#iterator)，[`Iterator`](#iterator)派生出[`Iterable`](#iterable)
+[`Iterable`](#iterable)派生出[`Iterator`](#iterator)，[`Iterator`](#iterator)派生出[`Generator`](#generator)
 
 - 只有 `Iterable` 可以通过内置函数 `len` 访问容器元素个数
 - `Iterator` 和 `Generator`只能通过内置函数 `next` 或迭代方法遍历元素
@@ -16,3 +16,5 @@
 ### `Iteratable`
 ### `Iterator`
 ### `Generator`
+
+https://www.jianshu.com/p/8c29f88952e7

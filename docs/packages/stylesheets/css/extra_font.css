@@ -27,7 +27,7 @@ background-color: 背景颜色
 }
 
 .underline_span {
-    text-decoration: overline;
+    text-decoration: underline;
 }
 
 .delete_span {

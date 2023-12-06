@@ -74,7 +74,8 @@ def ord(
 1. `isinstance`
 
 ### 容器相关
-1. `len`
+
+1. `len`：获取 `iterable` 中元素个数
 1. `list`
 1. `tuple`
 1. `dict`
@@ -83,12 +84,21 @@ def ord(
 1. `range`
 1. `enumerate`
 1. `filter`
-1. `map`
+1. `map`：将<span class='underline_span'>一个或多个 `iterator` 映射为一个</span>新的 `iterable` ，示意如下图：
+<div class='one-image-container'>
+    <img src='\Programing\Python\basic\image\map.png' width="80%">
+</div>
+```python
+def map(
+    func,               # 具体映射方法
+    *iterables,         # iterator 序列，len(iterables)等于func中输入形参个数
+) -> Iterable
+```
 1. `iter`
-1. `next`
-1. `sorted`
-1. `reversed`
-1. `all/any`
+2. `next`
+3. `sorted`
+4. `reversed`
+5. `all/any`
 
 判断 `Iterable` 中元素状态，当元素为以下值之一，元素逻辑状态值为`False`，否则为`True`
 

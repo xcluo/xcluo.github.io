@@ -4,7 +4,7 @@
 
 
 ### 细节部分
-1. [`Iterable`](details/Iterable) 可迭代对象，包括Iterator和Generator
+1. [`Iterable`](details/Container) 可迭代对象，包括Iterator和Generator
 1. [`lambda`](details/lambda) 匿名函数 
 1. [`Decorator`](details/Decorator) 修饰符
 
