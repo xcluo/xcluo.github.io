@@ -29,41 +29,48 @@ def fun_1(self, arg, *args):
 
 ### 继承
 
+### 魔法属性
+
+`__dict__`、`__slots__`、`__weakref__`、`__class__`
+
 ### 魔法方法
 
-####
-
 #### 变量访存、删除
+
 ```python
-__get__
-__set__
-__delete__
+
 ```
 
 #### 变量声明、删除
+
 ```python
-def __getattr__(self, attribute_name)
-__setattr__
-__getattribute__
-__setattribute__
-__delattr__
+def __getattribute__(self, attr_name)
+def __setattribute__(self, attr_name, value)
+
+def __getattr__(self, attr_name)
+def __setattr__(self, attr_name, value)
+def __delattr__(self, attr_name)
+
+def __get__(self, instance, owner)
+def __set__(sefl, instance, value)
+def __delete__(sefl, instance)
 ```
 
 ```python
-__str__
-__repr__
-__format__
 __bool__
 __int__
 __float__
+__str__
+__repr__
+__format__
 ```
 
 ```python
-__init__
-__new__
-__call__
-__enter__
-__exit__
+def __init__(self, *args, **kwargs)
+def __new__(cls, *args, **kwargs)
+def __call__(self, *args, **kwargs)
+def __enter__()
+def __exit__(self, *args, **kwargs)
 ```
 
 #### 容器相关
@@ -91,7 +98,7 @@ def __getitem__(self, index) -> T_co
 def __getitem__(self, key) -> T_co
 ```
 > 只有实现了 `__getitem__` 方法的类才能成功执行 `[]` 运算符  
-> 如果类中未实现 `__iter__`、`__next__` 方法，Python解释器会找 `__getitem__` 来迭代
+> 若类中未实现 `__iter__`、`__next__` 方法，Python解释器会找 `__getitem__` 来迭代
 
 1. `__setitem__`，通过索引或键设置相应元素
 ```python
@@ -101,6 +108,7 @@ def __setitem__(self, index, value)
 # 设置键对应的元素值
 def __setitem__(self, key, value)
 ```
+> 只有实现了 `__setitem__` 方法的类才能成功执行 `[]=` 运算符
 
 1. `__len__`，返回对象中元素个数
 ```python

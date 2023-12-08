@@ -34,6 +34,7 @@
 #### 资源库
 
 - [`emoji`](libs/emoji)：提供了一些emoji的相关操作，emoji收集新而全
+- [`OpenCC`](libs/opencc)：一个开源的中文繁简体转换库
 
 ### 进阶：文件读写
 
