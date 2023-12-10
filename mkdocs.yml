@@ -33,7 +33,8 @@ nav:
       - Bash: Programing/Shell/Bash/index.md
       - PowerShell: Programing/Shell/PowerShell/index.md
     - Git: Programing/Git/index.md
-    - FTP: Programing/FTP/index.md
+    - FTP: 
+      - LFTP: Programing/FTP/LFTP/index.md
     - MATLAB: Programing/MATLAB/index.md
     - Latex: Programing/Latex/index.md
     - Markdown: Programing/Markdown/index.md
