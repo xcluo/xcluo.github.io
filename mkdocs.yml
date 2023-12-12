@@ -33,13 +33,17 @@ nav:
       - Bash: Programing/Shell/Bash/index.md
       - PowerShell: Programing/Shell/PowerShell/index.md
     - Git: Programing/Git/index.md
+    - HTML:
+      - html: Programing/HTML/html/index.md
+      - CSS: Programing/HTML/CSS/index.md
+    - Tex:
+      - Latex: Programing/Tex/Latex/index.md
+      - Markdown: Programing/Tex/Markdown/index.md
+      - MkDocs: Programing/Tex/MkDocs/index.md
     - FTP: 
       - LFTP: Programing/FTP/LFTP/index.md
     - MATLAB: Programing/MATLAB/index.md
-    - Latex: Programing/Latex/index.md
-    - Markdown: Programing/Markdown/index.md
     - SQL: Programing/SQL/index.md
-    - MkDocs: Programing/MkDocs/index.md
     - 轮子: Programing/wheel/index.md
 
   - 软件:
@@ -189,6 +193,7 @@ extra_css:
   - packages/stylesheets/css/extra_code.css           # code.css
   - packages/stylesheets/css/extra_img.css            # image.css
   - packages/stylesheets/css/extra_font.css           # font.css
+  - packages/stylesheets/css/extra_component.css      # component.css
 
 extra_templates:
   - packages/stylesheets/extra.html

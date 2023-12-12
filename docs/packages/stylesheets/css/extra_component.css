@@ -1,0 +1,27 @@
+/* ######### 列表 ######### */
+    /*
+        MkDocs会自动外套一个 <div class="highlight"> 模块
+    */
+
+/* 有序列表 */
+.highlight ol {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+/* 有序列表的项目 */
+.highlight ol li {
+    margin-bottom: 0px;
+}
+
+
+/* 无序列表 */
+.highlight ul {
+    margin-top: -5px;
+    margin-bottom: -5px;
+}
+
+/* 无序列表的项目 */
+.highlight ul li {
+    margin-bottom: 0px;
+}

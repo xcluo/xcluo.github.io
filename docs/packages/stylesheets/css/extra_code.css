@@ -20,7 +20,8 @@
 }
 
 
-/* 代码块边框 */pre {
+/* 代码块边框 */
+pre {
     border-top: 2px solid #999;
     border-bottom: 2px solid #999;
 }
