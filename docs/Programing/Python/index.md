@@ -57,7 +57,7 @@
 - [`gensim`](ai_libs/gensim/gensim)
 - [`lightgbm`]()
 #### 分词方法
-- [`sentencepiece`]()
+- BPE 分词器：[`sentencepiece`](ai_libs/bpe_tokenizer.md)、[`tokenization`](ai_libs/bpe_tokenizer.md)
 - [`jieba`]()
 
 ### 进阶: 爬虫
