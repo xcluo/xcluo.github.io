@@ -1,6 +1,7 @@
 /* ######### 列表 ######### */
     /*
-        MkDocs会自动外套一个 <div class="highlight"> 模块
+        - MkDocs会自动外套一个 <div class="highlight"> 模块
+        - ol.marker的type取值，{1: 数字, a: 小写字母, A: 大写字母, i: 小写罗马数字, I: 大写罗马数字}
     */
 
 /* 有序列表 */
