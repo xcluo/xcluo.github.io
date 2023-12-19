@@ -10,15 +10,19 @@ plt.rcParams['axes.unicode_minus']=False        # 显示负号不乱码
 
 #### 折线图 `plot`
 
-```python
-def plot(
-        *args,
-        scalex=True,
-        scaley=True,
-        data=None,
-        **kwargs 
-) 
-```
+- 代码格式：`plot([x], y, [fmt], [x2], y2, [fmt2], ..., **kwargs)`
+> 若只有 `y`，则对应的 `x` 为 `x = range(len(y))`  
+> `fmt : str`，包含颜色和标记样式,缺省为 'b-'
+
+    ```python
+    def plot(
+            *args,          # [x], y, [fmt]
+            scalex=True,
+            scaley=True,
+            data=None,
+            **kwargs 
+    ) 
+    ```
 
 #### 散点图 `sactter`
 
@@ -26,9 +30,9 @@ def plot(
 def scatter(
         x,              # 横坐标序列
         y,              # 对应的纵坐标序列
-        s=None,
-        c=None,
-        marker=None,
+        s=None,         # 散点面积，序列长度与 `x` 一致
+        c=None,         # 散点颜色，缺省为 'b'
+        marker=None,    # 散点标记样式，缺省为 'o'
 )
 ```
 
@@ -92,6 +96,16 @@ def legend(
 
 #### 横、纵坐标轴标签 `xlabel/ylabel`
 
+#### 横、纵坐标刻度范围`xlim/ylim`
+
 #### 横、纵坐标轴刻度间隔 `MultipleLocator`
 
 #### 横、纵坐标轴刻度文本 `xticks/yticks`
+
+### 通用组件
+
+#### `font`
+
+#### `marker`
+
+#### `c`

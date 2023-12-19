@@ -1,9 +1,11 @@
 ### 基础部分
+
 1. [`class`](basic/class) 类
 1. [`内置方法`](basic/builtins)
 
 
 ### 细节部分
+
 1. [`Container`](details/Container) 容器类，包括Iterable、Iterator和Generator
 1. [`lambda`](details/lambda) 匿名函数 
 1. [`Decorator`](details/Decorator) 修饰符
@@ -52,16 +54,21 @@
 ### 进阶：数据处理
 
 ### 进阶：AI Libraries
+
 #### 机器学习
+
 - [`sklearn`](ai_libs/sklearn/sklearn)
 - [`gensim`](ai_libs/gensim/gensim)
 - [`lightgbm`]()
+
 #### 分词方法
+
 - BPE 分词器：[`sentencepiece`](ai_libs/bpe_tokenizer.md)、[`tokenization`](ai_libs/bpe_tokenizer.md)
 - [`jieba`]()
 
 ### 进阶: 爬虫
 
 ### 进阶: GUI
+
 1. [`tkinter`]()
 1. [`pyqt`]()

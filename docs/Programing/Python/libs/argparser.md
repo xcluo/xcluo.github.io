@@ -28,19 +28,19 @@ def add_argument(
 )
 
 ## int
-parser.add_argument('-v', '--var', type=int, default=0, required=Fasle, help='var description')
+parser.add_argument('-v', '--var', type=int, default=0, required=False, help='var description')
 
 ## float
-parser.add_argument('-v', '--var', type=float, default=0, required=Fasle, help='var description')
+parser.add_argument('-v', '--var', type=float, default=0, required=False, help='var description')
 
 ## Iterable, 输入tuple，如： --var 1 2 3
-parser.add_argument('-v', '--var', type=int, nargs=3, required=True, help='var description')    # nargs指定输入的元素个数
+parser.add_argument('-v', '--var', type=int, nargs=3, required=False, help='var description')    # nargs指定输入的元素个数
 
 ## str
-parser.add_argument('-v', '--var', type=str, default='', required=Fasle, help='var description')
+parser.add_argument('-v', '--var', type=str, default='', required=False, help='var description')
 
-## bool, stroe_true传参时只需要传入动作：【--var】 即可实现 var=action.split('_')[-1]
-parser.add_argument('-v', '--var', action='store_true', required=Fasle, help='var description')
+## bool, stroe_true传参时只需要传入动作：【-v/--var】 即可实现 var=action.split('_')[-1]
+parser.add_argument('-v', '--var', action='store_true', required=False, help='var description')
 ```
 
 ### tf.flags
