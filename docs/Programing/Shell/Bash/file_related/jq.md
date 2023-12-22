@@ -34,6 +34,8 @@ cat file.txt | jq select(.prob[2] > 0.5)
 # 过滤概率大于0.5的行，并新增或修改name键对应的值位"luo"
 cat file.txt | jq select(.prob[2] > 0.5) | jq '.name "luo"'
 
-# 将 raw_content 与 prob 结果合并为一个数组，并过滤相应标签概率大于0.5的行，JSON对象单行输出
+# 通过`paste`和`awk`命令将 raw_content 与 prob 结果合并为一个数组
+# + 过滤相应标签概率大于0.5的行
+# + 最终JSON对象单行输出
 paste test1.txt result1.txt | awk -F '\t' '{print "[" $1 ", "$2 "]" }' | jq -c 'select(.[1].prob[1] > 0.5)'
 ```

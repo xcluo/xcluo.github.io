@@ -8,7 +8,7 @@ num_runs=5
 # 循环执行程序
 for ((i=1; i<=$num_runs; i++))
 do
-    # 【nohup 终端关闭继续运行(类似于screen)】 
+    # 【nohup(no hang up) 终端关闭不挂起而继续运行(类似于screen)】 
     # + 运行程序 + 传入参数 + 【2>&1 日志重定向】
     # +【& 后台运行实现并发】
     nohup python run.py $i > log_${i}.txt 2>&1 &
