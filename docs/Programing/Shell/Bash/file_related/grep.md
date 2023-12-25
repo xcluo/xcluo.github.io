@@ -2,6 +2,13 @@ grep (**G**lobal search **R**egular **E**xpression and **P**rint out the line)�
 
 ### `grep`
 
+#### options
+`--color` 彩色显示   
+`-i` 忽略大小写    
+`-v` 反向搜索,不打印匹配的行  
+
+
+
 #### 多条件
 1. or
 ```bash
