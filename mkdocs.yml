@@ -65,7 +65,8 @@ nav:
     - 虚拟机: System/Virtual_Machine/index.md
 
   - 资源:
-    - 资源: Resource/index.md
+    - 多媒体: Resource/Media/index.md
+    - 工具: Resource/Tool/index.md
 
   - 杂项:
     - 酒: MISC/Wine/index.md
