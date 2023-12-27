@@ -19,11 +19,11 @@
 #### 文件修改
 
 - 信息修改：`mv`、`cp`、`rm`
-- 内容连接：`cat` (最后一行没有结尾回车不会输出)
+- 内容连接：`cat` (最后一行没有结尾回车不会进行连接)
 - 内容合并：`join`、`paste`
 - 内容拆分：[`split`](file_related/split)
 - 内容去重：`sort` + `uniq`
-- 内容替换：`tr`、`sed`
+- 内容替换：`tr`、[`sed`](file_related/sed)
 - 内容扰动：`shuf`
 
 ### 软件安装

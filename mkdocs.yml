@@ -11,7 +11,9 @@ nav:
   - AI:
     - AI_Lab: AI/AI_Lab/AI_Lab.md
     - 论文笔记:
-      - 语言模型: AI/Paper_Reading/LM/index.md
+      - 语言模型: 
+        - 语言模型: AI/Paper_Reading/LM/LMs/index.md
+        - 模型分析: AI/Paper_Reading/LM/Model_Analysis/index.md
       - 基本组件: 
         - Tokenizer: AI/Paper_Reading/Component/Tokenizer/index.md
         - Embedding:

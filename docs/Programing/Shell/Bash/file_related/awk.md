@@ -31,4 +31,7 @@ awk "NR==6" luo.txt             # 显示luo.txt文件中的第6行内容
 awk “NR<=6” luo.txt             # 显示luo.txt文件中的前6行内容
 awk "NR>4 && NR<11" luo.txt     # 打印luo.txt文件中的5-10行
 awk "NR%2==0" luo.txt           # 打印luo.txt文件中的奇数行
+
+awk -F ' '  '{print $1}' luo.txt # 打印luo.txt文件中每行由 ' ' 隔开的第一列
+                                 # -F ' '可简写为 -F' '
 ```
