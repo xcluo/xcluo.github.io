@@ -166,7 +166,7 @@ $$
 <div class='one-image-container'>
     <img src='\AI\Paper_Reading\LM\Model_Analysis\Classifier\anchor_reweight_result.png'>
 </div>
-> few-sht场景下效果优化明显
+> few-shot场景下效果优化明显
 
 #### Demonstrations Compression
 AR模型是单向的，对于Prompt：<span style='color: blue'>(Num*C) demonstrations</span> + input_to_be_predicted的前半部分 其实是固定的，没有必要重复计算，处于性能考量，进行了压缩。实验对比包括
