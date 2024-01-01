@@ -89,35 +89,67 @@ theme:
       primary: green            # 顶部颜色
       accent: orange            # 鼠标移动至链接等可交互元件的高亮显示颜色
       toggle:
-        icon: material/weather-night    # 当前模式图标
+        icon: material/weather-night    
+                                # 当前模式图标
         name: 切换至夜间模式     # 鼠标悬浮提示
 
     - scheme: slate             # 切换夜间模式
       primary: grey             # 顶部颜色
       accent: orange            # 鼠标移动至链接等可交互元件的高亮显示颜色
       toggle:
-        icon: material/weather-sunny   # 当前模式图标
-        name: 切换至日间模式    # 鼠标悬浮提示
+        icon: material/weather-sunny   
+                                # 当前模式图标
+        name: 切换至日间模式     # 鼠标悬浮提示
     
 
   features:
-    - navigation.tabs     # 左侧出现分级目录
-    # - navigation.expand   # 左侧分级目录缺省全部展开
-    # - navigation.sections # 左侧分级目录不缩进区分
-    - navigation.top      # 网页上滑出现一键返回顶部的按钮
-    # - navigation.indexes  # 打开目录下的index.md，而不是第一篇文章第一篇文章
-    - navigation.sticky   # 页面顶部横条导航栏
+    - navigation.tabs     # 显示顶部导航栏
+    # - navigation.tabs.sticky   
+                          # enable: 页面超过顶部导航栏时依然固定显示
+                          # disable: 页面超过顶部导航栏时不再显示
+    - navigation.top      # 网页上滑出现【回到页面顶部】按钮
+
+
+    # - navigation.expand   # enable: 左侧分级目录缺省全部展开
+                            # disable: 左侧分级目录缺省全部折叠
+    # - navigation.sections # enable: 左侧分级目录不缩进显示
+                            # disable: 左侧分级目录缩进显示
+
+    # - toc.integrate       # enable: 网页内容分级目录合并入左侧分级目录；
+                            # disable: 右侧自动生成网页内容分级目录。
+
+    # - navigation.indexes  # 打开目录下的index.md，而不是第一篇文章
     - navigation.path     # 页面上部出现文件目录路径
-    # - toc.integrate       # 右侧自动生成网页目录，否则自动整合入左侧分级目录
-    - search.suggest      # 搜索输入一些字母时推荐补全整个单词
-    - search.highlight    # 搜索出的文章关键词加入高亮
-    - content.code.copy   # 代码块区域出现代码复制按钮
+    
+    - search.suggest      # 搜索输入一些内容时会联想要输入的内容进行推荐显示
+    - search.highlight    # 搜索出的关键词进行高亮显示
+    # - search.share        # 搜索框输入内容后出现分享按钮
+
+    - content.code.copy   # 网页代码块内容区域出现代码复制按钮
     - content.action.edit # 网页中显示编辑按钮, 点击按钮跳转到编辑页面
                           # 需要结合 edit_uri 一起使用
+
   language: zh # 一些提示性的文字会变成中文
+
   icon:
     repo: fontawesome/brands/github
-edit_uri: edit/main/docs  # 电极编辑按钮跳转的链接
+                          # 定义右上角github图标
+    
+    admonition:
+      note: fontawesome/solid/note-sticky
+      abstract: fontawesome/solid/book
+      info: fontawesome/solid/circle-info
+      tip: fontawesome/solid/bullhorn
+      success: fontawesome/solid/check
+      question: fontawesome/solid/circle-question
+      warning: fontawesome/solid/triangle-exclamation
+      failure: fontawesome/solid/bomb
+      danger: fontawesome/solid/skull
+      bug: fontawesome/solid/robot
+      example: fontawesome/solid/flask
+      quote: fontawesome/solid/quote-left
+
+edit_uri: edit/main/docs  # 点击编辑按钮跳转的链接
 
 
 ## [top-right corner] 右上角落
@@ -166,8 +198,8 @@ markdown_extensions:
   # 代码块特征设置
   - pymdownx.superfences      # enable代码设置
   - pymdownx.highlight:
-      # linenums: true          # 显示代码块中代码行号
-      # auto_title: true        # 显示代码块编程语言名
+      # linenums: true          # 代码块中显示代码行号
+      # auto_title: true        # 代码块显示编程语言名
       use_pygments: true
       
   - pymdownx.caret
