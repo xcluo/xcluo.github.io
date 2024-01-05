@@ -69,6 +69,7 @@ nav:
   - 资源:
     - 多媒体: Resource/Media/index.md
     - 工具: Resource/Tool/index.md
+    - 手册: Resource/Tutorial/index.md
 
   - 杂项:
     - 酒: MISC/Wine/index.md

@@ -26,6 +26,9 @@
 - 内容替换：`tr`、[`sed`](file_related/sed)
 - 内容扰动：`shuf`
 
+### 数值操作
+- format输出：[`printf`](numeric_operation/printf.md)
+
 ### 软件安装
 
 #### 下载工具

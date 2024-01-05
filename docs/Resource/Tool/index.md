@@ -12,7 +12,11 @@
 
 #### 内容检索
 - 图书资源：[鸠摩搜索](https://www.jiumodiary.com/)
+- unicode：[手写字识别](https://teshuzi.com/zh/handwriting/)、[符号库](https://www.fuhaoku.net/U+1C05)、[汉字编码表](http://www.360doc.com/content/15/0614/16/13885976_478067663.shtml)、[国际电脑汉字及异体字知识库](https://chardb.iis.sinica.edu.tw/)、[Unicode大全](https://www.fileformat.info/info/unicode/char/search.htm)
+- emoji：[Emoji XD](https://emojixd.com/)、[Emojipedia](https://emojipedia.org/zh)
 
+#### 专业工具
+- 正则表达式：[RE可视化](https://wangwl.net/static/projects/visualRegex#)
 
 ### 插件
 #### Edge插件

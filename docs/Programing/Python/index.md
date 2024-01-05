@@ -9,6 +9,7 @@
 1. [`Container`](details/Container) 容器类，包括Iterable、Iterator和Generator
 1. [`lambda`](details/lambda) 匿名函数 
 1. [`Decorator`](details/Decorator) 修饰符
+1. [`fstring`](details/fstring.md) 字符串插值
 
 ### 常用第三方库
 
@@ -38,7 +39,9 @@
 
 - [`emoji`](libs/emoji)：提供了一些emoji的相关操作，emoji收集新而全
 - [`OpenCC`](libs/opencc)：一个开源的中文繁简体转换库
+- [`pypinyin`](libs/pypinyin)：一个汉字转拼音的库
 - [`unicodedata`](libs/unicodedata)
+- [`codecs`](libs/codecs.md)
 
 ### 进阶：文件读写
 
