@@ -32,7 +32,7 @@ def exec/eval(
     locals=None,
     /
 )
-# eval执行返回结果，exec执行不返回结果
+# eval不执行返回结果，exec执行返回结果
 a = 1
 print(eval('a+2'), a)   # > None, 3
 print(exec('a+2'), a)   # > 3, 1
