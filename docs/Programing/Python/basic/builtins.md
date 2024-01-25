@@ -22,6 +22,12 @@ def pow(
 ```
 
 1. `round`
+```python
+def round(
+    number,     # 需要被舍入的数字，舍入结果微更接近那个值
+    ndigits=0   # 需要被要留的位数
+)
+```
 
 ### 命令执行相关
 1. `eval/exec`
@@ -50,7 +56,7 @@ def callable(
 > 当`object`是一个方法、函数或者类时是可调用的；当`object`是个类对象且类中实现了 `__call__` 方法时也是可调用的
 
 ### 类型相关
-1. `chr/ord`：将单个整型数值转换为对应的unicode字符串/将单个unicode字符转化为整型数值
+1. `chr/ord`：将单个整型数值/unicode字符转换为对应的unicode字符/整型数值
 ```python
 # chr
 def chr(
@@ -63,13 +69,7 @@ def ord(
 ) -> int
 ```
 > `ord` 与 `chr` 功能相反
-1. `str`
-1. `int`
-1. `float`
-1. `bool`
-1. `bin`
-1. `hex`
-1. `oct`
+1. `bin/hex/oct`
 1. `type`
 1. `isinstance`
 
@@ -85,20 +85,22 @@ def ord(
 1. `enumerate`
 1. `filter`
 1. `map`：将<span class='underline_span'>一个或多个 `iterator` 映射为一个</span>新的 `iterable` ，示意如下图：
-<div class='one-image-container'>
-    <img src='\Programing\Python\basic\image\map.png' width="80%">
-</div>
 ```python
 def map(
     func,               # 具体映射方法
     *iterables,         # iterator 序列，len(iterables)等于func中输入形参个数
 ) -> Iterable
 ```
-1. `iter`
-2. `next`
-3. `sorted`
-4. `reversed`
-5. `all/any`
+<div class='one-image-container'>
+    <img src='\Programing\Python\basic\image\map.png' width="80%">
+    <!-- <p style="text-align: center;">图片标题</p> -->
+</div>
+
+11. `iter`
+12. `next`
+13. `sorted`
+14. `reversed`
+15. `all/any`
 
 判断 `Iterable` 中元素状态，当元素为以下值之一，元素逻辑状态值为`False`，否则为`True`
 

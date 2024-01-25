@@ -136,7 +136,8 @@ theme:
     repo: fontawesome/brands/github
                           # 定义右上角github图标
     
-    admonition:
+    admonition:   
+      # 替换icons https://squidfunk.github.io/mkdocs-material/reference/admonitions/#admonition-icons-octicons
       note: fontawesome/solid/note-sticky
       abstract: fontawesome/solid/book
       info: fontawesome/solid/circle-info

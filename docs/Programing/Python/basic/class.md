@@ -125,17 +125,25 @@ def __contains__(self, item) -> bool
 
 #### 操作符重载
 
-1. `__le__`、`__lt__`、`__eq__`、`__ne__`、`__gt__`、`__ge__`：两个对象进行比较
+1. `__le/lt/eq/ne/gt/ge__`：数值比较
 ```python
 def __le/lt/eq/ne/gt/ge__(self, other) -> bool
 ```
-> 分别重载了操作符`<=`、`<`、`==`、`!=`、`>`、`>=`
+> 分别重载了二元操作符 `<=`、`<`、`==`、`!=`、`>`、`>=`
 
-1. `__add__`、`__sub__`、`__mul__`
+1. `__add/sub_mul/div/mod__`：数值运算
 ```python
-def __add__(self, other) -> T_co
+def __add/sub_mul/div/mod__(self, other) -> T_co
 ```
+> 分别重载了二元操作符 `+`、`-`、`*`、`/`、`%`
+1. `__or/and/xor__`：按位运算
+```python
+def __or/and/xor__(self, other) -> T_co
+```
+> 分别重载了按位操作符 `|`、`&`、`^`
+1. `__lshift/rshift__`：移位运算
+```python
+def __lshift/rshift__(self, other) -> T_co
+```
+> 分别重载了移位操作符 `<<`、`>>`
 
-2. `__pos__`
-3. `__neg__`
-4. `__invert__`
