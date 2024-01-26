@@ -44,7 +44,6 @@ ss
 
 </dic>
 
-^^hello world^1
 <div class="ol-test" type="A">
     <ol >
         <li>hello </li>
@@ -54,17 +53,21 @@ ss
 </div>
 
 
-!!! note "Phasellus posuere in sem ut cursus"
 
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla et euismod
-    nulla. Curabitur feugiat, tortor non consequat finibus, justo purus auctor
-    massa, nec semper lorem quam in massa.
+!!! info "Phasellus posuere in sem ut cursus"
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla et euismodnulla. Curabitur feugiat, tortor non consequat finibus, justo purus auctor massa, nec semper lorem quam in massa.
+
 
 
 
 +this is luomou+
-<ul >
+<ul>
     <li>hello </li>
     <li>hello </li>
     <li>hello </li>
 </ul>
+
+
+!!! info "$\sum\frac{\pi }{\sigma }-sin(x)$" 
+
+    This is an admonition box without a title.
