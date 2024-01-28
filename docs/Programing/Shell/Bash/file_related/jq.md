@@ -49,6 +49,11 @@ jq -c 'select(.c | length > 200) | .c'   # 等价于↑
 # + 最终JSON对象单行输出
 paste test1.txt result1.txt | awk -F '\t' '{print "[" $1 ", "$2 "]" }' | jq -c 'select(.[1].prob[1] > 0.5)'
 
+# {"c": "hello world", "s": "0.95"}
+# float(.s) > 0.92 and length(.c) > 10
+jq -c 'select((.s | tonumber > 0.92) and (.c | length > 10))'
+
+
 # [{"c": "xxx", "l": "x"}, {"c": "xxx", "l": "x"}]
 
 # unique_by(.file_name) 适用于单个json list的关键字去重
