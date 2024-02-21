@@ -5,7 +5,7 @@ font-family: 字体，{微软雅黑}
 font-variant: 字体变化，{++normal++, small-caps}，small-caps为小字体的大写字母
 font-size: 字体大小
 
-text-decorattion: 设置文本下划线，上划线，删除线等 {none, underline, overline, line-through}
+text-decoration: 设置文本下划线，上划线，删除线等 {none, underline, overline, line-through}
 text-align: 设置文本对齐方式, {++left++, right, center, justify}，仅对块级元素有效
 
 white-space: 空白字符处理方式，,{++normal++, nowrap, pre}，

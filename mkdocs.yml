@@ -77,6 +77,11 @@ nav:
     - 车: MISC/Car/index.md
     - 衣服: MISC/Clothes/index.md
     - 鞋子: MISC/Shoe/index.md
+    - 棋牌:
+      - 棋: MISC/Chess_Cards/Chess.md
+      - 牌: MISC/Chess_Cards/Cards.md
+      - 麻将: MISC/Chess_Cards/Mahjong.md
+      - 牌九: MISC/Chess_Cards/PaiGow.md
 
 # [UI]界面
 
@@ -168,7 +173,7 @@ copyright: Powered by xcluo                         # 版权声明
 extra:
   social: # icons
     - icon: fontawesome/brands/bilibili
-      link: https://space.bilibili.com/24502827
+      link: https://space.bilibili.com/
       name: Bilibili                                # 鼠标悬浮提示文本
     - icon: fontawesome/brands/github
       link: https://github.com/xcluo
@@ -232,6 +237,7 @@ extra_css:
   - packages/stylesheets/css/extra_img.css            # image.css
   - packages/stylesheets/css/extra_font.css           # font.css
   - packages/stylesheets/css/extra_component.css      # component.css
+  # - packages/stylesheets/css/extra_main.css           # main.css
 
 extra_templates:
   - packages/stylesheets/extra.html

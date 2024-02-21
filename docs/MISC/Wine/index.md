@@ -49,6 +49,13 @@ https://zhuanlan.zhihu.com/p/106971902?utm_source=wechat_session
 
 
 ### 红酒
+#### 基本知识
+- **原瓶进口**：也叫原装进口，即从国外直接进口成品包装酒售卖，<span style="color: green;">推荐</span>。
+> 几乎无二道额外添加
+- **原酒进口**：也叫原汁进口、原液进口，即从国外进口酿造后的酒（一般通过大容器或酒桶盛装），在国能罐装后再售卖，<span style="color: red;">不推荐</span>。
+> 大概率国内厂家为了风味、保质期而添加酒精或其他添加剂
+- **DRY RED WINE**：中式英语，译为干红，大概率对应原酒进口，<span style="color: red;">不推荐</span>。
+- **VCE**：全称为Vin de la Communaute Europeene，译为欧盟餐酒，一般为异地罐装、无明确地理标志的餐酒，级别较低，<span style="color: red;">不推荐</span>。
 
 #### 葡萄酒分类
 <span class="underline_span">颜色</span>
@@ -62,9 +69,11 @@ https://zhuanlan.zhihu.com/p/106971902?utm_source=wechat_session
         <p style="margin:0;">随着年份增加，白葡萄酒颜色变化为：柠檬黄 → 金黄色 → 琥珀色</p>
     </div>  
 3. **桃红**
+4. **橙**
 
 <span class="underline_span">含糖量</span>
 
+1. **极干**
 1. **干**
 1. **半干**
 1. **半甜**
@@ -72,7 +81,7 @@ https://zhuanlan.zhihu.com/p/106971902?utm_source=wechat_session
 
 <span class="underline_span">状态</span>
 
-1. **静止**
+1. **静态**
 1. **起泡**
 1. **加强**
 1. **蒸馏酒**
@@ -109,3 +118,8 @@ https://zhuanlan.zhihu.com/p/106971902?utm_source=wechat_session
 
 
 #### 啤酒品牌
+
+```python
+for i in range(10):
+    print(f"hello word_{i}")
+```
