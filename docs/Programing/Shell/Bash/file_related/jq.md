@@ -63,3 +63,6 @@ jq -c 'unique_by(.c) | .[] | select(.c | lenght > 0 and length <= 200)'
 # 对键值c去重
 sed -e '1i[' -e '2,$i ,' -e '$a]' | jq -c 'unique_by(.c) | .[]'
 ```
+
+- tostring
+- tonumber

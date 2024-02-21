@@ -15,24 +15,28 @@
 #### 数据格式处理
 
 - json：[`jq`](file_related/jq)
-- xlsx：[xlsx2csv]()
+- xlsx：[`xlsx2csv`]()
 
 #### 文件修改
 
 - 信息修改：`mv`、`cp`、`rm`
-- 内容连接：`cat` (最后一行没有结尾回车不会进行连接)
+- 内容连接：`cat` (文件末无\n会同行连接)
 - 内容合并：`join`、`paste`
+- 内容分割：`cut`
 - 内容拆分：[`split`](file_related/split)
 - 内容去重：`sort` + `uniq`
 - 内容替换：`tr`、[`sed`](file_related/sed)
 - 内容扰动：`shuf`
+- 文件传输：[`nc`](file_related/nc)
 
 ### 数值操作
+
 - format输出：[`printf`](numeric_operation/printf.md)
 
 ### 软件安装
 
 #### 下载工具
+
 - `rpm`、`yum`、`apt`
 
 ### 进程相关
