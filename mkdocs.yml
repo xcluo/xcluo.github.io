@@ -10,10 +10,11 @@ site_description: xcluo的个人仓库
 nav:
   - AI:
     - AI_Lab: AI/AI_Lab/AI_Lab.md
-    - 论文笔记:
-      - 语言模型: 
+    - 功能实现:
+      - 论文笔记: 
         - 语言模型: AI/Paper_Reading/LM/LMs/index.md
-        - 模型分析: AI/Paper_Reading/LM/Model_Analysis/index.md
+        - 强化学习: AI/Paper_Reading/LM/RL/index.md
+        - 架构分析: AI/Paper_Reading/LM/Model_Analysis/index.md
       - 基本组件: 
         - Tokenizer: AI/Paper_Reading/Component/Tokenizer/index.md
         - Embedding:
@@ -21,6 +22,7 @@ nav:
       - 炼丹技巧: 
         - 显存优化: AI/Paper_Reading/Trick/Memory_Saving/index.md
         - 多模态融合: AI/Paper_Reading/Trick/Multimodality_Fusion/index.md
+        - 模型蒸馏: AI/Paper_Reading/Trick/Distillation/index.md
     - 评判指标: AI/Metrics/metrics.md
     - 机器学习库:
       - Tensorflow: AI/AI_Platform/Tensorflow/index.md
