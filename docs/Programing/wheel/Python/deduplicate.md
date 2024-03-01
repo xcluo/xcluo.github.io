@@ -14,8 +14,12 @@ if __name__ == "__main__":
     dump_lines = set()
     with open(args.file_name, 'r', encoding='utf-8') as f, \
             open('./unique_result.json', 'w', encoding='utf-8') as fout:
-        for line in tqdm(f):
-            line = json.loads(line)
+        for i, line in enumerate(tqdm(f), 1):
+            try:
+                line = json.loads(line)
+            except:
+                print(line)
+                raise ValueError(f"{i}-th line")
             cnt = line.get('content', line.get('c'))
             if cnt in dump_lines:
                 continue
