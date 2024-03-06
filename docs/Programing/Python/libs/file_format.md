@@ -12,7 +12,7 @@ with open(file_name, mode='wb') as file:    # mode=’wb' 控制以字节方式�
     f.write(string.encode(encoding))        # 通过encode方法将待写入bytes转化为字符串形式 (文件只能写入字符串)
 ```
 
-### json
+### json(JavaScript Object Notation)
 
 ```python
 import json
@@ -46,7 +46,7 @@ import pickle as pkl
 
 # 文件读写
 def pkl.load(
-    file,                          # `open`方法返沪的文件对象
+    file,                          # open(<file_name>, model='rb')
     fix_imports=True,
     encoding="ASCII",
     errors="strict",
@@ -55,9 +55,18 @@ def pkl.load(
 # 文件写入
 def pkl.dump(
     obj,                           # 待写入的对象，可以是任何可序列化的对象，无需手动转化为`str`类型
-    file,                          # `open`方法返沪的文件对象
+    file,                          # open(<file_name>, model='wb')
     protocol=None,
     fix_imports=True,
 )
 ```
 
+### csv(Comma-Separated Values)
+```python
+import csv
+
+with open(<file_name>, 'r', encoding='utf-8') as f:
+    reader = csv.reader(f)      # file_iterator
+    for line in reader:
+        ...
+```
