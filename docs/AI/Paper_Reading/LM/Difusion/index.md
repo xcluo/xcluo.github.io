@@ -37,6 +37,8 @@ V(ector)Q(uantised)VAE：VAE量化，将连续分布离散化（比如一个code
 pixel cnn: 用cnn来学习特征,然后用VAE来生成图片
 
 
-扩散模型，一个图片，分批次向里面加噪声，最后真变成了一个噪声，称作前向扩散forward difusion；该过程的反向模型，通过噪声还原真实图片的过程就是逆向扩散reverse difusion
+unCLIP
+
+扩散模型，一个图片，分批次向里面加噪声，最后真变成了一个噪声，称作前向扩散forward difusion；该过程的反向模型，通过噪声还原真实图片的过程就是逆向扩散reverse difusion，类似于chain-of-thought step by step
 
 多层采样逆推还原

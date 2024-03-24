@@ -60,13 +60,3 @@ def pkl.dump(
     fix_imports=True,
 )
 ```
-
-### csv(Comma-Separated Values)
-```python
-import csv
-
-with open(<file_name>, 'r', encoding='utf-8') as f:
-    reader = csv.reader(f)      # file_iterator
-    for line in reader:
-        ...
-```
