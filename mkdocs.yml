@@ -9,11 +9,13 @@ site_description: xcluo的个人仓库
 # [Navigtion]
 nav:
   - AI:
+    - 专业名词: AI/annotation.md
     - AI_Lab: AI/AI_Lab/AI_Lab.md
     - 功能实现:
       - 论文笔记: 
         - 语言模型: AI/Paper_Reading/LM/LMs/index.md
         - 强化学习: AI/Paper_Reading/LM/RL/index.md
+        - 扩散模型: AI/Paper_Reading/LM/Diffusion/index.md
         - 架构分析: AI/Paper_Reading/LM/Model_Analysis/index.md
       - 基本组件: 
         - Tokenizer: AI/Paper_Reading/Component/Tokenizer/index.md
