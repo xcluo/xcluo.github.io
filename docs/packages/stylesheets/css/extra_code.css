@@ -1,8 +1,8 @@
 /* 行内代码 */
 /* .md-typeset code {
     color: lightskyblue;
-    /* background-color: black; */
-} */
+    background-color: black;
+}  */
 
 
 /* 代码块标题before */
@@ -36,9 +36,12 @@ pre {
     padding-bottom: 5px;
 }
 
-/* 代码块内元素h(igh)l(ight) https://squidfunk.github.io/mkdocs-material/reference/code-blocks/#custom-syntax-theme */
-:root > * {
+/* 代码块内元素h(igh)l(ight) https://squidfunk.github.io/mkdocs-material/reference/code-blocks/#usage */
+:root > * {    
+    /* title head color */           
     --md-code-hl-color: #d1e0f7;
+    /* --md-code-bg-color: red;
+    --md-code-bg-color: red; */
 }
 
 /* 代码块内元素 */
@@ -53,5 +56,4 @@ pre {
     height: 12px;
     width: 12px;
 } */
-
 

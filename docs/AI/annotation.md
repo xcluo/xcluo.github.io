@@ -15,6 +15,7 @@
 ###E
 
 ###F
+- **FID**：**F**rechet **I**nception **D**istance，一种是通过计算两个图像集在Inception网络上的平均概率距离得出、广泛使用的衡量两个图像生成模型生成的图像分布之间相似度的度量指标，
 
 ###G
 
@@ -47,7 +48,7 @@
 ###U
 
 ###V
-- **VAE**
+- **VAE**：Variational Auto-Encoder，变分自编码器
 - **VQVAE**
 
 ###W

@@ -16,6 +16,7 @@ nav:
         - 语言模型: AI/Paper_Reading/LM/LMs/index.md
         - 强化学习: AI/Paper_Reading/LM/RL/index.md
         - 扩散模型: AI/Paper_Reading/LM/Diffusion/index.md
+        - 模型种类: AI/Paper_Reading/LM/Model_Category/index.md
         - 架构分析: AI/Paper_Reading/LM/Model_Analysis/index.md
       - 基本组件: 
         - Tokenizer: AI/Paper_Reading/Component/Tokenizer/index.md
@@ -211,10 +212,30 @@ markdown_extensions:
   - pymdownx.superfences      # enable代码设置
   - pymdownx.highlight:
       # linenums: true          # 代码块中显示代码行号
-      # auto_title: true        # 代码块显示编程语言名
-      use_pygments: true
-      
-  - pymdownx.caret
+      # auto_title: true        # 自动为代码块添加标题
+      use_pygments: true        # 使用pygments渲染代码块内容
+  
+  # 增加内容目录，如同一个block有不同的代码类型
+  - pymdownx.tabbed:            # https://squidfunk.github.io/mkdocs-material/reference/content-tabs/
+      alternate_style: true     
+
+  - pymdownx.caret              # enable上标符号^
+                                  # - 下划线：^^xx**
+                                  # - 上标：^X^
+  - pymdownx.mark               # enable等号=，==xx**
+  - pymdownx.tilde              # enable波浪线符号~
+                                  # - 删除线：~~xx~~
+                                  # - 下标：~x~
+  - pymdownx.critic             # enable大括号{}，https://github.com/CriticMarkup/CriticMarkup-toolkit
+                                  # - 下划线：{++ ++}
+                                  # - 删除线：{-- --}
+                                  # - 将A替换为B，A删除线B下划线：{~~A~>B~~}
+                                  # - 注释：{>> <<}
+                                  # - 高亮：{== ==}
+  - pymdownx.keys               # enabel加号~
+                                  # - 将内容变成按键：++x++
+                                  # - ↑ 仅限键盘按键名的小写
+
   - meta # 支持Markdown文件上方自定义标题标签等
   - admonition # https://squidfunk.github.io/mkdocs-material/reference/admonitions/#inline-blocks
   - pymdownx.details # admonition需要
@@ -233,15 +254,17 @@ extra_javascript:
   - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.js  
   - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/contrib/auto-render.min.js
 
+
 extra_css:
   # - packages/mkdocs/css/no-footer.css # 不使用底部的翻页
   # - packages/mkdocs/css/unordered-list-symbols.css # multiplt unordered list symbols
   - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.css
-  - packages/stylesheets/css/extra_code.css           # code.css
   - packages/stylesheets/css/extra_img.css            # image.css
   - packages/stylesheets/css/extra_font.css           # font.css
   - packages/stylesheets/css/extra_component.css      # component.css
   # - packages/stylesheets/css/extra_main.css           # main.css
+  - packages/stylesheets/css/extra_code.css           # code.css
+
 
 extra_templates:
   - packages/stylesheets/extra.html

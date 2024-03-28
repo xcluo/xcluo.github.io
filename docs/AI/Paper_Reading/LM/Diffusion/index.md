@@ -1,29 +1,43 @@
-
-
-
 Diffusion 扩散模型
 
+扩散模型：又逼真又多样，因为是分布模型，基于采样呈现多样性
+   - 隐变量
+GAN：逼真（优化目标为以假乱真）但不多样
+
+### 扩散模型
+
+#### DALL-E
+
+1. [DALL-E-1](./Dalle/dalle#dalle-e-1)
+2. [DALL-E-2](./Dalle/dalle#dalle-e-2)
+3. [DALL-E-3](./Dalle/dalle#dalle-e-3)
 
 
-DDPM（Denoising Diffusion Probabilistic Models），单步，即x_t = f(x_{t-1})，预测图像间的噪声，而不是预测时间步的图像本身
-DDIM：直接x_t = f(x_0)
+
+### Noise Scheduler
+1. cosine
+2. linear
+3. quadratic
+4. jsd
+5. sigmoid
+
+
+
+
+DDPM（Denoising Diffusion Probabilistic Models），单步，即x_t = f(x_{t-1})，时间步t-1时刻的图像分布，采样得到x_{t-1}
+
+DDIM：直接ε_{t-1} = f(x_0, x_t)
 
 spherical interpolation：球面线性插值
 
-、improved DDPM
+improved DDPM
 
 diffusion beats gan
 
 glide模型、classifier guided diffusion、classifier free guidence
 
 
-Dalle-2，hierarchical 层级式地生成图片，64*64 -> 256*256 -> 1024*1024，逐渐高清
 
-扩散模型：又逼真又多样，因为是分布模型，基于采样呈现多样性
-GAN：逼真（优化目标为以假乱真）但不多样
-
-#### train
-1. 给定文本输入，通过（frozen） clip获取图片-文本对$(x, y)$的文本特征$z_i$和$z_t$（中间特征用作dalle-2 prior的ground-truth，即guidence）
 
 
 
@@ -46,33 +60,13 @@ V(ector)Q(uantised)VAE：VAE量化，将连续分布离散化（比如一个code
 pixel cnn: 用cnn来学习特征,然后用VAE来生成图片
 
 
-unCLIP
-
-扩散模型，一个图片，分批次向里面加噪声，最后真变成了一个噪声，称作前向扩散forward diffusion；该过程的反向模型，通过噪声还原真实图片的过程就是逆向扩散reverse diffusion，直接从噪声恢复图片的难度是相当大的，所以需要类似于chain-of-thought来step by step恢复
- - https://wangjia184.github.io/diffusion_model/
- - single step forward: 扩散模型建模
- - multiple steps forward: 扩散模型正向过程，以及x_t向随机噪声变化的过程
- - 逆向过程，预测正态分布ε以完成基于扩散模型的图像反向构建恢复
- - 所有的步骤采样都基于同一个正态分布ε，然后通过反向过程采样进行拟合
- - loss：x_0与\tilede{x_0}的cross-entropy和其他time_steps的正向x_t与逆向\tilde{x_t}的KL散度，训练的本质上是希望【正向和反向是互通的】
-
-
 beta的schedule，线性、cosine等
 
-每一步加入噪声的过程互相独立，因此正态分布状态可以叠加
-
-多层采样逆推还原
-
-
-dalle 语言
 
 UNet
    - 右下角和图例：卷积、上下采样、skip connect concat
    - down sample，结果图层通道变多、图变小：2*2最大池化，为保留更多特征，也可以用3*3卷积
    - up sample，结果图层通道变小、图变多：转置卷积（类似于填充了空洞卷积的形式让图片变大），也可以插值法（比如填充邻近像素或周围像素均值等）
 
-加载pytorch checkpoint，打印模型结构
-
-web paint online
 
 pad=reflect，填充的像素以边界为对称轴对称，由于是非零，因此pad后整张图所有像素都有特征
