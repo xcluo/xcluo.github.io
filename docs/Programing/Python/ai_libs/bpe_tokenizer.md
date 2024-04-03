@@ -1,6 +1,6 @@
 
 
-#### tokenization
+### tokenization
 [`FullTokenizer`](https://github.com/google-research/bert/blob/master/tokenization.py#L161C11-L161C11)插入`special_token`
 
 1. variety_span
@@ -12,6 +12,9 @@
     - 每种功能的`special_token`尽可能独立，比如`[SPACE]` 不和 `[PAD]`、`[SEP]`共用
 
 
+### FullTokenizer优化
+
+#### 去除声调上下标
 ```python title="BasicTokenizer._run_strip_accents"
 # 去除字符声调 "ā á ǎ à"   -> "a a a a"
 def _run_strip_accents(text):
@@ -26,7 +29,7 @@ def _run_strip_accents(text):
     return "".join(output)
 ```
 
-
+#### 避免oov毒性扩散
 ```python title="WordpieceTokenizer.tokenize"
 # 优化：避免BPE分词oov毒性扩散现象，e.g., "玫瑰花𝖟lᴤ朵向日葵3Ⰻ7朵"
 ## [玫，瑰，花，unk，朵，向，日，葵，unk，朵] -> 
