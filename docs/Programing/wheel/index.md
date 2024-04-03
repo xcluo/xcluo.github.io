@@ -55,6 +55,21 @@
         "＂｀＇‘’〝〞“”'\"‟‛`"
         "]"
     )
+
+    def strip_punctuation(text, white_list_punct={}):
+        ret = []
+        for c in text:
+            cp = ord(c)
+            if c not in white_list_punct and \
+                (33 <= cp <= 47 or
+                58 <= cp <= 64 or
+                91 <= cp <= 96 or
+                123 <= cp <= 126 or
+                unicodedata.category(c).startswith("P")):
+                continue
+            ret.append(c)
+        return ''.join(ret)
+
     ```
 
 #### 中日韩CJK字符

@@ -1,6 +1,7 @@
+
 train
 
-    1. 多流输入input_stream_i
+    1. 多流输入input_stream_i（可以新增一个flag模态表示输入是否为联系方式元素）
     2. 多流输出output_stream_i
     3. 融合多模态fusion
     4. loss = Σloss(output_stream_i) + loss(fusion)

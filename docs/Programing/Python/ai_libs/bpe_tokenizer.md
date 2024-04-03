@@ -1,12 +1,15 @@
 
 
 #### tokenization
-[`FullTokenizer`](https://github.com/google-research/bert/blob/master/tokenization.py#L161C11-L161C11)插入special token
+[`FullTokenizer`](https://github.com/google-research/bert/blob/master/tokenization.py#L161C11-L161C11)插入`special_token`
 
 1. variety_span
 2. 特殊字符切换为已经替换的某个token作为`relay_token`（`relay_token`为单字符unicode且左右各增加一个空格以确保整体分词为`relay_token`，而不是`##relay_token`）
 3. tokenize
 4. tokenized tokens还原，即`relay_token` → map → `target_token`
+  > 可不recover，直接用该token表示特殊语义
+!!! info 
+    - 每种功能的`special_token`尽可能独立，比如`[SPACE]` 不和 `[PAD]`、`[SEP]`共用
 
 
 ```python title="BasicTokenizer._run_strip_accents"
