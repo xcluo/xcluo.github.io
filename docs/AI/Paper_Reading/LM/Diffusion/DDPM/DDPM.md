@@ -1,0 +1,34 @@
+#### 正向加噪过程（train训练）
+$$
+    x_{t} = \sqrt{\alpha_t}x_{t-1=} + \sqrt{1-\alpha_t}\epsilon   
+$$
+
+$$
+x_{t} = \sqrt{\bar\alpha_t}x_0 + \sqrt{1-\bar\alpha_t}\epsilon
+$$
+
+1. 通过加噪 $\epsilon$ 生成 $x_t$
+1. `UNet`通过 $x_t$ 图像预测增加的噪声 $\hat\epsilon$
+2. 计算$\hat\epsilon$ 和 $\epsilon$的KL散度，即$\text{KL}(\hat\epsilon|\epsilon)$
+
+
+#### 反向去噪过程（infer生成）
+
+
+$$
+q(x_{t-1}|x_t, x_0)=q(x_t|x_{t-1}, x_0)\frac{q(x_{t-1}|x_0)}{q(x_t|x_0)}
+$$
+
+$$
+q(x_t|x_{t-1}, x_0)=\sqrt{\alpha_t}x_{t-1} + \sqrt{1-\alpha_t}\epsilon, N(\sqrt{\alpha_t}x_{t-1}, 1-\alpha_t)
+$$
+
+$$
+q(x_{t-1}|x_0)=\sqrt{\bar\alpha_{t-1}}x_0 + \sqrt{1-\bar\alpha_{t-1}}\epsilon, N(\sqrt{\bar\alpha_{t-1}}x_0, 1-\bar\alpha_{t-1})
+$$
+$$
+q(x_{t}|x_0)=\sqrt{\bar\alpha_{t}}x_0 + \sqrt{1-\bar\alpha_{t}}\epsilon, N(\sqrt{\bar\alpha_{t}}x_0, 1-\bar\alpha_{t})
+$$
+1. 初始化noise为 $x_T$
+1. 通过$x_{t}$预测增加的噪声 $\hat\epsilon$
+2. 基于 $\hat\epsilon$ 预测$t-1$ 时刻图像分布 ($u_{t-1}$, $\sigma_{t-1}^2$)，并采样得到$x_{t-1}$，重复1-2步直至$x_0$
