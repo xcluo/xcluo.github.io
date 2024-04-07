@@ -5,6 +5,8 @@ Diffusion 扩散模型
 GAN：逼真（优化目标为以假乱真）但不多样
 
 ### 扩散模型
+#### DDPM
+1. [DDPM](./DDPM/DDPM)
 
 #### DALL-E
 
