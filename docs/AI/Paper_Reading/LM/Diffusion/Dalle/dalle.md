@@ -1,16 +1,23 @@
 DALLE，名称来源于著名画家达利（**Da**lí）和机器人总动员（Wa**ll-E**），是Open AI推出的一个可以根据书面文字生成图像的人工智能系统。
 
-### DALL-E-1
+## DALL-E-1
 
-### DALL-E-2
+## DALL-E-2
+也称作unCLIP，即CLIP的逆过程：{>>通过给定imge_hidden_state生成图片<<}。层级式地生成64\*64 -> 256\*256 -> 1024\*1024分辨率的图片，逐渐高清
+### Framework
+<div class="one-image-container">
+    <img src="\AI\Paper_Reading\LM\Diffusion\Dalle\image\dalle-2_framework.png" style="width: 100%;">
+    <p style="text-align: center;">unCLIP概略图</p>
+</div>
 
-每一步加入噪声的过程互相独立，因此正态分布状态可以叠加
+DALLE-2模型包含**prior**和**decoder**两个模块，前者基于输入的文本生成相应的image_hidden_state，后者根据图-文特征生成图片，模型包含的主要技术有：
 
+1. 对比学习（CLIP训练时使用的方法）
+2. 多模态（图-文模态信息信息交互、转换）
+3. 扩散模型（prior以及decoder模块主要思路）
+#### prior
+输入描述文本，输出相应的image_hidden_state
 
-Dalle-2也叫unCLIP（从文本或图片还原出图片数据），hierarchical 层级式地生成图片，64*64 -> 256*256 -> 1024*1024，逐渐高清
-
-
-#### train
 1. 给定文本输入，通过（frozen） clip获取图片-文本对$(x, y)$的文本特征$z_i$和$z_t$（中间特征用作dalle-2 prior的ground-truth，即guidence）
 
 
@@ -24,7 +31,60 @@ Dalle-2也叫unCLIP（从文本或图片还原出图片数据），hierarchical 
  - loss中  \epsilon_{\theata}(a*b + b\epsilon)指的是q(x_t|x_0, t)估计出来的\miu
 
 
-dalle 语言
+- **train**
+    1. a
+    1. a
+    1. s
+
+- **infer**
+    1. b
+    1. b
+    1. b
+
+#### decoder
+- **train**
+    1. a
+    1. a
+    1. s
+
+- **infer**
+    1. b
+    1. b
+    1. b
+
+### Result
+
+#### Limitation & Risk
+
+### Discovering
+#### Hidden Vocabulary
 
 
-### DALL-E-3
+
+<div class="one-image-container">
+    <img src="\AI\Paper_Reading\LM\Diffusion\Dalle\image\dalle-2_language_farmer&talk.png" style="width: 100%;">
+    <!-- <p style="text-align: center;">unCLIP概略图</p> -->
+</div>
+
+
+<div class="one-image-container">
+    <img src="\AI\Paper_Reading\LM\Diffusion\Dalle\image\dalle-2_language_birds&bugs.png" style="width: 100%;">
+    <!-- <p style="text-align: center;">unCLIP概略图</p> -->
+</div>
+
+<div class="one-image-container">
+    <img src="\AI\Paper_Reading\LM\Diffusion\Dalle\image\dalle-2_language_whale&talk.png" style="width: 100%;">
+    <!-- <p style="text-align: center;">unCLIP概略图</p> -->
+</div>
+
+!!! danger
+    由于细节的自然语言表达性无法保证，DALLE语言存在被“破解”用作非法用途的风险
+
+
+
+
+
+
+
+
+## DALL-E-3

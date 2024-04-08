@@ -14,6 +14,8 @@ $$
     &= \sqrt{\bar\alpha_t}x_0 + \sqrt{1-\bar\alpha_t}\epsilon
 \end{aligned}
 $$
+!!! info
+    每一步加入的高斯噪声互相独立，因此正态分布状态可以进行叠加
 
 其中$\beta_t$表示t时刻加入的噪声权重，$\alpha_t=1-\beta_t$表示图像$x_t$中上一时刻图像$x_{t-1}$的权重，$\bar\alpha_t=\prod_{i=1}^{t-1}\alpha_i$，即
 
@@ -24,7 +26,7 @@ $$
 
 #### train model
 
-1. 随机选定某一时刻$t\in [1, T]$，对原始图片 $x_0$ 加入噪声 $\epsilon$ 生成 $x_t$
+1. 随机选定某一时刻$t\in [1, T]$，对原始图片 $x_0$ 加入噪声 $\epsilon \in \mathcal{N}(0, I)$ 生成 $x_t$
 2. 将 $time\_embedding_t$ （类似于`position_embedding`）以及 $x_t$ 输入模型（e.g., `UNet`、Transformer）中，生成对加入噪声的预测结果 $\hat\epsilon$
 3. 计算两个正态分布的 $D_{KL}(\epsilon\Vert \hat\epsilon)$ 作为目标函数 $loss$ 以使模型拟合先验假设 {>>通过对一个图片不断地增加（高斯）噪声的权重，在足够的time_step后将获得趋近于一个噪声的图片<<}
 
@@ -37,6 +39,9 @@ $$
 \end{aligned}
 $$
 
+<div class="admonition info" style="margin-left: 20px;">
+    <p>最终loss为加入噪声 $\epsilon$ 和预测的噪声 $\hat\epsilon$ 间的MSE</p>
+</div>  
 
 <div class="one-image-container">
     <img src="\AI\Paper_Reading\LM\Diffusion\DDPM\images\ddpm_train_algorithm.jpg" style="width: 50%;">
@@ -80,7 +85,7 @@ $$
 
 1. 初始化 $x_T\sim\mathcal{N}\text{(}0, \text{I}\text{)}$
 2. 通过 $x_{t}$ 和 $time\_embedding_t$ 预测增加的噪声 $\hat\epsilon \sim \mathcal{N} \text{(}\mu_{t-1}, \sigma_{t-1}^2\text{)}$
-3. ==基于 $\hat\epsilon$ 采样 $t-1$ 时刻图像采样得到$x_{t-1}$==，重复2-3步直至$x_0$
+3. ==基于 $\hat\epsilon$ 得到的分布采样得到 $t-1$ 时刻的图像$x_{t-1}$==，重复2-3步直至$x_0$
 
 <div class="admonition info" style="margin-left: 20px;">
     <p>由于每个time_step的图像都是采样得到的，因此diffusion模型具有很好的多样性表现</p>

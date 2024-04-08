@@ -222,9 +222,10 @@ markdown_extensions:
       alternate_style: true     
 
   - pymdownx.caret              # enable上标符号^
-                                  # - 下划线：^^xx**
+                                  # - 下划线：^^xx^^
                                   # - 上标：^X^
-  - pymdownx.mark               # enable等号=，==xx**
+  - pymdownx.mark               # enable等号=，
+                                  # - 高亮：==xx==
   - pymdownx.tilde              # enable波浪线符号~
                                   # - 删除线：~~xx~~
                                   # - 下标：~x~
