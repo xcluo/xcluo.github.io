@@ -11,11 +11,14 @@
 $$
 \begin{aligned}
     x_{t} &= \sqrt{\alpha_t}x_{t-1=} + \sqrt{1-\alpha_t}\epsilon \\
-    &= \sqrt{\bar\alpha_t}x_0 + \sqrt{1-\bar\alpha_t}\epsilon
+    &= \sqrt{\bar\alpha_t}x_0 + \sqrt{1-\bar\alpha_t}\epsilon \textcolor{blue}{0}
 \end{aligned}
 $$
-!!! info
-    每一步加入的高斯噪声互相独立，因此正态分布状态可以进行叠加
+
+
+
+!!! info ""
+    每一步加入的高斯噪声互相独立，因此正态分布可以进行叠加
 
 其中$\beta_t$表示t时刻加入的噪声权重，$\alpha_t=1-\beta_t$表示图像$x_t$中上一时刻图像$x_{t-1}$的权重，$\bar\alpha_t=\prod_{i=1}^{t-1}\alpha_i$，即
 
