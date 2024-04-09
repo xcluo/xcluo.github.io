@@ -11,7 +11,7 @@
 $$
 \begin{aligned}
     x_{t} &= \sqrt{\alpha_t}x_{t-1=} + \sqrt{1-\alpha_t}\epsilon \\
-    &= \sqrt{\bar\alpha_t}x_0 + \sqrt{1-\bar\alpha_t}\epsilon \textcolor{blue}{0}
+    &= \sqrt{\bar\alpha_t}x_0 + \sqrt{1-\bar\alpha_t}\epsilon
 \end{aligned}
 $$
 
@@ -63,9 +63,9 @@ $$
 $$
 \begin{aligned}
     q(x_{t-1}|x_t, x_0)&=q(x_t|x_{t-1}, x_0)\frac{q(x_{t-1}|x_0)}{q(x_t|x_0)} &&贝叶斯公式 \\
-    q(x_t|x_{t-1}, x_0)&=\sqrt{\alpha_t}x_{t-1} + \sqrt{1-\alpha_t}\epsilon &&\sim\mathcal{N}(\sqrt{\alpha_t}x_{t-1}, 1-\alpha_t) \\
-    q(x_{t-1}|x_0)&=\sqrt{\bar\alpha_{t-1}}x_0 + \sqrt{1-\bar\alpha_{t-1}}\epsilon &&\sim\mathcal{N}(\sqrt{\bar\alpha_{t-1}}x_0, 1-\bar\alpha_{t-1}) \\
-    q(x_{t}|x_0)&=\sqrt{\bar\alpha_{t}}x_0 + \sqrt{1-\bar\alpha_{t}}\epsilon&&\sim\mathcal{N}(\sqrt{\bar\alpha_{t}}x_0, 1-\bar\alpha_{t})
+    q(x_t|x_{t-1}, x_0)&=\sqrt{\alpha_t}x_{t-1} + \sqrt{1-\alpha_t}\epsilon &&\sim\mathcal{N}(\sqrt{\alpha_t}x_{t-1}, 1-\alpha_t I) \\
+    q(x_{t-1}|x_0)&=\sqrt{\bar\alpha_{t-1}}x_0 + \sqrt{1-\bar\alpha_{t-1}}\epsilon &&\sim\mathcal{N}(\sqrt{\bar\alpha_{t-1}}x_0, 1-\bar\alpha_{t-1} I) \\
+    q(x_{t}|x_0)&=\sqrt{\bar\alpha_{t}}x_0 + \sqrt{1-\bar\alpha_{t}}\epsilon&&\sim\mathcal{N}(\sqrt{\bar\alpha_{t}}x_0, 1-\bar\alpha_{t} I)
 \end{aligned}
 $$
 
@@ -74,10 +74,10 @@ $$
 
 $$
 \begin{aligned}
-    q(x_{t-1}|x_t, x_0)&=\exp\bigg(-\frac{1}{2}(\Big(\frac{\alpha_t}{\beta_t}+\frac{1}{1-\bar\alpha_{t-1}}\Big)x_{t-1}^2 - \Big(\frac{2\sqrt{\alpha_t}}{\beta_t}x_t + \frac{2\sqrt{\bar\alpha_{t-1}}}{1-\bar\alpha_{t-1}}x_0\Big)x_{t-1} + C(x_t, x_0))\bigg) \\
+    q(x_{t-1}|x_t, x_0)&=\exp\bigg(-\frac{1}{2}(\Big(\frac{\alpha_t}{\beta_t}+\frac{1}{1-\bar\alpha_{t-1}}\Big)x_{t-1}^2 - 2\Big(\frac{\sqrt{\alpha_t}}{\beta_t}x_t + \frac{\sqrt{\bar\alpha_{t-1}}}{1-\bar\alpha_{t-1}}x_0\Big)x_{t-1} + C(x_t, x_0))\bigg) \\
     \frac{1}{\sigma_{t-1}^2}&= \frac{\alpha_t}{\beta_t}+\frac{1}{1-\bar\alpha_{t-1}} \\
     \sigma_{t-1} &= \sqrt{\frac{1-\bar\alpha_{t-1}}{1-\bar\alpha_t}\beta_t} \\
-    \mu_{t-1} &= \frac{\sqrt{\alpha_t}}{1-\bar\alpha_t}x_t + \frac{\sqrt{\bar\alpha_{t-1}}\beta_t}{1-\bar\alpha_t}x_0 \\
+    \mu_{t-1} &= \frac{\sqrt{\alpha_t}(1-\bar\alpha_{t-1})}{1-\bar\alpha_t}x_t + \frac{\sqrt{\bar\alpha_{t-1}}\beta_t}{1-\bar\alpha_t}x_0 \\
     &= \frac{1}{\sqrt{\alpha_t}}(x_t - \frac{\beta_t}{1-\bar\alpha_t}\epsilon)
 \end{aligned} \\
 $$
@@ -88,7 +88,7 @@ $$
 
 1. 初始化 $x_T\sim\mathcal{N}\text{(}0, \text{I}\text{)}$
 2. 通过 $x_{t}$ 和 $time\_embedding_t$ 预测增加的噪声 $\hat\epsilon \sim \mathcal{N} \text{(}\mu_{t-1}, \sigma_{t-1}^2\text{)}$
-3. ==基于 $\hat\epsilon$ 得到的分布采样得到 $t-1$ 时刻的图像$x_{t-1}$==，重复2-3步直至$x_0$
+3. ==基于 $\hat\epsilon$ 得到的分布采样 $t-1$ 时刻的图像$x_{t-1}$==，重复2-3步直至$x_0$
 
 <div class="admonition info" style="margin-left: 20px;">
     <p>由于每个time_step的图像都是采样得到的，因此diffusion模型具有很好的多样性表现</p>
