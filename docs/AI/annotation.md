@@ -9,8 +9,8 @@
 
 ###D
 - **DAE**：
-- **DDIM**：**D**enoising **D**iffusion **I**mplicit **M**odels，去噪扩散隐式模型
-- **DDPM**：**D**enoising **D**iffusion **P**robabilistic **M**odels，去噪扩散概率模型
+- **DDIM**：**D**enoising **D**iffusion **I**mplicit **M**odel，去噪扩散隐式模型
+- **DDPM**：**D**enoising **D**iffusion **P**robabilistic **M**odel，去噪扩散概率模型
 
 ###E
 

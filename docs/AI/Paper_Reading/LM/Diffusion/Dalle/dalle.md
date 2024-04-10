@@ -34,7 +34,7 @@ DALLE-2模型包含**prior**和**decoder**两个模块，前者基于输入的�
     1. 输入文本 $y$ 至 forzen CLIP得到 $z_y$
     2. 初始化 $z_x^{(T)}\sim\mathcal{N}\text{(}0, \text{I}\text{)}$
     3. $f_\theta(y, z_y, t, z_x^{(t)})=\hat{z_x}$，通过 $\hat{z_x}$ 和 $z_x^{(t)}$ 得到 $t-1$ 时刻的图像分布，并采样得到 $z_x^{(t-1)}$
-    4. 重复第2步直至获取 $z_x^{(0)}$
+    4. 重复第3步直至获取 $z_x^{(0)}$
     !!! info ""
         autogressive prior 直接一步预测得到 $\hat{z_x}$
 

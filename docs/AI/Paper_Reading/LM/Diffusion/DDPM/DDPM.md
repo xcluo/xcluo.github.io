@@ -6,7 +6,7 @@
     <!-- <p style="text-align: center;">图片标题</p> -->
 </div>
 
-通过对一个图片不断地增加（高斯）噪声的权重，在足够的time_step后将获得趋近于一个噪声的图片，结果满足以下公式：
+表示通过对一个图片不断地增加（高斯）噪声的权重，在足够的time_step后将获得趋近于一个噪声的图片，结果满足以下公式：
 
 $$
 \begin{aligned}
@@ -31,7 +31,7 @@ $$
 
 1. 随机选定某一时刻$t\in [1, T]$，对原始图片 $x_0$ 加入噪声 $\epsilon \in \mathcal{N}(0, I)$ 生成 $x_t$
 2. 将 $time\_embedding_t$ （类似于`position_embedding`）以及 $x_t$ 输入模型（e.g., `UNet`、Transformer）中，生成对加入噪声的预测结果 $\hat\epsilon$
-3. 计算两个正态分布的 $D_{KL}(\epsilon\Vert \hat\epsilon)$ 作为目标函数 $loss$ 以使模型拟合先验假设 {>>通过对一个图片不断地增加（高斯）噪声的权重，在足够的time_step后将获得趋近于一个噪声的图片<<}
+3. 计算两个正态分布的 $D_{KL}(\mathcal{N}\Vert \mathcal{N}_\theta)$ 作为目标函数 $loss$ 以使模型拟合先验假设 {>>通过对一个图片不断地增加（高斯）噪声的权重，在足够的time_step后将获得趋近于一个噪声的图片<<}
 
 $$
 \begin{aligned}
@@ -52,13 +52,15 @@ $$
 </div>
 
 
-### 逆向去噪过程
+### DDPM逆向去噪过程
 
 #### 逆向扩散
 <div class="one-image-container">
     <img src="\AI\Paper_Reading\LM\Diffusion\DDPM\images\diffusion逆向扩散.png" style="width: 80%;">
     <!-- <p style="text-align: center;">图片标题</p> -->
 </div>
+
+DDPM (**D**enoising **D**iffusion **P**robabilistic **M**odel)，认为目标图片可以通过对噪声图片逐步地进行去噪操作实现图片的恢复重现，实现的数学理论如下：
 
 $$
 \begin{aligned}
@@ -88,7 +90,8 @@ $$
 
 1. 初始化 $x_T\sim\mathcal{N}\text{(}0, \text{I}\text{)}$
 2. 通过 $x_{t}$ 和 $time\_embedding_t$ 预测增加的噪声 $\hat\epsilon \sim \mathcal{N} \text{(}\mu_{t-1}, \sigma_{t-1}^2\text{)}$
-3. ==基于 $\hat\epsilon$ 得到的分布采样 $t-1$ 时刻的图像$x_{t-1}$==，重复2-3步直至$x_0$
+3. ==基于 $\hat\epsilon$ 得到的分布采样 $t-1$ 时刻的图像$x_{t-1}$==
+4. 重复2-3步直至得到$x_0$
 
 <div class="admonition info" style="margin-left: 20px;">
     <p>由于每个time_step的图像都是采样得到的，因此diffusion模型具有很好的多样性表现</p>
