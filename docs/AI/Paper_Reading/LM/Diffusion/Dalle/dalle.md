@@ -17,7 +17,7 @@ DALLE-2模型包含**prior**和**decoder**两个模块，前者基于输入的�
 3. 扩散模型（prior以及decoder模块主要思路）
 
 #### prior
-输入描述文本，输出相应的图片特征
+输入描述文本，输出相应的clip imgae hidden state特征
 
 
 - **train**
@@ -31,7 +31,7 @@ DALLE-2模型包含**prior**和**decoder**两个模块，前者基于输入的�
         - 不同于图片扩散，对于图片 ==特征的扩散还原选用了Transformer模型== 而不是UNet ，即输入[`encoding_y`, `clip_text_embedding_y`, `time_embedding_of_t`, `x_t`, `noised_image_embedding`, `[IMG]`]，模型最后层 `[IMG]` 的值即为预测的$\hat{z_x}$
 
 - **infer**
-    1. 输入文本 $y$ 至 forzen CLIP得到 $z_y$
+    1. 输入文本 $y$ 至 frozen CLIP得到 $z_y$
     2. 初始化 $z_x^{(T)}\sim\mathcal{N}\text{(}0, \text{I}\text{)}$
     3. $f_\theta(y, z_y, t, z_x^{(t)})=\hat{z_x}$，通过 $\hat{z_x}$ 和 $z_x^{(t)}$ 得到 $t-1$ 时刻的图像分布，并采样得到 $z_x^{(t-1)}$
     4. 重复第3步直至获取 $z_x^{(0)}$
@@ -139,7 +139,7 @@ DALLE-2模型包含**prior**和**decoder**两个模块，前者基于输入的�
     <!-- <p style="text-align: center;">unCLIP与同类工作效果对比</p> -->
 </div>
 
-> <span style="color: red">由于以CLIP为学习目标，集成了其只关注物体是否存在而不关注物体间属性（e.g., 位置，角度，大小，颜色等）的局限性</span>
+> <span style="color: red">由于以CLIP为学习目标，集成了其只关注物体是否存在而不关注物体属性（e.g., 位置，角度，大小，颜色等）的局限性</span>
 
 <div class="one-image-container">
     <img src="\AI\Paper_Reading\LM\Diffusion\Dalle\image\dalle-2_not_precisely_encoder_spelling.jpg" style="width: 90%;">

@@ -38,7 +38,7 @@ $$
     D_{KL}(\mathcal{N}_1\Vert \mathcal{N}_2) &= \log\frac{\sigma_2}{\sigma_1} + \frac{\sigma_1^2+(\mu_1-\mu_2)^2}{2\sigma_2^2} - \frac{1}{2} \\
     \mathcal{L} &= E_{q(x_0:T)}\Big[ \frac{1}{2\Vert \Sigma_\theta(x_t, t)\Vert^2}\Vert \mu(x_t, t) - \mu_\theta(x_t, t) \Vert^2\Big] + C \\
     &= E_{q(x_0:T), \epsilon\in\mathcal{N}(0, I)}\Big[ \frac{1}{2\Vert \Sigma_\theta(x_t, t)\Vert^2}\Vert \frac{1}{\sqrt{\alpha_t}}(x_t - \frac{\beta_t}{1-\bar\alpha_t}\epsilon) - \frac{1}{\sqrt{\alpha_t}}(x_t - \frac{\beta_t}{1-\bar\alpha_t}\epsilon_\theta(x_t,t)) \Vert^2\Big] + C \\
-    \mathcal{L}_{simple} &= E_{q(x_0:T), \epsilon\in\mathcal{N}(0, I)}\Big[\Vert \epsilon - \epsilon_\theta(\sqrt{\bar\alpha_t}x_0 + \sqrt{1-\bar\alpha_t\epsilon)}, t)\Vert^2\Big]
+    \mathcal{L}_{simple} &= E_{q(x_0:T), \epsilon\in\mathcal{N}(0, I)}\Big[\Vert \epsilon - \epsilon_\theta(\sqrt{\bar\alpha_t}x_0 + \sqrt{1-\bar\alpha_t\epsilon}), t)\Vert^2\Big]
 \end{aligned}
 $$
 
