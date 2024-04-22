@@ -61,16 +61,24 @@ def strip_punctuation(text, white_list_punct={}):
     return "".join(ret)
 
 
-def strip_white_space(text, white_list_white_space={}):
+def strip_white_space(text, white_list_white_space={}, replace_token=""):
     ret = []
     for c in text:
         cp = ord(c)
         if c not in white_list_white_space and \
-            (33 <= cp <= 47 or
-            58 <= cp <= 64 or
-            91 <= cp <= 96 or
-            123 <= cp <= 126 or
-            unicodedata.category(c).startswith("Z")):
-            continue
+            (
+                0x00 <= cp <= 0x20 
+                or cp == 0x3000
+                or 0x7f <= cp <= 0xa0
+                or 0x2000 <= cp <= 0x200f or cp == 0x2011 or 0x2028 <= cp 0x202f or 0x205f <= cp <= 0x206f
+                or 0xfe00 <= cp <= 0xfe0f
+                or 0xe0100 <= cp <= 0xe01ef
+                or 0xfeff == cp
+                or cp == 0x115f or cp == 0x1160 or cp == 0x3164 or cp == 0xffa0
+                or 0xfff0 <= cp <= 0xffff
+                or 0xe0000 <= cp <= 0xe007f
+                or unicodedata.category(c) in ("Zs", "Cc", "Cf")
+            ):
+            c = replace_token
         ret.append(c)
     return "".join(ret)
