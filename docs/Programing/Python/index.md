@@ -11,7 +11,7 @@
 1. [`Decorator`](details/Decorator) 修饰符
 1. [`fstring`](details/fstring.md) 字符串插值
 
-### 常用第三方库
+### 自用库
 
 #### 算法类
 
@@ -42,6 +42,10 @@
 - [`pypinyin`](libs/pypinyin)：一个汉字转拼音的库
 - [`unicodedata`](libs/unicodedata)
 - [`codecs`](libs/codecs.md)
+
+#### utils
+- [ahocorasick.py](utils/ahocorasick.py)
+- [char_alpha_numeric.py](utils/char_alpha_numeric.py)
 
 ### 进阶：文件读写
 
