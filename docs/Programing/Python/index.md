@@ -46,6 +46,7 @@
 #### utils
 - [ahocorasick.py](utils/ahocorasick.py)
 - [char_alpha_numeric.py](utils/char_alpha_numeric.py)
+- [random_sample.py](utils/random_sample.py)
 
 ### 进阶：文件读写
 
