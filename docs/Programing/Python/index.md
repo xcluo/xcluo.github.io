@@ -44,9 +44,9 @@
 - [`codecs`](libs/codecs.md)
 
 #### utils
-- [ahocorasick.py](utils/ahocorasick.py)
-- [char_alpha_numeric.py](utils/char_alpha_numeric.py)
-- [random_sample.py](utils/random_sample.py)
+- [ahocorasick.py](utils/ahocorasick)
+- [char_alpha_numeric.py](utils/char_alpha_numeric)
+- [random_methods.py](utils/random_methods)
 
 ### 进阶：文件读写
 
