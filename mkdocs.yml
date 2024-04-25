@@ -27,6 +27,7 @@ nav:
       - 炼丹技巧: 
         - 显存优化: AI/Paper_Reading/Trick/Memory_Saving/index.md
         - 多模态融合: AI/Paper_Reading/Trick/Multimodality_Fusion/index.md
+        - 集成学习: AI/Paper_Reading/Trick/Ensemble/index.md
         - 模型蒸馏: AI/Paper_Reading/Trick/Distillation/index.md
     - 评判指标: AI/Metrics/metrics.md
     - 机器学习库:
