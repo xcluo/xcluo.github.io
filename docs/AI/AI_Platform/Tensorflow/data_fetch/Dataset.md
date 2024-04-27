@@ -87,7 +87,7 @@ class DataResourece:
             output_types=(tf.string, tf.string, 
                           f.int32, tf.int32, tf.int32, tf.int32)
             )
-        # repeat对应epochs，因此可基于全局 #cur_step 来存储ckpt
+        # repeat对应epochs，因此可基于全局
         dataset = dataset.repeat(self.epochs)
         # 训练时扰动、测试时顺序取值，设置扰动池大小
         if self.shuffle:
@@ -95,12 +95,15 @@ class DataResourece:
         # 设置随机取值池大小
         dataset = dataset.prefetch(buffer_size=100 * batch_size)
         # 每次取值 `batch_size` 样本
+        # `None`` 表示 `pad_to_longest`
         dataset = dataset.padded_batch(batch_size, padded_shapes=([None], [None], [None], [None], [None], [None], 
                                        drop_remainder=welf.drop_remainder))
 
         iterator = dataset.make_initializable_iterator()
         return iterator.get_next(), iterator.initializer
 ```
+!!! info 
+    - `padded_batch` 中如果采用了 `pad_to_longest` 对于处于不同 `batch_size` 中的同一样本，`longest_length` 的不同会导致 ==结果不会一致== ，但最终造成的区别影响可以忽略不记，<span style="color:green;">且不同数目的[PAD]能够更好地使模型学习到这个符号的语义和作用</span>。
 
 #### `data_example`
 ```python title="data_example.py"
