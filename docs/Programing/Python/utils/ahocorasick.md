@@ -262,47 +262,4 @@ class Interval(object):
 
     def __str__(self):
         return str(self.start) + ":" + str(self.end) + "=" + self.keyword
-
-
-class SpanReplacement:
-    def __init__(self, replace_span_file, allow_overlaps=False, case_insensitive=False):
-        self.trie = Trie(allow_overlaps=allow_overlaps, case_insensitive=case_insensitive)
-        self.replace_map = dict()
-        self.replace_span_file = replace_span_file
-        self.load_replace_file()
-    
-    def load_replace_file(self):
-        span_set = set()
-        with open(self.replace_span_file, 'r', encoding='utf-8') as f:
-            for line in f:
-                if line.startswith('#'):
-                    continue
-                line = line.strip()
-                if len(line) == 0:
-                    continue
-                line_split = line.split('\t', maxsplit=1)
-                assert len(line_split) == 2
-                if line_split[0] in span_set:
-                    print('---' * 10, 'duplicate_span', '---' * 10)
-                    print(line)
-                span_set.add(line_split[0])
-                self.replace_map[line_split[0]] = line_split[1]
-            self.trie.build_trie(self.replace_map)
-        print(f"SpanReplacement loads {len(self.replace_map)} replace tokens")
-    
-    def replace_span(self, text):
-        intervals = self.trie.parse_text(text)
-        text_new = []
-        idx = 0
-        for interval in intervals:
-            text_new += text[idx: interval.start]
-            span = text[interval.start: interval.end + 1]
-            replace_span = self.replace_map[span]
-            text_new.append(replace_span)
-            idx = interval.end + 1
-        text_new.append(text[idx:])
-        return "".join(text_new)
-
-    def add_keywords(self, keywords):
-        self.trie.build_trie(keywords)
 ```
