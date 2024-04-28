@@ -8,12 +8,12 @@ import pypinyin
 from ahocorasick import Trie
 
 
-## char_token_related ##
+## StringUtils ##
 """
     - parse_escape_text: 将未转义的字符串转化为转义后的结果
     - get_max_repeat_element: 获取字符串中最长连续字符长度
 """
-class string_related:
+class StringUtils:
     @staticmethod
     def parse_escape_text(text):
         return codecs.escape_decode(text)[0].decode("utf-8")
@@ -34,44 +34,6 @@ class string_related:
             else:
                 num += 1
         return max(max_num, num)
-
-    @staticmethod
-    def pinyin(
-            text, 
-            remain_alpha=False,                 # 是否保留字母
-            remain_arabic=False,                # 是否保留阿拉伯数字
-            white_list_chars={},                # 白名单字符
-            py_tokenizer=pypinyin.lazy_pinyin   # 拼音分词器
-    ):
-        text = punctuation_related.strip_white_space(text)
-        # split un-pinyin span
-        pinyins = py_tokenizer(text, errors=lambda x: string_related.split_un_pinyin(x))
-        print(pinyins)
-        new_pinyin = []
-        for py in pinyins:
-            if py.startswith('##'):
-                if remain_alpha and ord('a') <= ord(py[-1]) <= ord('z') \
-                    or remain_arabic and ord('0') <= ord(py[-1]) <= ord('9') \
-                    or py[-1] in white_list_chars:
-                    py = py[-1]
-                else:
-                    continue
-            new_pinyin.append(py)
-        return new_pinyin
-
-    @staticmethod
-    def split_un_pinyin(text):
-        new_pinyin = []
-        for c in text:
-            new_pinyin.append('##' + c)
-        return new_pinyin
-
-    @staticmethod
-    def strip_pinyin_tone(py):
-        if py.endswith('1') or py.endswith('2') or py.endswith('3') or py.endswith('4'):
-            py = py[:-1]
-        return py
-
 
     class SpanReplacement:
         def __init__(self, replace_span_file, allow_overlaps=False, case_insensitive=False):
@@ -116,11 +78,11 @@ class string_related:
             self.trie.build_trie(keywords)
 
 
-## alpha_related ##
+## AlphaUtils ##
 """
     - full_to_half
 """
-class alpha_related:
+class AlphaUtils:
     @staticmethod
     def full_to_half(s):
         return unicodedata.normalize("NFKC", s)
@@ -241,11 +203,11 @@ class PyTokenizer:
         return pinyins
 
 
-## numeric_related ##
+## NumericUtils ##
 """
     - uni_numer_to_numeric
 """
-class numeric_related:
+class NumericUtils:
     number_map = {
         "零": "0",
         "一": "1", "壹": "1",
@@ -273,12 +235,12 @@ class numeric_related:
             new_text.append(c)
         return "".join(new_text)
 
-## punctuation_related ##
+## PunctuationUtils ##
 """
     - strip_punctuation
     - strip_white_space
 """
-class punctuation_related:
+class PunctuationUtils:
     all_punctuation = set(list(string.punctuation + hanzi.punctuation))
     all_punctuation.remove("\u3000")
 
