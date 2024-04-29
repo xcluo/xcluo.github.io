@@ -129,6 +129,10 @@ class AlphaUtils:
             return True
         return False
 
+    @staticmethod
+    def is_alpha(c):
+        return AlphaUtils.is_half_alpha(c) or AlphaUtils.is_full_alpha(c)
+
 
 ## PyTokenizer ##
 """
@@ -335,6 +339,10 @@ class NumericUtils:
         elif ord('０') <= ord(c) <= ord('９'):
             return True
         return False
+    
+    @staticmethod
+    def is_arabic(c):
+        return NumericUtils.is_half_arabic(c) or NumericUtils.is_full_arabic(c)
 
 
 ## PunctuationUtils ##
