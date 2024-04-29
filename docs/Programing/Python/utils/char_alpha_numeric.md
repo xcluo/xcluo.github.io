@@ -5,14 +5,21 @@ import string
 import json
 from zhon import hanzi
 import pypinyin
+import re
 from ahocorasick import Trie
 
 
 ## StringUtils ##
 """
-    - parse_escape_text: 将未转义的字符串转化为转义后的结果
-    - get_max_repeat_element: 获取字符串中最长连续字符长度
+    # staticmethod && classmethod #
+        - parse_escape_text: 将未转义的字符串转化为转义后的结果
+        - get_max_repeat_element: 获取字符串中最长连续字符长度
+
+    # class && private_class
+        - SpanReplacement
 """
+
+
 class StringUtils:
     @staticmethod
     def parse_escape_text(text):
@@ -25,10 +32,9 @@ class StringUtils:
         if len(text) == 0:
             return 0
         num = 1
-        pre = text[0]
         max_num = 1
         for i in range(1, len(text)):
-            if text[i-1] != text[i]:
+            if text[i - 1] != text[i]:
                 max_num = max(max_num, num)
                 num = 1
             else:
@@ -80,25 +86,77 @@ class StringUtils:
 
 ## AlphaUtils ##
 """
-    - full_to_half
+    # staticmethod && classmethod #
+        - full_to_half
+        - half_to_full
+        - count_full_width_chars
 """
+
+
 class AlphaUtils:
     @staticmethod
     def full_to_half(s):
         return unicodedata.normalize("NFKC", s)
 
+    @staticmethod
+    def half_to_full(s):
+        n = []
+        for char in s:
+            num = ord(char)
+            if 0x21 <= num <= 0x7e:
+                num += 0xfee0
+            num = chr(num)
+            n.append(num)
+        return ''.join(n)
+
+    @staticmethod
+    def count_full_width_chars(s):
+        return sum([AlphaUtils.full_to_half(c) != c for c in s])
+
+    @staticmethod
+    def is_half_alpha(c):
+        if len(c) != 1:
+            return False
+        elif ord('a') <= ord(c) <= ord('z') or ord('A') <= ord(c) <= ord('Z'):
+            return True
+        return False
+
+    @staticmethod
+    def is_full_alpha(c):
+        if len(c) != 1:
+            return False
+        if ord('ａ') <= ord(c) <= ord('ｚ') or ord('Ａ') <= ord(c) <= ord('Ｚ'):
+            return True
+        return False
+
+
+## PyTokenizer ##
+"""
+    # staticmethod && classmethod #
+        - pinyin
+        - has_pinyin
+        - split_un_pinyin: 将无拼音的字符串划分（以##为前缀与单字母拼音区分）
+        - strip_pinyin_tone
+        - arabic_to_pinyin
+
+    # class && private_class
+        - __init__: 使用自定义的pinyin文件进行pinyin转换
+"""
+
+
 class PyTokenizer:
     number_pinyin_map = {
-        "0": "ling2", 
-        "1": "yi1",
-        "2": "er4",
-        "3": "san1",
-        "4": "si4",
-        "5": "wu3",
-        "6": "liu4",
-        "7": "qi1",
-        "8": "ba1",
-        "9": "jiu3"
+        "0": "ling2", "０": "ling2",
+        "1": "yi1", "１": "yi1",
+        "2": "er4", "２": "er4",
+        "3": "san1", "３": "san1",
+        "4": "si4", "４": "si4",
+        "5": "wu3", "５": "wu3",
+        "6": "liu4", "６": "liu4",
+        "7": "qi1", "７": "qi1",
+        "8": "ba1", "８": "ba1",
+        "9": "jiu3", "９": "jiu3",
+
     }
 
     @staticmethod
@@ -106,6 +164,7 @@ class PyTokenizer:
             text,
             remain_alpha=False,
             remain_arabic=False,
+            arabic_to_pinyin=False,
             white_list_chars={},
             py_tokenizer=None
     ):
@@ -117,14 +176,37 @@ class PyTokenizer:
         new_pinyin = []
         for py in pinyins:
             if py.startswith('##'):
-                if remain_alpha and ord('a') <= ord(py[-1]) <= ord('z') \
-                        or remain_arabic and ord('0') <= ord(py[-1]) <= ord('9') \
+                if remain_alpha and (AlphaUtils.is_half_alpha(py[-1]) or AlphaUtils.is_full_alpha(py[-1])) \
+                        or remain_arabic and (NumericUtils.is_half_arabic(py[-1]) or NumericUtils.is_full_arabic(py[-1])) \
                         or py[-1] in white_list_chars:
                     py = py[-1]
                 else:
                     continue
             new_pinyin.append(py)
+        if remain_arabic and arabic_to_pinyin:
+            new_pinyin = PyTokenizer.arabic_to_pinyin(new_pinyin)
         return new_pinyin
+
+    @staticmethod
+    def has_pinyin(
+            text,
+            pattern,
+            match_type="fuzzy",  # strict or fuzzy
+            arabic_to_pinyin=False,
+            remain_alpha=False,
+            remain_arabic=False,
+            white_list_chars={},
+            py_tokenizer=None):
+        text_pinyin = PyTokenizer.pinyin(text, remain_alpha=remain_alpha, remain_arabic=remain_arabic, arabic_to_pinyin=arabic_to_pinyin,
+                                         white_list_chars=white_list_chars, py_tokenizer=py_tokenizer)
+
+        if match_type == "strict":
+            text_pinyin = " ".join(text_pinyin)
+        elif match_type == "fuzzy":
+            text_pinyin = "".join(text_pinyin)
+        else:
+            raise ValueError("match_type must in {strict, fuzzy}")
+        return re.findall(pattern, text_pinyin, re.I)
 
     @staticmethod
     def split_un_pinyin(text):
@@ -157,7 +239,7 @@ class PyTokenizer:
                  ignore_tone=True,
                  file_type="JSON"  # JSON or CSV_key-idx_py_idx
                  ):
-        self.ignore_tone = True
+        self.ignore_tone = ignore_tone
         self.pinyin_map = self.load_pinyin_file(pinyin_file, file_type)
 
     def load_pinyin_file(self, pinyin_file, file_type):
@@ -205,8 +287,11 @@ class PyTokenizer:
 
 ## NumericUtils ##
 """
-    - uni_numer_to_numeric
+    # staticmethod && classmethod #
+        - uni_to_arabic
 """
+
+
 class NumericUtils:
     number_map = {
         "零": "0",
@@ -235,11 +320,31 @@ class NumericUtils:
             new_text.append(c)
         return "".join(new_text)
 
+    @staticmethod
+    def is_half_arabic(c):
+        if len(c) != 1:
+            return False
+        elif ord('0') <= ord(c) <= ord('9'):
+            return True
+        return False
+
+    @staticmethod
+    def is_full_arabic(c):
+        if len(c) != 1:
+            return False
+        elif ord('０') <= ord(c) <= ord('９'):
+            return True
+        return False
+
+
 ## PunctuationUtils ##
 """
-    - strip_punctuation
-    - strip_white_space
+    # staticmethod && classmethod #
+        - strip_punctuation
+        - strip_white_space
 """
+
+
 class PunctuationUtils:
     all_punctuation = set(list(string.punctuation + hanzi.punctuation))
     all_punctuation.remove("\u3000")
@@ -261,22 +366,21 @@ class PunctuationUtils:
         for c in text:
             cp = ord(c)
             if c not in white_list_space and \
-                (
-                    0x00 <= cp <= 0x20 or cp == 0x3000
-                    or 0x7f <= cp <= 0xa0
-                    or cp == 0x034f
-                    or 0x2000 <= cp <= 0x200f or cp == 0x2011 or 0x2028 <= cp <= 0x202f or 0x205f <= cp <= 0x206f
-                    or 0xfe00 <= cp <= 0xfe0f
-                    or 0xe0100 <= cp <= 0xe01ef
-                    or cp == 0xfeff
-                    or cp == 0x115f or cp == 0x1160 or cp == 0x3164 or cp == 0xffa0
-                    or 0xfff0 <= cp <= 0xffff
-                    or 0xe0000 <= cp <= 0xe007f
-                    or unicodedata.category(c) in ("Zs",)
-                    # Cc/Cf
-                ):
+                    (
+                            0x00 <= cp <= 0x20 or cp == 0x3000
+                            or 0x7f <= cp <= 0xa0
+                            or cp == 0x034f
+                            or 0x2000 <= cp <= 0x200f or cp == 0x2011 or 0x2028 <= cp <= 0x202f or 0x205f <= cp <= 0x206f
+                            or 0xfe00 <= cp <= 0xfe0f
+                            or 0xe0100 <= cp <= 0xe01ef
+                            or cp == 0xfeff
+                            or cp == 0x115f or cp == 0x1160 or cp == 0x3164 or cp == 0xffa0
+                            or 0xfff0 <= cp <= 0xffff
+                            or 0xe0000 <= cp <= 0xe007f
+                            or unicodedata.category(c) in ("Zs",)
+                            # Cc/Cf
+                    ):
                 c = replace_token
             ret.append(c)
         return "".join(ret)
-
 ```
