@@ -38,8 +38,8 @@
 #### 资源库
 
 - [`emoji`](libs/emoji)：提供了一些emoji的相关操作，emoji收集新而全
-- [`OpenCC`](libs/opencc)：一个开源的中文繁简体转换库
-- [`pypinyin`](libs/pypinyin)：一个汉字转拼音的库
+- [`OpenCC`](libs/opencc)：包含中文繁简体转换库
+- [`pypinyin`](libs/pypinyin)：汉字转拼音的库
 - [`unicodedata`](libs/unicodedata)
 - [`codecs`](libs/codecs.md)
 
