@@ -10,6 +10,7 @@ site_description: xcluo的个人仓库
 nav:
   - AI:
     - 专业名词: AI/annotation.md
+    - 训练总览: AI/Train_Overview/index.md
     - AI_Lab: AI/AI_Lab/AI_Lab.md
     - 功能实现:
       - 论文笔记: 
@@ -213,6 +214,8 @@ markdown_extensions:
 
   # 代码块特征设置
   - pymdownx.superfences      # enable代码设置
+  - pymdownx.snippets           # 导入外部文件资源
+  - pymdownx.inlinehilite       # 行内代码高亮，https://facelessuser.github.io/pymdown-extensions/extensions/inlinehilite/
   - pymdownx.highlight:
       # linenums: true          # 代码块中显示代码行号
       # auto_title: true        # 自动为代码块添加标题

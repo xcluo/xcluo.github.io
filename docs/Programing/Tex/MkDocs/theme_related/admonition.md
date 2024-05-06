@@ -36,7 +36,7 @@ theme:
     content
 
 # html格式，可用来控制缩进提示
-<div class="admonition note">
+<div class="admonition note" style="margin-left: 20px;">
     <p class="admonition-title">qualifier_title</p>
     <p>content</p>
 </div>  
