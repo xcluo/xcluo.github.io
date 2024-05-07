@@ -8,6 +8,7 @@
         <li>sound_modality</li>
         <li>shape_modality</li>
     </ol>
+    <span style="color:red;">注意每种模态embedding初始化时mean和std要互相持平，否则可能导致（某一模态占比过重而）发散</span>
 </div>  
 
 - bpe-tokenization: 基于统计方法将单词划分为字词，更好地表述词的相关性
