@@ -46,3 +46,9 @@ tf.nn.embedding_lookup(
 !!! info
     功能等同于gather，该方法高效实用，通过将较大的params分块存储，再根据ids和每块的位置进行索引取值 https://www.zhihu.com/question/52250059
 
+
+```
+with tf.variable_scope(scope_name, reuse=tf.AUTO_REUSE):
+    tf.get_variable()   # 未定义重新定义
+                        # 定义了复用直接取值（类中定义也算）
+```
