@@ -1,19 +1,23 @@
-
+## Modality Fusion
 train
 
-    1. 多流输入input_stream_i（可以新增一个flag模态表示输入是否为联系方式元素）
-    2. 多流输出output_stream_i
-    3. 融合多模态fusion
-    4. loss = Σloss(output_stream_i) + loss(fusion)
+1. 多流输入input_stream_i（可以新增一个flag模态表示输入是否为联系方式元素）
+2. 多流输出output_stream_i
+3. 融合多模态fusion
+4. loss = Σloss(output_stream_i) + loss(fusion)
 
 infer
 
-    1. 多流输入input_stream_i
-    2. 多流输出output_stream_i
-    3. 融合多模态fusion
-    4. max(output_stream_i_prob, ..., fusion)
+ 1. 多流输入input_stream_i
+ 2. 多流输出output_stream_i
+ 3. 融合多模态fusion
+ 4. max(output_stream_i_prob, ..., fusion)
 
-#### 字音sound模态
+
+### Token Modality
+
+
+### Sound Modality
 - 直接整体对应一个embedding，[seq_len, dim]
 - sound序列，[seq_len, K, dim]，一般K≤8
 - 区分声母、韵母、介母, [seq_len, 3, dim]，一般通过CNN学习得到一个flatter_embedding，
@@ -24,8 +28,10 @@ infer
     1. 上述方法均可指定是否带声调
     2. 提前获取pinyin映射表，多音字取最常用的那个以加快速度
     3. 字音sound需与token一一对应，sound缺失可直接用token替代（文本中可能存在用pinyin替代token的变种，因此token和sound可使用同一张embedding表）
+    4. 最好只对汉字和、数字和字母进行pinyin化（字母和单个字母pinyin需要进行区分），其他的字符用 `[Sound_PAD]` 和 `[Sound_UNK]` 统一表示
+
     
-#### 字形shape模态
+### Shape Modality
 - 笔画拆解
 - 上下结构，左右结构
 !!! info ""
