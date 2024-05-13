@@ -14,6 +14,7 @@ from ahocorasick import Trie
     # staticmethod && classmethod #
         - parse_escape_text: 将未转义的字符串转化为转义后的结果
         - get_max_repeat_element: 获取字符串中最长连续字符长度
+        - has_subsequent_spans: span_list中的字符串是否顺序存在于text中
 
     # class && private_class
         - SpanReplacement
@@ -40,6 +41,20 @@ class StringUtils:
             else:
                 num += 1
         return max(max_num, num)
+
+    @staticmethod
+    def has_subsequent_spans(text, span_list):
+        if not isinstance(span_list, (tuple, list)):
+            raise ValueError(f"span_list is not tuple or list, but {type(span_list)}")
+        if len(span_list) == 0 or len(text) == 0:
+            return False
+        cur_idx = 0
+        for span in span_list:
+            idx = text.find(span, cur_idx)
+            if idx == -1:
+                return False
+            cur_idx = idx + len(span)
+        return True
 
     class SpanReplacement:
         def __init__(self, replace_span_file, allow_overlaps=False, case_insensitive=False):
@@ -90,6 +105,9 @@ class StringUtils:
         - full_to_half
         - half_to_full
         - count_full_width_chars
+        - is_half_alpha
+        - is_full_alpha
+        - is_alpha
 """
 
 
@@ -139,6 +157,7 @@ class AlphaUtils:
     # staticmethod && classmethod #
         - pinyin
         - has_pinyin
+        - has_subsequent_pinyin: pinyin_list中的pinyin子串是否顺序存在于text中
         - split_un_pinyin: 将无拼音的字符串划分（以##为前缀与单字母拼音区分）
         - strip_pinyin_tone
         - arabic_to_pinyin
@@ -211,6 +230,41 @@ class PyTokenizer:
         else:
             raise ValueError("match_type must in {strict, fuzzy}")
         return re.findall(pattern, text_pinyin, re.I)
+    
+    @staticmethod
+    def has_subsequent_pinyins(
+            text,
+            pinyin_list,
+            match_type="fuzzy",  # strict or fuzzy
+            arabic_to_pinyin=False,
+            remain_alpha=False,
+            remain_arabic=False,
+            white_list_chars={},
+            py_tokenizer=None
+    ):
+        if not isinstance(pinyin_list, (tuple, list)):
+            raise ValueError(f"pinyin_list is not tuple or list, but {type(pinyin_list)}")
+        if len(pinyin_list) == 0:
+            return False
+        text_pinyin = PyTokenizer.pinyin(text, remain_alpha=remain_alpha, remain_arabic=remain_arabic,
+                                         arabic_to_pinyin=arabic_to_pinyin,
+                                         white_list_chars=white_list_chars, py_tokenizer=py_tokenizer)
+        if len(text_pinyin) == 0:
+            return False
+        if match_type not in {"strict", "fuzzy"}:
+            raise ValueError("match_type must in {strict, fuzzy}")
+        elif match_type == "strict":
+            idx_py = 0
+            for text_py in text_pinyin:
+                if text_py == text_pinyin[idx_py]:
+                    idx_py += 1
+                    if idx_py >= len(text_pinyin):
+                        return True
+            return False
+        elif match_type == "fuzzy":
+            text_pinyin = "".join(text_pinyin)
+            return StringUtils.has_subsequent_spans(text_pinyin, pinyin_list)
+
 
     @staticmethod
     def split_un_pinyin(text):
@@ -293,6 +347,9 @@ class PyTokenizer:
 """
     # staticmethod && classmethod #
         - uni_to_arabic
+        - is_half_arabic
+        - is_full_arabic
+        - is_arabic
 """
 
 
