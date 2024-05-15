@@ -8,13 +8,13 @@ import pypinyin
 import re
 from ahocorasick import Trie
 
-
 ## StringUtils ##
 """
     # staticmethod && classmethod #
         - parse_escape_text: 将未转义的字符串转化为转义后的结果
         - get_max_repeat_element: 获取字符串中最长连续字符长度
         - has_subsequent_spans: span_list中的字符串是否顺序存在于text中
+        - has_all_spans
 
     # class && private_class
         - SpanReplacement
@@ -50,10 +50,20 @@ class StringUtils:
             return False
         cur_idx = 0
         for span in span_list:
-            idx = text.find(span, cur_idx)
-            if idx == -1:
+            g = re.search(span, text)
+            if not g:
                 return False
-            cur_idx = idx + len(span)
+            cur_idx += g.end()
+            text = text[g.end():]
+        return True
+
+    @staticmethod
+    def has_all_spans(text, span_list):
+        if not isinstance(span_list, (tuple, list, set)):
+            raise ValueError(f"span_list is not tuple or list or set, but {type(span_list)}")
+        for span in set(span_list):
+            if not re.search(span, text):
+                return False
         return True
 
     class SpanReplacement:
@@ -157,7 +167,8 @@ class AlphaUtils:
     # staticmethod && classmethod #
         - pinyin
         - has_pinyin
-        - has_subsequent_pinyin: pinyin_list中的pinyin子串是否顺序存在于text中
+        - has_subsequent_pinyins: pinyin_list中的pinyin子串是否顺序存在于text中
+        - has_all_pinyins
         - split_un_pinyin: 将无拼音的字符串划分（以##为前缀与单字母拼音区分）
         - strip_pinyin_tone
         - arabic_to_pinyin
@@ -199,8 +210,8 @@ class PyTokenizer:
         new_pinyin = []
         for py in pinyins:
             if py.startswith('##'):
-                if remain_alpha and (AlphaUtils.is_half_alpha(py[-1]) or AlphaUtils.is_full_alpha(py[-1])) \
-                        or remain_arabic and (NumericUtils.is_half_arabic(py[-1]) or NumericUtils.is_full_arabic(py[-1])) \
+                if remain_alpha and AlphaUtils.is_alpha(py[-1]) \
+                        or remain_arabic and NumericUtils.is_arabic(py[-1]) \
                         or py[-1] in white_list_chars:
                     py = py[-1]
                 else:
@@ -220,7 +231,8 @@ class PyTokenizer:
             remain_arabic=False,
             white_list_chars={},
             py_tokenizer=None):
-        text_pinyin = PyTokenizer.pinyin(text, remain_alpha=remain_alpha, remain_arabic=remain_arabic, arabic_to_pinyin=arabic_to_pinyin,
+        text_pinyin = PyTokenizer.pinyin(text, remain_alpha=remain_alpha, remain_arabic=remain_arabic,
+                                         arabic_to_pinyin=arabic_to_pinyin,
                                          white_list_chars=white_list_chars, py_tokenizer=py_tokenizer)
 
         if match_type == "strict":
@@ -230,7 +242,7 @@ class PyTokenizer:
         else:
             raise ValueError("match_type must in {strict, fuzzy}")
         return re.findall(pattern, text_pinyin, re.I)
-    
+
     @staticmethod
     def has_subsequent_pinyins(
             text,
@@ -254,17 +266,51 @@ class PyTokenizer:
         if match_type not in {"strict", "fuzzy"}:
             raise ValueError("match_type must in {strict, fuzzy}")
         elif match_type == "strict":
-            idx_py = 0
-            for text_py in text_pinyin:
-                if text_py == text_pinyin[idx_py]:
-                    idx_py += 1
-                    if idx_py >= len(text_pinyin):
-                        return True
-            return False
+            cur_idx = 0
+            text_pinyin = " ".join(text_pinyin)
+            for py_span in pinyin_list:
+                g = re.search(f'[^ ]{py_span}[ $]', text_pinyin)
+                if not g:
+                    return False
+                cur_idx += g.end() + 1
+                text = text[g.end():]
+            return True
         elif match_type == "fuzzy":
             text_pinyin = "".join(text_pinyin)
             return StringUtils.has_subsequent_spans(text_pinyin, pinyin_list)
 
+    @staticmethod
+    def has_all_pinyins(
+            text,
+            pinyin_list,
+            match_type="fuzzy",  # strict or fuzzy
+            arabic_to_pinyin=False,
+            remain_alpha=False,
+            remain_arabic=False,
+            white_list_chars={},
+            py_tokenizer=None
+    ):
+        if not isinstance(pinyin_list, (tuple, list, set)):
+            raise ValueError(f"pinyin_list is not tuple or list or set, but {type(pinyin_list)}")
+        if len(pinyin_list) == 0:
+            return False
+        text_pinyin = PyTokenizer.pinyin(text, remain_alpha=remain_alpha, remain_arabic=remain_arabic,
+                                         arabic_to_pinyin=arabic_to_pinyin,
+                                         white_list_chars=white_list_chars, py_tokenizer=py_tokenizer)
+        if len(text_pinyin) == 0:
+            return False
+        if match_type not in {"strict", "fuzzy"}:
+            raise ValueError("match_type must in {strict, fuzzy}")
+        elif match_type == "strict":
+            text_pinyin = " ".join(text_pinyin)
+            for py_span in pinyin_list:
+                g = re.search(f'[^ ]{py_span}[ $]', text_pinyin)
+                if not g:
+                    return False
+            return True
+        elif match_type == "fuzzy":
+            text_pinyin = "".join(text_pinyin)
+            return StringUtils.has_all_spans(text_pinyin, pinyin_list)
 
     @staticmethod
     def split_un_pinyin(text):
@@ -396,7 +442,7 @@ class NumericUtils:
         elif ord('０') <= ord(c) <= ord('９'):
             return True
         return False
-    
+
     @staticmethod
     def is_arabic(c):
         return NumericUtils.is_half_arabic(c) or NumericUtils.is_full_arabic(c)
