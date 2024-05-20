@@ -25,11 +25,11 @@ nav:
           - Position Embedding: AI/Paper_Reading/Component/Embedding/Position_Embedding/index.md
         - Normlization: AI/Paper_Reading/Component/Normalization/normalization.md
         - Optimizer: AI/Paper_Reading/Component/Optimizer/optimizer.md
-      - 炼丹技巧: 
-        - 显存优化: AI/Paper_Reading/Trick/Memory_Saving/index.md
+      - 炼丹技巧:
         - 多模态融合: AI/Paper_Reading/Trick/Multimodality_Fusion/index.md
         - 集成学习: AI/Paper_Reading/Trick/Ensemble/index.md
         - 模型蒸馏: AI/Paper_Reading/Trick/Distillation/index.md
+        - 显存优化: AI/Paper_Reading/Trick/Memory_Saving/index.md
     - 评判指标: AI/Metrics/metrics.md
     - 机器学习库:
       - Tensorflow: AI/AI_Platform/Tensorflow/index.md
