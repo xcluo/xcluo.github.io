@@ -4,7 +4,7 @@
 ### Boosting
 #### [LightGBM](Ensemble/Boosting/lightgbm.md)
 
-### MOE
+### MoE
 - 用存储性能换效果（时间效率影响持平）
 
 

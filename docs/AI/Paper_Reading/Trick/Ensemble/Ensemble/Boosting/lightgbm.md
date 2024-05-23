@@ -32,7 +32,7 @@ try {
 ```
 ### Utils
 
-#### prechecker_tokenization.py
+#### prechecker_tokenization
 ```python title="prechecker_tokenization.py"
 from wheel_utils.char_alpha_numeric import PyTokenizer
 import random
@@ -140,8 +140,8 @@ if __name__ == "__main__":
     )
 ```
 
-#### prehecker_features.py
-```python title="prehecker_features.py"
+#### prechecker_features
+```python title="prechecker_features.py"
 import json
 from scipy.sparse import csr_matrix
 from math import log2
@@ -350,7 +350,7 @@ if __name__ == "__main__":
                     f.flush()
 ```
 
-#### prechecker_lightgbm.py
+#### prechecker_lightgbm
 ```python title="prechecker_lightgbm.py"
 import random
 from prechecker_feature import FeatureMap
