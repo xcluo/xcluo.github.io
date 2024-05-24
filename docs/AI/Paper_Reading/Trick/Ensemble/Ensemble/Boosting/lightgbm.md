@@ -63,7 +63,7 @@ def split_train_valid_dataset(dataset, tokenize_types, pp, path, train_percent=0
         pp: 正样本增强倍数
         train_percent: 训练集种数据占所有数据的比例
     """
-    if not rewrite and os.path.exists(path + 'train.json') or os.path.exists(path + 'valid.json'):
+    if not rewrite and (os.path.exists(path + 'train.json') or os.path.exists(path + 'valid.json')):
         raise ValueError("train.json or valid.json already exist and rewrite is unavailable!!!")
 
     random.shuffle(dataset)
@@ -81,8 +81,8 @@ def split_train_valid_dataset(dataset, tokenize_types, pp, path, train_percent=0
                     tokens = tokenize(cnt, tokenize_type)
                     ret[tokenize_type] = tokens
                 for _ in range(pp):
-                    f_valid.write(json.dumps(ret, ensure_ascii=False) + '\n')
-                    f_valid.flush()
+                    f_train.write(json.dumps(ret, ensure_ascii=False) + '\n')
+                    f_train.flush()
                 n_train += pp
             else:
                 ret = {'label': lbl}
@@ -120,7 +120,7 @@ if __name__ == "__main__":
     pp = 5  # 正样本增强
     train_percent = 0.9
     rewrite = False
-    path = './../data/prechecker/py_gbdt/feature/'
+    path = './../data/prechecker/dataset/'
     file_name = "data.json"
     sound_file = r'E:\JAVA\project_files\text-classification\textalg-check\src\main\resources\64_politics/char_meta.txt'
 
@@ -212,8 +212,8 @@ def term_frequency(t_freq, doc_freq):
 
 
 def select_features(batch_tokens, token2id, feature_type='chi'):
-    if feature_type not in {'chi', 'tf', 'mi'}:
-        raise ValueError('feature_type should in {"chi", "tf", "mi"}')
+    if feature_type not in {'chi', 'freq', 'mi'}:
+        raise ValueError('feature_type should in {"chi", "freq", "mi"}')
 
     n0 = len(batch_tokens[0])
     n1 = len(batch_tokens[1])
@@ -253,7 +253,7 @@ def select_features(batch_tokens, token2id, feature_type='chi'):
                 metric_score = chi_square(N_11, N_10, N_01, N_00)
             feature.append((token, metric_score))
 
-    elif feature_type in ['tf']:
+    elif feature_type in ['freq']:
         doc_cnt = len(batch_tokens[1])
         xxx = [0] * len(token2id)
         for tokens in tqdm(batch_tokens[1]):
@@ -334,8 +334,8 @@ if __name__ == "__main__":
     N = 3
     top_k = 20000
     min_freq = 10
-    feature_path = './../data/prechecker/py_gbdts/feature/'
-    token_path = "./../data/prechecker/py_gbdts/dataset/"
+    feature_path = './../data/prechecker/features/'
+    token_path = "./../data/prechecker/dataset/"
     token_file_name = 'train.json'
 
     for tokenize_type in tokenize_types:
@@ -343,7 +343,7 @@ if __name__ == "__main__":
 
         for feature_type in feature_types:
             feature = select_features(batch_tokens, token2id, feature_type)
-            with open(feature_path + f'feature/{N}-gram_{tokenize_type}_{feature_type}.txt', 'w', encoding='utf-8') as f:
+            with open(feature_path + f'{N}-gram_{tokenize_type}_{feature_type}.txt', 'w', encoding='utf-8') as f:
                 for i, feat in enumerate(feature):
                     f.write(json.dumps({'id': i, 'score': feat[1], 'w': feat[0]},
                                        ensure_ascii=False) + '\n')
@@ -353,7 +353,7 @@ if __name__ == "__main__":
 #### prechecker_lightgbm
 ```python title="prechecker_lightgbm.py"
 import random
-from prechecker_feature import FeatureMap
+from prechecker_features import FeatureMap
 import json
 import lightgbm
 import numpy as np
@@ -394,13 +394,13 @@ if __name__ == "__main__":
         'bagging_freq': 5
     }
 
-    feature_path = "./../data/prechecker/py_gbdts/feature/"
-    token_path = "./../data/prechecker/py_gbdts/dataset/"
-    model_path = "./../data/prechecker/py_gbdts/gbdts/"
+    feature_path = "./../data/prechecker/features/"
+    token_path = "./../data/prechecker/dataset/"
+    model_path = "./../data/prechecker/gbdts/"
 
     feature_map = FeatureMap(
         feature_path,
-        [f'feature/{N}-gram_{tokenize_type}_{feature_type}.txt'
+        [f'{N}-gram_{tokenize_type}_{feature_type}.txt'
          for feature_type in feature_types
          for tokenize_type in tokenize_types]
     )
@@ -414,7 +414,7 @@ if __name__ == "__main__":
             train_data_set.append([lbl] + tokens)
 
     valid_data_set = []
-    with open(token_path + 'dataset/valid.json', 'r', encoding='utf-8') as f_tok:
+    with open(token_path + 'valid.json', 'r', encoding='utf-8') as f_tok:
         for tok in tqdm(f_tok):
             tok = json.loads(tok)
             lbl = tok['label']
@@ -452,6 +452,6 @@ if __name__ == "__main__":
                 valid_sets=[valid_data],
                 init_model=model)
             model.save_model(
-                model_path + f"gbdts/{N}-gram_{'-'.join(feature_types)}_model_{epoch}.txt")
+                model_path + f"{N}-gram_{'-'.join(feature_types)}_model_{epoch}.txt")
 
 ```

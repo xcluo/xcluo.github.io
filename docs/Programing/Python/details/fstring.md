@@ -43,6 +43,14 @@ vars = ['菜鸟教程', 'www.runoob.com']
 {:X}                # 无前缀0x的16进制 + 字母大写 形式
 {:#X}               # 有前缀0x的16进制 + 字母大写 形式
 ```
-
+!!! info ""
+    在保留小数点后n位时，获取保留小数的位数 `f'{val:.{n}f}'`
+    ```python
+    import numpy as np
+    def get_str_length(val):
+        val_str = np.format_float_positional(val, trim='-')
+        n = len(val_str.split('.')[-1])
+        return n
+    ```
 #### fstring
 等价于 [str.format()](#strformat) 的关键字传参方式，区别在于 字符串左侧使用 `f""`修饰且不需要后面的 `.format()`
