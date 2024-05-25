@@ -366,6 +366,9 @@ class PyTokenizer:
                     parts = line.split()
                     key = parts[key_idx]
                     val = parts[py_idx].split(';')[0]
+                    # skip non-pinyin token
+                    if val == "null":
+                        continue
                     if self.ignore_tone:
                         val = PyTokenizer.strip_pinyin_tone(val)
                     line = {key: val}
