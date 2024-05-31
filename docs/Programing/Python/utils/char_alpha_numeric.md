@@ -15,6 +15,9 @@ from ahocorasick import Trie
         - get_max_repeat_element: 获取字符串中最长连续字符长度
         - has_subsequent_spans: span_list中的字符串是否顺序存在于text中
         - has_all_spans
+        - get_continue_arabic: 返回数字序列中连续的序列
+        - get_continue_alpha: 返回字母序列中连续的单字母序列
+        - get_continues: 返回连续的数字序列和单字母序列
 
     # class && private_class
         - SpanReplacement
@@ -65,6 +68,53 @@ class StringUtils:
             if not re.search(span, text):
                 return False
         return True
+    
+    @staticmethod
+    def has_continues(text, n=3, step=1):
+        ret1 = StringUtils.get_continue_arabic(text, n, step)
+        ret2 = StringUtils.get_continue_alpha(text, n)
+        return ret1 + ret2
+
+    @staticmethod
+    def get_continue_arabic(text, n=3, step=1):
+        arabic_spans = [int(v) for v in re.findall('[0-9]+', text)]
+        if not arabic_spans:
+            return []
+
+        sequences = [[arabic_spans[0]]]
+        for span in arabic_spans[1:]:
+            en_queue = False
+            for seq in sequences:
+                if seq[-1] + step == span:
+                    seq.append(span)
+                    en_queue = True
+                    break
+            if not en_queue:
+                sequences.append([span])
+
+        ret = [seq for seq in sequences if len(seq) >= n]
+        return ret
+
+    @staticmethod
+    def get_continue_alpha(text, n=3):
+        alpha_chars = [v for v in re.findall('[a-z]+', text) if len(v) == 1]
+        if not alpha_chars:
+            return []
+
+        sequences = [[alpha_chars[0]]]
+        for char in alpha_chars[1:]:
+            en_queue = False
+            for seq in sequences:
+                if ord(seq[-1]) + 1 == ord(char):
+                    seq.append(char)
+                    en_queue = True
+                    break
+            if not en_queue:
+                sequences.append([char])
+
+        ret = [seq for seq in sequences if len(seq) >= n]
+        return ret
+
 
     class SpanReplacement:
         def __init__(self, replace_span_file, allow_overlaps=False, case_insensitive=False):

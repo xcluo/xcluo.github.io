@@ -71,19 +71,17 @@ def split_train_valid_dataset(dataset, tokenize_types, pp, path, train_percent=0
     with open(path + 'train.json', 'w', encoding='utf-8') as f_train, \
             open(path + 'valid.json', 'w', encoding='utf-8') as f_valid:
         for line in tqdm(dataset, desc="split train & valid dataset"):
-            lbl = line['label']
+            lbl = int(line['label'])
             cnt = line['content']
             if random.uniform(0, 1) < train_percent:
                 ret = {'label': lbl}
-                if lbl == 0:
-                    pp = 1
                 for tokenize_type in tokenize_types:
                     tokens = tokenize(cnt, tokenize_type)
                     ret[tokenize_type] = tokens
-                for _ in range(pp):
+                for _ in range(1 if lbl == 0 else pp):
                     f_train.write(json.dumps(ret, ensure_ascii=False) + '\n')
                     f_train.flush()
-                n_train += pp
+                    n_train += 1
             else:
                 ret = {'label': lbl}
                 for tokenize_type in tokenize_types:
@@ -422,8 +420,8 @@ if __name__ == "__main__":
             valid_data_set.append([lbl] + tokens)
 
     model = None
-    for epoch in range(1, epochs+1):
-        print("############### EPOCH-%d ###############" % epoch)
+    for epoch in range(epochs):
+        print(f"############### EPOCH-{epoch+1} ###############")
         n_step = 1
         new_lr = learning_rate * (epochs - epoch) / epochs
         print("learning = " + str(new_lr))
