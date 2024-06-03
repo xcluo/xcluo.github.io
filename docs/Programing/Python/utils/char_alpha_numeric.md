@@ -17,7 +17,7 @@ from ahocorasick import Trie
         - has_all_spans
         - get_continue_arabic: 返回数字序列中连续的序列
         - get_continue_alpha: 返回字母序列中连续的单字母序列
-        - get_continues: 返回连续的数字序列和单字母序列
+        - get_continues: 返回连续的正、逆序数字和正、逆序单字母
 
     # class && private_class
         - SpanReplacement
@@ -72,8 +72,10 @@ class StringUtils:
     @staticmethod
     def has_continues(text, n=3, step=1):
         ret1 = StringUtils.get_continue_arabic(text, n, step)
+        reverse_ret1 = StringUtils.get_continue_arabic(text[::-1], n, step)
         ret2 = StringUtils.get_continue_alpha(text, n)
-        return ret1 + ret2
+        reverse_ret2 = StringUtils.get_continue_alpha(text[::-1], n)
+        return ret1 + reverse_ret1 + ret2 + reverse_ret2
 
     @staticmethod
     def get_continue_arabic(text, n=3, step=1):

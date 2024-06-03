@@ -10,6 +10,9 @@ shape.dims
 - 训练数据生成：[Dataset](data_fetch/Dataset.md)
 - 指定张量获取：[gather](), [where]()
 - 张量划分、联结：[split]()，[reshape]()
+    
+    > 多个embedding拼接：界定每个embedding的vocab_size，借助 `where` 方法通过`emb_size_m <= v emb_size_n`批次获取后通过MLP以解决不同大小的dim拼接
+
 【有道云笔记：索引与切片】split, gather, where
 #### 张量声明
 - 变量声明：get_variable
