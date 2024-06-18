@@ -22,6 +22,7 @@ nav:
       - 基本组件: 
         - Tokenizer: AI/Paper_Reading/Component/Tokenizer/index.md
         - Embedding:
+          - Token Embedding: AI/Paper_Reading/Component/Embedding/Token_Embedding/index.md
           - Position Embedding: AI/Paper_Reading/Component/Embedding/Position_Embedding/index.md
         - Normlization: AI/Paper_Reading/Component/Normalization/normalization.md
         - Optimizer: AI/Paper_Reading/Component/Optimizer/optimizer.md
