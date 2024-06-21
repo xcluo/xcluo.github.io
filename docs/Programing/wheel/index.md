@@ -191,7 +191,7 @@
         for part in text.split('\n'):
             # strip white spaces
             # if strip_white_space:
-            #    part = PunctuationUtils.strip_white_space(part, re)
+            #    part = PunctuationUtils.strip_white_space(part)
 
             cur_idx = 0
             while cur_idx < len(part):
