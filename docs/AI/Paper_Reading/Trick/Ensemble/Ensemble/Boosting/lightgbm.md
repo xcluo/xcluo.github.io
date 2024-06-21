@@ -205,6 +205,17 @@ def multual_infomation(a, b, c, d):
     return I_UC
 
 
+def jaccard(a, b, c, d):
+    """
+    jaccard = \frac{|A∩B|}{|A| + |B| - |A∩B|}
+    :param N11: a, 表示同时具有两种属性的个体数量
+    :param N10: b, 表示具有第一个属性但不具有第二个属性的个体数量
+    :param N01: c, 表示不具有第一个属性但具有第二个属性的个体数量
+    :param N00: d, 表示同时不具有这两种属性的个体数量
+    """
+    return a*1./(b + c)
+    
+
 def term_frequency(t_freq, doc_freq):
     return t_freq / (1. + doc_freq)
 
@@ -450,6 +461,6 @@ if __name__ == "__main__":
                 valid_sets=[valid_data],
                 init_model=model)
             model.save_model(
-                model_path + f"{N}-gram_{'-'.join(feature_types)}_model_{epoch}.txt")
+                model_path + f"{N}-gram_{'-'.join(feature_types)}_model_{epoch+1}.txt")
 
 ```

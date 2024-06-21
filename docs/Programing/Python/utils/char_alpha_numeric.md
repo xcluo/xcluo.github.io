@@ -2,6 +2,7 @@
 import unicodedata
 import codecs
 import string
+import numpy as np
 import json
 from zhon import hanzi
 import pypinyin
@@ -18,6 +19,8 @@ from ahocorasick import Trie
         - get_continue_arabic: 返回数字序列中连续的序列
         - get_continue_alpha: 返回字母序列中连续的单字母序列
         - get_continues: 返回连续的正、逆序数字和正、逆序单字母
+        - slice_text: 对长文本text进行切片处理
+
 
     # class && private_class
         - SpanReplacement
@@ -116,6 +119,31 @@ class StringUtils:
 
         ret = [seq for seq in sequences if len(seq) >= n]
         return ret
+
+    @staticmethod
+    def slice_text(text, slice_len=128, seps={'！', '？', '。'}, strip_white_space=False):
+        pieces = set()
+        if len(text) <= slice_len:
+            pieces.add(text)
+            return pieces
+        for part in text.split('\n'):
+            # strip white spaces
+            if strip_white_space:
+                part = PunctuationUtils.strip_white_space(part)
+
+            cur_idx = 0
+            while cur_idx < len(part):
+                if cur_idx + slice_len >= len(part):
+                    pieces.add(part[cur_idx:])
+                    cur_idx = len(part)
+                else:
+                    max_id = max([part.find(sep, cur_idx, cur_idx + slice_len) for sep in seps])
+                    if max_id == 0:
+                        max_id = cur_idx + slice_len
+                    pieces.add(part[cur_idx: max_id])
+                    cur_idx = max_id
+
+        return pieces
 
 
     class SpanReplacement:
@@ -451,6 +479,7 @@ class PyTokenizer:
         - is_half_arabic
         - is_full_arabic
         - is_arabic
+        - get_float_length: 返回浮点型变量小数点位数
 """
 
 
@@ -501,6 +530,12 @@ class NumericUtils:
     @staticmethod
     def is_arabic(c):
         return NumericUtils.is_half_arabic(c) or NumericUtils.is_full_arabic(c)
+
+    @staticmethod
+    def get_float_length(val):
+        val_str = np.format_float_positional(val, trim='-')
+        n = len(val_str.split('.')[-1])
+        return n
 
 
 ## PunctuationUtils ##

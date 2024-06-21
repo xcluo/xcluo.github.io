@@ -72,7 +72,7 @@
 
     ```
 
-#### 中日韩CJK字符
+#### CJK字符
 
 === "Python"
     ```python
@@ -144,10 +144,26 @@
 
 
 ### 文件处理
+#### 大数据量文件shuf
+=== "Bash"
+    ```bash
+    if [ $# != 1 ]; then
+        echo "ERROR: 需要指定shuf的文件名 file_name"
+        exit 1
+    fi
+    file_name=$1
+    split -l 1000000 ${file_name} ${file_name}_part_
+    for f in `ls ${file_name}_part_* | shuf`; do
+        shuf "$f" >> shuffled_${file_name}
+        rm $f
+    done
+    ```
+
+
 #### JSON文件去重
 
 === "Bash"
-    ```bash title="json内容去重"
+    ```bash
     # 1. 头尾分别插入[ 和 ]，每行插入分割符，形成一个list
     # 2. unique_by只在list中生效
     # 3. 自行指定`file_name` 和 `key_name`
@@ -155,21 +171,46 @@
     ```
 
 === "Python"
-    ```python title="json内容去重"
+    ```python
     import argparse
     import json
     from tqdm import tqdm
 
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('-f', '--file_name', type=str, required=True, help='var description')
+    parser.add_argument('-n', '--slice_len', type=int, required=True, help='sclie length, 0 means disable slice')
+    parser.add_argument('-f', '--file_name', type=str, required=True, help='the file name to be unified')
+
     args = parser.parse_args()  # 通过`args.var_name` 调用相应参数
+
+    def slice_text(text, slice_len=128, seps={'！', '？', '。'}, strip_white_space=False):
+        pieces = set()
+        if len(text) <= slice_len:
+            pieces.add(text)
+            return pieces
+        for part in text.split('\n'):
+            # strip white spaces
+            # if strip_white_space:
+            #    part = PunctuationUtils.strip_white_space(part, re)
+
+            cur_idx = 0
+            while cur_idx < len(part):
+                if cur_idx + slice_len >= len(part):
+                    pieces.add(part[cur_idx:])
+                    cur_idx = len(part)
+                else:
+                    max_id = max([part.find(sep, cur_idx, cur_idx + slice_len) for sep in seps]) + 1
+                    if max_id == 0:
+                        max_id = cur_idx + slice_len
+                    pieces.add(part[cur_idx: max_id])
+                    cur_idx = max_id
+        return pieces
 
 
     if __name__ == "__main__":
         dump_lines = set()
         with open(args.file_name, 'r', encoding='utf-8') as f, \
-                open('./unique_result.json', 'w', encoding='utf-8') as fout:
+                open(f'./{args.file_name}_unique_result.json', 'w', encoding='utf-8') as fout:
             for i, line in enumerate(tqdm(f), 1):
                 try:
                     line = json.loads(line)
@@ -177,16 +218,22 @@
                     print(line)
                     raise ValueError(f"{i}-th line")
                 cnt = line.get('content', line.get('c'))
-                if cnt in dump_lines:
-                    continue
-                dump_lines.add(cnt)
-                fout.write(json.dumps(line, ensure_ascii=False) + '\n')
-                fout.flush()
-                if len(dump_lines) >= 40000000:
-                    dump_lines.clear()
+                if args.slice_len:
+                    cnts = slice_text(cnt, args.slice_len)
+                else:
+                    cnts = {cnt}
+                
+                for cnt in cnts:
+                    if cnt in dump_lines:
+                        continue
+                    dump_lines.add(cnt)
+                    # text_piece 替代原文本
+                    line['c'] = cnt
+                    fout.write(json.dumps(line, ensure_ascii=False) + '\n')
+                    fout.flush()
+                    if len(dump_lines) >= 80000000:
+                        dump_lines.clear()
     ```
-
-
 
 
 ### 实用Bash组合命令
@@ -194,7 +241,7 @@
 ```bash title="批量kill python pids"
 # 1. 选择对应进行信息
 # 2. 选取进程信息的第二列(pid)进行批量kill
-kill `ps -ef | grep python | grep '<common_process_info>' | awk -F' ' '{print $2}'`
+kill `ps -ux | grep python | grep '<common_process_info>' | awk -F' ' '{print $2}'`
 ```
 
 #### 批量cat文件内容
