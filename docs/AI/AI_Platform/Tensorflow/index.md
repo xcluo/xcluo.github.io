@@ -1,4 +1,10 @@
-Tensorflow的功能是定义并初始化一个计算图，通过`sess.run()`来执行这个计算图。
+Tensorflow的功能是定义一个计算图，通过`sess.run()`来启动计算图得到输出结果。
+!!! info ""
+    计算接过前需要先提前对计算图参数进行初始化操作
+    ```python
+    sess.run(tf.global_variables_initializer())
+    sess.run(tf.local_variables_initializer())
+    ```
 
 #### 张量属性
 shape.as_list()
@@ -8,8 +14,8 @@ shape.dims
 
 #### 数据获取
 - 训练数据生成：[Dataset](data_fetch/Dataset.md)
-- 指定张量获取：[gather](), [where]()
-- 张量划分、联结：[split]()，[reshape]()
+- 切片：[gather](data_fetch/gather.md), [where](data_fetch/where.md)
+- 型操作：[squeeze](shape_operate/squeeze/#squeeze), [expand_dims](shape_operate/squeeze/#unsqueeze)；[split](shape_operate/split_concat/#split), [concat](shape_operate/split_concat/#concat)
     
     > 多个embedding拼接：界定每个embedding的vocab_size，借助 `where` 方法通过`emb_size_m <= v emb_size_n`批次获取后通过MLP以解决不同大小的dim拼接
 
