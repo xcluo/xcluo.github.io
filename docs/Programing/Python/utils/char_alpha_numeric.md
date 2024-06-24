@@ -349,11 +349,11 @@ class PyTokenizer:
             cur_idx = 0
             text_pinyin = " ".join(text_pinyin)
             for py_span in pinyin_list:
-                g = re.search(f'[^ ]{py_span}[ $]', text_pinyin)
+                g = re.search(f'(?:^| ){py_span}(?:$| )', text_pinyin)
                 if not g:
                     return False
                 cur_idx += g.end() + 1
-                text = text[g.end():]
+                text_pinyin = text_pinyin[g.end():]
             return True
         elif match_type == "fuzzy":
             text_pinyin = "".join(text_pinyin)
@@ -384,7 +384,7 @@ class PyTokenizer:
         elif match_type == "strict":
             text_pinyin = " ".join(text_pinyin)
             for py_span in pinyin_list:
-                g = re.search(f'[^ ]{py_span}[ $]', text_pinyin)
+                g = re.search(f'(?:^| ){py_span}(?:$| )', text_pinyin)
                 if not g:
                     return False
             return True
