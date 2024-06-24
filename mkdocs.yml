@@ -57,6 +57,7 @@ nav:
       - LFTP: Programing/FTP/LFTP/index.md
     - MATLAB: Programing/MATLAB/index.md
     - SQL: Programing/SQL/index.md
+    - 算法: Programing/Algorithm/index.md
     - 轮子: Programing/wheel/index.md
 
   - 软件:
