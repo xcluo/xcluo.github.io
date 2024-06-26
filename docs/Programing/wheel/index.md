@@ -152,9 +152,10 @@
         exit 1
     fi
     file_name=$1
-    split -l 1000000 ${file_name} ${file_name}_part_
+    split -l 100000 ${file_name} ${file_name}_part_
     for f in `ls ${file_name}_part_* | shuf`; do
-        shuf "$f" >> shuffled_${file_name}
+        # 划分成足够小的块无需再shuf
+        cat $f >> shuffled_${file_name}
         rm $f
     done
     ```
