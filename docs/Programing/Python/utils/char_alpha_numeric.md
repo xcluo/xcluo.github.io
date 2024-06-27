@@ -121,7 +121,7 @@ class StringUtils:
         return ret
 
     @staticmethod
-    def slice_text(text, slice_len=128, seps={'！', '？', '。'}, strip_white_space=False):
+    def slice_text(text, slice_len=128, seps={'！', '？', '。', '?', '!', '.'}, strip_white_space=False):
         pieces = set()
         if len(text) <= slice_len:
             pieces.add(text)
@@ -137,7 +137,8 @@ class StringUtils:
                     pieces.add(part[cur_idx:])
                     cur_idx = len(part)
                 else:
-                    max_id = max([part.find(sep, cur_idx, cur_idx + slice_len) for sep in seps])
+                    # 找到最右端的sep
+                    max_id = max([part.rfind(sep, cur_idx, cur_idx + slice_len) for sep in seps])
                     if max_id == 0:
                         max_id = cur_idx + slice_len
                     pieces.add(part[cur_idx: max_id])
