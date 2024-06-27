@@ -16,11 +16,11 @@
     <!-- <p class="admonition-title"></p> -->
     <ol>
         <li><a href="\AI\Paper_Reading\Trick\Multimodality_Fusion#sound-modality">sound_modality</a>：<span style="color:red;">为防止发散，最好只对汉字、数字和字母进行pinyin化，其他的字符用 <code>[Sound_PAD]</code> 和 <code>[Sound_UNK]</code> 统一表示</span></li>
+        <li> 由于 <code>pad_to_max_length</code> 是给所有短的部分用0填充（因此词表第一个词一般为[PAD]），为防止不同模态的[PAD]字符语义混淆，各模态的词表和embedding_table应互相独立</li>
         <li>shape_modality</li>
     </ol>
 </div>  
 
-- bpe-tokenization: 基于统计方法将单词划分为字词，更好地表述词的相关性
 
 
 

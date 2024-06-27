@@ -321,7 +321,7 @@ class FeatureMap:
         return csr_matrix(batch_sparse_vector)
 
 
-def read_batch_tokens(path, file_name, tokenize_type, N):
+def read_batch_tokens(path, file_name, tokenize_type, N, top_k=20000, feature_min_freq=10):
     batch_tokens = [[], []]
     with open(path + file_name, 'r', encoding='utf-8') as f:
         for i, line in enumerate(tqdm(f, desc=f'reading tokens file')):
@@ -332,7 +332,7 @@ def read_batch_tokens(path, file_name, tokenize_type, N):
             batch_tokens[lbl].append(get_ngram(tokens, N))
 
     # using positive samples to generate feature vocabulary
-    vocab = get_topk_features(batch_tokens[1])
+    vocab = get_topk_features(batch_tokens[1], feature_top_k=top_k, feature_min_freq=feature_min_freq)
     token2id = {x: i for i, x in enumerate(vocab)}
     return batch_tokens, token2id
 
@@ -348,7 +348,8 @@ if __name__ == "__main__":
     token_file_name = 'train.json'
 
     for tokenize_type in tokenize_types:
-        batch_tokens, token2id = read_batch_tokens(token_path, token_file_name, tokenize_type, N)
+        batch_tokens, token2id = read_batch_tokens(token_path, token_file_name, tokenize_type, N,
+                                                   top_k=top_k, feature_min_freq=min_freq)
 
         for feature_type in feature_types:
             feature = select_features(batch_tokens, token2id, feature_type)
@@ -445,7 +446,7 @@ if __name__ == "__main__":
             y_trains = train_labels
             # 数据集.
 
-            valid_samples = random.sample(valid_data_set, k=500)
+            valid_samples = random.sample(valid_data_set, k=n_valid)
             valid_tokens = [sample[1:] for sample in valid_samples]
             x_valids = feature_map.build_sparse_vector(valid_tokens)
             y_valids = [sample[0] for sample in valid_samples]

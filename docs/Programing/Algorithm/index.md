@@ -92,7 +92,7 @@
 4. 重复step 2直到 `T==∅`
 
 !!! info ""
-    - 与`dijkstra`的差别在于后者是dp算法，传递因子是到`start_node`的最短距离，该方法是新边`e`到子图的最短距离
+    - 与`dijkstra`区别在于后者是dp算法，传递因子是到`start_node`的最短距离，该方法是新边`e`到子图的最短距离
 
 #### Kruskal
 
