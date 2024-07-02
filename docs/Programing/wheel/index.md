@@ -184,28 +184,22 @@
 
     args = parser.parse_args()  # 通过`args.var_name` 调用相应参数
 
-    def slice_text(text, slice_len=128, seps={'！', '？', '。', '?', '!', '.'}, strip_white_space=False):
+    def slice_text(text, slice_len=128, seps={'\n', '！', '？', '。', '?', '!', '.'}):
         pieces = set()
-        if len(text) <= slice_len:
-            pieces.add(text)
-            return pieces
-        for part in text.split('\n'):
-            # strip white spaces
-            # if strip_white_space:
-            #    part = PunctuationUtils.strip_white_space(part)
+        pre_idx = 0         # left_idx
 
-            cur_idx = 0
-            while cur_idx < len(part):
-                if cur_idx + slice_len >= len(part):
-                    pieces.add(part[cur_idx:])
-                    cur_idx = len(part)
-                else:
-                    # 找到最右端的sep
-                    max_id = max([part.rfind(sep, cur_idx, cur_idx + slice_len) for sep in seps]) + 1
-                    if max_id == 0:
-                        max_id = cur_idx + slice_len
-                    pieces.add(part[cur_idx: max_id])
-                    cur_idx = max_id
+        while pre_idx < len(text):
+            # rfind返回text中的真实idx
+            sep_idx = max([text.rfind(sep, pre_idx, pre_idx + slice_len) for sep in seps])
+
+            if sep_idx == -1 or pre_idx + slice_len >= len(text):
+                part = text[pre_idx: pre_idx+slice_len]
+                pre_idx += slice_len
+            else:
+                part = text[pre_idx: sep_idx+1]
+                pre_idx = sep_idx + 1
+
+            pieces.add(part)
         return pieces
 
 
