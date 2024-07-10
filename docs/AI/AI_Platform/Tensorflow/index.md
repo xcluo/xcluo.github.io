@@ -10,7 +10,6 @@ Tensorflow的功能是定义一个计算图，通过`sess.run()`来启动计算�
 shape.as_list()
 shape.ndims
 shape.dims
-@property
 
 #### 数据获取
 - 训练数据生成：[Dataset](data_fetch/Dataset.md)
