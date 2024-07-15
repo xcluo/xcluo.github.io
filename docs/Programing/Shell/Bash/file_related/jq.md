@@ -11,7 +11,7 @@
 ### 使用方法
 `jq [options] filter [file]`
 
-#### `options`选项
+#### `options` 选项
 - `-c/--compact-output`：紧凑输出，即把一个JSON对象输出在一行
 > 通过紧凑输出处理的行中，取消了键与值之间的空格，即 `"key":"value"`
 #### `filter` 过滤器
@@ -19,42 +19,56 @@
 - `.`：获取当前对象
 - `[]`：获取整个数组，支持切片
 - `select(condition)`：过滤条件
-  
-```bash
-# {"c", "xxx”, "logits": [xxx, ...], "prob": [xxx]}
 
-# 1. `jq`类似于 `json.loads`, `jq .prob` 得到一个字符串，仍需进一步 `jq` 处理
-jq .prob | jq .[]
-# 2. 直接访问，推荐使用此方法
-jq .prob[]
+#### `filter` 实用命令
+
+1. 键值选取、组合
+```bash
+# {"c", "xxx”, "logits": [xxx, ...], "prob": [xxx, xxx]}
+
+# 数据访问
+jq -c .prob | jq .[]                    # 逐层操作，获取list: [prob_1, ..., prob_n]
+jq -c .prob[]                           # 直接解析，获取n行prob
+
+# 数值修改
+jq -c '.name="luo"'                     # 将键name的值修改为 "luo"
+jq -c '.name=.name+"luo"'               # 将键name的值在结尾新增 "luo"
+
 
 # 数据重组
 jq '[.a, .b]'
 jq '{"content": .c}'
+```
 
-# 过滤概率大于0.5的行
-jq select(.prob[2] > 0.5)
+2. 数值选择
+```bash
+jq -c select(.prob[2] > 0.5)             # 选择概率大于0.5的行
+jq -c 'select(.c | tostring | length > 10)'
+                                         # 将数字转化为字符串形式再比较
+```
 
-# 过滤概率大于0.5的行，并新增或修改name键对应的值位"luo"
-jq select(.prob[2] > 0.5) | jq '.name "luo"'
+3. 字符操作
+```bash
+# 字符串匹配
+jq -c 'select(.c == "lxc")'              # 完全匹配
+jq -c 'select(.c | contains("lxc"))'     # 部分匹配
 
-# 过滤内容c长度大于200的行 （管道符不限制段数）
-jq -c 'select(.c | length > 200)'        # 保留整个行
-jq -c '.c | select(length > 200)'        # 仅保留字段c对应的值
+jq -c 'select(.c | length > 200)'        # 选择数据中字段c长度大于200的行
+jq -c '.c | select(length > 200)'        # 选择字段c长度大于200的字段
 jq -c 'select(.c | length > 200) | .c'   # 等价于↑
+jq -c 'select(.c | tonumber > 100)'      # 将字符串转化为数字形式再比较（要求能够表示为数字）
+```
 
-
+4. 与其它命令组合操作
+```bash
 # 通过`paste`和`awk`命令将 raw_content 与 prob 结果合并为一个数组
 # + 过滤相应标签概率大于0.5的行
 # + 最终JSON对象单行输出
 paste test1.txt result1.txt | awk -F '\t' '{print "[" $1 ", "$2 "]" }' | jq -c 'select(.[1].prob[1] > 0.5)'
 
-# {"c": "hello world", "s": "0.95"}
-# float(.s) > 0.92 and length(.c) > 10
+# 多条件过滤 and/or
 jq -c 'select((.s | tonumber > 0.92) and (.c | length > 10))'
 
-
-# [{"c": "xxx", "l": "x"}, {"c": "xxx", "l": "x"}]
 
 # unique_by(.file_name) 适用于单个json list的关键字去重
 # 去重 + 并选择内容长度处于 (0, 200] 区间的样本
