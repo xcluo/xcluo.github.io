@@ -19,10 +19,22 @@ threading.TIMEOUT_MAX
 ```
 
 #### `threading.Thread`
-1. 方法
-    - `run`：线程运行的函数体
-    - `start`：启动线程 (由于设置了flag, 只能启动一次)
-    - `join(timeout=None)` 以queue的形式让调用它的线程等待另一个线程运行结束后再执行（串行运行而不是并发运行）
-    - `name`：线程名
-    - `ident`：线程id
-    - `daemon`
+```python
+def __init__(
+    self, 
+    group=None, 
+    target=None,    # 调用的对象，线程执行的任务 
+    name=None,      # 线程名字
+    args=(),        # 调用对象的位置参数元组
+    kwargs=None,    # 调用对象的关键字参数字典
+    *, 
+    daemon=None     # bool, 是否为守护线程
+    )
+```
+
+- `start`：启动线程 (由于设置了flag, 该方法只能启动一次)，调用`run` 方法
+- `run`：线程运行的函数体
+- `join(timeout=None)` 以queue的形式让调用它的线程等待另一个线程运行结束后再执行（串行运行而不是并发运行）
+- `name`：线程名
+- `ident`：线程id
+- `daemon`

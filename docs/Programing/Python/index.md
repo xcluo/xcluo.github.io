@@ -21,6 +21,8 @@
 #### 功能类
 
 - [`threading`](libs/threading)：多线程
+- [`multiprocessing`](libs/multiprocessing)：多进程
+- [`asyncio`](libs/asyn_programing/#asyncio)、[`concurrent.futures`](libs/asyn_programing/#concurrent.futures)：异步变成
 - [`tqdm`](libs/tqdm)：Iterable的遍历进度显示库
 - [`os`](libs/os)：提供一些方便使用操作系统相关功能的函数
 - [`sys`](libs/sys)：提供一些方便Python解释器
