@@ -20,17 +20,13 @@
 
 #### 功能类
 
-- [`threading`](libs/threading)：多线程
-- [`multiprocessing`](libs/multiprocessing)：多进程
-- [`asyncio`](libs/asyn_programing/#asyncio)、[`concurrent.futures`](libs/asyn_programing/#concurrent.futures)：异步变成
-- [`tqdm`](libs/tqdm)：Iterable的遍历进度显示库
+- [`threading`](libs/concurrent_programming/#threading)、[`multiprocessing`](libs/concurrent_programming/#multiprocessing)、[`asyncio`](libs/concurrent_programming/#asyncio)、[`concurrent.futures`](libs/concurrent_programming/#concurrent.futures)：并发编程（多线程，多进程，异步编程）
+- [`functools`](libs/functools)：提供一些高阶函数
 - [`os`](libs/os)：提供一些方便使用操作系统相关功能的函数
 - [`sys`](libs/sys)：提供一些方便Python解释器
+- [`argparse`](libs/argparser/#argparse)、[`tf.flags`](libs/argparser/#tfflags)：接受从终端传入的命令行参数
+- [`tqdm`](libs/tqdm)：Iterable的遍历进度显示库
 
-#### 参数传递
-
-- [`argparse`](libs/argparser/#argparse)：用于命令项选项与参数解析的模块
-- [`tf.flags`](libs/argparser/#tfflags)：用于接受从终端传入的命令行参数
 
 #### 统计、绘图
 
