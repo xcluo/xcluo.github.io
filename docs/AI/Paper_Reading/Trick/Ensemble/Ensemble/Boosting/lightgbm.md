@@ -41,6 +41,16 @@ import os
 import json
 
 
+def uni_label(label):
+    raise Exception("组要自定义uni_label函数")
+    if label in {'0', 'normal', 'other'}:
+        return 0
+    elif label in {'1', '2', '3'} or 'tag_' in label:
+        return 1
+    else:
+        raise ValueError
+
+
 def read_dataset(path, file_name):
     ret = []
     n0, n1 = 0, 0
@@ -48,7 +58,7 @@ def read_dataset(path, file_name):
         for line in tqdm(f, desc="reading total dataset"):
             line = json.loads(line)
             cnt = line.get('content')
-            lbl = int(line.get('label', "0"))
+            lbl = uni_label(line.get('label'))
             ret.append({'label': lbl, 'content': cnt})
             if lbl == 1:
                 n1 += 1
