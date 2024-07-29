@@ -3,18 +3,32 @@
 ### tokenization
 [`FullTokenizer`](https://github.com/google-research/bert/blob/master/tokenization.py#L161C11-L161C11)插入`special_token`
 
-1. variety_span
+1. variety_span_replace
 2. 特殊字符切换为已经替换的某个token作为`relay_token`（`relay_token`为单字符unicode且左右各增加一个空格以确保整体分词为`relay_token`，而不是`##relay_token`）
 3. tokenize
 4. tokenized tokens还原，即`relay_token` → map → `target_token`
-  > 可不recover，直接用该token表示特殊语义
+  > recover环节不是必需的，可直接用该token表示特殊语义
 !!! info 
     - 每种功能的`special_token`尽可能独立，比如`[SPACE]` 不和 `[PAD]`、`[SEP]`共用
+    - 序列各部分划分token + 逐级拆分token，"六月四ri" -> `[六, 月, 四, ri]`而不是`[六, 月, 四, r, i]`
+    ```python                 
+      # 1. _tokenize_chinese_chars
+      # 2. whitespace_tokenize
+      # 3. _run_split_on_punc
+      # 4. 先token-level，再char-level
+      for token in above_token_seq:
+        if token in vocab:
+          output_tokens.append(token)
+        else:
+          for c in vocab:
+            output_tokens.append(c if c in vocab else unk_token)
+    ```
 
 
 ### FullTokenizer优化
 
-#### 去除声调上下标
+#### 谨慎使用声调上下标去除函数
+该方法会将一些字符进一步分解，可能导致碎片过多
 ```python title="BasicTokenizer._run_strip_accents"
 # 去除字符声调 "ā á ǎ à"   -> "a a a a"
 def _run_strip_accents(text):

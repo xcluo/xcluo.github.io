@@ -46,7 +46,7 @@ import pickle as pkl
 
 # 文件读写
 def pkl.load(
-    file,                          # open(<file_name>, model='rb')
+    file,                          # open(<file_name>, mode='rb')
     fix_imports=True,
     encoding="ASCII",
     errors="strict",
@@ -55,7 +55,7 @@ def pkl.load(
 # 文件写入
 def pkl.dump(
     obj,                           # 待写入的对象，可以是任何可序列化的对象，无需手动转化为`str`类型
-    file,                          # open(<file_name>, model='wb')
+    file,                          # open(<file_name>, mode='wb')
     protocol=None,
     fix_imports=True,
 )
