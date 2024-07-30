@@ -77,7 +77,7 @@ print(x)                        # 3*6000 = 18000
 - `set`：置为enable
 - `clear`：置为disable
 - `wait(timeout=None)`：等待event状态为enable
-
+1
 ```python
 event = threading.Event()
 
