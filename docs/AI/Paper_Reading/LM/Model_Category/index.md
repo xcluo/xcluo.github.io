@@ -58,6 +58,8 @@ AE模型虽然能够学习到输入内容的representation，但是其各自的�
 
 > https://arxiv.org/pdf/1312.6114v10
 
+- [VAE in nlp](VAE/VAE_in_nlp.md)
+
 #### CVAE
 VAE存在一个问题，即无法指定**生成**指定的目标，因此就产生了条件变分自编码器Conditional Variational Auto-Encoder，其encoder和decoder有额外的输入——标签 $one\_hot\_y$
 
