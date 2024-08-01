@@ -1,5 +1,6 @@
 ### Vanilla VAE in nlp
-> 论文：[Generating Sentences from a Continuous Space](pdf/vanilla_vae.pdf)
+> 论文：[Generating Sentences from a Continuous Space](pdf/vanilla_vae.pdf)  
+> Google Brain, CoNLL, 2016
 
 #### 模型架构
 <div class="one-image-container">
@@ -50,8 +51,9 @@
 由interpolation现象可知，传统AE模型生成句向量过于尖锐与离散，而VAE生成的句向量更加平滑且更保留更多的语法、主题以及句法特征信息。
 
 ### Optimus
-> 论文：[OPTIMUS: Organizing Sentences via Pre-trained Modeling of a Latent Space](pdf/OPTIMUS.pdf)
-**O**rganizing sentences via **P**re-**T**ra**i**ned **M**odeling of a **U**niversal **S**pace
+> 论文：[OPTIMUS: Organizing Sentences via Pre-trained Modeling of a Latent Space](pdf/OPTIMUS.pdf)  
+> **O**rganizing sentences via **P**re-**T**ra**i**ned **M**odeling of a **U**niversal **S**pace  
+> MSR, EMNLP 2020
 #### 模型架构
 
 <div class="one-image-container">
@@ -111,7 +113,8 @@ OPTIMUS在句子风格迁移改写任务中效果表现优越
 OPTIMUS在内容主体单复数、长短句、相似语言等交织效果表现出平滑的效果
 
 ### BN-VAE
-> 论文：[A Batch Normalized Inference Network Keeps the KL Vanishing Away](pdf/BN-VAE.pdf)
+> 论文：[A Batch Normalized Inference Network Keeps the KL Vanishing Away](pdf/BN-VAE.pdf)  
+> Tencent AI, ACL, 2020
 
 #### 模型架构
 <div class="one-image-container">
@@ -126,7 +129,8 @@ OPTIMUS在内容主体单复数、长短句、相似语言等交织效果表现�
 <div class="one-image-container">
     <img src="\AI\Paper_Reading\LM\Model_Category\VAE\image\BN-VAE_KL.png" style="width: 40%;">
 
-    <img src="\AI\Paper_Reading\LM\Model_Category\VAE\image\BN-VAE_KL_expectation_lower_bound.png" style="width: 60%;">
+    </br>
+    <img src="\AI\Paper_Reading\LM\Model_Category\VAE\image\BN-VAE_KL_expectation_lower_bound.png" style="width: 35%;">
 </div>
 
 最低下限受dimension $n$和均值$\mu$的影响，前者超参固定，后者可通过batch norm $\mu \in \mathbb{R}^n$ 进行约束【即使在NLP任务中，也不受(padded_)seq维度影响】
