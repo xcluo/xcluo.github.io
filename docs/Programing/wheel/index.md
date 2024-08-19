@@ -158,6 +158,8 @@
         cat $f >> shuffled_${file_name}
         rm $f
     done
+    mv shuffled_${file_name} ${file_name}
+    # python -u a.py -f ${file_name} -n 0 > log 2>&1 &
     ```
 
 

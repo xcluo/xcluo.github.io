@@ -157,7 +157,8 @@ decoder.
 </div>
 
 ### CEVE
-> 论文：[Contrastive Deterministic Autoencoders For Language Modeling](pdf/CEVE.pdf)
+> 论文：[Contrastive Deterministic Autoencoders For Language Modeling](pdf/CEVE.pdf)  
+> EMNLP, 2023
 
 #### 模型架构
 <div class="one-image-container">
