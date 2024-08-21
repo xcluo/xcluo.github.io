@@ -35,13 +35,62 @@ def fun_1(self, arg, *args):
 
 ### 魔法方法
 
-#### 变量访存、删除
+#### 对象相关
+1. `__new__`，创建类对象，为静态方法，^^需要返回创建的对象^^，若未重写自动调用父类该方法
+    ```python
+    def __new__(cls, *args, **kwargs):  # *args和**kwargs等同于`__init__`对应的形参
+        x = super().__new__(cls)
+        # x = super(Clazz, cls).__new__(cls) # 基于静态方法特性，等同于上述写法
+        return x                        # 返回的 `x` 即为其余方法的形参 `self` 
+    ```
+2. `__init__`，初始化创建的对象
+    ```python
+    def __init__(self, *args, **kwargs)
+    ```
 
-```python
 
-```
+5. `__del__`，析构函数
+    ```python
+    def __del__(self):
+        # 将对象从内存中销毁
+        '''                   
+        # 此时无法调用open函数写出数据，如需完成结果写出，可通过一下方法
+        import atexit
 
-#### 变量声明、删除
+        # in __init__
+        atexit.register(<exit_function_name>)   # 在对象结束前完成结果写出
+        '''
+    ```
+
+3. `__enter__`，与 `__exit__` 搭配，enable被 `with` 语句调用
+    ```python
+    def __enter__(self):
+        self.file = open(self.file_name, self.mode)
+        return self.file
+    ```
+4. `__exit__`，与 `__enter__` 搭配，enable被 `with` 语句调用
+    ```python
+    # 完成在`__enter__`方法中对应内容的关闭
+    def __exit__(self, 
+                 exc_type,      # exit_type 
+                 exc_val,       # exit_vaule
+                 exc_tb):       # exit_traceback
+        self.file.close()
+    ```
+5. `__str__`，使用 `str`、`print` 以及 `format` 函数时调用的方法
+6. `__repr__`，使用 `repr` 函数时调用的方法
+    ```python
+    # 调用优先级为 `__str__ -> __repr__`
+    def __str__(self) -> str:
+    # 调用优先级为 `__repr__`
+    def __repr__(self) -> str:
+    ```
+7. `__call__`，直接使用 `object_name()` 时调用
+    ```python         
+    def __call__(self, *args, **kwargs)
+    ```
+
+#### 变量相关
 
 ```python
 def __getattribute__(self, attr_name)
@@ -60,18 +109,9 @@ def __delete__(sefl, instance)
 __bool__
 __int__
 __float__
-__str__
-__repr__
 __format__
 ```
 
-```python
-def __init__(self, *args, **kwargs)
-def __new__(cls, *args, **kwargs)
-def __call__(self, *args, **kwargs)
-def __enter__()
-def __exit__(self, *args, **kwargs)
-```
 
 #### 容器相关
 
