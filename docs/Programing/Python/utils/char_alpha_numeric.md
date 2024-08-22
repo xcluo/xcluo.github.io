@@ -20,6 +20,9 @@ from ahocorasick import Trie
         - get_continue_alpha: 返回字母序列中连续的单字母序列
         - get_continues: 返回连续的正、逆序数字和正、逆序单字母
         - slice_text: 对长文本text进行切片处理
+        - is_chinese
+        - is_japanese
+        - is_korean
 
 
     # class && private_class
@@ -139,6 +142,37 @@ class StringUtils:
 
             pieces.add(part)
         return pieces
+
+    @staticmethod
+    def is_chinese(cp):
+        if (cp >= 0x4E00 and cp <= 0x9FFF) \
+            or (cp >= 0x3400 and cp <= 0x4DBF) \
+            or (cp >= 0x20000 and cp <= 0x2A6DF) \
+            or (cp >= 0x2A700 and cp <= 0x2B73F) \
+            or (cp >= 0x2B740 and cp <= 0x2B81F) \
+            or (cp >= 0x2B820 and cp <= 0x2CEAF) \
+            or (cp >= 0xF900 and cp <= 0xFAFF) \
+            or (cp >= 0x2F800 and cp <= 0x2FA1F):
+            return True
+        return False
+
+    @staticmethod
+    def is_japanese(cp):
+        if (0x3000 <= cp and cp <= 0x303f
+            or 0x3040 <= cp and cp <= 0x309f
+            or 0x30a0 <= cp and cp <= 0x30ff):
+            return True
+        return False
+
+    @staticmethod
+    def is_korean(cp):
+        if (0x1100 <= cp and cp <= 0x11ff
+            or 0x3130 <= cp and cp <= 0x318f
+            or 0xac00 <= cp and cp <= 0xd7af
+            or 0xa960 <= cp and cp <= 0xa97f
+            or 0xd7b0 <= cp and cp <= 0xd7ff):
+            return True
+        return False
 
 
     class SpanReplacement:

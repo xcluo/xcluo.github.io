@@ -31,7 +31,13 @@ def fun_1(self, arg, *args):
 
 ### 魔法属性
 
-`__dict__`、`__slots__`、`__weakref__`、`__class__`
+1. `__dict__`，`dict`类型，用于存放对象的属性和对应的值
+2. `__slots__`，`Option[str, tuple, list, set]`，用于限定对象最大的属性集合，减少内存消耗,提升属性访问速度
+```python
+class a:
+    __slots__ = ['x', 'y']
+```
+1. `__class__`，`class`类型，包含对象所属类信息
 
 ### 魔法方法
 
@@ -90,16 +96,40 @@ def fun_1(self, arg, *args):
     def __call__(self, *args, **kwargs)
     ```
 
+8. `__dir__`，返回对象拥有的所有(包括魔法)方法和(包括魔法)属性
+> 此时函数 `dir` 将调用该方法
+
 #### 变量相关
 
+1. `__getattribute__`、`__getattr__`，访问类属性时自动调用
 ```python
-def __getattribute__(self, attr_name)
-def __setattribute__(self, attr_name, value)
+# 作用为属性访问拦截(对部分不想暴露的属性访问进行拦截)
+# 调用优先级为 `__getattribute__ -> __getattr__`
+def __getattribute__(self, *args, **kwargs):
+    '''
+    if args or kwargs condition:
+        ...
+    else:
+        return object.__getattribute__(self, *args, **kwargs)
+    '''
+# 访问一个不存在的属性时(已有时不会调用)，会由该方法抛出异常
+# 调用优先级为 `__getattr__`
+def __getattr__(self, key)
+```
+1. `__setattr__`，对类属性进行赋值时自动调用
+```python
+def __setattr__(self, key, value):
+    self.__dict__[key] = value
+```
+1. `__delattr__`，删除相应的类属性
+```python
+# 不能在`__delattr__`中使用del进行删除，否则会无限循环调用以致饿死
+def __delattr__(self, key):
+    self.__dict__.pop(key)
+    # super().__dict__(key)
+```
 
-def __getattr__(self, attr_name)
-def __setattr__(self, attr_name, value)
-def __delattr__(self, attr_name)
-
+```
 def __get__(self, instance, owner)
 def __set__(sefl, instance, value)
 def __delete__(sefl, instance)

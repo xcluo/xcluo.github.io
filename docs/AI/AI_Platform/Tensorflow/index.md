@@ -24,18 +24,8 @@ shape.dims
 - 随机数声明：[initializer]()
 
 #### 参数调度策略
-- 学习率调度：[learning_rate_schedule]()、[warm_up]()
-    ```python
-    is_warmup = tf.cast(global_steps_int < warmup_steps_int, tf.float32)
-    learning_rate = ((1.0 - is_warmup) * learning_rate + is_warmup * warmup_learning_rate)
-    optimizer = tf.train.AdamOptimizer(learning_rate)
-    tvars = tf.trainable_variables()
-    grads = tf.gradients(loss, tvars)
-    (grads, _) = tf.clip_by_global_norm(grads, clip_norm=1.0)
-    train_op = optimizer.apply_gradients(list(zip(grads, tvars)), global_step=global_step)
-
-    sess.run(train_op)
-    ```
+- 学习率调度：[lr_schedule](schedule/lr_related.md)、[warm_up]()
+    
 - 扩散模型β调度：[beta_schedule]()
 
 1. 初始化variable
