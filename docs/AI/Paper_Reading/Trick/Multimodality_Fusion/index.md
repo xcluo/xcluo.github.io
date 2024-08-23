@@ -1,3 +1,5 @@
+**相同模态的不同源embedding拼接：效果不佳，且若在不同dim需对齐的情况下容易坍塌，不如直接learn from scratch**
+
 ## Modality Fusion
 train
 
