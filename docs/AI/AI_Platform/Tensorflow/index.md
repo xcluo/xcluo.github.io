@@ -6,10 +6,9 @@ Tensorflow的功能是定义一个计算图，通过`sess.run()`来启动计算�
     sess.run(tf.local_variables_initializer())
     ```
 
-#### 张量属性
-shape.as_list()  
-shape.ndims  
-shape.dims  
+#### 张量类
+- [TensorShape](tensor_related/tensor_class/#tensorshape)
+
 
 #### 数据获取
 - 训练数据生成：[Dataset](data_fetch/Dataset.md)
@@ -19,9 +18,9 @@ shape.dims
 【有道云笔记：索引与切片】split, gather, where
 
 #### 张量声明
-- 变量声明：[get_variable](tensor_related/declaration)、[Variable]()
-- embedding相关
-- 随机初始化：[initializer]()
+- 变量声明：[placeholder](tensor_related/declaration/#placeholder)、[get_variable](tensor_related/declaration/#get_variable)、[Variable](tensor_related/declaration/#variable)
+- embedding相关：[embedding](tensor_related/declaration/#embedding)
+- 初始化：[initializer](tensor_related/declaration/#initializer)
 
 #### 参数调度策略
 - 梯度更新：[gradient_update](schedule/gradient_update.md)、[gradient clipping](schedule/gradient_update/#gradient-clipping)
@@ -29,6 +28,8 @@ shape.dims
 - 优化器：[optimizer](schedule/gradient_update/#optimizer)
 - 扩散模型β调度：[beta_schedule]()
 
+#### 网络层相关
 
+#### 图形相关
 
-
+- 执行计算结果：[run]()
