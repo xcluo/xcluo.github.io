@@ -1,7 +1,7 @@
 #### 多模态融合
 - [token](Multimodality_Fusion/token_modality.md)
 - [sound](Multimodality_Fusion/sound_modality.md)
-- [shape]((Multimodality_Fusion/shape_modality.md))
+- [shape](Multimodality_Fusion/shape_modality.md)
 - [fusion](Multimodality_Fusion/modality_fusion.md)
 
 #### 多任务学习
