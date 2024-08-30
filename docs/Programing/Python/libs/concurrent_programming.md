@@ -1,7 +1,9 @@
 
-
+1. threading：多线程串行，可通过`global`直接共享全局变量
+2. multiprocessing：多进程并行
 
 ### threading
+
 #### threading函数
 ```python
 # 返回主线程
@@ -38,6 +40,11 @@ def __init__(
 - `start`：启动线程 (由于设置了flag, 该方法只能启动一次)，调用`run` 方法
 - `run`：线程运行的函数体（运行传入的调用对象或继承类`Thread`重写方法run）
 - `join(timeout=None)` 等待线程执行完再结束主线程
+    - 一般统一`start`，再统一`join`，否则`start`和`join`穿插就是正常的串行
+    ```python
+    [t.start() for t in threads]
+    [t.join() for t in threads]
+    ```
 - `name`：线程名
 - `ident`：线程id
 - `daemon`
@@ -105,7 +112,6 @@ event_main()        # 学生1等监考老师发卷
                     # 学生2开始考试了
 ```
 ### multiprocessing
-
 #### porcessinng.Process
 ```python
 def __init__(
@@ -123,6 +129,11 @@ def __init__(
 - `start`：启动进程，调用`run`方法
 - `run`：进程运行的函数体
 - `join(timeout=None)`：等待进程执行完再结束主进程
+    - 一般统一`start`，再统一`join`，否则`start`和`join`穿插就是正常的串行
+    ```python
+    [p.start() for p in processes]
+    [p.join() for p in processes]
+    ```
 - `terminate`：强制终止进程，不进行清理操作，且其子进程可能会变成僵尸进程
 - `kill`：同`terminate`
 - `close`：关闭进程对象，并清理资源，如果进程仍在运行则返回错误

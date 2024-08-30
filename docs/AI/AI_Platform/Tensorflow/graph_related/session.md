@@ -1,4 +1,5 @@
 #### tf.Session
+主要用于执行网络。所有关于神经网络的计算都在这里进行，它执行的依据是计算图或者计算图的一部分，同时，会话也会负责分配计算资源和变量存放，以及维护执行过程中的变量。
 ```python
 def __init__(self,
     target='',
@@ -6,10 +7,6 @@ def __init__(self,
     config=None):           # tf.ConfigProto，设置session的各种配置选项
 ```
 
-#### tf.Graph
-
-- `tf.GraphKeys`
-- `tf.get_default_graph()._collections`
 
 #### tf.ConfigProto
 https://www.tensorflow.org/code/tensorflow/core/protobuf/config.proto

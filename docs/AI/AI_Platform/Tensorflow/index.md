@@ -1,4 +1,4 @@
-Tensorflow的功能是定义一个计算图，通过`sess.run()`来启动计算图得到输出结果。
+Tensorflow的功能是定义一个计算图Graph，通过`sess.run()`来启动计算图得到结果。
 !!! info ""
     计算接过前需要先提前对计算图参数进行初始化操作
     ```python
@@ -6,8 +6,11 @@ Tensorflow的功能是定义一个计算图，通过`sess.run()`来启动计算�
     sess.run(tf.local_variables_initializer())
     ```
 
-#### 张量类
-- [TensorShape](tensor_related/tensor_class/#tensorshape)
+#### 图相关
+- 计算图：[Graph](graph_related/ops/graph.md)
+    - 张量：[Tensor](graph_related/ops/tensor.md)
+    - 节点：[Operation](graph_related/ops/operation.md)
+- 会话：[Session](graph_related/session.md)
 
 
 #### 数据获取
@@ -30,6 +33,3 @@ Tensorflow的功能是定义一个计算图，通过`sess.run()`来启动计算�
 
 #### 网络层相关
 
-#### 图形相关
-
-- 执行计算结果：[run](graph_related/session.md)
