@@ -30,4 +30,5 @@
       - 又能保留各模态作为优化目标，即$\sum \mathcal{L}(output_{modality_i})$
 
 !!! info
-    最好是进行`concat`操作而不是<span style="color:red;">简单的线性相加</span>，后者<span style="color:red;">会随着非线性操作的增加而模糊各模态的特征区别导致发散</span>。
+    1. 最好进行`concat`操作而不是<span style="color:red;">简单的线性相加</span>，后者<span style="color:red;">会随着非线性操作的增加而模糊各模态的特征区别导致发散</span>。
+    2. 对于直接训练<span style="color:red;">小模型，训练数据较少</span>情况下不宜增加<span style="color:red;">过多trick（如多层cnn+dropout），容易导致发散</span>。
