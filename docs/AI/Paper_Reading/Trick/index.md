@@ -14,12 +14,9 @@
 - Bagging
 - Staking
 - MoE
-
-
-#### 自编码器
 - [dropout](AutoEncoder/Dropout/dropout.md)
-- DAE
-- VAE
+- [DAE](AutoEncoder/DAE/dae.md)
+- [VAE](AutoEncoder/VAE/vae.md)
 
 #### 模型蒸馏
 - [distillation](Distillation/index.md)
