@@ -1,4 +1,7 @@
 
+### tf.Tensor
+
+
 #### TensorShape
 ```python
 var.shape.as_list()     # list[int], list values of each dimension

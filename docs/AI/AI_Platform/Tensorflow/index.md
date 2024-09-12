@@ -8,7 +8,7 @@ Tensorflow的功能是定义一个计算图Graph，通过`sess.run()`来启动�
 
 #### 图相关
 - 计算图：[Graph](graph_related/ops/graph.md)
-    - 张量：[Tensor](graph_related/ops/tensor.md)
+    - 边：[Tensor](graph_related/ops/tensor.md)
     - 节点：[Operation](graph_related/ops/operation.md)
 - 会话：[Session](graph_related/session.md)
 
