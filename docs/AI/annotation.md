@@ -1,14 +1,14 @@
 ###A
-- **AE**：**A**uto **E**ncoder
-- **AR**：**A**uto **R**egressive
+- **AE**：**A**uto-**E**ncoder，自编码器
+- **AR**：**A**uto **R**egressive，自回归
 
 ###B
-- **BSR**：**B**lind image **S**uper-**R**esolution
+- **BSR**：**B**lind image **S**uper-**R**esolution，图像盲超分辨率
 
 ###C
 
 ###D
-- **DAE**：
+- **DAE**：**D**enoise **A**uto-**E**ncoder，去噪自编码器
 - **DDIM**：**D**enoising **D**iffusion **I**mplicit **M**odel，去噪扩散隐式模型
 - **DDPM**：**D**enoising **D**iffusion **P**robabilistic **M**odel，去噪扩散概率模型
 
@@ -48,7 +48,7 @@
 ###U
 
 ###V
-- **VAE**：Variational Auto-Encoder，变分自编码器
+- **VAE**：**V**ariational **A**uto-**E**ncoder，变分自编码器
 - **VQVAE**
 
 ###W
