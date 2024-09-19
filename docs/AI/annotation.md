@@ -6,6 +6,7 @@
 - **BSR**：**B**lind image **S**uper-**R**esolution，图像盲超分辨率
 
 ###C
+- **CoT**: **Chain** **o**f  **T**hink，链式思维
 
 ###D
 - **DAE**：**D**enoise **A**uto-**E**ncoder，去噪自编码器
