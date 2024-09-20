@@ -57,6 +57,11 @@ hello world
 !!! info inline "lxc"
     xxx
 
+
+
+!!! info "$\sum\frac{\pi }{\sigma }-sin(x)$" 
+    This is an admonition box without a title.
+
 sss
 sss  
 xxx  
@@ -65,11 +70,12 @@ xxx
 </br>
 
 
-
+```html
 <div class="admonition note" style="margin-left: 20px;">
     <p class="admonition-title">qualifier_title</p>
     <p>content</p>
 </div>  
+```
 
 
 

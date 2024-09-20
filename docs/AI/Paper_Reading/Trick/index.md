@@ -18,8 +18,9 @@
 - [DAE](AutoEncoder/DAE/dae.md)
 - [VAE](AutoEncoder/VAE/vae.md)
 
-#### 模型蒸馏
-- [distillation](Distillation/index.md)
+#### 大模型使用
+- [蒸馏](LLM_Extend/distillation/distillation.md)
+- [LLM_SFT](LLM_Extend/LLM_SFT/LLM_SFT.md)
 
 #### 显存优化
 - [flash attention](Memory_Saving/Flash_Attention/FlashAttention.md)

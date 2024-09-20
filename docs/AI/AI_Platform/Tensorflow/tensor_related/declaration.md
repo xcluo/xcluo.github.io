@@ -19,15 +19,7 @@ tf.get_variable(
     trainable=None)
 ```
 
-1. 搭配`variable_scope`实现变量共享
-```python
-with tf.variable_scope(scope_name, reuse=tf.AUTO_REUSE) as scope:
-    tf.get_variable(var_name)   # true_var_name=f'{scope_name}/{var_name}'
-                                # scope_name="", var_name=true_var_name等价于↑
-    # reuse: 1/True/tf.AUTO_REUSE，未定义则创建，已定义则获取该变量
-    # reuse: 0/False/None，未定义则创建，已定义报错`ValueError`并提示变量已存在
-```
-2. 使用[`initializer`](#initializer)初始化
+1. 使用[`initializer`](#initializer)初始化
 ```python
 tf.get_variable(
     name,
@@ -36,7 +28,7 @@ tf.get_variable(
     dtype=tf.float32
 )
 ```
-3. 指定数值初始化
+1. 指定数值初始化
 ```python
 tf.get_variable(
     name,
@@ -44,7 +36,22 @@ tf.get_variable(
     dtype=tf.float32
 )
 ```
-> 使用指定值初始化时不能指定`shape`
+> 使用指定值初始化时不能指定`shape`，改为使用[constant_initalizer](#zerosonesconstant_initializer)初始化时可以指定
+
+
+1. 搭配`variable_scope`实现变量共享
+```python
+with tf.variable_scope(scope_name, reuse=tf.AUTO_REUSE) as scope:
+    tf.get_variable(var_name)   # true_var_name=f'{scope_name}/{var_name}'
+                                # scope_name="", var_name=true_var_name等价于↑
+    # reuse: 1/True/tf.AUTO_REUSE，未定义则创建，已定义则获取该变量
+    # reuse: 0/False/None，未定义则创建，已定义报错`ValueError`并提示变量已存在
+```
+<div class="admonition info" style="margin-left: 20px;">
+    <!-- <p class="admonition-title">qualifier_title</p> -->
+    <p><code>variable_scope</code>嵌套使用时，scope会自动依次叠加</p>
+</div>  
+
 #### Variable
 每次调用都是创建新对象，且检测到命名冲突时，该函数会自动处理冲突(改名)并完成对象创建，因此即使 `reuse=True` 时该方法也无法实现共享变量，其余效果与 [get_variable](#get_variable) 完全一致 
 > <span style="color: red;">使用`tf.Variable`</span>声明，而后用`tf.get_variable`获取对应名字的变量也<span style="color: red;">无法实现变量共享</span>。
@@ -64,9 +71,9 @@ tf.nn.embedding_lookup(
     name=None    
 )
 ```
-!!! info
-    功能等同于[gather](../data_fetch/gather.md)，但该方法更为高效，通过将规模较大的params分块存储，再根据ids和每块的位置进行索引实现取值 https://www.zhihu.com/question/52250059
-
+<div class="admonition info" style="margin-left: 20px;">
+    <p>功能等同于<a href="../../data_fetch/gather">gather</a>，但该方法更为高效，通过将规模较大的params分块存储，再根据ids和每块的位置进行索引实现取值 https://www.zhihu.com/question/52250059</p>
+</div>  
 
 ### initializer
 #### zeros/ones/constant_initializer
