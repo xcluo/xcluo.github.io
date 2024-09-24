@@ -42,7 +42,7 @@ import json
 
 
 def uni_label(label):
-    raise Exception("组要自定义uni_label函数")
+    raise Exception("todo: 自定义uni_label函数")
     if label in {'0', 'normal', 'other'}:
         return 0
     elif label in {'1', '2', '3'} or 'tag_' in label:
@@ -59,7 +59,8 @@ def read_dataset(path, file_name):
             line = json.loads(line)
             cnt = line.get('content')
             lbl = uni_label(line.get('label'))
-            ret.append({'label': lbl, 'content': cnt})
+            line['label'] = lbl
+            ret.append(line)
             if lbl == 1:
                 n1 += 1
             elif lbl == 0:
@@ -86,8 +87,14 @@ def split_train_valid_dataset(dataset, tokenize_types, pp, path, train_percent=0
             if random.uniform(0, 1) < train_percent:
                 ret = {'label': lbl}
                 for tokenize_type in tokenize_types:
-                    tokens = tokenize(cnt, tokenize_type)
+                    # tokenized already
+                    if tokenize_type in line:
+                        tokens = line[tokenize_type]
+                    # tokenize now
+                    else:
+                        tokens = tokenize(cnt, tokenize_type)
                     ret[tokenize_type] = tokens
+
                 for _ in range(1 if lbl == 0 else pp):
                     f_train.write(json.dumps(ret, ensure_ascii=False) + '\n')
                     f_train.flush()
@@ -95,7 +102,12 @@ def split_train_valid_dataset(dataset, tokenize_types, pp, path, train_percent=0
             else:
                 ret = {'label': lbl}
                 for tokenize_type in tokenize_types:
-                    tokens = tokenize(cnt, tokenize_type)
+                    # tokenized already
+                    if tokenize_type in line:
+                        tokens = line[tokenize_type]
+                    # tokenize now
+                    else:
+                        tokens = tokenize(cnt, tokenize_type)
                     ret[tokenize_type] = tokens
                 f_valid.write(json.dumps(ret, ensure_ascii=False) + '\n')
                 f_valid.flush()

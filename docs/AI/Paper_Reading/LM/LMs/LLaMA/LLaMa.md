@@ -5,3 +5,7 @@
     - 70b is comparable better
 - TP(tensor parallelism), PP(pipeline parallelism), CP(context parallelism), DP(data parallelism)
 - Guard 3可以多prompt的输入输出进行一些安全上的改写
+
+preference data
+
+- 使用多个模型对给定prompt进行生成，并采样两条样本（由不同模型生成）
