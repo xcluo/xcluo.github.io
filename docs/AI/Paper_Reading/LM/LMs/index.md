@@ -5,7 +5,7 @@
 
 
 #### META系列
-- [LLaMA 3.1](LLaMa/LLaMA.md)
+- [LLaMA 3.1](LLaMA/LLaMa.md)
 
 #### QWen
 #### 月之暗面Kimi
