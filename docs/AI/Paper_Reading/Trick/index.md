@@ -24,7 +24,7 @@
 
 #### 显存优化
 - [flash attention](Memory_Saving/Flash_Attention/FlashAttention.md)
-- Parallelism
+- [Parallelism](Memory_Saving/Parallelism/parallelism.md)
     - TP(tensor parallelism)
     - PP(pipeline parallelism)
     - CP(context parallelism)
