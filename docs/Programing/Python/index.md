@@ -40,6 +40,7 @@
 - [`pypinyin`](libs/pypinyin)：汉字转拼音的库
 - [`unicodedata`](libs/unicodedata)
 - [`codecs`](libs/codecs.md)
+- [`googletrans`](libs/googletrans.md)：google翻译api
 
 #### utils
 - [ahocorasick.py](utils/ahocorasick)

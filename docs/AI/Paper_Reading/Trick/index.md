@@ -22,10 +22,11 @@
 - [蒸馏](LLM_Extend/distillation/distillation.md)
 - [LLM_SFT](LLM_Extend/LLM_SFT/LLM_SFT.md)
 
-#### 显存优化
+#### 存储优化
 - [flash attention](Memory_Saving/Flash_Attention/FlashAttention.md)
 - [Parallelism](Memory_Saving/Parallelism/parallelism.md)
     - TP(tensor parallelism)
     - PP(pipeline parallelism)
     - CP(context parallelism)
     - DP(data parallelism)
+- 量化：Quantization，减少前向过程中存储消耗，但反向过程则不会有该特性

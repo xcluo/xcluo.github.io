@@ -1,3 +1,3 @@
 ### LoRA-GA
-> 论文：LoRA-GA: Low-Rank Adaptation with Gradient Approximation
+> 论文：LoRA-GA: **Lo**w-**R**ank **A**daptation with **G**radient **A**pproximation
 > Tsinghua, 2024
