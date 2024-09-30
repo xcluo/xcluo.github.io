@@ -19,6 +19,7 @@
 - **FID**：**F**rechet **I**nception **D**istance，一种是通过计算两个图像集在Inception网络上的平均概率距离得出、广泛使用的衡量两个图像生成模型生成的图像分布之间相似度的度量指标，
 
 ###G
+- **GQA**：**G**rouped **Q**uery **A**ttention，分组查询注意力
 
 ###H
 
@@ -29,8 +30,13 @@
 ###K
 
 ###L
+- **LoRA**：**Lo**w **R**ank **A**daptation，低秩适配
 
 ###M
+- **MHA**：**M**ulti-**H**ead **A**ttention，多头注意力，即vanilla Attention
+- **MoE**：**M**ixture **o**f **E**xperts，专家混合
+- **MoLE**：**M**ixture **o**f **L**oRA **E**xperts，LoRA专家混合
+- **MQA**：**M**ulti-**Q**uery **A**ttention，多查询注意力
 
 ###N
 

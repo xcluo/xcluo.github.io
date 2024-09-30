@@ -23,7 +23,9 @@
 - [LLM_SFT](LLM_Extend/LLM_SFT/LLM_SFT.md)
 
 #### 存储优化
-- [flash attention](Memory_Saving/Flash_Attention/FlashAttention.md)
+- Attention优化
+    - [flash attention](Memory_Saving/Flash_Attention/FlashAttention.md)
+    - [MQA](Memory_Saving/Attention_Variants/mqa/#mqa)、[GQA](Memory_Saving/Attention_Variants/mga/#gqa)
 - [Parallelism](Memory_Saving/Parallelism/parallelism.md)
     - TP(tensor parallelism)
     - PP(pipeline parallelism)

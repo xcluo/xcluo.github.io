@@ -1,5 +1,5 @@
 ### LoRA
-> 论文：LoRA: **Lo**w-**R**ank **A**daptation of large language models  
+> 论文：**Lo**w-**R**ank **A**daptation of large language models  
 > Github: [LoRA-GA: Low-Rank Adaptation with Gradient Approximation](https://github.com/microsoft/LoRA)  
 > MicroSoft, ICLR, 2022
 
