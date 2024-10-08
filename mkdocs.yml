@@ -34,6 +34,10 @@ nav:
       - PyTorch: AI/AI_Platform/PyTorch/index.md
       - Transformers: AI/AI_Platform/Transformers/index.md
       - PaddlePaddle: AI/AI_Platform/PaddlePaddle/index.md
+
+  - 数学:
+    - 专业名词: Math/annotation.md
+    - 线性代数: Math/Linear_Algebra/index.md
     
   
   - 编程语言:

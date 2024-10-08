@@ -225,8 +225,9 @@
                     if cnt in dump_lines:
                         continue
                     dump_lines.add(cnt)
-                    # text_piece 替代原文本
-                    line['c'] = cnt
+                    line['c'] = cnt         # text_piece 替代原文本
+                    if args.slice_len:      # 记录切片所属的文本
+                        line['p'] = i
                     fout.write(json.dumps(line, ensure_ascii=False) + '\n')
                     fout.flush()
                     if len(dump_lines) >= 80000000:

@@ -1,0 +1,3 @@
+- [SVD](svd.md)
+- [PCA](pca.md)
+- [t-SNE](t-sne.md)

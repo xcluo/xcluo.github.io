@@ -9,6 +9,8 @@
 - [Practical Tips when using LoRA](https://magazine.sebastianraschka.com/p/practical-tips-for-finetuning-llms)
 - [LoRA servey](https://towardsdatascience.com/an-overview-of-the-lora-family-515d81134725)
 
+#### [AdaLoRA](adalora.md)
+
 #### [PiSSA](pissa.md)
 
 
