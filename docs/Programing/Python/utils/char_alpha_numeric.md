@@ -52,14 +52,14 @@ class StringUtils:
         return max(max_num, num)
 
     @staticmethod
-    def has_subsequent_spans(span_list, text):
+    def has_subsequent_spans(span_list, text, flags=re.I):
         if not isinstance(span_list, (tuple, list)):
             raise ValueError(f"span_list is not tuple or list, but {type(span_list)}")
         if len(span_list) == 0 or len(text) == 0:
             return False
         cur_idx = 0
         for span in span_list:
-            g = re.search(span, text)
+            g = re.search(span, text, flags)
             if not g:
                 return False
             cur_idx += g.end()
@@ -67,11 +67,11 @@ class StringUtils:
         return True
 
     @staticmethod
-    def has_all_spans(span_list, text):
+    def has_all_spans(span_list, text, flags=re.I):
         if not isinstance(span_list, (tuple, list, set)):
             raise ValueError(f"span_list is not tuple or list or set, but {type(span_list)}")
         for span in set(span_list):
-            if not re.search(span, text):
+            if not re.search(span, text, flags):
                 return False
         return True
     
