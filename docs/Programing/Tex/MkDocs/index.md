@@ -33,6 +33,13 @@
     ```
 
 ### xxx
+https://squidfunk.github.io/mkdocs-material/reference/code-blocks/
+
+指定行内代码语言类型
+```
+`#!python range()`
+```
+
 ```title="lxc"
 print('hello world')
 a = tf.zeros([3, 3], dtype=tf.float32)
