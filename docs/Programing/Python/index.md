@@ -22,7 +22,7 @@
 
 - [`threading`](libs/concurrent_programming/#threading)、[`multiprocessing`](libs/concurrent_programming/#multiprocessing)、[`asyncio`](libs/concurrent_programming/#asyncio)、[`concurrent.futures`](libs/concurrent_programming/#concurrent.futures)：并发编程（多线程，多进程，异步编程）
 - [`functools`](libs/functools)：提供一些高阶函数
-- [`itertools`]
+- [`itertools`](libs/itertools.md)
 - [`os`](libs/os)：提供一些方便使用操作系统相关功能的函数
 - [`sys`](libs/sys)：提供一些方便Python解释器
 - [`argparse`](libs/argparser/#argparse)、[`tf.flags`](libs/argparser/#tfflags)：接受从终端传入的命令行参数
