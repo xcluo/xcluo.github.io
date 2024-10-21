@@ -6,7 +6,7 @@ DALLE，名称来源于著名画家达利（**Da**lí）和机器人总动员（
 也称作unCLIP，即CLIP的逆过程：{>>通过给定imge_hidden_state生成图片<<}。层级式地生成64\*64 -> 256\*256 -> 1024\*1024分辨率的图片，逐渐高清
 ### Framework
 <div class="one-image-container">
-    <img src="\AI\Paper_Reading\LM\Diffusion\Dalle\image\dalle-2_framework.png" style="width: 100%;">
+    <img src="\AI\Paper_Reading\LM\Model_Category\Diffusion\Dalle\image\dalle-2_framework.png" style="width: 100%;">
     <p style="text-align: center;">unCLIP概略图</p>
 </div>
 
@@ -48,13 +48,13 @@ DALLE-2模型包含**prior**和**decoder**两个模块，前者基于输入的�
 ### Result
 #### Importance of prior
 <div class="one-image-container">
-    <img src="\AI\Paper_Reading\LM\Diffusion\Dalle\image\dalle-2_prior_ablation.jpg" style="width: 90%;">
+    <img src="\AI\Paper_Reading\LM\Model_Category\Diffusion\Dalle\image\dalle-2_prior_ablation.jpg" style="width: 90%;">
     <p style="text-align: center;">第一行：$decoder(y)$；第二行：$decode(y,z_y)$；第三行：$decoder(ar\_piror(y, z_y))$ </p>
 </div>
 
 
 <div class="one-image-container">
-    <img src="\AI\Paper_Reading\LM\Diffusion\Dalle\image\dalle-2_prior_ablation_quantify.jpg" style="width: 90%;">
+    <img src="\AI\Paper_Reading\LM\Model_Category\Diffusion\Dalle\image\dalle-2_prior_ablation_quantify.jpg" style="width: 90%;">
     <p style="text-align: center;">ar_prior 和 diffusion_prior 效果对比（人工评审结果）</p>
 </div>
 
@@ -63,7 +63,7 @@ DALLE-2模型包含**prior**和**decoder**两个模块，前者基于输入的�
 #### 效果对比
 <div class="row-image-container">
     <div>
-        <img src="\AI\Paper_Reading\LM\Diffusion\Dalle\image\dalle-2&glide_perference.jpg" style="width: 77%">
+        <img src="\AI\Paper_Reading\LM\Model_Category\Diffusion\Dalle\image\dalle-2&glide_perference.jpg" style="width: 77%">
         <p>unCLIP & GLIDE不同尺度下生成图片受人喜爱比例</p>
     </div>
 
@@ -76,12 +76,12 @@ DALLE-2模型包含**prior**和**decoder**两个模块，前者基于输入的�
 
 
 <div class="one-image-container">
-    <img src="\AI\Paper_Reading\LM\Diffusion\Dalle\image\dalle-2_zero-shot_effect.jpg" style="width: 90%;">
+    <img src="\AI\Paper_Reading\LM\Model_Category\Diffusion\Dalle\image\dalle-2_zero-shot_effect.jpg" style="width: 90%;">
     <p style="text-align: center;">unCLIP与同类工作效果对比</p>
 </div>
 
 <div class="one-image-container">
-    <img src="\AI\Paper_Reading\LM\Diffusion\Dalle\image\dalle-2_sample_on_MSCOCO.jpg" style="width: 100%;">
+    <img src="\AI\Paper_Reading\LM\Model_Category\Diffusion\Dalle\image\dalle-2_sample_on_MSCOCO.jpg" style="width: 100%;">
     <!-- <p style="text-align: center;">unCLIP与同类工作效果对比</p> -->
 </div>
 
@@ -91,7 +91,7 @@ DALLE-2模型包含**prior**和**decoder**两个模块，前者基于输入的�
 - 文本生成图片
 <div class="row-image-container">
     <div>
-        <img src="\AI\Paper_Reading\LM\Diffusion\Dalle\image\dalle-2_shiba.jpg"  style="width: 90%;">
+        <img src="\AI\Paper_Reading\LM\Model_Category\Diffusion\Dalle\image\dalle-2_shiba.jpg"  style="width: 90%;">
         <!-- <p>unCLIP & GLIDE不同尺度下生成图片受人喜爱比例</p> -->
     </div>
 
@@ -108,19 +108,19 @@ DALLE-2模型包含**prior**和**decoder**两个模块，前者基于输入的�
 
 - 制作动画、渐变
 <div class="one-image-container">
-    <img src="\AI\Paper_Reading\LM\Diffusion\Dalle\image\dalle-2_text_diffs.jpg" style="width: 80%;">
+    <img src="\AI\Paper_Reading\LM\Model_Category\Diffusion\Dalle\image\dalle-2_text_diffs.jpg" style="width: 80%;">
     <!-- <p style="text-align: center;">unCLIP与同类工作效果对比</p> -->
 </div>
 
 - 图片重构（将图片的clip image embedding作为decoder输入）
 <div class="one-image-container">
-    <img src="\AI\Paper_Reading\LM\Diffusion\Dalle\image\dalle-2_change_ui.jpg" style="width: 80%;">
+    <img src="\AI\Paper_Reading\LM\Model_Category\Diffusion\Dalle\image\dalle-2_change_ui.jpg" style="width: 80%;">
     <!-- <p style="text-align: center;">unCLIP与同类工作效果对比</p> -->
 </div>
 
 - 图片风格融合（将两张图片的clip image embedding加权作为decoder输入）
 <div class="one-image-container">
-    <img src="\AI\Paper_Reading\LM\Diffusion\Dalle\image\dalle-2_interpolation.jpg" style="width: 80%;">
+    <img src="\AI\Paper_Reading\LM\Model_Category\Diffusion\Dalle\image\dalle-2_interpolation.jpg" style="width: 80%;">
     <!-- <p style="text-align: center;">unCLIP与同类工作效果对比</p> -->
 </div>
 
@@ -129,7 +129,7 @@ DALLE-2模型包含**prior**和**decoder**两个模块，前者基于输入的�
 - 局限性
 
 <div class="one-image-container">
-    <img src="\AI\Paper_Reading\LM\Diffusion\Dalle\image\dalle-2_cube_image.jpg" style="width: 90%;">
+    <img src="\AI\Paper_Reading\LM\Model_Category\Diffusion\Dalle\image\dalle-2_cube_image.jpg" style="width: 90%;">
     <!-- <p style="text-align: center;">unCLIP与同类工作效果对比</p> -->
 </div>
 
@@ -142,7 +142,7 @@ DALLE-2模型包含**prior**和**decoder**两个模块，前者基于输入的�
 > <span style="color: red">由于以CLIP为学习目标，集成了其只关注物体是否存在而不关注物体属性（e.g., 位置，角度，大小，颜色等）的局限性</span>
 
 <div class="one-image-container">
-    <img src="\AI\Paper_Reading\LM\Diffusion\Dalle\image\dalle-2_not_precisely_encoder_spelling.jpg" style="width: 90%;">
+    <img src="\AI\Paper_Reading\LM\Model_Category\Diffusion\Dalle\image\dalle-2_not_precisely_encoder_spelling.jpg" style="width: 90%;">
     <!-- <p style="text-align: center;">unCLIP与同类工作效果对比</p> -->
 </div>
 
@@ -154,7 +154,7 @@ DALLE-2模型包含**prior**和**decoder**两个模块，前者基于输入的�
 
 
 <div class="one-image-container">
-    <img src="\AI\Paper_Reading\LM\Diffusion\Dalle\image\dalle-2_language_farmer&talk.png" style="width: 100%;">
+    <img src="\AI\Paper_Reading\LM\Model_Category\Diffusion\Dalle\image\dalle-2_language_farmer&talk.png" style="width: 100%;">
     <!-- <p style="text-align: center;">unCLIP概略图</p> -->
 </div>
 - prompt：描述两个老农讨论在蔬菜并生成标题
@@ -162,7 +162,7 @@ DALLE-2模型包含**prior**和**decoder**两个模块，前者基于输入的�
 
 
 <div class="one-image-container">
-    <img src="\AI\Paper_Reading\LM\Diffusion\Dalle\image\dalle-2_language_birds&bugs.png" style="width: 100%;">
+    <img src="\AI\Paper_Reading\LM\Model_Category\Diffusion\Dalle\image\dalle-2_language_birds&bugs.png" style="width: 100%;">
     <!-- <p style="text-align: center;">unCLIP概略图</p> -->
 </div>
 - prompt**(一堆鸟语)**：“Apoploe vesrreaitais eating Contarra
@@ -170,7 +170,7 @@ ccetnxniams luryca tanniounons”
 - 生成图片：鸟吃虫
 
 <div class="one-image-container">
-    <img src="\AI\Paper_Reading\LM\Diffusion\Dalle\image\dalle-2_language_whale&talk.png" style="width: 100%;">
+    <img src="\AI\Paper_Reading\LM\Model_Category\Diffusion\Dalle\image\dalle-2_language_whale&talk.png" style="width: 100%;">
     <!-- <p style="text-align: center;">unCLIP概略图</p> -->
 </div>
 - prompt**(一堆鸟语)**：“Wa ch zod ahaakes rea.”
@@ -178,10 +178,6 @@ ccetnxniams luryca tanniounons”
 
 !!! danger ""
     由于自然语言细节的表达无法保证，DALLE语言存在被“破解”用作非法用途的风险
-
-
-
-
 
 
 

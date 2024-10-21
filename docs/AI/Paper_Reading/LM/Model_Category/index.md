@@ -1,4 +1,4 @@
-#### AE
+### AE
 
 Auto-Encoder是一种 ^^对未标注数据进行无监督学习^^ 得到相应编码表示的神经网络。整体是一个加密再重构的过程，即$p,q=\arg \min_{p,q} \Vert X - p[q(X)]\Vert$，包含两个部分：
 
@@ -97,7 +97,7 @@ VAE存在一个问题，即无法指定**生成**指定的目标，因此就产�
 > https://arxiv.org/pdf/1711.00937'
 
 
-#### AR
+### AR
 Auto-Regressive模型的输出结果依赖于其自生的先前值（如NLP中$X_{1,...,t-1}$）和一些其它环境因素确定的，整体是一个迭代输出的过程。
 > 狭义上的AR模型输出的是线性结果，所以LLM的AR模型是一个广义的称呼概念
 <div class="one-image-container">
@@ -107,4 +107,6 @@ Auto-Regressive模型的输出结果依赖于其自生的先前值（如NLP中$X
 
 
 
-#### Difussion
+### [Difussion](Diffusion/index.md)
+
+### [GAN](GAN/gan.md)

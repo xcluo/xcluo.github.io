@@ -2,7 +2,7 @@
 
 #### 前向扩散
 <div class="one-image-container">
-    <img src="\AI\Paper_Reading\LM\Diffusion\DDPM\images\diffusion前向扩散.png" style="width: 80%;">
+    <img src="\AI\Paper_Reading\LM\Model_Category\Diffusion\DDPM\images\diffusion前向扩散.png" style="width: 80%;">
     <!-- <p style="text-align: center;">图片标题</p> -->
 </div>
 
@@ -23,7 +23,7 @@ $$
 其中$\beta_t$表示t时刻加入的噪声权重，$\alpha_t=1-\beta_t$表示图像$x_t$中上一时刻图像$x_{t-1}$的权重，$\bar\alpha_t=\prod_{i=1}^{t-1}\alpha_i$，即
 
 <div class="one-image-container">
-    <img src="\AI\Paper_Reading\LM\Diffusion\DDPM\images\diffusion前向扩散建模.png" style="width: 80%;">
+    <img src="\AI\Paper_Reading\LM\Model_Category\Diffusion\DDPM\images\diffusion前向扩散建模.png" style="width: 80%;">
     <p style="text-align: center;"><a href="https://wangjia184.github.io/diffusion_model/#">前向扩散示意图</a></p>
 </div>
 
@@ -47,7 +47,7 @@ $$
 </div>  
 
 <div class="one-image-container">
-    <img src="\AI\Paper_Reading\LM\Diffusion\DDPM\images\ddpm_train_algorithm.jpg" style="width: 50%;">
+    <img src="\AI\Paper_Reading\LM\Model_Category\Diffusion\DDPM\images\ddpm_train_algorithm.jpg" style="width: 50%;">
     <!-- <p style="text-align: center;"><a href="https://wangjia184.github.io/diffusion_model/#">前向扩散示意图</a></p> -->
 </div>
 
@@ -56,7 +56,7 @@ $$
 
 #### 逆向扩散
 <div class="one-image-container">
-    <img src="\AI\Paper_Reading\LM\Diffusion\DDPM\images\diffusion逆向扩散.png" style="width: 80%;">
+    <img src="\AI\Paper_Reading\LM\Model_Category\Diffusion\DDPM\images\diffusion逆向扩散.png" style="width: 80%;">
     <!-- <p style="text-align: center;">图片标题</p> -->
 </div>
 
@@ -99,6 +99,6 @@ $$
 
 
 <div class="one-image-container">
-    <img src="\AI\Paper_Reading\LM\Diffusion\DDPM\images\ddpm_sample_algorithm.jpg" style="width: 50%;">
+    <img src="\AI\Paper_Reading\LM\Model_Category\Diffusion\DDPM\images\ddpm_sample_algorithm.jpg" style="width: 50%;">
     <!-- <p style="text-align: center;"><a href="https://wangjia184.github.io/diffusion_model/#">前向扩散示意图</a></p> -->
 </div>

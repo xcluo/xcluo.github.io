@@ -12,13 +12,16 @@
 - **DAE**：**D**enoise **A**uto-**E**ncoder，去噪自编码器
 - **DDIM**：**D**enoising **D**iffusion **I**mplicit **M**odel，去噪扩散隐式模型
 - **DDPM**：**D**enoising **D**iffusion **P**robabilistic **M**odel，去噪扩散概率模型
+- **DPU**：**D**eep learning **P**rocessing **U**nit，深度学习处理器
 
 ###E
 
 ###F
-- **FID**：**F**rechet **I**nception **D**istance，一种是通过计算两个图像集在Inception网络上的平均概率距离得出、广泛使用的衡量两个图像生成模型生成的图像分布之间相似度的度量指标，
+- **FID**：**F**rechet **I**nception **D**istance，一种是通过计算两个图像集在Inception网络上的平均概率距离得出、广泛使用的衡量两个图像生成模型生成的图像分布之间相似度的度量指标
+- **FPU**：**F**loating **P**rocessing **U**nit，浮点计算单元处理器
 
 ###G
+- **GAN**：**G**enerative **A**versarial **N**etwork，生成对抗模型
 - **GQA**：**G**rouped **Q**uery **A**ttention，分组查询注意力
 
 ###H
@@ -39,18 +42,22 @@
 - **MQA**：**M**ulti-**Q**uery **A**ttention，多查询注意力
 
 ###N
+- **NPU**：**N**eural network **P**rocessing **U**nit，中科院计算所/寒武纪公司出品的神经网络处理器
 
 ###O
 
 ###P
+- **PTQ**：**P**ost-**T**raining **Q**uantization，训练后量化，也称作离线量化
 
 ###Q
+- **QAT**：**Q**uantization **A**ware **T**raining，训练时量化，也称作在线量化
 
 ###R
 
 ###S
 
 ###T
+- **TPU**：**T**ensor **P**rocessing **U**nit，google的张量处理器
 
 ###U
 

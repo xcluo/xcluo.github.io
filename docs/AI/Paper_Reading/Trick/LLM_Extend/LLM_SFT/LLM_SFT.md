@@ -17,3 +17,5 @@
 #### [DoRA](dora.md)
 
 #### [LoRA-GA](lora-ga.md)
+
+#### [QLoRA](qlora.md)

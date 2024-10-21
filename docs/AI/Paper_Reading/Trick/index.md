@@ -31,4 +31,4 @@
     - PP(pipeline parallelism)
     - CP(context parallelism)
     - DP(data parallelism)
-- 量化：Quantization，减少前向过程中存储消耗，但反向过程则不会有该特性
+- 量化：[Quantization](Memory_Saving/Quantization/quantization.md)，减少前向过程中存储消耗，但反向过程则不会有该特性
