@@ -27,10 +27,33 @@ $X^{FP32}=dequant(c^{FP32}, X^{Int8})=\frac{X^{Int8}}{c^{FP32}}$
 
 | 数据类型      | 符号位                          | 指数位 | 小数位
 | ----------- | ------------------------------------ | --- | ---|
+| FP64 | 1 | 11 | 52 |
 | FP32       | 1  | 8 | 23 |
-| FP16       | 1 | 5 | 10 |
+| TF32 | 1 | 8 | 10 |
 | BF16    | 1 | 8 | 7 |
+| FP16       | 1 | 5 | 10 |
+| FP8 E4M3 | 1 | 4 | 3 |
+| FP8 E5M2 | 1 | 5 | 2 |
 | FP4 | 1 | 2 | 1 | 
+| NF4 | 
 
-BF16: brain float, 由google brain提出
-4-bit normalfloat: 由华盛顿大学在QLoRA论文中提出
+- [https://www.h-schmidt.net/FloatConverter/IEEE754.html](IEEE 754 Conventer)
+- S(ign): 符号位部分; E(xponent): 指数位部分; M(antissa): 尾数位部分。尾数位越多精度越高，指数位越多表示范围越大
+- $x=(-1)^S*2^{E-2^{\#E-1}+1}*1.M$
+    - #E表示指数位的位数，指数位E的取值范围为[0, 2^#E]，最终取值为[-2^{\#E-1}+1, -2^{\#E-1}]
+    - M计算方式：1） 去除后置0得到$M^{'}$；2）$M=\frac{M^{'}}{2^{\#M^{'}}}$
+    - https://www.cnblogs.com/lemonzhang/p/17843336.html
+    - https://blog.csdn.net/baoyan2015/article/details/136526423
+    - https://zhuanlan.zhihu.com/p/676509123
+    - https://mp.weixin.qq.com/s?__biz=MzI1MjQ2OTQ3Ng==&mid=2247618327&idx=2&sn=038c155d6082feab35789005c7cfc46e&chksm=e9e0069cde978f8a2251be0881acd894aeb6cf497e448cface31f052679edba0ed13d703ad15&scene=27
+```python
+torch.set_printoptions(precision=60)
+a = torch.tensor(10**6, dtype=torch.float32)
+> tensor(1000000.)
+b = torch.tensor(10**6, dtype=torch.float16)
+> tensor(inf, dtype=torch.float16)
+```
+
+- TF32: tensor float 32，为对齐FP32和FP16，实际只有19位
+- BF16: brain float, 由google brain提出
+- 4-bit normalfloat: NF4由华盛顿大学在QLoRA论文中提出
