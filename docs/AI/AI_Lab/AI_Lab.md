@@ -3,7 +3,9 @@
 1. [Facebook AI Research](FAIR/FAIR.md)
 1. [Google Research](Google/Research.md)
 1. [Google DeepMind](Google/DeepMind.md)
-1. [Microsoft Research](Microsoft/MSR.md)
+      1. AlphoGo Zero  
+2. [Microsoft Research](Microsoft/MSR.md)
 
 ### 学校
 1. [University of Washington]()
+

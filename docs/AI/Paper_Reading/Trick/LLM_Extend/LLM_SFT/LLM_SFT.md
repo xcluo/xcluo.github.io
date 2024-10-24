@@ -19,3 +19,7 @@
 #### [LoRA-GA](lora-ga.md)
 
 #### [QLoRA](qlora.md)
+
+### Instrument Finetune
+
+### Prompt Finetune

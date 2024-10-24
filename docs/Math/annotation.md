@@ -3,3 +3,7 @@
 
 #### S
 - **SVD**：**S**ingular **V**alue **D**ecomposition，奇异值分解
+
+
+- inverse sampling，逆采样
+- reject sampling，拒绝采样

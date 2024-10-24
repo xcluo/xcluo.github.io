@@ -5,6 +5,9 @@
 
 1. 量化
 $X^{Int8}=round(\frac{127}{absmax(X^{FP32})}X^{FP32})=round(c^{FP32}*X^{FP32})$
+        - 为保留0值和左右边界-1和1，且最终含16个映射值  
+        - 对称：0占两个index，正负数分别占7个index  
+        - 非堆成：0占一个index，正数占8个index，负数占7个index  
 2. 逆向量化
 $X^{FP32}=dequant(c^{FP32}, X^{Int8})=\frac{X^{Int8}}{c^{FP32}}$
 3. block-wise quantization：对于$X\in\mathbb{R}^{b*h}$，可以每$n=(b*h)/B$ 个元素统一进行量化，减少单次量化元素，减少部分量化值极少出现又被占的现象
@@ -46,6 +49,10 @@ $X^{FP32}=dequant(c^{FP32}, X^{Int8})=\frac{X^{Int8}}{c^{FP32}}$
     - https://blog.csdn.net/baoyan2015/article/details/136526423
     - https://zhuanlan.zhihu.com/p/676509123
     - https://mp.weixin.qq.com/s?__biz=MzI1MjQ2OTQ3Ng==&mid=2247618327&idx=2&sn=038c155d6082feab35789005c7cfc46e&chksm=e9e0069cde978f8a2251be0881acd894aeb6cf497e448cface31f052679edba0ed13d703ad15&scene=27
+    - https://km.netease.com/v4/detail/blog/223053
+    - https://zhuanlan.zhihu.com/p/666234324
+    - https://readpaper.feishu.cn/docx/CrMGdSVPKow5d1x1XQMcJioRnQe
+
 ```python
 torch.set_printoptions(precision=60)
 a = torch.tensor(10**6, dtype=torch.float32)
@@ -56,4 +63,7 @@ b = torch.tensor(10**6, dtype=torch.float16)
 
 - TF32: tensor float 32，为对齐FP32和FP16，实际只有19位
 - BF16: brain float, 由google brain提出
-- 4-bit normalfloat: NF4由华盛顿大学在QLoRA论文中提出
+- normalfloat 4-bit: NF4由华盛顿大学在QLoRA论文中提出
+    - offset = (1 - 1/(2*15) + 1 - 1/(2*16))/2
+    - 累计密度分位划分，分位点除以边界值归一化为[-1, 1]
+    - https://onlinestatbook.com/2/calculators/normal_dist.html

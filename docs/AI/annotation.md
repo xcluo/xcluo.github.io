@@ -45,6 +45,7 @@
 - **NPU**：**N**eural network **P**rocessing **U**nit，中科院计算所/寒武纪公司出品的神经网络处理器
 
 ###O
+- **OOM**：**O**out **O**f **M**emory，内存溢出或内存不足
 
 ###P
 - **PTQ**：**P**ost-**T**raining **Q**uantization，训练后量化，也称作离线量化
@@ -53,6 +54,7 @@
 - **QAT**：**Q**uantization **A**ware **T**raining，训练时量化，也称作在线量化
 
 ###R
+- **RL(HF)**：**R**einforcement **L**earning （from **H**uamn **F**eedback），（人类反馈）强化学习
 
 ###S
 
