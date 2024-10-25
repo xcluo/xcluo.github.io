@@ -20,3 +20,5 @@ from scipy.stats import norm
 # norm.ppf: Percent point function (inverse of `cdf`)
 # norm.cdf: Cumulative distribution function
 ```
+
+- https://medium.com/@levxn/lora-and-qlora-effective-methods-to-fine-tune-your-llms-in-detail-6e56a2a13f3c

@@ -20,6 +20,4 @@
 
 #### [QLoRA](qlora.md)
 
-### Instrument Finetune
-
-### Prompt Finetune
+- https://towardsdatascience.com/an-overview-of-the-lora-family-515d81134725
