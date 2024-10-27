@@ -3,6 +3,7 @@
 - **AR**：**A**uto **R**egressive，自回归
 
 ###B
+- **BERT**：**B**idirectional **E**ncoder **R**epresentations from **T**ransformers  
 - **BSR**：**B**lind image **S**uper-**R**esolution，图像盲超分辨率
 
 ###C
@@ -22,6 +23,7 @@
 
 ###G
 - **GAN**：**G**enerative **A**versarial **N**etwork，生成对抗模型
+- **GPT**：**G**enerative **P**re-trained **T**ransformer
 - **GQA**：**G**rouped **Q**uery **A**ttention，分组查询注意力
 
 ###H

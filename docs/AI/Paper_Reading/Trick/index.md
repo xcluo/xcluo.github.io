@@ -26,6 +26,7 @@
 - Prompt Finetune
 - Transformer MoE
 - Exact Match, F1 score
+- inverse sampling, reject sampling, poisson distribution
 
 #### 存储优化
 - Attention优化
