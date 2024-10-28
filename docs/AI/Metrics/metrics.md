@@ -3,7 +3,7 @@ https://www.jianshu.com/p/0355bafb26ae
 macro：分别计算取平均
 micro：加权
 
-### Machine Learning
+### Features
 #### tf-idf
 
 $$
@@ -30,9 +30,108 @@ $$
     - **N01: c**, 表示不具有第一个属性但具有第二个属性的个体数量
     - **N00: d**, 表示同时不具有这两种属性的个体数量
 
-### 分类
-- macro-ROC：分别计算每类的ROC曲线再平均
-- micro-ROC：对于每个样本，目标类别对应1，其余类别对应0，概率标签对位$(p_{y_i}, 1)$
+### Classification
+
+| 预测值\真实值 | 正标签 | 负标签 |
+| :-----:| :----: | :----: |
+| 正标签 | TP | FP |
+| 负标签 | FN | TN |
+
+#### P、R、F1
+=== "Precision"
+    精确率，预测为正例样本中真实正例的百分比
+
+    $$
+    P=\frac{\text{TP}}{\text{TP} + \text{FP}}
+    $$
+
+=== "Recall"
+    召回率，真实正例被预测为正例的百分比
+
+    $$
+    R=\frac{\text{TP}}{\text{TP} + \text{FN}}
+    $$
+
+=== "Accuracy"
+    准确率，样本总数中被正确预测（包括负例）的百分比
+
+    $$
+    Accuracy=\frac{TP+TN}{TP+TN+FP+FN}
+    $$
+
+=== "F1-score"
+    $$
+    \begin{aligned}
+    P &= \frac{\text{TP}_1 + \text{TP}_2 + ... + \text{TP}_k}{\text{TP}_1 + \text{TP}_2 + ... + \text{TP}_k + \text{FP}_1 + \text{FP}_2 + ... + \text{FP}_k} \\
+    R &= \frac{\text{TP}_1 + \text{TP}_2 + ... + \text{TP}_k}{\text{TP}_1 + \text{TP}_2 + ... + \text{TP}_k + \text{FN}_1 + \text{FN}_2 + ... + \text{FN}_k} \\
+    & \text{micro-F1} = \frac{2*P*R}{P+R} \\
+    & \text{macro-F1} = \frac{\sum_1^k F1_k}{k}
+    \end{aligned}
+    $$
 
 
-### 生成
+    !!! info ""
+      - 多(大于2)分类中，对于micro-average，精确率P、召回率R、准确率Accuracy和F1是相等的  
+      - micro更关注整体效果，适用于类别相对平衡的情况；  
+      - macro更关注每个类别的效果，适用于类别不平衡的情况或需要评估每个类别的效果的情景；
+
+
+=== "Fn-score"
+    $$
+    Fn=\frac{(n^2+1)*P*R}{n^2*P+R}
+    $$
+
+#### ROC、AUC
+=== "ROC"
+    Receiver Operating Characteristic Curve，受试者工作特征曲线，表示收益和成本之间的权衡关系：
+    
+      - 成本横坐标为$FPR=FP/N=FP/(FP+TN)$，即真实负例中被预测为正例的比例；
+      - 收益纵坐标为$TPR=TP/P=TP/(TP+FN)$，即真实正例中被预测为正例的比例；
+    
+    曲线绘制（离散的plot图）与面积计算：
+
+      1. 将P+N个样本的按目标类预测置信值降序排列，初始点位于(0, 0)；
+      2. 遍历样本序列，以该点置信值为阈值t，计算tpr和fpr并描点连线（实际只描绘转向的点）；
+      3. 绘制曲线即为ROC，曲线与横坐标轴围成的（分段矩形）区域面积为AUC；
+
+    !!! info ""
+        - 等价于从(0, 0)开始，顺序遍历遇见正例⬆️移动$1/P$，遇见负例➡️移动$1/N$，直至移动至(1, 1)。
+        - micro-ROC：对于$n$个样本，$k$个类，共$n*k$个置信值降序排序，每个阈值计算tpr, fpr
+        - macro-ROC绘制
+            1. 得到各类的$(fpr_i, tpr_i)$点集并对横坐标去重得到$fpr$；
+            2. 遍历各类的$(fpr_i, tpr_i)$获得$fpr$点集对应的$tpr$均值（各类[a, b)范围内的$tpr_i$为$frp_a$对应的$tpr_i$）
+            3. 获得$(frp, tpr)$后即可进行ROC曲线绘制
+        - micro-ROC更注重整体分类效果；
+        - macro-ROC在处理不平衡数据集时，更能反应少数类别的分类性能（micro在排序过程中稀释了少数样本类）；
+    
+
+=== "AUC"
+    Area Under Curve，曲线下面积，即ROC曲线与坐标轴围成的面积，取值范围处于[0, 1]，值越大表示表示效果越好。
+
+    ```python
+    from sklearn.metrics import roc_curve, auc
+    # label_i: ROC + AUC
+    fpr[i], tpr[i], thresholds = roc_curve(y[:, i], y_score[:, i])  # thresholds为降序排列的
+                                                                    # 转折点（与上一状态相比变向）阈值
+    roc_auc[i] = auc(fpr[i], tpr[i])
+
+    # micro-ROC + AUC
+    fpr["micro"], tpr["micro"], _ = roc_curve(y.flatten(), y_score.flatten())
+    roc_auc["micro"] = auc(fpr["micro"], tpr["micro"])
+
+    # macro-ROC + AUC
+    fpr["macro"] = np.unique(np.concatenate([fpr[i] for i in range(n_classes)])) # np.unique升序返回结果
+    ''' 
+        获取 `fpr["macro"]` 对应的 `tpr["macro"]=mean_tpr` 
+        - 各类[a, b)范围内的`tpr_i`为左边界`frp_a`对应的`tpr_i``
+    '''
+    roc_auc["macro"] = auc(fpr["macro"], tpr["macro"])
+    ```
+
+
+### Machine Translation
+- Extract Match
+- Rouge
+- PPL
+- MRR
+#### BLEU
