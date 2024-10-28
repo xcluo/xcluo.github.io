@@ -128,10 +128,26 @@ $$
     roc_auc["macro"] = auc(fpr["macro"], tpr["macro"])
     ```
 
+### Generation
+#### PPL
+Perplexity，困惑度
 
-### Machine Translation
+$$
+\begin{aligned}
+PPL &= \frac{1}{P(w_1w_2...w_n)^n} = \sqrt[-n]{P(w_1w_2...w_n)} \\
+&=\sqrt[-n]{\prod_{i=1}^np(w_i|w_{\lt i})}
+\end{aligned}
+$$
+
+### Translation
 - Extract Match
-- Rouge
-- PPL
-- MRR
+#### Rouge
+Recall-Oriented Understudy for Gisting Evaluation，
+
+
 #### BLEU
+Bilingual Evaluation Understudy
+
+### Search
+#### MRR
+Mean Reciprocal Rank

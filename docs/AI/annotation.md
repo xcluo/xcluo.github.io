@@ -51,6 +51,7 @@
 - **MoE**：**M**ixture **o**f **E**xperts，专家混合
 - **MoLE**：**M**ixture **o**f **L**oRA **E**xperts，LoRA专家混合
 - **MQA**：**M**ulti-**Q**uery **A**ttention，多查询注意力
+- **MRR**：**M**ean **R**eciprocal **R**ank，平均倒数排名
 
 ###N
 - **NPU**：**N**eural network **P**rocessing **U**nit，中科院计算所/寒武纪公司出品的神经网络处理器
@@ -69,6 +70,7 @@
 ###R
 - **RL(HF)**：**R**einforcement **L**earning （from **H**uamn **F**eedback），（人类反馈）强化学习
 - **ROC**：**R**eceiver **O**perating **C**haracteristic curve，受试者工作特征曲线
+- **ROUGE**：**R**ecall-**O**riented **U**nderstudy for **G**isting **E**valuation
 
 ###S
 
