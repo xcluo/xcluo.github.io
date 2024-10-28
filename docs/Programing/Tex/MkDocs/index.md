@@ -61,3 +61,10 @@ possible {>>and comments can be added inline<<}.
 ```
 
 1.  Look ma, less line noise!
+
+
+| 左对齐 | 右对齐 | 居中对齐 |
+| :-----| ----: | :----: |
+| 单元格 | 单元格 | 单元格 |
+| 单元格 | 单元格 | 单元格 |
+

@@ -20,13 +20,15 @@
 
 #### 大模型使用
 - [蒸馏](LLM_Extend/distillation/distillation.md)
+  - label smooth，标签平滑
+
 - [LLM_SFT](LLM_Extend/LLM_SFT/LLM_SFT.md)
 - prefix tuning
 - Instrument Finetune
 - Prompt Finetune
 - Transformer MoE
-- Exact Match, F1 score
 - inverse sampling, reject sampling, poisson distribution
+- length penalty, repetition penalty
 
 #### 存储优化
 - Attention优化

@@ -6,7 +6,7 @@
 ### Decoder
 - GPT
 - DeBERTa、DeBERTa_v3
-- [LLaMA 3.1](LLaMa/LLaMa.md)
+- [LLaMA 3.1](LLaMA/llama.md)
 
 
 ### 1
@@ -29,3 +29,7 @@
 #### 月之暗面Kimi
 
 #### 百川大模型
+
+#### 文心一言
+
+#### 讯飞星火
