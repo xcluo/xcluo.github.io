@@ -129,25 +129,90 @@ $$
     ```
 
 ### Generation
+$S$表示句子序列，$W$表示词或token
+
 #### PPL
-Perplexity，困惑度
+Perplexity，指模型在生成一段内容时的困惑程度，值越高，模型困惑度越大，反之越小越自信。
 
 $$
 \begin{aligned}
-PPL &= \frac{1}{P(w_1w_2...w_n)^n} = \sqrt[-n]{P(w_1w_2...w_n)} \\
-&=\sqrt[-n]{\prod_{i=1}^np(w_i|w_{\lt i})}
+PPL &= \frac{1}{p_{\theta}(w_1w_2...w_n)^n} = \sqrt[-n]{p_{\theta}(w_1w_2...w_n)} \\
+&=\sqrt[-n]{\prod_{t=1}^np_{\theta}(w_t|w_{\lt t})} \\
+\log{PPL} &= -\frac{\sum_{i=t}^n\log{p_{\theta}(w_t|w_{\lt t})}}{n} \\
+PPL &= \exp\Bigg(-\frac{\sum_{i=t}^n\log{p_{\theta}(w_t|w_{\lt t})}}{n}\Bigg) 
 \end{aligned}
 $$
 
+!!! info ""
+    在生成模型中，`ppl = nll.exp()`，即【负对数似然和的均值】作为指数
+
+
+
+### Question Answering
+#### Extract Match
+$$
+EM=\begin{cases}
+1, & if\ S_{pred}\ =\ S_{ref} \\
+0, & if\ S_{pred}\ \neq \ S_{ref} \\
+\end{cases}
+$$
+
+#### F1
+
+$$
+\begin{aligned}
+W_{match} &= W_{pred}\cap W_{ref} \\
+P &= \frac{|W_{match}|}{|W_{pred}|} \\
+R &= \frac{|W_{match}|}{|W_{ref}|} \\
+F1 &= \frac{2*P*R}{P+R}
+\end{aligned}
+$$
+
+!!! info ""
+    $W_{match}$取的是`#!python Counter(pred_tokens) & Counter(ref_tokens)` 的就低token交集
+
 ### Translation
-- Extract Match
-#### Rouge
-Recall-Oriented Understudy for Gisting Evaluation，
+
+
+#### ROUGE
+Recall-Oriented Understudy for Gisting Evaluation，是评估摘要总结以及机器翻译的一组指标
+
+=== "ROUGE-N"
+    $$
+    \text{RG-N} = \frac{\sum_{S\in Refer} \sum_{gram_N\in S} Count_{match}(gram_N)}{\sum_{S\in Refer} \sum_{gram_N\in S} Count(gram_N)}
+    $$
+
+=== "ROUGE-L"
+    $$
+    \text{RG-L} = 
+    $$
+
+!!! info ""
+    - ROUGE取值范围为[0, 1]；
+    - N表示N-gram，一般取值为1，2，3；
+    - L表示最长公共子序列Longest common subsequence；
 
 
 #### BLEU
-Bilingual Evaluation Understudy
+Bilingual Evaluation Understudy，是用于评估自然语言的字句用机器翻译出来的品质的一种指标。
+
+=== "BLEU"
+    sss
+    
+
+=== "+ N-gram"
+    [sss](https://www.cnblogs.com/by-dream/p/7765345.html)
+
+=== "+ BP"
+    brevity penalty
+
+#### METEOR
+Metric for Evaluation of Translation with Explicit ORdering，是一种用于评估机器翻译输出质量的指标。
 
 ### Search
 #### MRR
-Mean Reciprocal Rank
+Mean Reciprocal Rank，对搜索算法进行评估的机制，MRR是指多个查询语句的排名倒数的均值
+
+$$
+MRR = \frac{1}{|Q|}\sum_{i=1}^{|Q|}\frac{1}{rank_i}
+$$
