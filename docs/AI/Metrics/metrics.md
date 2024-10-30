@@ -179,18 +179,30 @@ Recall-Oriented Understudy for Gisting Evaluation，是评估摘要总结以及�
 
 === "ROUGE-N"
     $$
-    \text{RG-N} = \frac{\sum_{S\in Refer} \sum_{gram_N\in S} Count_{match}(gram_N)}{\sum_{S\in Refer} \sum_{gram_N\in S} Count(gram_N)}
+    \text{RG-N} = \frac{\sum_{S\in Refer} \sum_{gram_N\in S} Counter_{match}(gram_N)}{\sum_{S\in Refer} \sum_{gram_N\in S} Counter(gram_N)}
     $$
 
 === "ROUGE-L"
     $$
-    \text{RG-L} = 
+    \begin{aligned}
+    P_{lcs} &= \frac{LCS(C, S)}{len(C)} \\
+    R_{lcs} &= \frac{LCS(C, S)}{len(S)}\\
+    \text{RG-L} &= F_{lcs} = \frac{(1+\beta^2)P_{lcs}R_{lcs}}{\beta^2 P_{lcs} + R_{lcs}}
+    \end{aligned}
     $$
+
+=== "ROUGE-W"
+    [sss](https://zhuanlan.zhihu.com/p/659637538)
+
+=== "ROUGE-S"
+    sss
 
 !!! info ""
     - ROUGE取值范围为[0, 1]；
-    - N表示N-gram，一般取值为1，2，3；
-    - L表示最长公共子序列Longest common subsequence；
+    - $Refer$为参考文本序列集合；
+    - N表示N-gram，一般取值为1，2，3，$Counter_{match}$为就低操作；
+    - $C$表示生成文本序列，$S$为参考文本序列；
+    - L表示最长公共子序列Longest common subsequence（==注意不是最长连续公共子序列==）；
 
 
 #### BLEU
