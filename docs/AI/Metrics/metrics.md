@@ -152,8 +152,8 @@ $$
 #### Extract Match
 $$
 EM=\begin{cases}
-1, & if\ S_{pred}\ =\ S_{ref} \\
-0, & if\ S_{pred}\ \neq \ S_{ref} \\
+1, & \text{if}\ S_{pred}\ =\ S_{ref} \\
+0, & \text{if}\ S_{pred}\ \neq \ S_{ref} \\
 \end{cases}
 $$
 
@@ -171,11 +171,54 @@ $$
 !!! info ""
     $W_{match}$取的是`#!python Counter(pred_tokens) & Counter(ref_tokens)` 的就低token交集
 
-### Translation
+### Translation & Summary
+#### BLEU
+Bilingual Evaluation Understudy，是用于评估自然语言的字句用机器翻译出来的品质（精度）的一种指标。
+
+=== "BLEU"
+    $$
+    BLEU = \frac{\sum_{token \in C, S} Counter(token)}{len(C)}
+    $$
+
+    > 无次数就低约束，`C="the the the", S="the dog"`结果为`3/3=1`
+    
+=== "+ clip"
+    $$
+    BLEU = \frac{\sum_{token \in C, S} Counter_{match}(token)}{len(C)}
+    $$
+
+    > 增加就低约束，`C="the the the", S="the dog"`结果为`1/3=0.33`
+
+=== "+ N-gram"
+    $$
+    \begin{aligned}
+    BLEU_N &= \frac{\sum_{gram_N \in C, S} Counter_{match}(gram_N)}{\sum_{gram_N \in C}Counter(gram_N)} \\
+    BLEU &= \sum_{n=1}^N w_n\log BLEU_n
+    \end{aligned}
+    $$
+
+=== "+ BP"
+    brevity penalty，增加简洁性约束，惩罚训练结果倾向短句的现象（缩小短句的BLEU值）。
+
+    $$
+    \begin{aligned}
+    BP&=\begin{cases}
+    1, & \text{if}\ c \gt r \\
+    e^{1-r/c}, & \text{if}\ c \le r \\
+    \end{cases} \\
+    BLEU &= BP*\exp\Bigg(\sum_{n=1}^N w_n\log BLEU_n\Bigg) \\
+    \log BLEU &= 1-\frac{r}{c} + \sum_{n=1}^N w_n\log BLEU_n
+    \end{aligned}
+    $$
+    
+    
+!!! info ""
+    - $w_n$为权重，一般为均匀加权，即$w_n=\frac{1}{N}$，$N$的上限取值为4。
+    - 多个句子的BLEU计算时简单地通过累加操作增加相应的分子分母
 
 
 #### ROUGE
-Recall-Oriented Understudy for Gisting Evaluation，是评估摘要总结以及机器翻译的一组指标
+Recall-Oriented Understudy for Gisting Evaluation，是评估摘要总结以及机器翻译效果（召回）的一组指标
 
 === "ROUGE-N"
     $$
@@ -193,6 +236,7 @@ Recall-Oriented Understudy for Gisting Evaluation，是评估摘要总结以及�
 
 === "ROUGE-W"
     [sss](https://zhuanlan.zhihu.com/p/659637538)
+    https://blog.csdn.net/BIT_666/article/details/132347794
 
 === "ROUGE-S"
     sss
@@ -201,25 +245,9 @@ Recall-Oriented Understudy for Gisting Evaluation，是评估摘要总结以及�
     - ROUGE取值范围为[0, 1]；
     - $Refer$为参考文本序列集合；
     - N表示N-gram，一般取值为1，2，3，$Counter_{match}$为就低操作；
-    - $C$表示生成文本序列，$S$为参考文本序列；
+    - $C$表示生成文本序列，$S$为参考文本序列，$len()$返回序列token数；
     - L表示最长公共子序列Longest common subsequence（==注意不是最长连续公共子序列==）；
 
-
-#### BLEU
-Bilingual Evaluation Understudy，是用于评估自然语言的字句用机器翻译出来的品质的一种指标。
-
-=== "BLEU"
-    sss
-    
-
-=== "+ N-gram"
-    [sss](https://www.cnblogs.com/by-dream/p/7765345.html)
-
-=== "+ BP"
-    brevity penalty
-
-#### METEOR
-Metric for Evaluation of Translation with Explicit ORdering，是一种用于评估机器翻译输出质量的指标。
 
 ### Search
 #### MRR
