@@ -44,16 +44,21 @@
 ###K
 
 ###L
+- **LLM**：**L**arge **L**anguage **M**odel，大语言模型
 - **LoRA**：**Lo**w **R**ank **A**daptation，低秩适配
 
 ###M
 - **MHA**：**M**ulti-**H**ead **A**ttention，多头注意力，即vanilla Attention
+- **MLM**：**M**asked **L**anguage **M**odeling，掩码语言模型，一种预训练任务
 - **MoE**：**M**ixture **o**f **E**xperts，专家混合
 - **MoLE**：**M**ixture **o**f **L**oRA **E**xperts，LoRA专家混合
 - **MQA**：**M**ulti-**Q**uery **A**ttention，多查询注意力
 - **MRR**：**M**ean **R**eciprocal **R**ank，平均倒数排名
 
 ###N
+- **NLG**：**N**atural **L**anguage **G**eneration，自然语言生成
+- **NLP**：**N**atural **L**anguage **P**rocessing，自然语言处理
+- **NLU**：**N**atural **L**anguage **U**nderstanding，自然语言理解
 - **NPU**：**N**eural network **P**rocessing **U**nit，中科院计算所/寒武纪公司出品的神经网络处理器
 
 ###O
@@ -61,6 +66,7 @@
 - **OOV**: **O**ut **O**f **V**ocabulary，不在词表内
 
 ###P
+- **PLM**：**P**retrained **L**anguage **M**odel，预训练语言模型
 - **PoS**: **P**art **o**f **S**peech, 词性
 - **PTQ**：**P**ost-**T**raining **Q**uantization，训练后量化，也称作离线量化
 

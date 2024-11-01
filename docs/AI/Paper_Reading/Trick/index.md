@@ -4,7 +4,7 @@
 - [shape](Multimodality_Fusion/shape_modality.md)
 - [fusion](Multimodality_Fusion/modality_fusion.md)
 
-#### 多任务学习
+#### 多任务学习 Attention Variants & Proxy Task
 - multitask learning
 
 
@@ -29,6 +29,8 @@
 - Transformer MoE
 - inverse sampling, reject sampling, poisson distribution
 - length penalty, repetition penalty
+- gradient clip
+- RAdam
 
 #### 存储优化
 - Attention优化

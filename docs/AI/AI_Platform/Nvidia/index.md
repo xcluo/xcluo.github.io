@@ -1,1 +1,2 @@
-cuda
+- cuda
+- Megatron-AI威震天

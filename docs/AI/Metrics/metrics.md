@@ -256,3 +256,7 @@ Mean Reciprocal Rank，对搜索算法进行评估的机制，MRR是指多个查
 $$
 MRR = \frac{1}{|Q|}\sum_{i=1}^{|Q|}\frac{1}{rank_i}
 $$
+
+
+Pearson/Spearman correlation 
+
