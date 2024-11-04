@@ -258,5 +258,6 @@ MRR = \frac{1}{|Q|}\sum_{i=1}^{|Q|}\frac{1}{rank_i}
 $$
 
 
-Pearson/Spearman correlation 
+- Pearson/Spearman correlation 
+- Matthews correlation
 

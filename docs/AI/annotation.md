@@ -21,6 +21,7 @@
 - **DPU**：**D**eep learning **P**rocessing **U**nit，深度学习处理器
 
 ###E
+- **EDA**：**E**asy **D**ata **A**ugmentation，简单的数据增强方法
 - **EM**：**E**xact **M**atch，绝对匹配
 
 ###F

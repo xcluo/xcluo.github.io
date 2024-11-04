@@ -6,7 +6,7 @@
 
 #### 多任务学习 Attention Variants & Proxy Task
 - multitask learning
-
+- 数据增强
 
 #### 集成学习
 - Boosting
@@ -14,9 +14,10 @@
 - Bagging
 - Staking
 - MoE
-- [dropout](AutoEncoder/Dropout/dropout.md)
-- [DAE](AutoEncoder/DAE/dae.md)
-- [VAE](AutoEncoder/VAE/vae.md)
+- [dropout](Denoising/Dropout/dropout.md)
+- [DAE](Denoising/DAE/dae.md)
+- [VAE](Denoising/VAE/vae.md)
+- [Virtual Adversarial Training](Denoising/VirtualAdversarialTraining/vat.md)
 
 #### 大模型使用
 - [蒸馏](LLM_Extend/distillation/distillation.md)
