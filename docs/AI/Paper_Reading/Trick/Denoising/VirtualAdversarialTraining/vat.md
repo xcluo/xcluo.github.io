@@ -5,7 +5,7 @@
 
 #### 工作要点
 - fgsm attack，在梯度方向些微扰动（r扰动perturbation.或噪声noise，或者说是残差residual）即可轻易使模型严重误判
-- 【梯度上升方向（+noise）降低置信、梯度下降方向（-noise）提升置信】，属于白盒攻击，https://jaketae.github.io/study/fgsm/
+- 【梯度上升方向（+noise）降低置信、梯度下降方向（-noise）提升置信】，属于白盒攻击，还可以对梯度进一步应用l2 norm，即$\epsilon\frac{g}{||g||_2}$，https://jaketae.github.io/study/fgsm/
 - 通过对【对抗样本 + 干净样本】的数据混合训练，神经网络能实现一定程度上的正则化与泛化增强，即下式
 - $\hat{J}(\theta, x, y)=\alpha J(\theta, x, y) + (1-\alpha)J(\theta, x+\eta*sign(\nabla_x J(\theta, x, y)), y)$，$\alpha$ 一般取0.5
 - 从上式可以发现，对于每个训练数据附近的一个临域内，我们都可以保持它的识别正确。这样模型的鲁棒性也有了一定的提升。由于没有显示地制造数据参与训练，而是每次对输入representation（可以为embedding也可以为其它中间状态）进行动态虚拟制造，因此叫做VAT

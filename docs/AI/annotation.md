@@ -15,7 +15,7 @@
 - **CRF**: **C**onditional **R**andom **F**ield，条件随机场，也叫做马尔可夫随机场
 
 ###D
-- **DAE**：**D**enoise **A**uto-**E**ncoder，去噪自编码器
+- **DAE**：**D**enoising **A**uto-**E**ncoder，去噪自编码器
 - **DDIM**：**D**enoising **D**iffusion **I**mplicit **M**odel，去噪扩散隐式模型
 - **DDPM**：**D**enoising **D**iffusion **P**robabilistic **M**odel，去噪扩散概率模型
 - **DPU**：**D**eep learning **P**rocessing **U**nit，深度学习处理器
