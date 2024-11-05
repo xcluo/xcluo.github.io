@@ -1,14 +1,13 @@
-#### 多模态融合
+#### 多模态融合 & 多任务学习
 - [token](Multimodality_Fusion/token_modality.md)
 - [sound](Multimodality_Fusion/sound_modality.md)
 - [shape](Multimodality_Fusion/shape_modality.md)
 - [fusion](Multimodality_Fusion/modality_fusion.md)
 
-#### 多任务学习 Attention Variants & Proxy Task
+####  Attention Variants & Proxy Task
 - multitask learning
-- 数据增强
 
-#### 集成学习
+#### 集成学习 & 数据增强
 - Boosting
       - [LightGBM](Ensemble/Ensemble/Boosting/lightgbm.md)
 - Bagging
@@ -18,6 +17,10 @@
 - [DAE](Denoising/DAE/dae.md)
 - [VAE](Denoising/VAE/vae.md)
 - [Virtual Adversarial Training](Denoising/VirtualAdversarialTraining/vat.md)
+- 数据增强  
+    - flipping  
+    - rotating  
+    - transforming the color  
 
 #### 大模型使用
 - [蒸馏](LLM_Extend/distillation/distillation.md)

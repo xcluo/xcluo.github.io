@@ -258,6 +258,6 @@ MRR = \frac{1}{|Q|}\sum_{i=1}^{|Q|}\frac{1}{rank_i}
 $$
 
 
-- Pearson/Spearman correlation 
-- Matthews correlation
-
+- Pearson/Spearman correlation Coefficient，有道云笔记
+- Matthews correlation Coefficient，有道云笔记
+- Lp距离，有道云笔记
