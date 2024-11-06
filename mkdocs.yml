@@ -38,6 +38,7 @@ nav:
   - 数学:
     - 专业名词: Math/annotation.md
     - 线性代数: Math/Linear_Algebra/index.md
+    - 微积分: Math/Calculus/index.md
     
   
   - 编程语言:
