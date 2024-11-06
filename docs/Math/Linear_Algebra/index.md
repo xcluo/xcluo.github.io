@@ -8,5 +8,3 @@
 $X \sim\mathcal{N}(\mu, \sigma^2)$，密度函数$f(x)=\frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{(x-\mu)^2}{2\sigma^2}}$
 
 
-#### 泰勒展开
-https://zhuanlan.zhihu.com/p/138153530

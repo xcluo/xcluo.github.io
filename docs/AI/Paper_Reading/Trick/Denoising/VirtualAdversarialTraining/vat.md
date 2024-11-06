@@ -25,7 +25,7 @@
 - https://blog.csdn.net/qwq_xcyyy/article/details/119420855
 - [二阶泰勒展开](https://www.cnblogs.com/aoru45/p/13876279.html)
 - $r_{v-adv}(x, \theta)\approx \epsilon\overline{u(x,\theta)}$，其中$u(x,\theta)$为 $H(x,\theta)$ 的第一个特征向量（主特征向量，对应于最大特征值），$\overline{\cdotp}$表示单位矩阵化操作
-- 算法实际上是$d=\overline{\frac{g}{||g||_2}}$
+- 算法实际上是$d=\overline{\frac{g}{||g||_2}}$ https://blog.csdn.net/u013453936/article/details/81612015
 - 不直接沿用标签，而是对局部分布进行平滑处理（KL min loss）
 - [power iteration method](https://blog.csdn.net/qq_44154915/article/details/133957332)
 
