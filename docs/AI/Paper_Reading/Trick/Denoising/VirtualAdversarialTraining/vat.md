@@ -38,6 +38,7 @@
 #### 工作要点
 - 第一个将VAT应用至文本领域
 - dropout followed by FGM performs the best
+- 相较fgsm进一步用了l2 norm，$\epsilon\frac{g}{||g||_2}$
 
 ### PGD
 > 论文：Towards Deep Learning Models Resistant to Adversarial Attacks  
