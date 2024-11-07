@@ -7,7 +7,7 @@
 ####  Attention Variants & Proxy Task
 - multitask learning
 
-#### 集成学习 & 数据增强
+#### 集成学习 & 数据增强 & 对比学习
 - Boosting
       - [LightGBM](Ensemble/Ensemble/Boosting/lightgbm.md)
 - Bagging
@@ -21,6 +21,8 @@
     - flipping  
     - rotating  
     - transforming the color  
+    - text_image + mask
+  - 对比学习
 
 #### 大模型使用
 - [蒸馏](LLM_Extend/distillation/distillation.md)

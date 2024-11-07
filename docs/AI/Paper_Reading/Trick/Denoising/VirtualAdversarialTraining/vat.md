@@ -11,7 +11,7 @@
 - 从上式可以发现，对于每个训练数据附近的一个临域内，我们都可以保持它的识别正确。这样模型的鲁棒性也有了一定的提升。由于没有显示地制造数据参与训练，而是每次对输入representation（可以为embedding也可以为其它中间状态）进行动态虚拟制造，因此叫做VAT
 - 直接沿用标签
 
-### LDS
+### approximation of LDS
 > 论文：Distributional Smoothing with Virtual Adversarial Training  
 > LDS：**L**ocal **D**istributional **S**moothness  
 > Kyoto University, ICLA 2016
@@ -38,15 +38,31 @@
 #### 工作要点
 - 第一个将VAT应用至文本领域
 - dropout followed by FGM performs the best
-- 相较fgsm进一步用了l2 norm，$\epsilon\frac{g}{||g||_2}$
+- 相较fgsm和lds进一步用了l2 norm，$\epsilon\frac{g}{||g||_2}$
+- at + vat一起应用，可以共同提升模型的robustness
+- table 3，应用at或vat后word embedding的差异性和相似性得到提升
+
+### TextBugger
+> 论文：TextBugger: Generating Adversarial Text Against Real-world Applications  
+> Zhejiang University & Alibaba-Zhejiang University Joint Research, NDSS 2019
+
+#### 工作要点
+- general attack framework for generating adversarial texts
 
 ### PGD
 > 论文：Towards Deep Learning Models Resistant to Adversarial Attacks  
 > PGD：**P**rojected **G**radient **D**escent  
+> Github：[mnist_challenge](https://github.com/MadryLab/mnist_challenge)、[cifar10_challenge](https://github.com/MadryLab/cifar10_challenge)  
 > MIT, ICLA 2018
 
 #### 工作要点
-- s
+- saddle point (min-max) formulation，鞍点min-max优化方式
+- pgd attack，运用局部一阶信息进行强力对抗攻击
+- MNIST和CIFAR10白盒攻击效果测试分别为89%/46%，黑盒效果为95%/64%
+- Reliable Evaluation of Adversarial Robustness with an Ensemble of Diverse 
+Parameter-free Attacks
+- 不直接输入x_embedding，而是输入x_embedding + noise进行min loss
+- 解决non-convex（非凸）和non-concave（非凹）点优化问题
 
 ### s
 > 论文：Virtual Adversarial Training: A Regularization Method for Supervised and Semi-Supervised Learning  
