@@ -16,7 +16,7 @@
 - [dropout](Denoising/Dropout/dropout.md)
 - [DAE](Denoising/DAE/dae.md)
 - [VAE](Denoising/VAE/vae.md)
-- [Virtual Adversarial Training](Denoising/VirtualAdversarialTraining/vat.md)
+- [Virtual Adversarial Training](Denoising/AdversarialTraining/vat.md)
 - 数据增强  
     - flipping  
     - rotating  

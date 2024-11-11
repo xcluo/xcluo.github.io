@@ -63,6 +63,7 @@
 - **NPU**：**N**eural network **P**rocessing **U**nit，中科院计算所/寒武纪公司出品的神经网络处理器
 
 ###O
+- **ONNX**：**O**pen **N**eural **N**etwork **E**xchange，一种模型结构优化开源数据类型
 - **OOM**：**O**out **O**f **M**emory，内存溢出或内存不足
 - **OOV**: **O**ut **O**f **V**ocabulary，不在词表内
 
