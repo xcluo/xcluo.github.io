@@ -81,7 +81,9 @@ TextAttack: A Framework for Adversarial Attacks, Data Augmentation, and Adversar
 #### 工作要点
 - saddle point (min-max) formulation，通过“小步走，走多步”的鞍点min-max优化方式（FGSM和FGM的优化路径是线性），非线性模型只做一次下降是不够的
 - $r_{adv|t+1}=\alpha \frac{g_t}{||g_t||_2}$
-- epsilon: maximum perturbation, alpha: step size, steps: number of steps
+- epsilon: maximum perturbation, alpha: step size, steps: number of steps  
+- https://blog.csdn.net/weixin_44750512/article/details/132088186  
+- https://i-blog.csdnimg.cn/blog_migrate/a43c7bd208f48f266acbb6f64f36e2a5.png  
 - start: 是否从随机点开始扰动 `adv_img = img + torch.empty_like(x).uniform_(-eps, eps)`
 - 每次更新需要用l∞约束扰动规模，即 `delta=torch.clamp(delta, min=-eps, max=eps), adv_img = img+delta`
 - l∞约束比l2约束效果更好，因为后者效果太强了，脱离了对抗的范围，即对抗生成的标签较原真实标签发生了改变  
