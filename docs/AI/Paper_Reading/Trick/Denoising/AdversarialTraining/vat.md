@@ -6,6 +6,7 @@
 #### 工作要点
 - fgsm attack，在梯度方向些微扰动（r扰动perturbation.或噪声noise，或者说是残差residual）即可轻易使模型严重误判
 - 【梯度上升方向（+noise）降低置信、梯度下降方向（-noise）提升置信】，属于白盒攻击，还可以对梯度进一步应用l2 norm，即$\epsilon\frac{g}{||g||_2}$，https://jaketae.github.io/study/fgsm/
+- 可以理解为l_∞约束，$\frac{g}{||g||_\infty}$，只不过权值不是归一化而是进行sign变换
 - 通过对【对抗样本 + 干净样本】的数据混合训练，神经网络能实现一定程度上的正则化与泛化增强，即下式
 - $\hat{J}(\theta, x, y)=\alpha J(\theta, x, y) + (1-\alpha)J(\theta, x+\eta*sign(\nabla_x J(\theta, x, y)), y)$，$\alpha$ 一般取0.5
 - 从上式可以发现，对于每个训练数据附近的一个临域内，我们都可以保持它的识别正确。这样模型的鲁棒性也有了一定的提升。由于没有显示地制造数据参与训练，而是每次对输入representation（可以为embedding也可以为其它中间状态）进行动态虚拟制造，因此叫做VAT
@@ -29,6 +30,17 @@
 - 算法实际上是$d=\overline{\frac{g}{||g||_2}}$ https://blog.csdn.net/u013453936/article/details/81612015
 - 不直接沿用标签，而是对局部分布进行平滑处理（KL min loss）
 - [power iteration method](https://blog.csdn.net/qq_44154915/article/details/133957332)
+
+> 论文：Virtual Adversarial Training: A Regularization Method for Supervised and Semi-Supervised Learning  
+> Preferred Networks & Kyoto University & ATR Cognitive Mechanisms Laboratories & Ritsumeikan University, TPAMI 2017
+
+#### 工作要点
+- https://blog.csdn.net/weixin_43301333/article/details/108349415
+- 更细节的实验对比
+- 应用了N_unlabel = N - N_label - N_test参与KL散度的部分的smooth阶段，进行半监督学习，搭配figure 1理解
+- k值选取对效果影响不大，一般取1就足够
+- α和ε选取，前者一般固定为1，后者需要作为超参调整
+- isotropically，随机各方向散射
 
 ### FGM
 > 论文：Adversarial Training Methods for Semi-supervised Text Classification  
@@ -83,13 +95,6 @@ Parameter-free Attacks
 - l∞ ball around 范式约束
 
 
-### s
-> 论文：Virtual Adversarial Training: A Regularization Method for Supervised and Semi-Supervised Learning  
-> Preferred Networks & Kyoto University & ATR Cognitive Mechanisms Laboratories & Ritsumeikan University, TPAMI 2019
-
-#### 工作要点
-- https://blog.csdn.net/weixin_43301333/article/details/108349415
-
 ### FreeAT
 Adversarial Training for Free!
 - https://zhuanlan.zhihu.com/p/103593948
@@ -103,5 +108,16 @@ Free Large-Batch
 
 ### SMART
 > 论文：SMART: Robust and Efficient Fine-Tuning for Pre-trained Natural Language Models through Principled Regularized Optimization  
-> SMART：**SM**oothness-inducing **A**dversarial **R**egularization  
+> SMAR$^3$T$^2$：**SM**oothness-inducing **A**dversarial **R**egularization and b**R**egman p**R**oximal poin**T** op**T**imization  
 > Microsoft Dynamics 365 AI, ACL 2020
+
+
+#### 工作要点
+1. smoothness-inducing regularization
+        - $\lambda_s$LDS + $\mu$PGD
+2. bregman proximal point optimization method (including vinilla, generalized, accelerated proximal and other variants)introduce a trust-region-type regularization at each iteration
+        - reltaed to FreeLB  
+        - vanilla Bregman proximal point(VBPP)，$\theta_{t+1}=\argmin_{\theta} \mathcal{F}(\theta) + \mu\mathcal{D}_{\text{Breg}}(\theta, \theta_t)$    
+        - $\mathcal{D}_{\text{Beeg}}(\theta, \theta_t)=\frac{1}{n}\sum_i^n\mathcal{l}_s(f(x_i;\theta), f(x_i; \theta_t))$  
+        - $\mathcal{l}_s$，分类：pgd + LDS，回归：pgd + MSE  
+        - momentum Bregman proximal point (MBPP)

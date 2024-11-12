@@ -27,7 +27,7 @@
 #### 大模型使用
 - [蒸馏](LLM_Extend/distillation/distillation.md)
   - label smooth，标签平滑
-
+- ULMFit, Universal language model fine-tuning for text classification
 - [LLM_SFT](LLM_Extend/LLM_SFT/LLM_SFT.md)
 - prefix tuning
 - Instrument Finetune
