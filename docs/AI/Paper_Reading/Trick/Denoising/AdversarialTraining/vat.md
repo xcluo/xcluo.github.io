@@ -114,7 +114,11 @@ Free Large-Batch
 
 #### 工作要点
 1. smoothness-inducing regularization
-        - $\lambda_s$LDS + $\mu$PGD
+        - https://github.com/archinetai/vat-pytorch/blob/main/vat_pytorch/smart.py  
+        - $\lambda_s$LDS + $\mu$PGD  
+        - LDS: 对称的KL散度，即KL(P||Q) + KL(Q||P)  
+        - PGD使用approx of LDS更新x_adv（每次需要l_infity norm），n次后计算sym_kl_loss  
+        - loss = ce_loss + λ*sym_kl_loss
 2. bregman proximal point optimization method (including vinilla, generalized, accelerated proximal and other variants)introduce a trust-region-type regularization at each iteration
         - reltaed to FreeLB  
         - vanilla Bregman proximal point(VBPP)，$\theta_{t+1}=\argmin_{\theta} \mathcal{F}(\theta) + \mu\mathcal{D}_{\text{Breg}}(\theta, \theta_t)$    
