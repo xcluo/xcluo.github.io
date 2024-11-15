@@ -81,6 +81,7 @@
 - **ROUGE**：**R**ecall-**O**riented **U**nderstudy for **G**isting **E**valuation
 
 ###S
+- **SFT**：**S**upervised **F**ine-**T**uning，有监督学习  
 
 ###T
 - **TPU**：**T**ensor **P**rocessing **U**nit，google的张量处理器

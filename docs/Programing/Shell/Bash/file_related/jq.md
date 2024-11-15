@@ -50,8 +50,9 @@ jq -c 'select(.c | tostring | length > 10)'
 3. 字符操作
 ```bash
 # 字符串匹配
-jq -c 'select(.c == "lxc")'              # 完全匹配
-jq -c 'select(.c | contains("lxc"))'     # 部分匹配
+jq -c 'select(.c == "lxc")'                 # 完全匹配
+jq -c 'select(.c | contains("lxc"))'        # 包含子串
+jq -c 'select(.c | contains("lxc") | not)'  # 不包含子串
 
 jq -c 'select(.c | length > 200)'        # 选择数据中字段c长度大于200的行
 jq -c '.c | select(length > 200)'        # 选择字段c长度大于200的字段

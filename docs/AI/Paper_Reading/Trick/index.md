@@ -12,7 +12,10 @@
       - [LightGBM](Ensemble/Ensemble/Boosting/lightgbm.md)
 - Bagging
 - Staking
-- MoE
+- [Transformer MoE](Ensemble/MoE/moe.md)
+    - MoE， Outrageously Large Neural Networks: The Sparsely-Gated Mixture-of-Experts Layer  
+    - GShard: Scaling Giant Models with Conditional Computation and Automatic Sharding  
+
 - [dropout](Denoising/Dropout/dropout.md)
 - [DAE](Denoising/DAE/dae.md)
 - [VAE](Denoising/VAE/vae.md)
@@ -32,7 +35,8 @@
 - prefix tuning
 - Instrument Finetune
 - Prompt Finetune
-- Transformer MoE
+
+    - 
 - inverse sampling, reject sampling, poisson distribution
 - length penalty, repetition penalty
 - gradient clip
