@@ -131,12 +131,15 @@
 > Preferred Networks & Google & OpenAI, ICLA 2017
 
 #### 工作要点
-- 第一个将VAT应用至文本领域
-- dropout followed by FGM performs the best
-- 相较fgsm和lds进一步用了l2 norm，$\epsilon\frac{g}{||g||_2}$
-- at + vat一起应用，可以共同提升模型的robustness
-- table 3，应用at或vat后word embedding的差异性和相似性得到提升
-#### 主要内容
+- 第一个将AT和VAT应用至文本领域
+- 结合了FGSM和approximation of LDS，其中前者$L_\infty$约束变为$L_2$约束，即$\epsilon\frac{g}{||g||_2}$
+<div class="one-image-container">
+    <img src="\AI\Paper_Reading\Trick\Denoising\AdversarialTraining\image\fgm_ablation.png" style="width: 90%;">
+    <p style="text-align: center;">FGM效果表现</p>
+</div>
+- dropout + FGM 效果更好
+
+
 ### TextBugger
 > 论文：TextBugger: Generating Adversarial Text Against Real-world Applications  
 > Zhejiang University & Alibaba-Zhejiang University Joint Research, NDSS 2019
