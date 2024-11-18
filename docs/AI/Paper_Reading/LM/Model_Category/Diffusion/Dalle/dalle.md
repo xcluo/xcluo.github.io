@@ -68,7 +68,7 @@ DALLE-2模型包含**prior**和**decoder**两个模块，前者基于输入的�
     </div>
 
     <div>
-        <img src="\AI\Paper_Reading\LM\Diffusion\Dalle\image\dalle-2&glide_fid.jpg">
+        <img src="\AI\Paper_Reading\LM\Model_Category\Diffusion\Dalle\image\dalle-2&glide_fid.jpg">
         <p>unCLIP & GLIDE不同尺度下生成图片FID</p>
     </div>
 

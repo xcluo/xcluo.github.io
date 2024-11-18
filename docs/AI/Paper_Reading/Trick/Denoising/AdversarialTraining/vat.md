@@ -4,43 +4,125 @@
 > Google, ICLA 2015
 
 #### 工作要点
-- fgsm attack，在梯度方向些微扰动（r扰动perturbation.或噪声noise，或者说是残差residual）即可轻易使模型严重误判
+- [x] 在梯度方向通过控制超参$\epsilon$增加些微扰动（特别是梯度上升方向）即可轻易使模型严重误判，
+    
+    $$
+    \begin{aligned}
+    f&(x+r)\ne f(x) \\
+    r& = \epsilon \text{sign}\big(\nabla \mathcal{L}_x(\theta, x, y)\big)
+    \end{aligned}
+    $$
+
+    !!! info ""
+        类似于对梯度附加了一个$L_\infty$ norm约束（标准$L_\infty$除以最大绝对值，此处额外增加了取整步骤）
+        
+- [x] 对抗训练提升模型泛化能力$\mathcal{L}(\theta, x, y)=\mathcal{L}_1(\theta, x, y) + \alpha\mathcal{L}_1\big(\theta, x+\epsilon\text{sign}(\nabla_x \mathcal{L}_1(\theta, x, y)\big), y)$
+
+    !!! info ""    
+        $\alpha$一般取1
+    
 - 【梯度上升方向（+noise）降低置信、梯度下降方向（-noise）提升置信】，属于白盒攻击，还可以对梯度进一步应用l2 norm，即$\epsilon\frac{g}{||g||_2}$，https://jaketae.github.io/study/fgsm/
 - 可以理解为l_∞约束，$\frac{g}{||g||_\infty}$，只不过权值不是归一化而是进行sign变换
 - 通过对【对抗样本 + 干净样本】的数据混合训练，神经网络能实现一定程度上的正则化与泛化增强，即下式
-- $\hat{J}(\theta, x, y)=\alpha J(\theta, x, y) + (1-\alpha)J(\theta, x+\eta*sign(\nabla_x J(\theta, x, y)), y)$，$\alpha$ 一般取0.5
-- 从上式可以发现，对于每个训练数据附近的一个临域内，我们都可以保持它的识别正确。这样模型的鲁棒性也有了一定的提升。由于没有显示地制造数据参与训练，而是每次对输入representation（可以为embedding也可以为其它中间状态）进行动态虚拟制造，因此叫做VAT
-- 直接沿用标签
+
+#### 主要内容
+1. FGSM不同$\epsilon$下的效果表现  
+    <div class="row-image-container">
+        <div>
+            <img src="\AI\Paper_Reading\Trick\Denoising\AdversarialTraining\image\fgsm_-0.1g.jpg" style="width: 99%">
+            <p>-$0.01\nabla_x$: 0.98拉多</p>
+        </div>
+        <div>
+            <img src="\AI\Paper_Reading\Trick\Denoising\AdversarialTraining\image\fgsm_0g.jpg" style="width: 99%">
+            <p>$0\nabla_x$: 0.42拉多</p>
+        </div>
+        <div>
+            <img src="\AI\Paper_Reading\Trick\Denoising\AdversarialTraining\image\fgsm_0.01g.jpg" style="width: 99%">
+            <p>+$0.01\nabla_x$: 0.13沙克犬</p>
+        </div>
+        <div>
+            <img src="\AI\Paper_Reading\Trick\Denoising\AdversarialTraining\image\fgsm_0.1g.jpg" style="width: 99%">
+            <p>+$0.1\nabla_x$: 0.15威玛猎犬</p>
+        </div>
+    </div>
+    <p style="text-align:center">在图像梯度(上升/下降)方向施加不同程度扰动对模型识别结果的影响</p>
+
+    !!! info ""
+        在梯度上升方向增加扰动，模型置信降低，反之增加；
+
+2. FGSM对抗训练提升模型稳定性  
+    $\mathcal{L}(x, y, \theta)=\mathcal{L}_1(x, y, \theta) + \alpha\mathcal{L}_1\big(x+\epsilon\text{sign}(\nabla_x \mathcal{L}_1(\theta, x, y)\big), y, \theta)$
+
 
 ### approximation of LDS
-> 论文：Distributional Smoothing with Virtual Adversarial Training  
 > LDS：**L**ocal **D**istributional **S**moothness  
-> Kyoto University, ICLA 2016
+> 论文：Distributional Smoothing with Virtual Adversarial Training  
+> Kyoto University, ICLA 2016   
 
-#### 工作要点
-- 最多两个超参：$\epsilon \gt 0\ \&\ ||r||_2 \lt \epsilon$、$\lambda$用于连接多个loss object
-- 3次计算，forward_1: f(x), backward_1: d, forward_2: f(x+εd)
-- approximation of LDS
-- invariant
-- 局部分布平滑性，即$f(x)\approx f(x+r)$
-- [LDS推导](https://blog.csdn.net/kearney1995/article/details/79970934)
-- https://blog.csdn.net/qwq_xcyyy/article/details/119420855
-- [二阶泰勒展开](https://www.cnblogs.com/aoru45/p/13876279.html)
-- $r_{v-adv}(x, \theta)\approx \epsilon\overline{u(x,\theta)}$，其中$u(x,\theta)$为 $H(x,\theta)$ 的第一个特征向量（主特征向量，对应于最大特征值），$\overline{\cdotp}$表示单位矩阵化操作
-- 算法实际上是$d=\overline{\frac{g}{||g||_2}}$ https://blog.csdn.net/u013453936/article/details/81612015
-- 不直接沿用标签，而是对局部分布进行平滑处理（KL min loss）
-- [power iteration method](https://blog.csdn.net/qq_44154915/article/details/133957332)
+</bar>
 
 > 论文：Virtual Adversarial Training: A Regularization Method for Supervised and Semi-Supervised Learning  
 > Preferred Networks & Kyoto University & ATR Cognitive Mechanisms Laboratories & Ritsumeikan University, TPAMI 2017
 
 #### 工作要点
-- https://blog.csdn.net/weixin_43301333/article/details/108349415
-- 更细节的实验对比
-- 应用了N_unlabel = N - N_label - N_test参与KL散度的部分的smooth阶段，进行半监督学习，搭配figure 1理解
-- k值选取对效果影响不大，一般取1就足够
-- α和ε选取，前者一般固定为1，后者需要作为超参调整
-- isotropically，随机各方向散射
+- [x] 虚拟对抗训练的半监督算法(VAT, Vitural Adversarial Training)，运用了平滑思想旨在使模型对处于一定的区间范围内的数据样本都有较为相似的分类结果。
+
+    $$
+    \begin{aligned}
+        \mathcal{L} &= \mathop{\mathcal{L}_1}\limits_{(x_1,y_1) \in D_{label}}(x_1, y_1, \theta) + \alpha \mathop{\text{KL}}\limits_{x_2 \in D_{unlabel}}[p(Y|x_2,\theta)||p(Y|x_2+r_{\text{v-adv}},\theta)] \\
+        r_{\text{v-adv-}2} &= \epsilon\frac{g}{||g||_2}, \text{where}\ g=\nabla_{x_2}\text{KL}[p(y|x_2,\theta)||p(y|x_2+r,\theta)]\Big\vert_{r=\xi d} \\
+        r_{\text{v-adv-}\infty} &= \epsilon \text{sign}(g), \text{where}\ g=\nabla_{x_2}\text{KL}[p(y|x_2,\theta)||p(y|x_2+r,\theta)]\Big\vert_{r=\xi d}
+    \end{aligned}
+    $$
+
+    !!! info ""
+        - 局部平滑目标，即扰动范围$||r||_{2/\infty}\le \epsilon$内，$f(x)\approx f(x+r)$  
+        - 两个超参 $\epsilon$ 和 $\alpha$，以及指定norm方式  
+        - $(x_1,y_1)\in D_{label}, x_2\in D_{unlabel}$，前者有监督训练，后者无监督局部分布平滑，因此为半监督训练
+        - 单次训练需要3次前向计算：`forward(x), forward(x2_update_r), forward(x2_get_final_kl)`
+        - 单次后向需要2次后向计算：`backward(x2_update_r), backward(update_θ)`
+
+- [x] VAT较（使用伪标签的）对抗训练模型的泛化能力优秀（AT新增训练点，VAT直接泛化面）
+
+#### 主要内容
+1. approximation of LDS
+
+    $$
+    \begin{aligned}
+        \text{LDS}(r, x, \theta) =& \text{KL}(r, x, \theta)=\text{KL}[p(y|x,\theta)||p(y|x+r,\theta)] \\
+        \approx& \text{LDS}(0, x, \theta) + \nabla_r\text{LDS}(0, x, \theta)|_{r=0} + \frac{1}{2}r^TH(x,\theta)r \\
+        =& \frac{1}{2}r^TH(x,\theta)r \\
+        r_{\text{v-adv}} =& \mathop{\text{arg max}}\limits_{r;\ ||r||_{2/\infty}\le \epsilon} \text{KL}(r, x, \theta) \\
+        \approx& \epsilon *\overline{d(x, \theta)} \\
+        \text{power iteration method} \\
+        d\leftarrow& \overline{Hd} \\
+        \text{finite differce method} \\
+        Hd \approx& \frac{\nabla_r\text{KL}(0, x+\epsilon d,\theta)\big\vert_{r=0} - \nabla_r\text{KL}(0, x,\theta)\big\vert_{r=0}}{\epsilon d}*d \\
+        =& \frac{\nabla_r\text{KL}(0, x+\epsilon d,\theta)\big\vert_{r=0}}{\epsilon} \\
+        d=&\overline{\nabla_r\text{KL}(0, x+\epsilon d,\theta)\big\vert_{r=0}}
+    \end{aligned}
+    $$
+
+    !!! info ""
+        - $r=0$ 时KL散度值为0且对应极值点，所以泰勒展开式前两项均为0    
+        - $\overline{\cdot}$ 为 L2 norm 操作，$u(x,\theta)$表示为海森矩阵$H$的最主要特征向量  
+        - 特征值幂迭代近似算法  
+            1. random_init $d$; 
+            2. 迭代计算K次（此处1次效果就很理想）: $d = L_2\text{-}norm(Hd)$; 
+            3. return $d$
+
+2. K=1即可取得理想效果
+    <div class="one-image-container">
+        <img src="\AI\Paper_Reading\Trick\Denoising\AdversarialTraining\image\approximation_lds_vary-k.jpg" style="width: 50%;">
+        <!-- <p style="text-align: center;"></p> -->
+    </div>
+
+
+3. VAT训练模型的泛化能力效果更强（AT新增训练点，VAT直接泛化面）
+   <div class="one-image-container">
+        <img src="\AI\Paper_Reading\Trick\Denoising\AdversarialTraining\image\approximation_lds_vat_process.jpg" style="width: 90%;">
+        <p style="text-align: center;">VAT训练模型的泛化能力效果演化</p>
+    </div>
 
 ### FGM
 > 论文：Adversarial Training Methods for Semi-supervised Text Classification  
@@ -54,7 +136,7 @@
 - 相较fgsm和lds进一步用了l2 norm，$\epsilon\frac{g}{||g||_2}$
 - at + vat一起应用，可以共同提升模型的robustness
 - table 3，应用at或vat后word embedding的差异性和相似性得到提升
-
+#### 主要内容
 ### TextBugger
 > 论文：TextBugger: Generating Adversarial Text Against Real-world Applications  
 > Zhejiang University & Alibaba-Zhejiang University Joint Research, NDSS 2019
@@ -95,7 +177,7 @@ TextAttack: A Framework for Adversarial Attacks, Data Augmentation, and Adversar
 - Reliable Evaluation of Adversarial Robustness with an Ensemble of Diverse 
 Parameter-free Attacks
 - l∞ ball around 范式约束
-
+#### 主要内容
 
 ### FreeAT
 Adversarial Training for Free!
@@ -127,3 +209,4 @@ Free Large-Batch
         - $\mathcal{D}_{\text{Beeg}}(\theta, \theta_t)=\frac{1}{n}\sum_i^n\mathcal{l}_s(f(x_i;\theta), f(x_i; \theta_t))$  
         - $\mathcal{l}_s$，分类：pgd + LDS，回归：pgd + MSE  
         - momentum Bregman proximal point (MBPP)
+#### 主要内容
