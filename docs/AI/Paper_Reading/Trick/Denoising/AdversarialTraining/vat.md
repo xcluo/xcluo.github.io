@@ -21,9 +21,6 @@
     !!! info ""    
         $\alpha$一般取1
     
-- 【梯度上升方向（+noise）降低置信、梯度下降方向（-noise）提升置信】，属于白盒攻击，还可以对梯度进一步应用l2 norm，即$\epsilon\frac{g}{||g||_2}$，https://jaketae.github.io/study/fgsm/
-- 可以理解为l_∞约束，$\frac{g}{||g||_\infty}$，只不过权值不是归一化而是进行sign变换
-- 通过对【对抗样本 + 干净样本】的数据混合训练，神经网络能实现一定程度上的正则化与泛化增强，即下式
 
 #### 主要内容
 1. FGSM不同$\epsilon$下的效果表现  
@@ -62,6 +59,7 @@
 </bar>
 
 > 论文：Virtual Adversarial Training: A Regularization Method for Supervised and Semi-Supervised Learning  
+> Github: [vat_pytorch](https://github.com/lyakaap/VAT-pytorch/blob/master/vat.py#L38)  
 > Preferred Networks & Kyoto University & ATR Cognitive Mechanisms Laboratories & Ritsumeikan University, TPAMI 2017
 
 #### 工作要点
@@ -69,16 +67,17 @@
 
     $$
     \begin{aligned}
-        \mathcal{L} &= \mathop{\mathcal{L}_1}\limits_{(x_1,y_1) \in D_{label}}(x_1, y_1, \theta) + \alpha \mathop{\text{KL}}\limits_{x_2 \in D_{unlabel}}[p(Y|x_2,\theta)||p(Y|x_2+r_{\text{v-adv}},\theta)] \\
-        r_{\text{v-adv-}2} &= \epsilon\frac{g}{||g||_2}, \text{where}\ g=\nabla_{x_2}\text{KL}[p(y|x_2,\theta)||p(y|x_2+r,\theta)]\Big\vert_{r=\xi d} \\
-        r_{\text{v-adv-}\infty} &= \epsilon \text{sign}(g), \text{where}\ g=\nabla_{x_2}\text{KL}[p(y|x_2,\theta)||p(y|x_2+r,\theta)]\Big\vert_{r=\xi d}
+        \mathcal{L} &= \mathop{\mathcal{L}_1}\limits_{(x_1,y_1) \in D_{label}}(x_1, y_1, \theta) + \alpha \mathop{\text{KL}}\limits_{x_2 \in D_{all}}[f(x_2)||f(x_2+r_{\text{v-adv}})] \\
+        r_{\text{v-adv-}2} &= \epsilon\frac{g}{||g||_2}, \text{where}\ g=\nabla_{r}\text{KL}[p(y|x_2,\theta)||p(y|x_2+r,\theta)]\Big\vert_{r=\epsilon d} \\
+        r_{\text{v-adv-}\infty} &= \epsilon \text{sign}(g), \text{where}\ g=\nabla_{r}\text{KL}[p(y|x_2,\theta)||p(y|x_2+r,\theta)]\Big\vert_{r=\epsilon d}
     \end{aligned}
     $$
 
     !!! info ""
         - 局部平滑目标，即扰动范围$||r||_{2/\infty}\le \epsilon$内，$f(x)\approx f(x+r)$  
         - 两个超参 $\epsilon$ 和 $\alpha$，以及指定norm方式  
-        - $(x_1,y_1)\in D_{label}, x_2\in D_{unlabel}$，前者有监督训练，后者无监督局部分布平滑，因此为半监督训练
+        - $(x_1,y_1)\in D_{label}, x_2\in D_{all}$，前者有监督训练，后者无监督局部分布平滑，因此为半监督训练
+        - $\nabla_r$中的$r$表示的是`random_init_r`
         - 单次训练需要3次前向计算：`forward(x), forward(x2_update_r), forward(x2_get_final_kl)`
         - 单次后向需要2次后向计算：`backward(x2_update_r), backward(update_θ)`
 
@@ -89,7 +88,7 @@
 
     $$
     \begin{aligned}
-        \text{LDS}(r, x, \theta) =& \text{KL}(r, x, \theta)=\text{KL}[p(y|x,\theta)||p(y|x+r,\theta)] \\
+        \text{LDS}(r, x, \theta) =& \text{KL}(r, x, \theta)=\text{KL}[f(x)||f(x+r)] \\
         \approx& \text{LDS}(0, x, \theta) + \nabla_r\text{LDS}(0, x, \theta)|_{r=0} + \frac{1}{2}r^TH(x,\theta)r \\
         =& \frac{1}{2}r^TH(x,\theta)r \\
         r_{\text{v-adv}} =& \mathop{\text{arg max}}\limits_{r;\ ||r||_{2/\infty}\le \epsilon} \text{KL}(r, x, \theta) \\
@@ -104,7 +103,8 @@
     $$
 
     !!! info ""
-        - $r=0$ 时KL散度值为0且对应极值点，所以泰勒展开式前两项均为0    
+        - $r=0$ 时KL散度值为0且对应极值点，所以泰勒展开式前两项均为0  
+        - $\text{arg max}\text{ KL}$ 表示选用$r$使得KL值最大参与VAT训练（此时认为对抗效果最好）  
         - $\overline{\cdot}$ 为 L2 norm 操作，$u(x,\theta)$表示为海森矩阵$H$的最主要特征向量  
         - 特征值幂迭代近似算法  
             1. random_init $d$; 
@@ -131,20 +131,82 @@
 > Preferred Networks & Google & OpenAI, ICLA 2017
 
 #### 工作要点
-- 第一个将AT和VAT应用至文本领域
-- 结合了FGSM和approximation of LDS，其中前者$L_\infty$约束变为$L_2$约束，即$\epsilon\frac{g}{||g||_2}$
+- [x] 第一个将AT和VAT应用至文本领域
+- [x] 结合了FGSM和approximation of LDS，其中前者$L_\infty$约束变为$L_2$约束，即$\epsilon\frac{g}{||g||_2}$
 <div class="one-image-container">
-    <img src="\AI\Paper_Reading\Trick\Denoising\AdversarialTraining\image\fgm_ablation.png" style="width: 90%;">
-    <p style="text-align: center;">FGM效果表现</p>
+    <img src="\AI\Paper_Reading\Trick\Denoising\AdversarialTraining\image\fgm_ablation.jpg" style="width: 90%;">
+    <!-- <p style="text-align: center;">FGM效果表现</p> -->
 </div>
-- dropout + FGM 效果更好
+- [x] dropout + FGM 顺序搭配使用效果更好
 
 
-### TextBugger
+### PGD
+> 论文：Towards Deep Learning Models Resistant to Adversarial Attacks  
+> PGD：**P**rojected **G**radient **D**escent  
+> Github：[mnist_challenge](https://github.com/MadryLab/mnist_challenge)、[cifar10_challenge](https://github.com/MadryLab/cifar10_challenge)  
+> MIT, ICLA 2018
+
+#### 工作要点
+- 不同于**FG(S)M**先验地认为既有模型为简单线性分类器，此类对抗训练复杂模型效果不够适用（局部最优或效果不理想），因此提出了一个**优化的多步变体方案**适用于复杂模型的对抗训练
+    <div class="one-image-container">
+        <img src="\AI\Paper_Reading\Trick\Denoising\AdversarialTraining\image\pgd_diagram.png" style="width: 30%;">
+        <p style="text-align: center;">PGM原理示意</p>
+    </div>
+
+    $$
+    \begin{aligned}
+        \mathcal{L}(x, y, \theta) &= \mathcal{L}_1(x, y, \theta) + \alpha\mathcal{L}_1(x^S, y, \theta) \\
+        x^{t+1} &= x^0 + r^t \\
+        r^{t+1}_{\infty}& = \epsilon\text{sign}(\nabla_x\mathcal{L}_1(x^t, y, \theta)) \\
+        r^{r+1}_{2}& = \epsilon\frac{\nabla_x\mathcal{L}_1(x^t, y, \theta)}{||\nabla_x\mathcal{L}_1(x^t, y, \theta)||_2} 
+    \end{aligned}
+    $$
+
+    !!! info ""
+        - 为增加样本随机性，可初始化`x0=x+clip(random_r, delta)`作为PGD起始点  
+        - $S$ 表示迭代的步数，可通过`clip(r, delta)`方案控制每步新增的$r$
+    
+
+
+
+### SMART
+> 论文：SMART: Robust and Efficient Fine-Tuning for Pre-trained Natural Language Models through Principled Regularized Optimization  
+> SMAR$^3$T$^2$：**SM**oothness-inducing **A**dversarial **R**egularization and b**R**egman p**R**oximal poin**T** op**T**imization  
+> Github：[mt-dnn](https://github.com/namisan/mt-dnn/blob/master/mt_dnn/perturbation.py)，[smart_pytorch](https://github.com/archinetai/smart-pytorch/blob/main/smart_pytorch/smart_pytorch.py#L43)  
+> Microsoft Dynamics 365 AI, ACL 2020
+
+
+#### 工作要点
+
+- [x] 结合approximation of LDS和PGD思想
+
+    $$
+    \begin{aligned}
+        \mathcal{L} = \mathcal{L}_1(x, y, \theta) &+ \alpha \big(\text{KL}[f(x)||f(x^S)] + \text{KL}[f(x^S)||f(x)]\big) \\ 
+        x^{t+1} &= x^0 + r^t \\
+        r^{t+1}_{\text{v-adv-}2} &= \epsilon\frac{g}{||g||_2}, \text{where}\ g=\nabla_{r}\text{KL}[f(x)||f(x^0 + r)] + \text{KL}[f(x^0 + r||f(x))]\Big\vert_{r=r^t} \\
+        r^{t+1}_{\text{v-adv-}\infty} &= \epsilon \text{sign}(g), \text{where}\ g=\nabla_{r}\text{KL}[f(x)||f(x^0 + r)] + \text{KL}[f(x^0 + r||f(x))]\Big\vert_{r=r^t}
+    \end{aligned}
+    $$
+
+    !!! info ""
+        - 此处approximation of LDS中使用了对称KL散度
+        - $\nabla_r$中的$r$表示的是`random_init_r`
+
+- [x] SMART较正常BERT训练效果提升
+<div class="one-image-container">
+    <img src="\AI\Paper_Reading\Trick\Denoising\AdversarialTraining\image\smart_ablation.jpg" style="width: 70%;">
+    <!-- <p style="text-align: center;">SMART效果表现(-$\mathcal{R}_s$表示去除LDS部分)</p> -->
+</div>
+
+
+------
+
+1 TextBugger
 > 论文：TextBugger: Generating Adversarial Text Against Real-world Applications  
 > Zhejiang University & Alibaba-Zhejiang University Joint Research, NDSS 2019
 
-#### 工作要点
+1 工作要点
 - general attack framework for generating adversarial texts
 - 白盒环境：
     - 基于雅可比矩阵，并按照梯度降序argidx排序token序列  
@@ -154,62 +216,18 @@
 - 黑盒环境：选择重要性最高的句子，利用打分函数定位并操纵重要tokens
         - algorithm 3
 
-### TextAttack
+1 TextAttack
 TextAttack: A Framework for Adversarial Attacks, Data Augmentation, and Adversarial Training in NLP
 
-### PGD
-> 论文：Towards Deep Learning Models Resistant to Adversarial Attacks  
-> PGD：**P**rojected **G**radient **D**escent  
-> Github：[mnist_challenge](https://github.com/MadryLab/mnist_challenge)、[cifar10_challenge](https://github.com/MadryLab/cifar10_challenge)  
-> MIT, ICLA 2018
+- Reliable Evaluation of Adversarial Robustness with an Ensemble of Diverse Parameter-free Attacks
 
-#### 工作要点
-- saddle point (min-max) formulation，通过“小步走，走多步”的鞍点min-max优化方式（FGSM和FGM的优化路径是线性），非线性模型只做一次下降是不够的
-- $r_{adv|t+1}=\alpha \frac{g_t}{||g_t||_2}$
-- epsilon: maximum perturbation, alpha: step size, steps: number of steps  
-- https://blog.csdn.net/weixin_44750512/article/details/132088186  
-- https://i-blog.csdnimg.cn/blog_migrate/a43c7bd208f48f266acbb6f64f36e2a5.png  
-- start: 是否从随机点开始扰动 `adv_img = img + torch.empty_like(x).uniform_(-eps, eps)`
-- 每次更新需要用l∞约束扰动规模，即 `delta=torch.clamp(delta, min=-eps, max=eps), adv_img = img+delta`
-- l∞约束比l2约束效果更好，因为后者效果太强了，脱离了对抗的范围，即对抗生成的标签较原真实标签发生了改变  
-- https://github.com/Harry24k/adversarial-attacks-pytorch/blob/cf21e81f3f2e7a859e029e3d7953290ef063d6dd/torchattacks/attacks/pgd.py#L74  
-- [PGD L2/infinity](https://blog.csdn.net/Sankkl1/article/details/134215790)  
-- 不直接输入x_embedding，把fgsm在同一batch内计算n次后（连乘更新），进行min loss，从而解决non-convex（非凸）和non-concave（非凹）点优化问题
-- pgd attack，运用局部一阶信息进行强力对抗攻击
-- MNIST和CIFAR10白盒攻击效果测试分别为89%/46%，黑盒效果为95%/64%
-- Reliable Evaluation of Adversarial Robustness with an Ensemble of Diverse 
-Parameter-free Attacks
-- l∞ ball around 范式约束
-#### 主要内容
-
-### FreeAT
+1 FreeAT
 Adversarial Training for Free!
 - https://zhuanlan.zhihu.com/p/103593948
 
-### YOPO
+1 YOPO
 You Only Propagate Once
 
 
-### FreeLB
+1 FreeLB
 Free Large-Batch
-
-### SMART
-> 论文：SMART: Robust and Efficient Fine-Tuning for Pre-trained Natural Language Models through Principled Regularized Optimization  
-> SMAR$^3$T$^2$：**SM**oothness-inducing **A**dversarial **R**egularization and b**R**egman p**R**oximal poin**T** op**T**imization  
-> Microsoft Dynamics 365 AI, ACL 2020
-
-
-#### 工作要点
-1. smoothness-inducing regularization
-        - https://github.com/archinetai/vat-pytorch/blob/main/vat_pytorch/smart.py  
-        - $\lambda_s$LDS + $\mu$PGD  
-        - LDS: 对称的KL散度，即KL(P||Q) + KL(Q||P)  
-        - PGD使用approx of LDS更新x_adv（每次需要l_infity norm），n次后计算sym_kl_loss  
-        - loss = ce_loss + λ*sym_kl_loss
-2. bregman proximal point optimization method (including vinilla, generalized, accelerated proximal and other variants)introduce a trust-region-type regularization at each iteration
-        - reltaed to FreeLB  
-        - vanilla Bregman proximal point(VBPP)，$\theta_{t+1}=\argmin_{\theta} \mathcal{F}(\theta) + \mu\mathcal{D}_{\text{Breg}}(\theta, \theta_t)$    
-        - $\mathcal{D}_{\text{Beeg}}(\theta, \theta_t)=\frac{1}{n}\sum_i^n\mathcal{l}_s(f(x_i;\theta), f(x_i; \theta_t))$  
-        - $\mathcal{l}_s$，分类：pgd + LDS，回归：pgd + MSE  
-        - momentum Bregman proximal point (MBPP)
-#### 主要内容
