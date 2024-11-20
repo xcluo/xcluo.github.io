@@ -12,7 +12,7 @@
       - [LightGBM](Ensemble/Ensemble/Boosting/lightgbm.md)
 - Bagging
 - Staking
-- [Transformer MoE](Ensemble/MoE/moe.md)
+- [MoE](Ensemble/MoE/moe.md)
     - MoE， Outrageously Large Neural Networks: The Sparsely-Gated Mixture-of-Experts Layer  
     - GShard: Scaling Giant Models with Conditional Computation and Automatic Sharding  
 

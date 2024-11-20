@@ -184,8 +184,8 @@
     \begin{aligned}
         \mathcal{L} = \mathcal{L}_1(x, y, \theta) &+ \alpha \big(\text{KL}[f(x)||f(x^S)] + \text{KL}[f(x^S)||f(x)]\big) \\ 
         x^{t+1} &= x^0 + r^t \\
-        r^{t+1}_{\text{v-adv-}2} &= \epsilon\frac{g}{||g||_2}, \text{where}\ g=\nabla_{r}\text{KL}[f(x)||f(x^0 + r)] + \text{KL}[f(x^0 + r||f(x))]\Big\vert_{r=r^t} \\
-        r^{t+1}_{\text{v-adv-}\infty} &= \epsilon \text{sign}(g), \text{where}\ g=\nabla_{r}\text{KL}[f(x)||f(x^0 + r)] + \text{KL}[f(x^0 + r||f(x))]\Big\vert_{r=r^t}
+        r^{t+1}_{\text{v-adv-}2} &= \epsilon\frac{g}{||g||_2}, \text{where}\ g=\nabla_{r}\text{KL}[f(x)||f(x^0 + r)] \Big\vert_{r=r^t} \\
+        r^{t+1}_{\text{v-adv-}\infty} &= \epsilon \text{sign}(g), \text{where}\ g=\nabla_{r}\text{KL}[f(x)||f(x^0 + r)] \Big\vert_{r=r^t}
     \end{aligned}
     $$
 
