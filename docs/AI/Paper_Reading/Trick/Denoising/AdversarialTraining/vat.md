@@ -1,7 +1,7 @@
 ### FGSM
 > 论文：Explaining and Harnessing Adversarial Examples  
 > FGSM：**F**ast **G**radient **S**ign **M**ethod  
-> Google, ICLA 2015
+> Google, ICLR 2015
 
 #### 工作要点
 - [x] 在梯度方向通过控制超参$\epsilon$增加些微扰动（特别是梯度上升方向）即可轻易使模型严重误判，
@@ -54,7 +54,7 @@
 ### approximation of LDS
 > LDS：**L**ocal **D**istributional **S**moothness  
 > 论文：Distributional Smoothing with Virtual Adversarial Training  
-> Kyoto University, ICLA 2016   
+> Kyoto University, ICLR 2016   
 
 </bar>
 
@@ -128,7 +128,7 @@
 > 论文：Adversarial Training Methods for Semi-supervised Text Classification  
 > FGM：**F**ast **G**radient **M**ethod  
 > Github：[adversarial_text](https://github.com/tensorflow/models/tree/master/research/adversarial_text)  
-> Preferred Networks & Google & OpenAI, ICLA 2017
+> Preferred Networks & Google & OpenAI, ICLR 2017
 
 #### 工作要点
 - [x] 第一个将AT和VAT应用至文本领域
@@ -144,7 +144,7 @@
 > 论文：Towards Deep Learning Models Resistant to Adversarial Attacks  
 > PGD：**P**rojected **G**radient **D**escent  
 > Github：[mnist_challenge](https://github.com/MadryLab/mnist_challenge)、[cifar10_challenge](https://github.com/MadryLab/cifar10_challenge)  
-> MIT, ICLA 2018
+> MIT, ICLR 2018
 
 #### 工作要点
 - 不同于**FG(S)M**先验地认为既有模型为简单线性分类器，此类对抗训练复杂模型效果不够适用（局部最优或效果不理想），因此提出了一个**优化的多步变体方案**适用于复杂模型的对抗训练
