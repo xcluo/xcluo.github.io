@@ -23,6 +23,7 @@
         - $\text{softplus}(x)=\log(1+e^x)$
 
 - 专家网络负载均衡，共同训练
+    - 变异系数：coefficient of variation，$CV=\frac{\sigma}{\mu}$，工作中额外对变异系数进行了平方处理，消除测量尺度和量纲的影响，利于不同尺度和不同单位数据集之间的比较  
     - L_importance
     - L_load in appendix A
     - init W_g and W_noise with all zeros
