@@ -4,19 +4,21 @@
 [LLM-SFT](https://github.com/datawhalechina/self-llm)
 
 ```python
-from peft import LoraConfig, TaskType, get_peft_model
+from peft import LoraConfig, TaskType, get_peft_model, PeftModel
 from transformers import trainer
 
 config = LoraConfig(
     task_type=TaskType.CAUSAL_LM, 
     target_modules=["c_attn", "c_proj", "w1", "w2"],
-    inference_mode=False, # 训练模式
-    r=8, # Lora 秩
-    lora_alpha=32, # Lora alaph，具体作用参见 Lora 原理
-    lora_dropout=0.1# Dropout 比例
+    inference_mode=False,   # 是否为训练模式
+    r=8,                    # Lora 秩
+    lora_alpha=32,          # Lora alaph，具体作用参见 Lora 原理
+    lora_dropout=0.1        # Dropout 比例
 )
 model = get_peft_model(model, config)
-# model = PeftModel.from_pretrained(model, model_id=lora_path, config=config)
+# 加载lora 权重，需要置lora_config.inference_mode=True
+# model = PeftModel.from_pretrained(pre_trained_model, model_id=lora_path, config=lora_config)
+
 print(config, model.print_trainable_parameters(), sep='\n')
 # 打印每个可训练参数的名称和形状
 for name, param in model.named_parameters():
@@ -24,13 +26,13 @@ for name, param in model.named_parameters():
         print(f"Parameter name: {name}, Shape: {param.shape}")
 
 args = TrainingArguments(
-    output_dir="./output/Qwen",
-    per_device_train_batch_size=8,
-    gradient_accumulation_steps=2,
-    logging_steps=10,
-    num_train_epochs=3,
+    output_dir="./output/Qwen",         # lora_checkpoint 存储路径
+    save_steps=100,                     # lora_checkpoint 存储间隔步数
+    per_device_train_batch_size=8,      # batch_size
+    num_train_epochs=3,                 # epoch
+    gradient_accumulation_steps=2,      # 梯度累计步数
+    logging_steps=10,                   # 日志打印间隔步数
     gradient_checkpointing=True,
-    save_steps=100,
     learning_rate=1e-4,
     save_on_each_node=True
 )
@@ -46,6 +48,16 @@ trainer = Trainer(
 )
 
 trainer.train()
+
+# inference
+ipt = tokenizer(prompt.format(input_text) + prompt_details, return_tensors="pt").to("cuda")
+print(tokenizer.decode(model.generate(
+    **ipt,
+    do_sample=True,
+    top_k=1,
+    eos_token_id=tokenizer_eos_token_id),
+    skip_special_tokens=True)
+)
 ```
 
 #### [LoRA](lora.md)
