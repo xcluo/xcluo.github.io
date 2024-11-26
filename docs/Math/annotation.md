@@ -1,5 +1,5 @@
 #### C
-- **CDF**：**C**umulative **D**istribution **F**unction，累计分布函数
+- **CDF**：**C**umulative **D**istribution **F**unction，累计分布函数，用$\Phi(z)$表示，等价于$Pr(X\le z)$
 
 #### P
 - **PCA**：**P**rincipal **C**omponent **A**nalysis，主成分分析
