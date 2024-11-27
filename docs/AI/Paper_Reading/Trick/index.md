@@ -13,8 +13,6 @@
 - Bagging
 - Staking
 - [MoE](Ensemble/MoE/moe.md)
-    - MoE， Outrageously Large Neural Networks: The Sparsely-Gated Mixture-of-Experts Layer  
-    - GShard: Scaling Giant Models with Conditional Computation and Automatic Sharding  
 
 - [dropout](Denoising/Dropout/dropout.md)
 - [DAE](Denoising/DAE/dae.md)
@@ -30,6 +28,7 @@
 #### 大模型使用
 - [蒸馏](LLM_Extend/distillation/distillation.md)
   - label smooth，标签平滑
+  - switch transformer mixture hard and soft label: 0.25 of teacher and 0.75 of ground truth label
 - ULMFit, Universal language model fine-tuning for text classification
 - [LLM_SFT](LLM_Extend/LLM_SFT/LLM_SFT.md)
 - prefix tuning
