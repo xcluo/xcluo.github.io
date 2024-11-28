@@ -34,10 +34,6 @@
 - prefix tuning
 - Instrument Finetune
 - Prompt Finetune
-
-    - 
-- inverse sampling, reject sampling, poisson distribution
-- length penalty, repetition penalty
 - gradient clip
 - RAdam
 
