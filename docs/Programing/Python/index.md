@@ -1,7 +1,8 @@
 ### 基础部分
 
+1. [解释器命令行选项](basic/commond_line)
 1. [`class`](basic/class) 类
-1. [`内置方法`](basic/builtins)
+1. [内置方法](basic/builtins)
 
 
 ### 细节部分

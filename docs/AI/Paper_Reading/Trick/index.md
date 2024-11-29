@@ -29,7 +29,7 @@
 - [蒸馏](LLM_Extend/distillation/distillation.md)
   - label smooth，标签平滑
   - switch transformer mixture hard and soft label: 0.25 of teacher and 0.75 of ground truth label
-- ULMFit, Universal language model fine-tuning for text classification
+  - ULMFit, Universal language model fine-tuning for text classification
 - [LLM_SFT](LLM_Extend/LLM_SFT/LLM_SFT.md)
 - prefix tuning
 - Instrument Finetune

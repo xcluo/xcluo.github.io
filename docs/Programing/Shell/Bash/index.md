@@ -28,6 +28,7 @@
 - 内容替换：`tr`、[`sed`](file_related/sed)
 - 内容扰动：`shuf`
 - 文件传输：[`nc`](file_related/nc)
+- [输入输出重定向](file_related/redirection)：`<`、`>(>)`
 
 ### 数值操作
 
@@ -40,6 +41,8 @@
 - `rpm`、`yum`、`apt`
 
 ### 进程相关
+- 查看进程: [`top`](process_related/top)、`ps`
+- 终止进程: `kill`
 
 #### 进程调度
 

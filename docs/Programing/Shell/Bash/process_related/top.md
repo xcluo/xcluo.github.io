@@ -1,0 +1,19 @@
+[top命令结果解读](https://blog.csdn.net/fracly/article/details/129789900)
+
+#### line_3
+`%Cpu(s): 9.6 us, 0.8 sy, 0.0 ni, 89.6 id, 0.0 wa, 0.0 hi, 0.0 si, 0.0 st`，表示CPU使用情况，均为百分比
+
+- `9.6 us` 用户空间（user）占用CPU百分比
+- `0.8 sy` 内核空间（system）占用CPU百分比
+- `0.0%ni` 用户进程空间内改变过优先级的进程占用CPU百分比
+- `89.6 id` 空闲CPU百分比
+- `0.0%wa` 等待（wait）输入输出的CPU时间百分比
+- `0.0%hi` 硬中断（Hardware IRQ）占用CPU的百分比
+- `0.0%si` 软中断（Software Interrupts）占用CPU的百分比
+- `0.0 st` 用于有虚拟cpu的情况，用来指示被虚拟机偷掉的cpu时间
+#### line_4-5
+```bash
+KiB Mem : 65807304 total, 432360 free, 37334904 used, 28040040 buff/cache
+KiB Swap: 0 total, 0 free, 0 used. 26442184 avail Mem
+```
+两行均为为内存统计情况，Mem为实际物理内存使用情况，Swap是虚拟内存swap的情况，单位是KB
