@@ -4,7 +4,7 @@
 with Simple and Efficient Sparsity  
 > Google, JMLR 2022
 
-#### 主要要点
+#### 工作要点
 1. selective precision training enables bf16 training
 2. initialization schema for larger number of experts training
 3. increased expert regularization improve
