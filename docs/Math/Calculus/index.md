@@ -8,3 +8,6 @@ $$
     & R_n(x) = o[(x-x_0)^n]
 \end{aligned}
 $$
+
+
+- power iteration method

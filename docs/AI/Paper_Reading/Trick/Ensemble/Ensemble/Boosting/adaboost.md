@@ -1,7 +1,7 @@
 ### AdaBoost
 > 论文：A Decision-Theoretic Generalization of On-Line Learning and an Application to Boosting  
 > AdaBoost: **Ada**ptive **Boost**ing  
-> AT&T Labs, EuroCOLT 97
+> AT&T Labs, EuroCOLT 1997
 
 #### 基本原理
 1. **初始化**，训练集$D=\{(x^i, y^i)\}_{i=1}^n$，最大迭代轮数$T$，各样本权重$w_0^i=\frac{1}{n}$

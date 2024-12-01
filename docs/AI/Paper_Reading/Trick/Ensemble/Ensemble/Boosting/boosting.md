@@ -2,14 +2,12 @@ Boosting通过迭代地训练基(或弱)学习器，每次迭代都更关注在�
 
 - [AdaBoost](adaboost.md)  
 - [GBM](gbm.md)  
-- [XGBoost](xgboost.md)  
-- [LightGBM](lightgbm.md)  
-- LightGBM  A Highly Efficient Gradient Boosting Decision Tree
-- https://zhuanlan.zhihu.com/p/627313748  
-- [CatBoost](catboost.md)
+    - [GBDT](gbdt.md)：GBM的一种特殊（决策树）实现
+    - [XGBoost](xgboost.md)  
+    - [LightGBM](lightgbm.md)  
+    - LightGBM  
+    - https://zhuanlan.zhihu.com/p/627313748  
+    - [CatBoost](catboost.md)
 
 
-- GBM(Gradient Boosting Machines)
-- XGBoost(eXtreme Gradient Boosting)
-- XGBoost: A Scalable Tree Boosting System
 - CatBoost unbiased boosting with categorical features

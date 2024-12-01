@@ -10,7 +10,7 @@
 #### 集成学习 & 数据增强 & 对比学习
 - [Boosting](Ensemble/Ensemble/Boosting/boosting.md)
 
-- **Bagging**：Bootstrap Aggregation，通过自助采样（Bootstrap Sampling）生成多个训练集，然后在每个训练集上训练一个基学习器，最后将这些基学习器的预测结果进行平均（回归任务）或投票（分类任务）。
+- **Bagging**：Bootstrap Aggregating，通过自助采样（Bootstrap Sampling）生成多个训练集，然后在每个训练集上训练一个基学习器，最后将这些基学习器的预测结果进行平均（回归任务）或投票（分类任务）。
       - [Random Forests]
 - Stacking
 - Voting

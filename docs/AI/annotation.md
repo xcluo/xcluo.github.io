@@ -11,6 +11,7 @@
 - **BSR**：**B**lind image **S**uper-**R**esolution，图像盲超分辨率
 
 ###C
+- **CART**：**C**lassification **A**nd **R**egression **T**ree，分类和回归树，一种决策树
 - **CoT**: **Chain** **o**f  **T**hink，链式思维
 - **CRF**: **C**onditional **R**andom **F**ield，条件随机场，也叫做马尔可夫随机场
 
@@ -30,6 +31,8 @@
 
 ###G
 - **GAN**：**G**enerative **A**versarial **N**etwork，生成对抗模型
+- **GBDT**：**G**radient **B**oosted **D**ecision **T**rees，梯度提升决策树，GBM的一种特殊实现
+- **GBM**：**G**radient **B**oosting **M**achines，梯度提升机
 - **GPT**：**G**enerative **P**re-trained **T**ransformer
 - **GQA**：**G**rouped **Q**uery **A**ttention，分组查询注意力
 

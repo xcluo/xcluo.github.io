@@ -1,3 +1,7 @@
+### LightGBM
+> 论文：LightGBM: A Highly Efficient Gradient Boosting Decision Tree  
+> MSR & Peking University, NIPS 2017
+
 `lightgbm==2.0.4`，为使dat文件可用
 
 - 不再输出 `defualt_value`
