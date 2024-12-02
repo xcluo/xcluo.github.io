@@ -3,9 +3,8 @@ Boosting通过迭代地训练基(或弱)学习器，每次迭代都更关注在�
 - [AdaBoost](adaboost.md)  
 - [GBM](gbm.md)  
     - [GBDT](gbdt.md)：GBM的一种特殊（决策树）实现
-    - [XGBoost](xgboost.md)  
+        - [XGBoost](xgboost.md)  
     - [LightGBM](lightgbm.md)  
-    - LightGBM  
     - https://zhuanlan.zhihu.com/p/627313748  
     - [CatBoost](catboost.md)
 
