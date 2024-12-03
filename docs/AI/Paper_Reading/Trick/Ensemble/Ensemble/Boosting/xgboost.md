@@ -129,3 +129,10 @@
 
     - 列特征子采样，一般取0.8
     - Shrinkage通过减小每棵树的贡献（即乘以学习率$\eta$，缺省为0.3），使模型更平滑，有助于防止过拟合。
+    - switch to out-of-core computation when it runs out of memory
+    - [CSC](https://www.cnblogs.com/rollenholt/p/5960523.html)(compressed sparse column format)格式
+    - https://zhuanlan.zhihu.com/p/125617110  
+    - https://zhuanlan.zhihu.com/p/721576703  
+    - https://blog.csdn.net/anshuai_aw1/article/details/85093106  
+    - https://www.hrwhisper.me/machine-learning-xgboost/
+    - https://stats.stackexchange.com/questions/347078/xgboost-paper-time-complexity-analysis

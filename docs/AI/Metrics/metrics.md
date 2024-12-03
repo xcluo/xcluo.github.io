@@ -2,6 +2,22 @@ https://www.jianshu.com/p/0355bafb26ae
 
 macro：分别计算取平均
 micro：加权
+### Decision Tree
+
+#### Gain
+1. Information Entropy
+
+    $$
+    \begin{aligned}
+        E(X) =& -\sum_{i=1}^n p(x_i)\log p(x_i)
+    \end{aligned}
+    $$
+
+2. Information Gain
+2. Information Gain Ration
+3. Gini Index
+    基尼指数
+4. Gini Impurity
 
 ### Features
 #### tf-idf

@@ -4,8 +4,9 @@
 
 
 #### 基本原理
-
-
+- 也称作lgb
+- GOSS：gradient-based one-side sampling  
+- EFB: exclusive feature bundling  
 
 
 -----
