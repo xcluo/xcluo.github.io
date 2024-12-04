@@ -4,10 +4,13 @@
 
 
 #### 基本原理
+- https://zhuanlan.zhihu.com/p/627313748  
 - 也称作lgb
 - GOSS：gradient-based one-side sampling  
 - EFB: exclusive feature bundling  
-
+- Stochastic Gradient Boosting
+- definition 3.1: $\frac{1}{n}*(\frac{(n_lg_l)^2}{n_l} + \frac{(n_rg_r)^2}{n_r})=\frac{n_lg_l^2 + n_rg_r^2}{n}$
+- alg. 3 alg. 4
 
 -----
 

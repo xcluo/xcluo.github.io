@@ -4,20 +4,43 @@ macro：分别计算取平均
 micro：加权
 ### Decision Tree
 
-#### Gain
-1. Information Entropy
+#### ID3
+1. Entropy
 
     $$
     \begin{aligned}
-        E(X) =& -\sum_{i=1}^n p(x_i)\log p(x_i)
+        E(X) =& -\sum_{k=1}^K p(k)\log p(k) \\
+        =& -\sum_{k=1}^K \frac{\vert X^k \vert}{\vert X \vert}\log \frac{\vert X^k \vert}{\vert X\vert}
     \end{aligned}
     $$
 
-2. Information Gain
-2. Information Gain Ration
-3. Gini Index
+    > $K$ 表示分类任务类别数  
+    > $X$ 表示所有样本集合，$X^k$ 表示所有样本中属于 k-th 类别的样本集合
+
+2. Information Gain  
+    信息增益指选择某个特征进行分割能够减少的熵的程度
+
+    $$
+    \begin{aligned}
+            IG(X, m) =&  E(X) - H(X\vert X_{m, v}) \\
+            =& E(X) - \sum_{v \in V}\frac{\vert X_{m, v} \vert}{\vert X\vert}E(X_{m, v}) \\
+            =& E(X) - \sum_{v \in V}\frac{\vert X_{m, v} \vert}{\vert X\vert}*\bigg(-\sum_{k=1}^k \frac{\vert X_{m, v}^k \vert}{\vert X_{m, v}\vert}\log \frac{\vert X_{m, v}^k \vert}{\vert X_{m, v}\vert}\bigg) \\
+            = & E(X) -\sum_{v \in V}\sum_{k=1}^K\frac{\vert X_{m, v}^k \vert}{\vert X \vert}\log \frac{\vert X_{m, v}^k \vert}{\vert X_{m, v}\vert} \\ 
+            = & E(X) -\sum_{v \in V}\sum_{k=1}^Kp(k, m=v)\log p(k\vert m=v)
+    \end{aligned}
+    $$
+
+    > $m$ 表示 m-th 特征，$V=Set(X_m)$ 表示所有样本集合中 m-th 特征所有取值结合  
+    > $X_{m, v}$ 表示所有样本中 m-th 特征等于v的样本集合  
+    > $X_{m, v}^k$ 表示所有样本中 m-th 特征等于v且属于 k-th 类别的样本集合
+
+#### C4.5
+3. Information Gain Ratio
+
+#### CART
+1. Gini Index
     基尼指数
-4. Gini Impurity
+2. Gini Impurity
 
 ### Features
 #### tf-idf

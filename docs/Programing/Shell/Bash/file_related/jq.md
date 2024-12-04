@@ -36,8 +36,8 @@ jq -c '.name=.name+"luo"'               # 将键name的值在结尾新增 "luo"
 
 
 # 数据重组
-jq '[.a, .b]'
-jq '{"content": .c}'
+jq -c '[.a, .b]'
+jq -c '{"content": .c}'
 ```
 
 2. 数值选择

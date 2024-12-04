@@ -11,7 +11,7 @@
 - **BSR**：**B**lind image **S**uper-**R**esolution，图像盲超分辨率
 
 ###C
-- **CART**：**C**lassification **A**nd **R**egression **T**ree，分类和回归决策树，是一种二叉树。
+- **CART**：**C**lassification **A**nd **R**egression **T**ree，分类和回归二叉树决策树。
 - **CoT**: **Chain** **o**f  **T**hink，链式思维
 - **CRF**: **C**onditional **R**andom **F**ield，条件随机场，也叫做马尔可夫随机场
 
@@ -41,6 +41,7 @@
 
 
 ###I
+- **ID3**: **I**terative **D**ichotomiser **3**，迭代二分算法
 - **IR**：**I**nformation **R**etrieval，信息检索
 
 ###J

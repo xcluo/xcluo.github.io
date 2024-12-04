@@ -5,7 +5,6 @@ Boosting通过迭代地训练基(或弱)学习器，每次迭代都更关注在�
     - [GBDT](gbdt.md)：GBM的一种特殊（决策树）实现
         - [XGBoost](xgboost.md)  
         - [LightGBM](lightgbm.md)  
-        - https://zhuanlan.zhihu.com/p/627313748  
         - [CatBoost](catboost.md)
 
 
@@ -15,6 +14,6 @@ Boosting通过迭代地训练基(或弱)学习器，每次迭代都更关注在�
 
 - https://blog.csdn.net/u012856866/article/details/138860813  
 - https://zhuanlan.zhihu.com/p/678188301
-- ID3算法
+- ID3算法 https://zhuanlan.zhihu.com/p/577638501
 - C4.5、C5.0算法
 - CART
