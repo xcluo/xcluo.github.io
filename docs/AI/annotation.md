@@ -1,5 +1,7 @@
 ###A
 - **AE**：**A**uto-**E**ncoder，自编码器
+- **AGI**：**A**rtifical **G**eneral **I**ntelligence，通用人工智能
+- **AIGC**：**A**rtificial **I**ntelligence **G**enerated **C**ontent，人工智能生成内容
 - **AR**：**A**uto **R**egressive，自回归
 - **AR**: **A**ugmented **R**eality，增强现实
 - **ASR**：**A**utomatic **S**peech **R**ecognition，自动语音识别，将语音词汇内容转化为计算机可读的输入
