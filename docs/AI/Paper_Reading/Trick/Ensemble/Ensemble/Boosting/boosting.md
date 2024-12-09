@@ -17,3 +17,4 @@ Boosting通过迭代地训练基(或弱)学习器，每次迭代都更关注在�
 - ID3算法 https://zhuanlan.zhihu.com/p/577638501
 - C4.5、C5.0算法
 - CART
+- scaling law失效 https://arxiv.org/pdf/2001.08361
