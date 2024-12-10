@@ -37,6 +37,7 @@
 - Prompt Finetune
 - gradient clip
 - RAdam
+- scaling law失效 https://arxiv.org/pdf/2001.08361
 
 #### 存储优化
 - Attention优化
