@@ -3,7 +3,7 @@
 1. [解释器命令行选项](basic/commond_line)
 1. [`class`](basic/class) 类
 1. [内置方法](basic/builtins)
-
+1. 静态类型注解
 
 ### 细节部分
 
