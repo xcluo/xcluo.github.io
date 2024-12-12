@@ -97,6 +97,12 @@ params = {
                                     # {0: 无输出, **1**: 每棵树训练完时输出进度信息, 2: 输出包括每棵树评估结果的训练信息}
 }
 ```
+
+| **key** | **aliases** | 居中对齐 |
+| :-----| :---------------- | :---- |
+| boosting | boosting_type</br>boost | $\cdot$ {**regression**, regression_l1, huber, fair, poisson, quantile, mape, gamma, tweedie} </br> {binary, multiclass, multiclassova} </br> {cross_entropy, cross_entropy_lambda} </br> {lambdarank, rank_xendcg} |
+| objective | objective_type | 单元格 |
+
 > https://github.com/microsoft/LightGBM/issues/5989
 ### API
 
