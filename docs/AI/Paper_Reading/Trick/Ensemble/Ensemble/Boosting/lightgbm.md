@@ -66,12 +66,13 @@ for epoch in range(1, epoch_num + 1):
 #### params
 ```python
 params = {
-    'boosting': 'gbdt',         # aliases {boosting_type, boost}, 选择boost类型
     'objective': 'binary',      # aliases {objective_type}, Union[str, callable], 目标loss函数                              
                                     # {**regression**, regression_l1, huber, fair, poisson, quantile, mape, gamma, tweedie}
                                     # {binary, multiclass, multiclassova}
                                     # {cross_entropy, cross_entropy_lambda}
                                     # {lambdarank, rank_xendcg}
+    'boosting': 'gbdt',         # aliases {boosting_type, boost}, 选择boost类型
+
     'metric': 'binary',         # 
     'num_leaves': 31,           # aliases {num_leaf, max_leaves, max_leaf}, 指定每颗树最大叶节点数，默认值为31
     'max_depth': -1,            # 指定每棵树的最大深度
@@ -98,10 +99,10 @@ params = {
 }
 ```
 
-| **key** | **aliases** | 居中对齐 |
-| :-----| :---------------- | :---- |
-| boosting | boosting_type</br>boost | $\cdot$ {**regression**, regression_l1, huber, fair, poisson, quantile, mape, gamma, tweedie} </br> {binary, multiclass, multiclassova} </br> {cross_entropy, cross_entropy_lambda} </br> {lambdarank, rank_xendcg} |
-| objective | objective_type | 单元格 |
+| **key** | **aliases** | **preConditions** | **details** |
+| :-----| :---------------- | :---- | :----|
+| objective | objective_type | | <ol><li>**回归任务**</li><ul><li>^^regression^^/regression_l2，损失函数为L2 loss</li><li>regiression_l1，损失函数为L1 loss</li><li>huber </li><li>fair </li><li>possion </li><li>quanile </li></ul> <li>**分类任务**</li> <ul><li>binary</li><li>multiclass</li><li>mlticlassova/multiclass_ova</li></ul> <li>**排序任务**</li> <ul><li>lambdarank</li><li>rank_xendcg</li></ul> </ol> |
+| boosting | boosting_type</br>boost |  | <li>^^gbdt^^，梯度决策提升树</li> <li>dart，Dropouts meet Multiple Additive Regression Trees</li> <li>goss，基于梯度的单边采样</li> <li>rf，random forest</li>| 
 
 > https://github.com/microsoft/LightGBM/issues/5989
 ### API
