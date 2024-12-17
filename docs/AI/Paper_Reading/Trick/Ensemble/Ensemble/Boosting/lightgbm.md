@@ -99,12 +99,22 @@ params = {
 }
 ```
 
-| **key** | **aliases** | **preConditions** | **details** |
-| :-----| :---------------- | :---- | :----|
-| objective | objective_type | | <ol><li>**回归任务**</li><ul><li>^^regression^^/regression_l2，损失函数为L2 loss</li><li>regiression_l1，损失函数为L1 loss</li><li>huber </li><li>fair </li><li>possion </li><li>quanile </li></ul> <li>**分类任务**</li> <ul><li>binary</li><li>multiclass</li><li>mlticlassova/multiclass_ova</li></ul> <li>**排序任务**</li> <ul><li>lambdarank</li><li>rank_xendcg</li></ul> </ol> |
-| boosting | boosting_type</br>boost |  | <li>^^gbdt^^，梯度决策提升树</li> <li>dart，Dropouts meet Multiple Additive Regression Trees</li> <li>goss，基于梯度的单边采样</li> <li>rf，random forest</li>| 
+| **key** | **aliases** |  **details** |
+| :-----| :---------------- | :----|
+| objective | objective_type</br>app</br>application</br>loss |  <ol><li>**回归任务**</li><ul><li>^^regression^^/regression_l2/mean_squared_error/mse</li><li>regiression_l1/mean_absolute_error/mae</li><li>huber </li><li>fair </li><li>possion </li><li>quanile </li><li>quanile_l2</li></ul> <li>**分类任务**</li> <ul><li>binary，要求标签为{0, 1}</li><li>multiclass/softmax</li><li>mlticlassova/multiclass_ova/ova/ovr</li></ul> <li>**排序任务**</li> <ul><li>lambdarank</li><li>rank_xendcg</li></ul> </ol> |
+| boosting | boosting_type</br>boost |   <li>^^gbdt^^，梯度决策提升树</li> <li>dart，Dropouts meet Multiple Additive Regression Trees</li> <li>goss，基于梯度的单边采样</li> <li>rf，random forest</li>| 
+| num_leaf | number_leaves</br>max_leaves</br>max_leaf</br>max_leaf_nodes |  指定每颗树最大叶节点数，^^31^^ |
+| min_data | min_data_in_leaf</br>min_data_per_leaf</br>min_child_samples</br>min_samples_leaf |  指定每个叶子节点中最小样本数，^^20^^ |
+| max_depth | |  指定每棵树的最大深度，^^-1^^ 表示无限制 | 
+| max_bin | max_bins |  指定获取最佳划分点时各特征最大分桶数，^^255^^ | 
+| feature_fraction | sub_feature</br>colsample_bytree |  特征(列)部分采样比例，^^1.0^^ | 
+| bagging_fraction | sub_row</br>subsample</br>bagging |  样本(行)部分采样比例，^^1.0^^ | 
+| bagging_freq | subsample_freq |  样本(行)部分采样执行的轮次间隔数 | 
+| data_sample_strategy |  | <li>^^bagging^^，当且仅当`bagging_fraction < 1.0 and bagging_freq > 0` 时成立</li><li>goss</li>
+| learning_rate | shrinkage_rate</br>eta</br> | | 学习率，^^0.1^^
 
-> https://github.com/microsoft/LightGBM/issues/5989
+> https://github.com/microsoft/LightGBM/issues/5989  
+> https://juejin.cn/post/7362844486560137228
 ### API
 
 #### Data Structure API
