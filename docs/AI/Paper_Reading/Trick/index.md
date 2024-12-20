@@ -3,6 +3,9 @@
 - [sound](Multimodality_Fusion/sound_modality.md)
 - [shape](Multimodality_Fusion/shape_modality.md)
 - [fusion](Multimodality_Fusion/modality_fusion.md)
+- 视觉语言模型：对页面内容进行语义进行分析
+- hallucination幻觉
+- ali cosyvoice、f5-tts
 
 ####  Attention Variants & Proxy Task
 - multitask learning

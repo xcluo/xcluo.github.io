@@ -91,6 +91,7 @@
 
 ###T
 - **TPU**：**T**ensor **P**rocessing **U**nit，google的张量处理器
+- **TTS**：**T**ext **T**o **S**peech，文本转语音
 
 ###U
 
