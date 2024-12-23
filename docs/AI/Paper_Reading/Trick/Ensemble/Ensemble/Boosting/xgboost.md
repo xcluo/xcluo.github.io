@@ -136,3 +136,8 @@
     - https://blog.csdn.net/anshuai_aw1/article/details/85093106  
     - https://www.hrwhisper.me/machine-learning-xgboost/
     - https://stats.stackexchange.com/questions/347078/xgboost-paper-time-complexity-analysis
+
+
+### PyPI
+#### 库安装
+#### params

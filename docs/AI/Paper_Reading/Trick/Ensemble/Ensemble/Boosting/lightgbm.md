@@ -66,36 +66,22 @@ for epoch in range(1, epoch_num + 1):
 #### params
 ```python
 params = {
-    'objective': 'binary',      # aliases {objective_type}, Union[str, callable], 目标loss函数                              
-                                    # {**regression**, regression_l1, huber, fair, poisson, quantile, mape, gamma, tweedie}
-                                    # {binary, multiclass, multiclassova}
-                                    # {cross_entropy, cross_entropy_lambda}
-                                    # {lambdarank, rank_xendcg}
-    'boosting': 'gbdt',         # aliases {boosting_type, boost}, 选择boost类型
+    'objective': 'binary',      # Union[str, callable], 目标loss函数
+    'boosting': 'gbdt',         # 选择boost类型
 
     'metric': 'binary',         # 
-    'num_leaves': 31,           # aliases {num_leaf, max_leaves, max_leaf}, 指定每颗树最大叶节点数，默认值为31
-    'max_depth': -1,            # 指定每棵树的最大深度
-                                    # 默认为-1，表示无限制
-    'min_data_in_leaf': 20,     # aliases {min_data, min_data_per_leaf, min_child_samples, min_samples_leaf}，指定每个叶子节点上必须包含的最小样本数
-                                    # 默认值为20
-    'max_bin': 255,             # aliases {max_bins}，贪心最佳划分点算法时每个特征最大分桶数量
-                                    # 默认为255
-    'feature_fraction': 0.9,    # aliases {sub_feature, colsample_bytree}, feature(column) subsampling fraction
-                                    # 默认值为1.0
+    'num_leaves': 31,           # 指定每颗树最大叶节点数，默认值为31
+    'max_depth': -1,            # 指定每棵树的最大深度，默认为-1，表示无限制
+    'min_data_in_leaf': 20,     # 指定每个叶子节点上必须包含的最小样本数，默认值为20
+    'max_bin': 255,             # 最佳划分点算法时每个特征最大分桶数量，默认为255
+    'feature_fraction': 0.9,    # feature(column) subsampling fraction，默认值为1.0
     'data_sample_strategy'='bagging', 
-                                # instance(row) subsampling 策略
-                                    # {**bagging**, goss}，前者只在 `bagging_freq > 0 and bagging_fraction < 1.0` 时有效
-    'bagging_fraction': 0.9,    # aliases {sub_row, subsample, bagging}, instance(row) subsampling fraction
-                                    # 默认值为1.0
-    'bagging_freq': 5,          # aliases {subsample_freq}, 指定bagging频率，即执行一次bagging操作的轮次周期
-                                    # 默认值为0
-    'device': 'cpu',            # aliases {device_type}，指定运行设备
-                                    # {**cpu**, gpu, cuda}
-    'learning_rate': 0.1,       # aliases {shrinkage_rate, eta}, Optional[float, list], 每轮迭代的学习率
-                                    # 可通过每次epoch或指定step时修改字典值以实时更新lr，默认为值0.1
+                                # instance(row) subsampling 策略，{**bagging**, goss}
+    'bagging_fraction': 0.9,    # instance(row) subsampling fraction，默认值为1.0
+    'bagging_freq': 5,          # 指定bagging频次，即执行一次bagging操作的轮次周期，默认值为0
+    'device': 'cpu',            # 指定运行设备，{**cpu**, gpu, cuda}
+    'learning_rate': 0.1,       # 每轮迭代的学习率，可通过每次epoch或指定step时修改字典值以实时更新lr
     'verbose': 0                # 控制日志输出等级
-                                    # {0: 无输出, **1**: 每棵树训练完时输出进度信息, 2: 输出包括每棵树评估结果的训练信息}
 }
 ```
 
@@ -109,9 +95,11 @@ params = {
 | max_bin | max_bins |  指定获取最佳划分点时各特征最大分桶数，^^255^^ | 
 | feature_fraction | sub_feature</br>colsample_bytree |  特征(列)部分采样比例，^^1.0^^ | 
 | bagging_fraction | sub_row</br>subsample</br>bagging |  样本(行)部分采样比例，^^1.0^^ | 
-| bagging_freq | subsample_freq |  样本(行)部分采样执行的轮次间隔数 | 
-| data_sample_strategy |  | <li>^^bagging^^，当且仅当`bagging_fraction < 1.0 and bagging_freq > 0` 时成立</li><li>goss</li>
-| learning_rate | shrinkage_rate</br>eta</br> | | 学习率，^^0.1^^
+| bagging_freq | subsample_freq |  样本(行)部分采样执行的轮次间隔数，^^0^^ 表示不进行bagging | 
+| data_sample_strategy |  | 轮次迭代时样本采样策略<li>^^bagging^^，当且仅当`bagging_fraction < 1.0 and bagging_freq > 0` 时生效</li><li>goss</li>
+| learning_rate | shrinkage_rate</br>eta</br> | 学习率，^^0.1^^ 
+| device | device_type | 指定运行设备，{^^cpu^^, gpu, cuda}
+| verbose | | 日志输出等级<li>0: 无输出</li><li>^^1^^: 每棵树训练完时输出进度信息</li><li> 2: 输出包括每棵树评估结果的训练信息</li>
 
 > https://github.com/microsoft/LightGBM/issues/5989  
 > https://juejin.cn/post/7362844486560137228
