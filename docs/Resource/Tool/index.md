@@ -23,3 +23,4 @@
 - 远程仓库目录查看：[Octotree - GitHub code tree](https://microsoftedge.microsoft.com/addons/detail/octotree-github-code-tr/joagmknfcgpikbadjkaikmnhpjadihjg?hl=zh-CN)
 - 网页音、视频倍速：[Global Speed：视频速度控制](https://microsoftedge.microsoft.com/addons/detail/global-speed-%E8%A7%86%E9%A2%91%E9%80%9F%E5%BA%A6%E6%8E%A7%E5%88%B6/mjhlabbcmjflkpjknnicihkfnmbdfced?hl=zh-CN)
 - 网页内容解码复制：[网页万能复制](https://microsoftedge.microsoft.com/addons/detail/%E7%BD%91%E9%A1%B5%E4%B8%87%E8%83%BD%E5%A4%8D%E5%88%B6/begnnhinicgbdndoigdpfohfagccaakc?hl=zh-CN)
+- 基金实时估值：[自选基金助手](https://github.com/x2rr/funds?tab=readme-ov-file)

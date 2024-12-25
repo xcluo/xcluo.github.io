@@ -34,6 +34,9 @@
 
 - catboost (Algorithm 2): combine ordered TS and ordered boosting
     1. 分块处理，将随机排列后的数据分成多个不相交小块$B_1, B_2, \dots$，每个块基于之前历史块信息计算ordered TS，顺序更新
+    - 从排列$\sigma_1, \dots, \sigma_n$ 随机选取一个用于决定决策树中内部节点的分裂
+    - 使用 $\sigma_0$ 来确定决策树各叶子节点的值
+    - 使用排列 $\sigma_1, \dots, \sigma_n$ 的平均梯度值以梯度下降更新模型
 
-
-- oblivious decision trees，decision table，对称树
+- oblivious decision trees，decision table
+- https://blog.csdn.net/Water8L/article/details/138172853

@@ -74,6 +74,16 @@ class StringUtils:
             if not re.search(span, text, flags):
                 return False
         return True
+
+    @staticmethod
+    def count_match_spans(text, span_list):
+        if not isinstance(span_list, (tuple, list, set)):
+            raise ValueError(f"span_list is not tuple or list or set, but {type(span_list)}")
+        num = 0
+        for span in set(span_list):
+            if re.search(span, text):
+                num += 1
+        return num
     
     @staticmethod
     def has_continues(text, n=3, step=1):
