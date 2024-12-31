@@ -43,6 +43,7 @@
 - scaling law失效 https://arxiv.org/pdf/2001.08361
 - https://arxiv.org/pdf/2409.14781 Pretraining Data Detection for Large Language Models: A Divergence-based Calibration Method
 - https://arxiv.org/pdf/2404.02655 Calibrating the Confidence of Large Language Models by Eliciting Fidelity
+- deepseek
 
 #### 存储优化
 - Attention优化

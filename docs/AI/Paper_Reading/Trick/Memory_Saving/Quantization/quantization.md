@@ -40,7 +40,12 @@ $X^{FP32}=dequant(c^{FP32}, X^{Int8})=\frac{X^{Int8}}{c^{FP32}}$
 | FP4 | 1 | 2 | 1 | 
 | NF4 | 
 
-- [https://www.h-schmidt.net/FloatConverter/IEEE754.html](IEEE 754 Conventer)
+[NF4](../../LLM_Extend/LLM_SFT/qlora.md)
+- block-wise k-bit quantization
+
+
+
+- [IEEE 754 Conventer](https://www.h-schmidt.net/FloatConverter/IEEE754.html)
 - S(ign): 符号位部分; E(xponent): 指数位部分; M(antissa): 尾数位部分。尾数位越多精度越高，指数位越多表示范围越大
 - $x=(-1)^S*2^{E-2^{\#E-1}+1}*1.M$
     - #E表示指数位的位数，指数位E的取值范围为[0, 2^#E]，最终取值为[-2^{\#E-1}+1, -2^{\#E-1}]
@@ -67,3 +72,4 @@ b = torch.tensor(10**6, dtype=torch.float16)
     - offset = (1 - 1/(2*15) + 1 - 1/(2*16))/2
     - 累计密度分位划分，分位点除以边界值归一化为[-1, 1]
     - https://onlinestatbook.com/2/calculators/normal_dist.html
+
