@@ -24,9 +24,10 @@ $X^{FP32}=dequant(c^{FP32}, X^{Int8})=\frac{X^{Int8}}{c^{FP32}}$
 1. 二值化
 2. 线性量化
 3. 对数量化
-
-
 - SmoothQuant: Accurate and Efficient Post-Training Quantization for Large Language Models
+
+
+- S(ign): 符号位部分; E(xponent): 指数位部分; M(antissa): 尾数位部分。尾数位越多精度越高，指数位越多表示范围越大
 
 | 数据类型      | 符号位                          | 指数位 | 小数位
 | ----------- | ------------------------------------ | --- | ---|
@@ -40,13 +41,29 @@ $X^{FP32}=dequant(c^{FP32}, X^{Int8})=\frac{X^{Int8}}{c^{FP32}}$
 | FP4 | 1 | 2 | 1 | 
 | NF4 | 
 
-[NF4](../../LLM_Extend/LLM_SFT/qlora.md)
+
+- [NF4](../../LLM_Extend/LLM_SFT/qlora.md): 本质上为4-bit字节码，分别表示下标0-15对应的量化值
 - block-wise k-bit quantization
 
+    $$
+    \begin{aligned}
+    \text{quant} =& \text{round}(c^{\text{FP32}}\cdot X^{\text{FP32}}) \\
+    \text{dequant} =& \frac{X^{\text{FP32}}}{c^{\text{FP32}}}
+    \end{aligned}
+    $$
+
+    > block: 为防止一次性量化过多元素，可以将$X\in\mathbb{R}^{b*h}$，每$n=(b*h)/B$ 个元素作为单个block统一进行量化，减缓由部分极值损害整体量化效果的现象
 
 
 - [IEEE 754 Conventer](https://www.h-schmidt.net/FloatConverter/IEEE754.html)
-- S(ign): 符号位部分; E(xponent): 指数位部分; M(antissa): 尾数位部分。尾数位越多精度越高，指数位越多表示范围越大
+
+
+
+
+
+
+
+
 - $x=(-1)^S*2^{E-2^{\#E-1}+1}*1.M$
     - #E表示指数位的位数，指数位E的取值范围为[0, 2^#E]，最终取值为[-2^{\#E-1}+1, -2^{\#E-1}]
     - M计算方式：1） 去除后置0得到$M^{'}$；2）$M=\frac{M^{'}}{2^{\#M^{'}}}$
