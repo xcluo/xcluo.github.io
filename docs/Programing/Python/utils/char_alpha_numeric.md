@@ -8,6 +8,7 @@ from zhon import hanzi
 import pypinyin
 import re
 from ahocorasick import Trie
+import random
 
 ## StringUtils ##
 """
@@ -430,6 +431,67 @@ class PyTokenizer:
         elif match_type == "fuzzy":
             text_pinyin = "".join(text_pinyin)
             return StringUtils.has_all_spans(pinyin_list, text_pinyin)
+
+    @staticmethod
+    def find_all_span_by_pinyins(text, pinyin_list):
+        char_to_pinyin = {i: (c, "".join(lazy_pinyin(c))) for i, c in enumerate(text)}
+        matches = []
+        for py_span in pinyin_list:
+            flag = False
+            for start in range(len(text)):
+                for end in range(start + 1, len(text) + 1):
+                    substring = text[start:end]
+                    sub_pinyin = ''.join([char_to_pinyin[i][1] for i in range(start, end) if
+                                          i in char_to_pinyin and re.search('[\u4e00-\u9fffa-zA-Z0-9]', text[i])])
+                    if re.fullmatch(py_span, sub_pinyin):
+                        matches.append([substring, start, end])
+                        flag = True
+                        break
+                if flag:
+                    break
+            if not flag:
+                return []
+        return matches
+
+    @staticmethod
+    def find_subsquent_span_by_pinyins(text, pinyin_list):
+        char_to_pinyin = {i: (c, "".join(lazy_pinyin(c))) for i, c in enumerate(text)}
+        matches = []
+        start = 0
+        for py_span in pinyin_list:
+            flag = False
+            while start < len(text):
+                for end in range(start + 1, len(text) + 1):
+                    substring = text[start:end]
+                    sub_pinyin = ''.join([char_to_pinyin[i][1] for i in range(start, end) if
+                                          i in char_to_pinyin and re.search('[\u4e00-\u9fffa-zA-Z0-9]', text[i])])
+                    if re.fullmatch(py_span, sub_pinyin):
+                        matches.append([substring, start, end])
+                        flag = True
+                        break
+
+                start += 1
+                if flag:
+                    break
+            if not flag:
+                return []
+        return matches
+
+    @staticmethod
+    def replace_span_with_homophones(text, matches, sound2char):
+        homophones = []
+        for span in matches:
+            same_sound_span = []
+            for c in span[0]:
+                c_pinyin = lazy_pinyin(c)[0]
+                target_set = {c_pinyin}
+                target_set.update(sound2char.get(c_pinyin, {c}))
+                same_sound_span.append(random.choice(list(target_set)))
+        homophones.append(span + [''.join(same_sound_span)])
+
+        for span in reversed(homophones):
+            text = text[:span[1]] + span[-1] + text[span[2]:]
+        return text
 
     @staticmethod
     def split_un_pinyin(text):
