@@ -18,6 +18,7 @@ import emoji    # pip install emoji
    for emj in emoji.emoji_list():
        print(emj['emoji'], emj['match_start'], emj['match_end'])   # [match_start, match_end)
    ```
+5. `emoji.EMOJI_DATA` 字典，key为emoji字符串
 
 !!! info ""
-    - emoji存在颜色变种，即{本色, 微浅, 浅色, 中等, 微深, 深色}六种，可通过 `re.sub('_(?:dark|medium-dark|medium|medium-light|light)_skin_tone', '', de)` 进行归一化
+    - emoji存在颜色变种，即{本色, 微浅, 浅色, 中等, 微深, 深色}六种，可通过 `re.sub('_(?:dark|medium-dark|medium|medium-light|light)_skin_tone', '', de_emoji_str)` 进行归一化

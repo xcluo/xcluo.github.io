@@ -2,13 +2,23 @@
 from pypinyin import pinyin, Style
 
 def pinyin(
-    hans,                            # 字符串或字符串列表
-    style=Style.NORMAL,              # 指定拼音风格, 拼音格式，NORMAL表示不带声调
+    hans,                            # Union(List[str], str), 待拼音化的汉字字符串或字符串列表
+    style=Style.TONE,                # 指定拼音风格, TONE表示声调在韵母上面
+    heteronym=False,                 # 是否启用多音字, False只返回常用读音
+    errors='default',                # Union(Callable, str)，无拼音字符处理方式, {default: 保留; ignore: 忽略; replace: 替换为}
+    strict=False,                    # 是否根据上下文来选择最合适的拼音读法
     v_to_u=False,                    # 是否用v替代ü
-    neutral_tone_with_five=False,    # 轻声是否标注(用5表示)
-    heteronym=False,                 # 是否启用多音字
-    errors='default',                # 处理没有拼音oov字符方式, {default: 保留; ignore: 忽略; replace: 替换为}
-    ) -> List[List[Str]]:
+    neutral_tone_with_five=False,    # 轻声是否用5表示
+) -> List[List[Str]]:
+
+def lazy_pinyin(
+    hans,                            # Union(List[str], str), 待拼音化的汉字字符串或字符串列表
+    style=Style.NORMAL,              # 指定拼音风格, NORMAL表示不带声调
+    errors='default',                # Union(Callable, str)，无拼音字符处理方式, {default: 保留; ignore: 忽略; replace: 替换为}
+    strict=False,                    # 是否根据上下文来选择最合适的拼音读法
+    v_to_u=True,                     # 是否用v替代ü
+    neutral_tone_with_five=False,    # 轻声是否用5表示
+) -> List[List[Str]]:
 ```
 
 #### has_pinyin
