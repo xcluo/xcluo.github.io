@@ -16,7 +16,7 @@ nav:
       - 论文笔记: 
         - 语言模型: AI/Paper_Reading/LM/LMs/index.md  
         - 强化学习: AI/Paper_Reading/LM/Reinforcement_Learning/index.md  
-        - 推荐系统: AI/Paper_Reading/LM/Recommender_System/index.md  
+        - 搜索推荐: AI/Paper_Reading/LM/Search_Recommender/index.md  
         - 模型种类: AI/Paper_Reading/LM/Model_Category/index.md  
         - 架构分析: AI/Paper_Reading/LM/Model_Analysis/index.md  
       - 基本组件: 

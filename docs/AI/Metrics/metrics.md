@@ -4,12 +4,12 @@ macro：分别计算取平均
 micro：加权
 ### Decision Tree
 
-#### ID3
+#### ID3算法
 1. Entropy
 
     $$
     \begin{aligned}
-        E(X) =& -\sum_{k=1}^K p(k)\log p(k) \\
+        H(X)=E(X) =& -\sum_{k=1}^K p(k)\log p(k) \\
         =& -\sum_{k=1}^K \frac{\vert X^k \vert}{\vert X \vert}\log \frac{\vert X^k \vert}{\vert X\vert}
     \end{aligned}
     $$
@@ -17,8 +17,7 @@ micro：加权
     > $K$ 表示分类任务类别数  
     > $X$ 表示所有样本集合，$X^k$ 表示所有样本中属于 k-th 类别的样本集合
 
-2. Information Gain  
-    信息增益指选择某个特征进行分割能够减少的熵的程度
+2. Information Gain，信息增益指选择某个特征进行分割能够减少的熵的程度
 
     $$
     \begin{aligned}
@@ -30,17 +29,38 @@ micro：加权
     \end{aligned}
     $$
 
+#### C4.5算法
+ID3算法的改进版本
+
+1. Split Information，根据属性特征m分裂数据集所产生的熵，用于惩罚具有更多取值的属性特征，防止它们被过度划分。
+
+    $$
+    SI(X, m) = -\sum_{v \in V}\frac{\vert X_{m, v} \vert}{\vert X \vert}\log_2 \frac{\vert X_{m, v} \vert}{\vert X \vert}
+    $$
+
+2. Information Gain Ratio，信息增益率
+
+    $$
+    GR(X, m) = \frac{IG(X, m)}{SI(X, m)}
+    $$
+
+#### CART算法
+1. Gini Index，基尼指数用于度量数据集不纯度（Gini Impurity），即衡量样本被错误分类的概率，取值范围为[0, 1]，数值越大越不纯
+    
+    $$
+    Gini(X) = 1 - \sum_{k=1}^{K} p(k)^2 = 1 - \sum_{k=1}^{K} \bigg(\frac{\vert X^k \vert}{\vert X \vert}\bigg)^2
+    $$
+
+2. Gini Gain，基尼增益用来选择最佳的分裂属性，为属性m分裂后的基尼指数减少程度，该值越大越好，表示分裂后数据的不纯度降低程度越大。
+
+    $$
+    GiniGain(X, m) = Gini(X) - \sum_{v \in V} \frac{\vert X_{m, v} \vert}{\vert X \vert}Gini(X_{m, v})
+    $$
+
+
     > $m$ 表示 m-th 特征，$V=Set(X_m)$ 表示所有样本集合中 m-th 特征所有取值结合  
     > $X_{m, v}$ 表示所有样本中 m-th 特征等于v的样本集合  
-    > $X_{m, v}^k$ 表示所有样本中 m-th 特征等于v且属于 k-th 类别的样本集合
-
-#### C4.5
-3. Information Gain Ratio
-
-#### CART
-1. Gini Index
-    基尼指数
-2. Gini Impurity
+    > $X_{m, v}^k$ 表示所有样本中 m-th 特征等于v且样本属于 k-th 类别的样本集合
 
 ### Features
 #### tf-idf
@@ -76,7 +96,7 @@ $$
 | 正标签 | TP | FP |
 | 负标签 | FN | TN |
 
-#### P、R、F1
+#### P、R、F1、Accuracy
 === "Precision"
     精确率，预测为正例样本中真实正例的百分比
 

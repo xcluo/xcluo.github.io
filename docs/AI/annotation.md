@@ -16,6 +16,7 @@
 - **CART**：**C**lassification **A**nd **R**egression **T**ree，分类和回归二叉树决策树。
 - **CoT**: **Chain** **o**f  **T**hink，链式思维
 - **CRF**: **C**onditional **R**andom **F**ield，条件随机场，也叫做马尔可夫随机场
+- **CTR**: **C**lick-**T**hrought **R**ate点击通过率，指一定时间内用户点击链接次数与展示链接次数的比例
 
 ###D
 - **DAE**：**D**enoising **A**uto-**E**ncoder，去噪自编码器
