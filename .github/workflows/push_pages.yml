@@ -18,8 +18,8 @@ jobs:         # 工作流的具体内容
         with:
           python-version: 3.x
           
-      - name: install dependencies        # 安装依赖包
-        run: pip install mkdocs-material  
-        run: pip install mkdocs-glightbox
-        run: pip install jieba            # 安装jieba用于中文关键词搜索
-        run: mkdocs gh-deploy --force     # 推送 site pages
+      # - name: install dependencies        # 安装依赖包
+      - run: pip install mkdocs-material  
+      - run: pip install mkdocs-glightbox
+      - run: pip install jieba            # 安装jieba用于中文关键词搜索
+      - run: mkdocs gh-deploy --force     # 推送 site pages
