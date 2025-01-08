@@ -1,3 +1,5 @@
+### Vector Compression
+
 #### SVD
 奇异值分解Singular Value Decomposition，$A=USV^T\in\mathbb{R}^{m*n}$，其中
 
@@ -21,6 +23,8 @@
     ```
 !!! info ""
     压缩：通过多个低维矩阵近似重构高维矩阵，特征数保持不变。需要计算协方差矩阵，计算量大
+
+### Dimensionality Reduction
 #### PCA
 主成分分析Principal Component Analysis，即一组数据（m条数据）不同维度（n个维度）之间可能存在线性相关关系，PCA能够对这组数据（通过剔除协方差矩阵对应的小特征值维度）正交变换转化为各个维度之间（维度缩减为k）线性无关的数据，达到数据降维去噪的目的。
 
@@ -41,6 +45,11 @@
     ```
 !!! info ""
     降维：通过保留主要成分的投影结果，且特征数减少
+
+#### LDA
+潜在语义分析
+#### LSI
+潜在语义索引
 
 #### t-SNE
 t-distributed Stochastic Neighbor Embedding

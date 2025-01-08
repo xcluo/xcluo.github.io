@@ -10,28 +10,33 @@ $$
 ####  ReLU
 1. ReLU(Rectified-Linear Units)
 
-$$
-\text{ReLU}(x)=\max(0, x)
-$$
+    $$
+    \text{ReLU}(x)=\max(0, x)
+    $$
 
-2. Leaky ReLU
+2. LReLU，Leaky ReLU
 
-$$
-\text{Leaky ReLU}(x, \alpha)=\max(0, x) + \alpha\min(0, x)
-$$
+    $$
+    \text{LReLU}(x, \alpha)=\max(0, x) + \alpha\min(0, x)
+    $$
 
+3. PReLU，Parametric ReLU，LReLU变种，使用可学习的参数 $w$ 而不固定$\alpha$
+
+    $$
+    \text{PReLU}(x)=\max(0, x) + w\min(0, x)
+    $$
 
 ### 门限激活函数
 
 #### Mish
 
 $$
-\text{Mish}(x, \alpha)=x*\text{Tanh}\big(\ln(1+e^x)\big)
+\text{Mish}(x)=x*\text{Tanh}\big(\ln(1+e^x)\big)
 $$
 
 
 ####  GELU
-(Gaussian Error Linear Units)
+Gaussian Error Linear Units，ReLU的一种平滑版本
 
 $$
 \begin{aligned}
@@ -54,7 +59,7 @@ $$
 
 
 #### GLU
-(Gated Linear Units)
+Gated Linear Units
 
 
 $$
