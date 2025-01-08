@@ -21,9 +21,12 @@
 
 `pip install lightgbm==2.0.4`  
 
-- 为使dat文件可用不再输出 `defualt_value`
-- `lgb.train` 训练时不再有`keep_training_booster=True`参数
-
+- 使dat文件保留 `defualt_value` 字段（org.lightgbm.predict4j要求，但≥v2.05弃用该字段）
+    ```python title="compatible_org.lightgbm.predict4j"
+    if line.startswith('decision_type'):
+        num = len(line.strip().split())
+        default_value = f'default_value={" ".join(["0"]*num)}\n'
+    ```
 #### 数据加载
 1. `lgb.Dataset`
 ```python

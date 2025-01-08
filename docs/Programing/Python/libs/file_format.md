@@ -12,8 +12,8 @@ with open(file_name, mode='wb') as file:    # mode=’wb' 控制以字节方式�
     f.write(string.encode(encoding))        # 通过encode方法将待写入bytes转化为字符串形式 (文件只能写入字符串)
 ```
 
-### json(JavaScript Object Notation)
-
+### json
+JavaScript Object Notation
 ```python
 import json
 

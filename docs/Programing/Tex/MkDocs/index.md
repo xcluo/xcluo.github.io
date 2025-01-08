@@ -75,3 +75,16 @@ possible {>>and comments can be added inline<<}.
 | 单元格 | 单元格 | 单元格 |
 | 单元格 | 单元格 | 单元格 |
 
+
+#### 相对路径
+```python
+# in mkdocs.yml
+use_directory_urls: false
+
+# link resource
+"can use relative path and absolute path"
+
+# link file
+"for .md: add file_name suffix"
+"for .md head: file_name.suffix#head_name"
+```
