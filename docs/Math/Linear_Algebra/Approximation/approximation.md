@@ -1,10 +1,10 @@
-### Vector Compression
+### Matrix Factorization
 
 #### SVD
 奇异值分解Singular Value Decomposition，$A=USV^T\in\mathbb{R}^{m*n}$，其中
 
 - $U\in\mathbb{R}^{m*m}$为方阵$AA^T$的特征矩阵，也叫左奇异向量矩阵；
-- $S\in\mathbb{R}^{m*n}$为方阵$AA^T$或$A^TA$的非负（降序）奇异值的平方根矩阵。
+- $S\in\mathbb{R}^{m*n}$为方阵$AA^T$或$A^TA$的奇异值平方根的降序非负矩阵。
 - $V\in\mathbb{R}^{n*n}$为方阵$A^TA$的特征矩阵，也叫右奇异向量矩阵；
 
     > $A_{m*n}\approx U_{m*k}S_{k*k}V_{n*k}^T$即为压缩后的数据，此时存储值压缩为$k*(m+1+n)$个
@@ -23,6 +23,39 @@
     ```
 !!! info ""
     压缩：通过多个低维矩阵近似重构高维矩阵，特征数保持不变。需要计算协方差矩阵，计算量大
+
+#### NMF
+Non-negative Matrix Factorization**非负矩阵**分解，即给定的一个非负矩阵$V\in\mathbb{R}^{m*n}$，能够寻找到非负矩阵 $W\in\mathbb{R}^{m*k}$ 和 $H\in\mathbb{R}^{k*n}$，满足$V\approx WH$。
+
+- $W\in\mathbb{R}^{m*k}$ features matrix特征矩阵，表示从原始矩阵中抽取出来的特征。**该部分可作为类似于PCA的非负特征维度压缩结果**
+- $H\in\mathbb{R}^{k*n}$ cofficients matrix系数矩阵，表示抽取出的特征与原有稀疏特征的关系。
+
+
+NMF矩阵分解两种规优化目标及基于梯度下降的无监督迭代更新则如下：
+
+1. Frobenius范数: $\text{arg }\mathop{\text{min}}\limits_{W, H} \frac{1}{2}\Vert V-WH \Vert_F^2 = \frac{1}{2}\sum_{i, j}(V_{ij} - (WH)_{ij})^2$ 
+2. KL散度: $\text{arg }\mathop{\text{min}}\limits_{W, H} D(V\Vert WH) = \sum_{i, j} \big[V_{ij}\log \frac{V_{ij}}{(WH)_{ij}} - V_{ij} + (WH)_{ij} \big]$
+
+    ```python title="nmf"
+    W, H = np.abs(np.random.rand(m, k)), np.abs(np.random.rand(k, n))
+    for i in range(max_iter):
+        # Frobenius范数更新规则
+        W = W * ((V @ H.T) / (W @ H @ H.T + 1e-9))
+        H = H * ((W.T @ V) / (W.T @ W @ H + 1e-9))
+        error = np.linalg.norm(V - W@H)
+        # KL散度更新规则，更新极慢
+        V_over_WH = V / (W@H + 1e-9)
+        W *= V_over_WH @ H.T / H.sum(axix=1)
+        V_over_WH = V / (W@H + 1e-9)
+        H *= (W.T @ V_over_WH) / W.sum(axis=0).T
+        error = sum(V*np.log(V) - V*np.log(W@H)) -V + W@H 
+
+        if error < tol:
+            break
+    return W, H
+    ```
+    > 分解矩阵更新规则出自: [Algorithms for Non-negative Matrix Factorization](https://proceedings.neurips.cc/paper_files/paper/2000/file/f9d1152547c0bde01830b7e8bd60024c-Paper.pdf)  
+    > 迭代时可加入L1范式和L2范式进行正则规约，见 `sklearn.decomposition.NMF`
 
 ### Dimensionality Reduction
 #### PCA
@@ -47,12 +80,17 @@
     降维：通过保留主要成分的投影结果，且特征数减少
 
 #### LDA
-潜在语义分析
-#### LSI
-潜在语义索引
+Latent Dirichlet Allocation潜在狄利克雷分布，
+
+> LDA出自David M.Blei、吴恩达和Michael I.Jordan 2003年论文: [Latent Dirichlet Allocation](https://www.jmlr.org/papers/volume3/blei03a/blei03a.pdf)
+
+Latent Semantic Analysis潜在语义分析的核心思想是利用矩阵分解技术来减少维度并发现词汇与文档之间的潜在关系，从而克服了传统基于关键词的方法所面临的同义词和多义词问题
+
+- PLSA
+> LSA最初应用于文本信息检索，也被称为潜在语义索引（Latent Semantic Indexing，LSI）
 
 #### t-SNE
-t-distributed Stochastic Neighbor Embedding
+t-distributed Stochastic Neighbor Embedding t分布-随机邻近嵌入
 
 !!! info ""
     降维：。需要迭代计算，计算时间长。

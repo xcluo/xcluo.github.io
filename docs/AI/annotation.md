@@ -54,6 +54,7 @@
 ###L
 - **LLM**：**L**arge **L**anguage **M**odel，大语言模型
 - **LoRA**：**Lo**w **R**ank **A**daptation，低秩适配
+- **LSA**：**L**atent **S**emantic **A**nalysis，潜在语义分析，也称为潜在语义索引LSI(Latent Semantic Indexing)
 
 ###M
 - **MHA**：**M**ulti-**H**ead **A**ttention，多头注意力，即vanilla Attention
@@ -77,6 +78,8 @@
 ###P
 - **PEFT**: **P**arameter-**E**fficient **F**ine-**T**uning，参数高效微调
 - **PLM**：**P**retrained **L**anguage **M**odel，预训练语言模型
+- **PLSA**：**P**robabilistic **L**atent **S**emantic **A**nalysis，概率潜在语义分析，也称为 概率潜在语义索引（PLSI）
+
 - **PoS**: **P**art **o**f **S**peech, 词性
 - **PTQ**：**P**ost-**T**raining **Q**uantization，训练后量化，也称作离线量化
 

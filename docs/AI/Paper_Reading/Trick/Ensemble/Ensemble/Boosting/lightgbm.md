@@ -19,14 +19,18 @@
 
 #### 库安装
 
-`pip install lightgbm==2.0.4`  
-
-- 使dat文件保留 `defualt_value` 字段（org.lightgbm.predict4j要求，但≥v2.05弃用该字段）
-    ```python title="compatible_org.lightgbm.predict4j"
+1. 自动兼容`org.lightgbm.predict4j`  
+`pip install lightgbm==2.0.4`，输出的gbdt文件会自动包含`default_value`字段
+2. 手动兼容`org.lightgbm.predict4j`  
+`pip install lightgbm`，输出的gbdt文件已弃用`default_value`字段，需手动兼容
+    ```python title="compliant_org.lightgbm.predict4j"
     if line.startswith('decision_type'):
         num = len(line.strip().split())
         default_value = f'default_value={" ".join(["0"]*num)}\n'
     ```
+    
+    > 新版本效果表现更好
+
 #### 数据加载
 1. `lgb.Dataset`
 ```python
@@ -101,9 +105,10 @@ params = {
 | bagging_freq | subsample_freq |  样本(行)部分采样执行的轮次间隔数，^^0^^ 表示不进行bagging | 
 | data_sample_strategy |  | 轮次迭代时样本采样策略<li>^^bagging^^，当且仅当`bagging_fraction < 1.0 and bagging_freq > 0` 时生效</li><li>goss</li>
 | learning_rate | shrinkage_rate</br>eta</br> | 学习率，^^0.1^^ 
-| device | device_type | 指定运行设备，{^^cpu^^, gpu, cuda}
+| device | device_type | 指定运行设备，{^^cpu^^, gpu, cuda}，在linux系统上能直接运行gpu
 | verbose | | 日志输出等级<li>0: 无输出</li><li>^^1^^: 每棵树训练完时输出进度信息</li><li> 2: 输出包括每棵树评估结果的训练信息</li>
 
+> https://lightgbm.readthedocs.io/en/v4.4.0/GPU-Windows.html
 > https://github.com/microsoft/LightGBM/issues/5989  
 > https://juejin.cn/post/7362844486560137228
 ### API

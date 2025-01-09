@@ -1,6 +1,12 @@
 #### C
 - **CDF**：**C**umulative **D**istribution **F**unction，累计分布函数，用$\Phi(z)$表示，等价于$Pr(X\le z)$，其中$Pr$表示概率probability
 
+#### L
+- **LDA**：**L**atent **D**irichlet **A**llocation，潜在狄利克雷分布
+
+#### N
+- **NMF**：**N**onnegative **M**atrix **F**actorization，非负矩阵分解
+
 #### P
 - **PCA**：**P**rincipal **C**omponent **A**nalysis，主成分分析
 - **PDF**：**P**robability **D**ensity **F**unction，概率密度函数，连续型随机变量的概率密度函数
