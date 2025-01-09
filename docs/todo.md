@@ -10,3 +10,4 @@
     reg_losses = tf.get_collection(tf.GraphKeys.REGULARIZATION_LOSSES)
     total_loss = cross_entropy_loss + sum(reg_losses)
     ```
+- 推荐系统攻击
