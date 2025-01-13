@@ -85,10 +85,19 @@ Latent Dirichlet Allocation潜在狄利克雷分布，一种主体挖掘模型
 
 - https://www.bilibili.com/video/BV123411G7Z9/?spm_id_from=333.337.search-card.all.click&vd_source=782e4c31fc5e63b7cb705fa371eeeb78
 1. from document collection to get topics
-2. gibbs sampling吉布斯采样
-3. LDA algorithm, α取值{α=1, 均匀分布; α>1, 更倾向聚集在中心; α<1, 更倾向聚集在角落}  
+2. LDA algorithm, α取值{α=1, 均匀分布; α>1, 更倾向聚集在中心; α<1, 更倾向聚集在角落}  
     - 迪利克雷分布α和β，多项式分布表示分别为θ和φ，由θ生成的topics集合为Z，由φ生成的单词集合为W
-    - $P(W, Z, \theta, \phi; \alpha, \beta)=\prod_{j=1}^MP(\theta_j; \alpha)\prod_{i=1}^K(\phi_i; \beta)\prod_{t=1}^NP(Z_{j,t}\vert \theta_j)P(W_{j,t}|\phi_{Z_{j,t}})$
+    - $P(W, Z, \theta, \phi; \alpha, \beta)=\prod_{j=1}^MP(\theta_j; \alpha)\prod_{i=1}^K(\phi_i; \beta)\prod_{t=1}^{N_D}P(Z_{j,t}\vert \theta_j)P(W_{j,t}|\phi_{Z_{j,t}})$
+    - $\prod_{j=1}^MP(\theta_j; \alpha)$: documents-topics DA
+    - $\prod_{t=1}^{N_D}P(Z_{j,t}\vert \theta_j)$ distribution-topic 多项式分布采样，$N_D$ 由泊松分布采样得到
+    - $\prod_{i=1}^K(\phi_i; \beta)$ 从β种得到一堆topics-words 多项式分布
+    - $P(W_{j,t}|\phi_{Z_{j,t}})$ 给定topic情况下采样word
+    - topic_number, hyperparameter
+    - part 2 05:04, topic-words into document-topics
+    
+3. gibbs sampling吉布斯采样，通过对象的相对位置来对doc和word着色
+    - 每个doc的topic尽可能单色，每个word的topic尽可能单色
+
 
 > LDA出自David M.Blei、吴恩达和Michael I.Jordan 2003年论文: [Latent Dirichlet Allocation](https://www.jmlr.org/papers/volume3/blei03a/blei03a.pdf)
 

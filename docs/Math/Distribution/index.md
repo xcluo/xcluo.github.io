@@ -20,3 +20,6 @@ $X \sim\mathcal{N}(\mu, \sigma^2)$，密度函数$f(x)=\frac{1}{\sqrt{2\pi}\sigm
           - 从均匀分布`uniform(0, 1)`中独立采样得到u
           - 如果$u\lt\frac{P(x)}{cQ(x)}$，则接受x作为p生成的样本；否则拒绝x，重复上述过程直到获得足够多的样本  
     > 常数c需要手动选择并满足条件2
+
+
+- Gibbs sampling吉布斯采样
