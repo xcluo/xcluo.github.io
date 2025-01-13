@@ -80,7 +80,15 @@ NMF矩阵分解两种规优化目标及基于梯度下降的无监督迭代更�
     降维：通过保留主要成分的投影结果，且特征数减少
 
 #### LDA
-Latent Dirichlet Allocation潜在狄利克雷分布，
+Latent Dirichlet Allocation潜在狄利克雷分布，一种主体挖掘模型
+
+
+- https://www.bilibili.com/video/BV123411G7Z9/?spm_id_from=333.337.search-card.all.click&vd_source=782e4c31fc5e63b7cb705fa371eeeb78
+1. from document collection to get topics
+2. gibbs sampling吉布斯采样
+3. LDA algorithm, α取值{α=1, 均匀分布; α>1, 更倾向聚集在中心; α<1, 更倾向聚集在角落}  
+    - 迪利克雷分布α和β，多项式分布表示分别为θ和φ，由θ生成的topics集合为Z，由φ生成的单词集合为W
+    - $P(W, Z, \theta, \phi; \alpha, \beta)=\prod_{j=1}^MP(\theta_j; \alpha)\prod_{i=1}^K(\phi_i; \beta)\prod_{t=1}^NP(Z_{j,t}\vert \theta_j)P(W_{j,t}|\phi_{Z_{j,t}})$
 
 > LDA出自David M.Blei、吴恩达和Michael I.Jordan 2003年论文: [Latent Dirichlet Allocation](https://www.jmlr.org/papers/volume3/blei03a/blei03a.pdf)
 
