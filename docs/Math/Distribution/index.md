@@ -28,6 +28,7 @@ $X \sim\mathcal{N}(\mu, \sigma^2)$，密度函数$f(x)=\frac{1}{\sqrt{2\pi}\sigm
 - 重要性采样importance sampling
 
 - 马尔科夫链的当前状态只依赖于前一状态，即$P(x_t\vert x_1, x_2, \dots, x_{t-1}) = P(x_t\vert x_{t-1})$
+    - $\pi$ 为马尔科夫链的平稳分布，满足$\pi P = \pi$
 - 基于马氏链的蒙特卡罗方法采样MCMC (Markov Chain & Monte Carlo)
     - Detailed Balance细致平衡$\pi(i)P(i, j)=\pi(j)P(j, i)  \rightarrow \pi(i)Q(i,j)\alpha(i, j)=\pi(j)Q(j,i)\alpha(i, j)$
     - $P(i, j)=Q(i, j)\alpha(i, j) \rightarrow \alpha(i, j)=\min\{\frac{\pi(j)Q(j,i)}{\pi(i)Q(i,j)}, 1\}$
