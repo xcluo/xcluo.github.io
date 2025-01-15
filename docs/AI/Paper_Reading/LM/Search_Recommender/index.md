@@ -18,6 +18,8 @@
 exploration and exploitation
 - 粗排、精排、重排
 - AB实验A/B testing
+- factorization machine
+
 
 
 - [阿里DIN](din.md)

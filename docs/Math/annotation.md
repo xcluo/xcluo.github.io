@@ -4,6 +4,9 @@
 #### L
 - **LDA**：**L**atent **D**irichlet **A**llocation，潜在狄利克雷分布
 
+#### M
+- **MCMC**：**M**arkov **C**hain **M**onte **C**arlo，基于马尔科夫链蒙特卡罗
+
 #### N
 - **NMF**：**N**onnegative **M**atrix **F**actorization，非负矩阵分解
 

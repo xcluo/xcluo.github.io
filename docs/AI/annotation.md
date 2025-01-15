@@ -40,7 +40,7 @@
 - **GQA**：**G**rouped **Q**uery **A**ttention，分组查询注意力
 
 ###H
-- **HMM**: **H**idden **M**arkov **M**odel，隐马尔可夫模型
+- **HMM**: **H**idden **M**arkov **M**odel，隐式马尔可夫模型
 
 
 ###I
