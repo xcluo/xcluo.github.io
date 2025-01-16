@@ -40,7 +40,10 @@ $X \sim\mathcal{N}(\mu, \sigma^2)$，密度函数$f(x)=\frac{1}{\sqrt{2\pi}\sigm
     - 联合概率分布转化为条件概率（高维转化为低维），不一定要轮换坐标轴，只需要符合条件概率分布进行采样即可，不拒绝，所有采样均接受
     - 是α=1情况下的MH采样，为MH采样的特殊形式。适用于随机变量X维度非常高的情况，从t到t+1时刻，只改变一个维度的值。状态转移矩阵取得就是目标概率p(X)。
 
-> https://www.cnblogs.com/pinard/p/6645766.html
+> https://www.cnblogs.com/pinard/p/6645766.html  
 > [逆采样、拒绝采样、MH采样、MCMC采样](https://www.bilibili.com/video/BV1ey4y1t7Jb/?spm_id_from=333.337.search-card.all.click&vd_source=782e4c31fc5e63b7cb705fa371eeeb78)
 > https://www.zhihu.com/topic/20683707/top-answers
 > https://www.cnblogs.com/feynmania/p/13420194.html
+> https://www.zhihu.com/question/38056285/answer/1803920100
+>
+> https://zhuanlan.zhihu.com/p/669645171
