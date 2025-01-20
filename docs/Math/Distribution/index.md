@@ -43,9 +43,220 @@ $X \sim\mathcal{N}(\mu, \sigma^2)$，密度函数$f(x)=\frac{1}{\sqrt{2\pi}\sigm
     - 是α=1情况下的MH采样，为MH采样的特殊形式。适用于随机变量X维度非常高的情况，从t到t+1时刻，只改变一个维度的值。状态转移矩阵取得就是目标概率p(X)。
 
 > https://www.cnblogs.com/pinard/p/6645766.html  
-> [逆采样、拒绝采样、MH采样、MCMC采样](https://www.bilibili.com/video/BV1ey4y1t7Jb/?spm_id_from=333.337.search-card.all.click&vd_source=782e4c31fc5e63b7cb705fa371eeeb78)
+> https://pan.baidu.com/s/1EJonwMsvVWvgo1utzWydHQ#list/path=%2Fsharelink90532273-812830912909501%2FLDA%E4%BB%A3%E7%A0%81&parentPath=%2Fsharelink90532273-812830912909501  
+> [逆采样、拒绝采样、MH采样、MCMC采样](https://www.bilibili.com/video/BV1ey4y1t7Jb/?spm_id_from=333.337.search-card.all.click&vd_source=782e4c31fc5e63b7cb705fa371eeeb78)  
+> https://zhuanlan.zhihu.com/p/94313808  
+> https://zhuanlan.zhihu.com/p/95467302  
 > https://www.zhihu.com/topic/20683707/top-answers
 > https://www.cnblogs.com/feynmania/p/13420194.html
 > https://www.zhihu.com/question/38056285/answer/1803920100
->
-> https://zhuanlan.zhihu.com/p/669645171
+> https://zhuanlan.zhihu.com/p/669645171  
+> https://www.jianshu.com/p/5c510694c07e
+
+```python
+# 初始化
+for each document d in corpus:
+    for each word w in document d:
+        assign a random topic z to word w
+
+# 定义迭代次数
+num_iterations = predefined_number
+
+# 开始吉布斯采样迭代过程
+for iteration from 1 to num_iterations:
+    for each document d in corpus:
+        for each word w in document d:
+            # 移除当前单词的主题分配
+            remove_topic_assignment_from_word(w)
+            
+            # 计算新主题的概率分布
+            for each topic z in topics:
+                # 更新 doc_topic[d][k]^t，由计算式可知每行必和为1，P(x_i^t|x excluds x_i)
+                # 更新 topic_word[k][n]^t，由计算式可知每行必和为1
+                doc_topic_prob[z] = (count_of_words_in_doc_d_with_topic_z + alpha) / 
+                                    (total_words_in_doc_d + num_topics * alpha)
+                topic_word_prob[z] = (count_of_word_w_in_topic_z + beta) / 
+                                     (total_words_in_topic_z + vocab_size * beta)
+                
+                # 合并文档-主题和主题-单词概率
+                prob_distribution[z] = doc_topic_prob[z] * topic_word_prob[z]
+            
+            # 根据计算出的概率重新为单词分配主题
+            new_topic = sample_from(prob_distribution)
+            assign_topic_to_word(w, new_topic)
+
+# 参数估计（在最后一次迭代后）
+for each document d in corpus:
+    for each topic z in topics:
+        doc_topic_distribution[d][z] = (count_of_words_in_doc_d_with_topic_z + alpha) / 
+                                       (total_words_in_doc_d + num_topics * alpha)
+
+for each topic z in topics:
+    for each word w in vocabulary:
+        topic_word_distribution[z][w] = (count_of_word_w_in_topic_z + beta) /
+                                        (total_words_in_topic_z + vocab_size * beta)
+
+# 输出最终的主题-文档和主题-单词分布
+output doc_topic_distribution, topic_word_distribution
+```
+
+
+```python
+# coding: utf-8
+
+# # sklearn-LDA
+
+# 代码示例：https://mp.weixin.qq.com/s/hMcJtB3Lss1NBalXRTGZlQ （玉树芝兰） <br>
+# 可视化：https://blog.csdn.net/qq_39496504/article/details/107125284  <br>
+# sklearn lda参数解读:https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.LatentDirichletAllocation.html
+# <br>中文版参数解读：https://blog.csdn.net/TiffanyRabbit/article/details/76445909
+# <br>LDA原理-视频版：https://www.bilibili.com/video/BV1t54y127U8
+# <br>LDA原理-文字版：https://www.jianshu.com/p/5c510694c07e
+# <br>score的计算方法：https://github.com/scikit-learn/scikit-learn/blob/844b4be24d20fc42cc13b957374c718956a0db39/sklearn/decomposition/_lda.py#L729
+# <br>主题困惑度1：https://blog.csdn.net/weixin_43343486/article/details/109255165
+# <br>主题困惑度2：https://blog.csdn.net/weixin_39676021/article/details/112187210
+
+# ## 1.预处理
+
+# In[3]:
+
+
+import os
+import pandas as pd
+import re
+import jieba
+import jieba.posseg as psg
+from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
+from sklearn.decomposition import LatentDirichletAllocation
+import numpy as np
+import pyLDAvis.sklearn
+import matplotlib.pyplot as plt
+
+
+output_path = './save'
+file_path = './data'
+data = pd.read_excel("./data/data.xlsx")  # content type
+dic_file = "./data/dict.txt"
+stop_file = "./data/stopwords.txt"
+
+
+# 将中文进行去stop_word的分词，返回 " ".join(seg_words)
+def chinese_word_cut(mytext):
+    jieba.load_userdict(dic_file)
+    jieba.initialize()
+    try:
+        stopword_list = open(stop_file, encoding='utf-8')
+    except:
+        stopword_list = []
+        print("error in stop_file")
+    stop_list = []
+    flag_list = ['n', 'nz', 'vn']
+    for line in stopword_list:
+        line = re.sub(u'\n|\\r', '', line)
+        stop_list.append(line)
+
+    word_list = []
+    # jieba分词
+    seg_list = psg.cut(mytext)
+    for seg_word in seg_list:
+        word = re.sub(u'[^\u4e00-\u9fa5]', '', seg_word.word)
+        # word = seg_word.word  #如果想要分析英语文本，注释这行代码，启动下行代码
+        find = 0
+        for stop_word in stop_list:
+            if stop_word == word or len(word) < 2:  # this word is stopword
+                find = 1
+                break
+        if find == 0 and seg_word.flag in flag_list:
+            word_list.append(word)
+    return (" ").join(word_list)
+
+
+# 对文档进行分词
+data["content_cutted"] = data.content.apply(chinese_word_cut)
+print(type(data), data.shape)
+
+
+# 降序输出topic-doc DA 中 top-n概率的feature_words
+def print_top_words(model, feature_names, n_top_words):
+    tword = []
+    for topic_idx, topic in enumerate(model.components_):
+        print("Topic #%d:" % topic_idx)
+        topic_w = " ".join([feature_names[i] for i in topic.argsort()[:-n_top_words - 1:-1]])
+        tword.append(topic_w)
+        print(topic_w)
+    return tword
+
+
+# 根据词频选取top-n features（seg_word）得到doc-words表 → [doc_num, n_features]
+n_features = 1000  # 提取1000个特征词语
+tf_vectorizer = CountVectorizer(strip_accents='unicode',
+                                max_features=n_features,
+                                stop_words='english',
+                                max_df=0.5,     # max_document_frequence: 词出现的文档频率最大阈值
+                                min_df=10)      # min_document_frequence，词出现的文档频数最小阈值
+tf = tf_vectorizer.fit_transform(data.content_cutted)
+print(type(tf), tf.shape)
+
+
+# 基于词频特征矩阵获取doc-topic DA 和 topic-word DA → [doc_num, topic_num], [topic_num, n_features]
+n_topics = 8
+lda = LatentDirichletAllocation(n_components=n_topics,      # topic_num
+                                max_iter=50,
+                                learning_method='batch',
+                                learning_offset=50,
+                                # doc_topic_prior=0.1,      # doc-topic先验分布θ，缺省为1/n_components
+                                # topic_word_prior=0.01,    # topic-word先验分布β，缺省为1/n_components
+                                random_state=0)
+
+lda.fit(tf)
+print(lda.components_.shape)    # topic-word DA
+topics = lda.transform(tf)      # topic-word DA
+print(lda.doc_topic_prior_, lda.doc_topic_prior)
+print(lda.topic_word_prior_, lda.topic_word_prior)
+
+n_top_words = 25
+tf_feature_names = tf_vectorizer.get_feature_names()
+                                # 获取doc-words表中各feature对应的name
+topic_word = print_top_words(lda, tf_feature_names, n_top_words)
+
+topic = []
+for t in topics:
+    topic.append("Topic #" + str(list(t).index(np.max(t))))
+data['概率最大的主题序号'] = topic
+data['每个主题对应概率'] = list(topics)
+data.to_excel("./save/data_topic.xlsx", index=False)
+
+
+pic = pyLDAvis.sklearn.prepare(lda, tf, tf_vectorizer)
+# pyLDAvis.display(pic)
+pyLDAvis.save_html(pic, './save/lda_pass' + str(n_topics) + '.html')
+# pyLDAvis.display(pic)
+# 去工作路径下找保存好的html文件
+# 和视频里讲的不一样，目前这个代码不需要手动中断运行，可以快速出结果
+
+
+# ### 2.4困惑度
+
+# LDA model hyper-parameter K evaluation test
+plexs = []
+scores = []
+n_max_topics = 16
+for i in range(1, n_max_topics):
+    lda = LatentDirichletAllocation(n_components=i,
+                                    max_iter=50,
+                                    learning_method='batch',
+                                    learning_offset=50, random_state=0)
+    lda.fit(tf)
+    plexs.append(lda.perplexity(tf))
+    scores.append(lda.score(tf))
+
+
+n_t = 15  # 区间最右侧的值。注意：不能大于n_max_topics
+x = list(range(1, n_t + 1))
+# plt.plot(x, plexs)
+plt.plot(x, scores)
+plt.xlabel("number of topics")
+# plt.ylabel("perplexity")
+plt.ylabel("score")
+plt.show()
+```

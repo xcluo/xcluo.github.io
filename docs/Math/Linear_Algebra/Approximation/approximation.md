@@ -7,6 +7,7 @@
 - $S\in\mathbb{R}^{m*n}$为方阵$AA^T$或$A^TA$的奇异值平方根的降序非负矩阵。
 - $V\in\mathbb{R}^{n*n}$为方阵$A^TA$的特征矩阵，也叫右奇异向量矩阵；
 
+    > truncated singular value decomposition，截断奇异值分解  
     > $A_{m*n}\approx U_{m*k}S_{k*k}V_{n*k}^T$即为压缩后的数据，此时存储值压缩为$k*(m+1+n)$个
 
     ```python
@@ -94,11 +95,16 @@ Latent Dirichlet Allocation潜在狄利克雷分布，一种主体挖掘模型
     - $P(W_{j,t}|\phi_{Z_{j,t}})$ 给定topic情况下采样word，多项式分布
     - topic_number, hyperparameter
     - part 2 05:04, topic-words into document-topics
+    1. from doc-topic 1xK distribution M1 generates sampling topic_k
+    2. based on topic_k, from topic-word 1xN distribution M2 generates sampling word_n
+    3. repeat 1,2 until generate N_d words
     
 3. gibbs sampling吉布斯采样，通过某些对象的相对位置来对document-topic和topic-word整合着色
     - 每个doc的topic尽可能单色，每个word的topic尽可能单色，因此不会存在某个文档表现为多个(十个及以上)主题的现象
     - 因此会逐步将topic-word尽可能变为单色，最终表现document-topic为单色，实际上是最大或上述概率$P(W, Z, \theta, \phi; \alpha, \beta)$的一个过程
     - 利用条件分布来简化多维问题
+    - https://www.jianshu.com/p/5c510694c07e
+    - from doc-words to get doc-topic and topic-words 
 
 
 > LDA出自David M.Blei、吴恩达和Michael I.Jordan 2003年论文: [Latent Dirichlet Allocation](https://www.jmlr.org/papers/volume3/blei03a/blei03a.pdf)

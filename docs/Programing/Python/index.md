@@ -69,6 +69,7 @@
 - [`sklearn`](ai_libs/sklearn/sklearn.md)
 - [`gensim`](ai_libs/gensim/gensim.md)
 - [`lightgbm`]()
+- [`fasttext`] pip install fasttext-wheel
 
 #### 分词方法
 
