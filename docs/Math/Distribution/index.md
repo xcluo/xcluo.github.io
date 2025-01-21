@@ -51,7 +51,10 @@ $X \sim\mathcal{N}(\mu, \sigma^2)$，密度函数$f(x)=\frac{1}{\sqrt{2\pi}\sigm
 > https://www.cnblogs.com/feynmania/p/13420194.html
 > https://www.zhihu.com/question/38056285/answer/1803920100
 > https://zhuanlan.zhihu.com/p/669645171  
-> https://www.jianshu.com/p/5c510694c07e
+> https://www.jianshu.com/p/5c510694c07e  
+> https://blog.csdn.net/Galbraith_/article/details/104577253  
+> https://blog.csdn.net/weixin_46265255/article/details/120250624  
+> https://blog.51cto.com/u_16213652/12201210  
 
 ```python
 # 初始化

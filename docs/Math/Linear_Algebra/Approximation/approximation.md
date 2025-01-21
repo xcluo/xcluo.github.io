@@ -1,14 +1,14 @@
 ### Matrix Factorization
 
 #### SVD
-奇异值分解Singular Value Decomposition，$A=USV^T\in\mathbb{R}^{m*n}$，其中
+1. 奇异值分解Singular Value Decomposition，$A=USV^T\in\mathbb{R}^{m*n}$，其中  
 
-- $U\in\mathbb{R}^{m*m}$为方阵$AA^T$的特征矩阵，也叫左奇异向量矩阵；
-- $S\in\mathbb{R}^{m*n}$为方阵$AA^T$或$A^TA$的奇异值平方根的降序非负矩阵。
-- $V\in\mathbb{R}^{n*n}$为方阵$A^TA$的特征矩阵，也叫右奇异向量矩阵；
+    - $U\in\mathbb{R}^{m*m}$为方阵$AA^T$的特征矩阵，也叫左奇异向量矩阵；
+    - $S\in\mathbb{R}^{m*n}$为方阵$AA^T$或$A^TA$的奇异值平方根的降序非负矩阵。
+    - $V\in\mathbb{R}^{n*n}$为方阵$A^TA$的特征矩阵，也叫右奇异向量矩阵；
 
-    > truncated singular value decomposition，截断奇异值分解  
-    > $A_{m*n}\approx U_{m*k}S_{k*k}V_{n*k}^T$即为压缩后的数据，此时存储值压缩为$k*(m+1+n)$个
+2. Truncated Singular Value Decomposition，截断SVD  
+    - $A_{m*n}\approx U_{m*k}S_{k*k}V_{n*k}^T$即为压缩后的数据，此时存储值压缩为$k*(m+1+n)$个
 
     ```python
     import numpy
@@ -23,18 +23,18 @@
         return mat_rank_k
     ```
 !!! info ""
-    压缩：通过多个低维矩阵近似重构高维矩阵，特征数保持不变。需要计算协方差矩阵，计算量大
+    SVD求特征向量和特征值时需要计算协方差矩阵，计算量较大
 
 #### NMF
-Non-negative Matrix Factorization**非负矩阵**分解，即给定的一个非负矩阵$V\in\mathbb{R}^{m*n}$，能够寻找到非负矩阵 $W\in\mathbb{R}^{m*k}$ 和 $H\in\mathbb{R}^{k*n}$，满足$V\approx WH$。
+**非负矩阵**分解Non-negative Matrix Factorization，给定一个非负矩阵$V\in\mathbb{R}^{m*n}$，能够找到非负矩阵 $W\in\mathbb{R}^{m*k}$ 和 $H\in\mathbb{R}^{k*n}$，满足$V\approx WH$。
 
-- $W\in\mathbb{R}^{m*k}$ features matrix特征矩阵，表示从原始矩阵中抽取出来的特征。**该部分可作为类似于PCA的非负特征维度压缩结果**
+- $W\in\mathbb{R}^{m*k}$ features matrix特征矩阵，表示从原始矩阵中抽取出来的特征。**该部分可作为LSA主题模型结果**
 - $H\in\mathbb{R}^{k*n}$ cofficients matrix系数矩阵，表示抽取出的特征与原有稀疏特征的关系。
 
 
 NMF矩阵分解两种规优化目标及基于梯度下降的无监督迭代更新则如下：
 
-1. Frobenius范数: $\text{arg }\mathop{\text{min}}\limits_{W, H} \frac{1}{2}\Vert V-WH \Vert_F^2 = \frac{1}{2}\sum_{i, j}(V_{ij} - (WH)_{ij})^2$ 
+1. Frobenius范数(矩阵L2范式): $\text{arg }\mathop{\text{min}}\limits_{W, H} \frac{1}{2}\Vert V-WH \Vert_F^2 = \frac{1}{2}\sum_{i, j}(V_{ij} - (WH)_{ij})^2$ 
 2. KL散度: $\text{arg }\mathop{\text{min}}\limits_{W, H} D(V\Vert WH) = \sum_{i, j} \big[V_{ij}\log \frac{V_{ij}}{(WH)_{ij}} - V_{ij} + (WH)_{ij} \big]$
 
     ```python title="nmf"
@@ -55,8 +55,21 @@ NMF矩阵分解两种规优化目标及基于梯度下降的无监督迭代更�
             break
     return W, H
     ```
-    > 分解矩阵更新规则出自: [Algorithms for Non-negative Matrix Factorization](https://proceedings.neurips.cc/paper_files/paper/2000/file/f9d1152547c0bde01830b7e8bd60024c-Paper.pdf)  
-    > 迭代时可加入L1范式和L2范式进行正则规约，见 `sklearn.decomposition.NMF`
+    > - NMF分解矩阵更新出自: [Algorithms for Non-negative Matrix Factorization](https://proceedings.neurips.cc/paper_files/paper/2000/file/f9d1152547c0bde01830b7e8bd60024c-Paper.pdf)  
+    > - 迭代时可加入L1范式和L2范式进行正则规约，详见 `sklearn.decomposition.NMF`
+
+#### LSA
+1. 使用Truncated SVD分解
+    - $U\Sigma^{1/2}$ 表示文档在k维潜在语义空间的分布
+    - $\Sigma^{1/2}V$ 表示k维潜在语义在词项空间的分布
+   
+2. 使用NMF分解
+    - $W\in\mathbb{R}^{m*k}$ features matrix特征矩阵，表示从原始矩阵中抽取出来的特征。
+    - $H\in\mathbb{R}^{k*n}$ cofficients matrix系数矩阵，表示抽取出的特征与原有稀疏特征的关系。
+
+#### pLSA
+
+#### LDA
 
 ### Dimensionality Reduction
 #### PCA

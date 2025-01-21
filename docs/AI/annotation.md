@@ -27,6 +27,7 @@
 ###E
 - **EDA**：**E**asy **D**ata **A**ugmentation，简单的数据增强方法
 - **EM**：**E**xact **M**atch，绝对匹配
+- **EM**：**E**xpectation-**M**aximization algorithm，最大期望算法，EM算法
 
 ###F
 - **FID**：**F**rechet **I**nception **D**istance，一种是通过计算两个图像集在Inception网络上的平均概率距离得出、广泛使用的衡量两个图像生成模型生成的图像分布之间相似度的度量指标
@@ -78,7 +79,7 @@
 ###P
 - **PEFT**: **P**arameter-**E**fficient **F**ine-**T**uning，参数高效微调
 - **PLM**：**P**retrained **L**anguage **M**odel，预训练语言模型
-- **PLSA**：**P**robabilistic **L**atent **S**emantic **A**nalysis，概率潜在语义分析，也称为 概率潜在语义索引（PLSI）
+- **pLSA**：**P**robabilistic **L**atent **S**emantic **A**nalysis，概率潜在语义分析，也称为概率潜在语义索引（PLSI）
 
 - **PoS**: **P**art **o**f **S**peech, 词性
 - **PTQ**：**P**ost-**T**raining **Q**uantization，训练后量化，也称作离线量化
