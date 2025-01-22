@@ -1,33 +1,10 @@
-- Quantize，量化，如将FP32转化为int8
-- Dequantize，逆向量化，如将int8转化为FP32
+量化是将包含更多信息的表示离散化为包含较少信息表示的过程，通过减少模型参数和激活值的表示精度以达到降低模型存储空间和计算量的目的。
+### 量化流程
+#### 数据格式
 
-量化是将输入从包含更多信息的表示离散化为包含较少信息的表示的过程，且为了充分使用更少位数据类型的整个取值范围，通常通过对输入数据进行归一化，以重新调整为目标数据类型范围
-
-1. 量化
-$X^{Int8}=round(\frac{127}{absmax(X^{FP32})}X^{FP32})=round(c^{FP32}*X^{FP32})$
-        - 为保留0值和左右边界-1和1，且最终含16个映射值  
-        - 对称：0占两个index，正负数分别占7个index  
-        - 非堆成：0占一个index，正数占8个index，负数占7个index  
-2. 逆向量化
-$X^{FP32}=dequant(c^{FP32}, X^{Int8})=\frac{X^{Int8}}{c^{FP32}}$
-3. block-wise quantization：对于$X\in\mathbb{R}^{b*h}$，可以每$n=(b*h)/B$ 个元素统一进行量化，减少单次量化元素，减少部分量化值极少出现又被占的现象
-
-
-量化方案：
-
-1. data free，不适用校准集，直接量化，使用简单，但一般会带来较大精度损失
-2. calibration，基于校准集，通过输入少量的真实数据进行统计分析
-3. finetune，基于训练微调的方案，将量化胡茬在训练时自动调整权重，可带来更好的精度提升，但需要额外修改模型训练代码，开发周期较长
-
-量化分类：
-
-1. 二值化
-2. 线性量化
-3. 对数量化
-- SmoothQuant: Accurate and Efficient Post-Training Quantization for Large Language Models
-
-
-- S(ign): 符号位部分; E(xponent): 指数位部分; M(antissa): 尾数位部分。尾数位越多精度越高，指数位越多表示范围越大
+- S(ign): 符号位部分; 
+- E(xponent): 指数位部分，指数位越多数值范围越大
+- M(antissa): 也用Fraction表示，尾数位部分。尾数位越多精度越高
 
 | 数据类型      | 符号位                          | 指数位 | 小数位
 | ----------- | ------------------------------------ | --- | ---|
@@ -41,10 +18,15 @@ $X^{FP32}=dequant(c^{FP32}, X^{Int8})=\frac{X^{Int8}}{c^{FP32}}$
 | FP4 | 1 | 2 | 1 | 
 | NF4 | 
 
+> 浮点数转二进制格式可视化工具 [IEEE 754 Conventer](https://www.h-schmidt.net/FloatConverter/IEEE754.html)
+#### Quantize
+量化，将高精度数值类型转化为低精度数值类型，如`FP32 → FP16`
 
-- [NF4](../../LLM_Extend/LLM_SFT/qlora.md): 本质上为4-bit字节码，分别表示下标0-15对应的量化值
-- block-wise k-bit quantization
 
+
+
+1. Block-wise k-bit quantization
+    
     $$
     \begin{aligned}
     \text{quant} =& \text{round}(c^{\text{FP32}}\cdot X^{\text{FP32}}) \\
@@ -52,10 +34,39 @@ $X^{FP32}=dequant(c^{FP32}, X^{Int8})=\frac{X^{Int8}}{c^{FP32}}$
     \end{aligned}
     $$
 
-    > block: 为防止一次性量化过多元素，可以将$X\in\mathbb{R}^{b*h}$，每$n=(b*h)/B$ 个元素作为单个block统一进行量化，减缓由部分极值损害整体量化效果的现象
+> block: 为防止一次性量化过多元素，可以将$X\in\mathbb{R}^{b*h}$，每$n=(b*h)/B$ 个元素作为单个block统一进行量化，减缓由部分极值损害整体量化效果的现象    
+
+$X^{Int8}=round(\frac{127}{absmax(X^{FP32})}X^{FP32})=round(c^{FP32}*X^{FP32})$
+        - 为保留0值和左右边界-1和1，且最终含16个映射值  
+        - 对称：0占两个index，正负数分别占7个index  
+        - 非堆成：0占一个index，正数占8个index，负数占7个index  
+
+#### Dequantize
+解量化，将量化后的低精度数值类型转化为高精度数值类型，如`FP16 → FP32`
+
+$X^{FP32}=dequant(c^{FP32}, X^{Int8})=\frac{X^{Int8}}{c^{FP32}}$
+3. block-wise quantization：对于$X\in\mathbb{R}^{b*h}$，可以每$n=(b*h)/B$ 个元素统一进行量化，减少单次量化元素，减少部分量化值极少出现又被占的现象
+
+### 量化方案
+#### PTQ
+
+#### QAT
+
+1. data free，不适用校准集，直接量化，使用简单，但一般会带来较大精度损失
+2. calibration，基于校准集，通过输入少量的真实数据进行统计分析
+3. finetune，基于训练微调的方案，将量化胡茬在训练时自动调整权重，可带来更好的精度提升，但需要额外修改模型训练代码，开发周期较长
+
+量化分类：
+
+1. 二值化
+2. 线性量化
+3. 对数量化
+- SmoothQuant: Accurate and Efficient Post-Training Quantization for Large Language Models
 
 
-- [IEEE 754 Conventer](https://www.h-schmidt.net/FloatConverter/IEEE754.html)
+- [NF4](../../LLM_Extend/LLM_SFT/qlora.md): 本质上为4-bit字节码，分别表示下标0-15对应的量化值   
+
+
 
 
 

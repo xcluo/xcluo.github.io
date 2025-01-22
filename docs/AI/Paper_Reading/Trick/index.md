@@ -51,8 +51,8 @@
     - [MQA](Memory_Saving/Attention_Variants/mqa/#mqa)、[GQA](Memory_Saving/Attention_Variants/mga/#gqa)
     - KV cache https://blog.csdn.net/ningyanggege/article/details/134564203
 - 分布式训练
-  - [DeepSpeed]
-  - [Megatron-LM]
+    - [DeepSpeed]
+    - [Megatron-LM]
 - [Parallelism](Memory_Saving/Parallelism/parallelism.md)
     - TP(Tensor Parallelism)
     - PP(Pipeline Parallelism)
@@ -60,7 +60,7 @@
     - DP(Data Pparallelism)
     - MP(Model Parallelism)
     - SP(Sequence Parallel)
-- 量化：[Quantization](Memory_Saving/Quantization/quantization.md)，减少前向过程中存储消耗，但反向过程则不会有该特性
+- 量化 [Quantization](Memory_Saving/Quantization/quantization.md)
 
 
 目标重要性衡量  

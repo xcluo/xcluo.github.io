@@ -79,4 +79,4 @@ $$
 \rho(x , y) = 1 - \frac{6\sum_{i=1}^n d_i^2}{n(n^2-1)} = 1 - \frac{6\sum_{i=1}^n (r_{x_i} - r_{y_i})^2}{n(n^2-1)}
 $$
 
-> $d_{x_i}$ 表示向量 $x$ 中 $i\text{-}th$ 元素argsort排序后的位次
+> $d_i$ 表示向量 $x$ 和 $y$ 中 $i\text{-}th$ 元素argsort排序后的位次差值
