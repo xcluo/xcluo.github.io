@@ -34,8 +34,11 @@
 
 NMF矩阵分解两种规优化目标及基于梯度下降的无监督迭代更新则如下：
 
-1. Frobenius范数(矩阵L2范式): $\text{arg }\mathop{\text{min}}\limits_{W, H} \frac{1}{2}\Vert V-WH \Vert_F^2 = \frac{1}{2}\sum_{i, j}(V_{ij} - (WH)_{ij})^2$ 
-2. KL散度: $\text{arg }\mathop{\text{min}}\limits_{W, H} D(V\Vert WH) = \sum_{i, j} \big[V_{ij}\log \frac{V_{ij}}{(WH)_{ij}} - V_{ij} + (WH)_{ij} \big]$
+1. Frobenius范数(矩阵L2范数): $\text{arg }\mathop{\text{min}}\limits_{W, H}\ \frac{1}{2}\Vert V-WH \Vert_F^2 = \frac{1}{2}\sum_{i, j}(V_{ij} - (WH)_{ij})^2$ 
+2. KL散度: $\text{arg }\mathop{\text{min}}\limits_{W, H}\ D_{KL}(V\Vert WH) = \sum_{i, j} \big[V_{ij}\log \frac{V_{ij}}{(WH)_{ij}} - V_{ij} + (WH)_{ij} \big]$
+    
+    > $V, W, H$ 均为非负矩阵，所以可以进行KL散度计算  
+    > $-V_{ij} + (WH)_{ij}$ 确保某一元素值为0时依然可以计算$V_{ij}$和$(WH)_{ij}$的差异
 
     ```python title="nmf"
     W, H = np.abs(np.random.rand(m, k)), np.abs(np.random.rand(k, n))
@@ -55,10 +58,12 @@ NMF矩阵分解两种规优化目标及基于梯度下降的无监督迭代更�
             break
     return W, H
     ```
-    > - NMF分解矩阵更新出自: [Algorithms for Non-negative Matrix Factorization](https://proceedings.neurips.cc/paper_files/paper/2000/file/f9d1152547c0bde01830b7e8bd60024c-Paper.pdf)  
-    > - 迭代时可加入L1范式和L2范式进行正则规约，详见 `sklearn.decomposition.NMF`
+    > NMF分解矩阵更新出自论文: [Algorithms for Non-negative Matrix Factorization](https://proceedings.neurips.cc/paper_files/paper/2000/file/f9d1152547c0bde01830b7e8bd60024c-Paper.pdf)  
+    > 迭代时可加入L1范式和L2范式进行正则规约，详见 `sklearn.decomposition.NMF`
 
 #### LSA
+潜在语义分析Latent Semantic Analysis，也被称为潜在语义索引（Latent Semantic Indexing，LSI），核心思想是利用矩阵分解技术来减少维度并发现文档与单词之间的潜在关系，从而克服了传统基于关键词的方法所面临的同义词和多义词问题
+
 1. 使用Truncated SVD分解
     - $U\Sigma^{1/2}$ 表示文档在k维潜在语义空间的分布
     - $\Sigma^{1/2}V$ 表示k维潜在语义在词项空间的分布
@@ -68,30 +73,6 @@ NMF矩阵分解两种规优化目标及基于梯度下降的无监督迭代更�
     - $H\in\mathbb{R}^{k*n}$ cofficients matrix系数矩阵，表示抽取出的特征与原有稀疏特征的关系。
 
 #### pLSA
-
-#### LDA
-
-### Dimensionality Reduction
-#### PCA
-主成分分析Principal Component Analysis，即一组数据（m条数据）不同维度（n个维度）之间可能存在线性相关关系，PCA能够对这组数据（通过剔除协方差矩阵对应的小特征值维度）正交变换转化为各个维度之间（维度缩减为k）线性无关的数据，达到数据降维去噪的目的。
-
-1. 零均值化处理，特征元素减去相应特征的均值$X_i=X_i-E[X_i] \in \mathbb{R}^{m*n}$
-2. 计算协方差矩阵$C=X^TX\in\mathbb{R}^{n*n}$的特征值和特征向量
-3. 按特征值的大小降序排列，选择对应的top-k个特征向量作为主成分得到矩阵$P\in\mathbb{R}^{n*k}$
-    
-    > k除了可以指定为具体的整数值外，还可以指定为百分数，对应满足≥k的特征值比重的最小k
-
-4. 投影结果$Y=XP \in \mathbb{R}^{m*k}$即为降维到k维后的数据
-
-    ```python
-    from sklearn.decomposition import PCA
-
-    pca = PCA(n_components=0.8)
-    pca.fit(X)                  # 计算PCA投影矩阵，X为 [m, n] 数组
-    Y = ret = pca.transform(X)  # 获取PCA投影结果，Y为 [m, k] 数组
-    ```
-!!! info ""
-    降维：通过保留主要成分的投影结果，且特征数减少
 
 #### LDA
 Latent Dirichlet Allocation潜在狄利克雷分布，一种主体挖掘模型
@@ -116,16 +97,35 @@ Latent Dirichlet Allocation潜在狄利克雷分布，一种主体挖掘模型
     - 每个doc的topic尽可能单色，每个word的topic尽可能单色，因此不会存在某个文档表现为多个(十个及以上)主题的现象
     - 因此会逐步将topic-word尽可能变为单色，最终表现document-topic为单色，实际上是最大或上述概率$P(W, Z, \theta, \phi; \alpha, \beta)$的一个过程
     - 利用条件分布来简化多维问题
-    - https://www.jianshu.com/p/5c510694c07e
+    - LDA 并不是基于“完全接受”的原则工作的，而是依赖于先进的统计推断技术来处理其内部的概率结构。
+    - https://www.jianshu.com/p/5c510694c07e  
     - from doc-words to get doc-topic and topic-words 
 
 
 > LDA出自David M.Blei、吴恩达和Michael I.Jordan 2003年论文: [Latent Dirichlet Allocation](https://www.jmlr.org/papers/volume3/blei03a/blei03a.pdf)
 
-Latent Semantic Analysis潜在语义分析的核心思想是利用矩阵分解技术来减少维度并发现词汇与文档之间的潜在关系，从而克服了传统基于关键词的方法所面临的同义词和多义词问题
 
-- PLSA
-> LSA最初应用于文本信息检索，也被称为潜在语义索引（Latent Semantic Indexing，LSI）
+### Dimensionality Reduction
+#### PCA
+主成分分析Principal Component Analysis，即一组数据（m条数据）不同维度（n个维度）之间可能存在线性相关关系，PCA能够对这组数据（通过剔除协方差矩阵对应的小特征值维度）正交变换转化为各个维度之间（维度缩减为k）线性无关的数据，达到数据降维去噪的目的。
+
+1. 零均值化处理，特征元素减去相应特征的均值$X_i=X_i-E[X_i] \in \mathbb{R}^{m*n}$
+2. 计算协方差矩阵$C=X^TX\in\mathbb{R}^{n*n}$的特征值和特征向量
+3. 按特征值的大小降序排列，选择对应的top-k个特征向量作为主成分得到矩阵$P\in\mathbb{R}^{n*k}$
+    
+    > k除了可以指定为具体的整数值外，还可以指定为百分数，对应满足≥k的特征值比重的最小k
+
+4. 投影结果$Y=XP \in \mathbb{R}^{m*k}$即为降维到k维后的数据
+
+    ```python
+    from sklearn.decomposition import PCA
+
+    pca = PCA(n_components=0.8)
+    pca.fit(X)                  # 计算PCA投影矩阵，X为 [m, n] 数组
+    Y = ret = pca.transform(X)  # 获取PCA投影结果，Y为 [m, k] 数组
+    ```
+!!! info ""
+    降维：通过保留主要成分的投影结果，且特征数减少
 
 #### t-SNE
 t-distributed Stochastic Neighbor Embedding t分布-随机邻近嵌入

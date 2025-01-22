@@ -14,7 +14,7 @@ $$
 !!! info ""
     - $TF_{i, j}$ 为 $word_j$ 在 $doc_i$ 中出现的频率  
     - $IDF_{j}$ 为 $word_j$ 在所有文档中出现频率的倒数取对数值(1用于防止0值现象)，用于降低在多个文档中出现的词（如stop words）的权重，提升非常用词的权重。
-    - $\text{TF-IDF}_{j}$ ?
+    - <span style="color:red">$\text{TF-IDF}_{j}$ ?</span>
 
 #### [MI](\AI\Paper_Reading\Trick\Ensemble\Ensemble\Boosting\lightgbm/#prechecker_features)
 
@@ -23,6 +23,8 @@ $$
 $$
 \text{mi} =\sum_{x \in X}\sum_{y \in Y} p(x,y)\log\frac{p(x,y)}{p(x)p(y)}
 $$
+
+- <span style="color:red">拆分为 $\text{mi}_{a}, \text{mi}_{b}, \text{mi}_{c}, \text{mi}_{d}$ 4部分</span>
 
 #### [Chi-square statistic](\AI\Paper_Reading\Trick\Ensemble\Ensemble\Boosting\lightgbm/#prechecker_features)
 

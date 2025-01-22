@@ -30,12 +30,12 @@ nav:
         - ActivationFunction: AI/Paper_Reading/Component/ActivationFunction/index.md
       - 炼丹技巧: AI/Paper_Reading/Trick/index.md
     - 数据指标: AI/Metrics/index.md
-    - 机器学习库:
-      - Tensorflow: AI/AI_Platform/Tensorflow/index.md
-      - PyTorch: AI/AI_Platform/PyTorch/index.md
-      - Transformers: AI/AI_Platform/Transformers/index.md
-      - PaddlePaddle: AI/AI_Platform/PaddlePaddle/index.md
-      - Nvidia: AI/AI_Platform/Nvidia/index.md
+    - 机器学习库: AI/AI_Platform/index.md
+      # - Tensorflow: AI/AI_Platform/Tensorflow/index.md
+      # - PyTorch: AI/AI_Platform/PyTorch/index.md
+      # - Transformers: AI/AI_Platform/Transformers/index.md
+      # - PaddlePaddle: AI/AI_Platform/PaddlePaddle/index.md
+      # - Nvidia: AI/AI_Platform/Nvidia/index.md
 
   - 数学:
     - 专业名词: Math/annotation.md

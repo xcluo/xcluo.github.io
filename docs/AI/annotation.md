@@ -2,6 +2,7 @@
 - **AE**：**A**uto-**E**ncoder，自编码器
 - **AGI**：**A**rtifical **G**eneral **I**ntelligence，通用人工智能
 - **AIGC**：**A**rtificial **I**ntelligence **G**enerated **C**ontent，人工智能生成内容
+- **AMP**：**A**utomatic **M**ixed **P**recision，自动混合精度
 - **AR**：**A**uto **R**egressive，自回归
 - **AR**: **A**ugmented **R**eality，增强现实
 - **ASR**：**A**utomatic **S**peech **R**ecognition，自动语音识别，将语音词汇内容转化为计算机可读的输入
@@ -85,7 +86,7 @@
 - **PTQ**：**P**ost-**T**raining **Q**uantization，训练后量化，也称作离线量化
 
 ###Q
-- **QAT**：**Q**uantization **A**ware **T**raining，训练时量化，也称作在线量化
+- **QAT**：**Q**uantization **A**ware **T**raining，量化感知训练，训练时量化，也称作在线量化
 
 ###R
 - **RL(HF)**：**R**einforcement **L**earning （from **H**uamn **F**eedback），（人类反馈）强化学习

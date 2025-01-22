@@ -15,6 +15,13 @@
 
     > $\bar{\cdot}$ 为向量均值
 
+#### Pearson Correlation Coefficient
+皮尔森相关系数PCC，也称为皮尔森积矩相关系数（Pearson Product-Moment Correlation Coefficient，PPMCC），用来衡量两个变量间线性关系强度，取值为[-1, 1]表示`完全负相关 → 不相关 → 完全正相关`，（假设数据服务正态分布）本质为两个向量中心化后的[cosine similarity](#cosine-similarity)：
+
+$$
+r(x, y) = \frac{\text{Cov}(x, y)}{\sigma_x \sigma_y} = \frac{\sum_{i=1}^n(x_i-\bar{x})(y_i-\bar{y})}{\sqrt{\sum_{i=1}^n(x_i - \bar{x})^2}\sqrt{\sum_{i=1}^n(y_i - \bar{y})^2}}
+$$
+
 #### Lp Distance
 也称作闵可夫斯基距离Minkowski Distance，用于衡量两个向量间距离，计算方式为
 
@@ -55,21 +62,21 @@ KL散度，也叫做相对熵Relative Entropy或信息散度Information Divergen
 - 离散概率分布 $P$ 和 $Q$ 的KL散度：
 
     $$
-    D_{KL}(P\Vert Q) = \sum_{i=1}^n P(x_i)\log \frac{P(x_i)}{Q(x_i)} = \sum_{i=1}^n \big(-P(x_i)\log {Q(x_i)} \text{+} P(x_i)\log P(x_i)\big)
+    D_{KL}(P\Vert Q) = \sum_{i=1}^n P(x_i)\log \frac{P(x_i)}{Q(x_i)} = \sum_{i=1}^n \big(-P(x_i)\log {Q(x_i)} \text{+} P(x_i)\log P(x_ix)\big)
     $$
 
 - 连续概率分布 $P$ 和 $Q$ 的KL散度：
 
     $$
-    D_{KL}(P\Vert Q) = \int_{-\infty}^{\infty} P(x_i)\log \frac{P(x_i)}{Q(x_i)}
+    D_{KL}(P\Vert Q) = \int_{-\infty}^{\infty} P(x)\log \frac{P(x)}{Q(x)}
     $$
 
-#### Pearson Correlation Coefficient
-皮尔森相关系数PCC，也称为皮尔森积矩相关系数（Pearson Product-Moment Correlation Coefficient，PPMCC），用来衡量两个变量间线性关系强度的一个度量，取值为[-1, 1]，表示`完全负相关 → 不相关 → 完全正相关`
-
-$$
-r_{}
-$$
 
 #### Spearman's Rank Correlation Coefficient
-斯皮尔曼秩相关系数
+斯皮尔曼等级相关系数，通常简称为斯皮尔曼相关系数，用于衡量两个变量之间的单调关系而非精确的线性关系
+
+$$
+\rho(x , y) = 1 - \frac{6\sum_{i=1}^n d_i^2}{n(n^2-1)} = 1 - \frac{6\sum_{i=1}^n (r_{x_i} - r_{y_i})^2}{n(n^2-1)}
+$$
+
+> $d_{x_i}$ 表示向量 $x$ 中 $i\text{-}th$ 元素argsort排序后的位次
