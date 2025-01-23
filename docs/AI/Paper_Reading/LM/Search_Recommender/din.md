@@ -1,6 +1,6 @@
 ### DIN
 > 论文：DIN: **D**eep **I**nterest **N**etwork for Click-Through Rate Prediction  
-> Github: [DeepInterestNetwork](https://github.com/zhougr1993/DeepInterestNetwork)
+> Github: [DeepInterestNetwork](https://github.com/zhougr1993/DeepInterestNetwork)  
 > Alibaba Group, KDD 2018  
 
 
