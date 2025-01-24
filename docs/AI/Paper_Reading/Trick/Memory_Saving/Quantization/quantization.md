@@ -87,10 +87,8 @@
 #### PTQ
 Post Training Quantization
 
-1. Dynamic Range quantization，动态范围量化
-2. Full Integer Quantization，全整型量化
-3. Float16 Quantization，Fp16量化
-4. Asymmetric Quantization，非对称量化
+
+converter.representative_dataset
 
 ```python
 converter.optimizations = [tf.lite.Optimize.DEFAULT]
@@ -106,7 +104,6 @@ converter.inference_output_type = tf.uint8  # or tf.int8
 
 # int8权重float16激活
 converter.target_spec.supported_ops = [tf.lite.OpsSet.EXPERIMENTAL_TFLITE_BUILTINS_ACTIVATIONS_INT16_WEIGHTS_INT8]
-
 ```
 #### QAT
 Quantization Aware Training

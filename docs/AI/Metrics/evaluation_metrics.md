@@ -282,15 +282,46 @@ Recall-Oriented Understudy for Gisting Evaluation，是评估摘要总结以及�
     - L表示最长公共子序列Longest common subsequence（==注意不是最长连续公共子序列==）；
 
 
-### Search
+### Search Recommendation
 #### MRR
-Mean Reciprocal Rank，对搜索算法进行评估的机制，MRR是指多个查询语句的排名倒数的均值
+平均倒数排名Mean Reciprocal Rank，旨在衡量排序结果的质量，是指多个查询语句的第一个正确结果排名的倒数均值
 
 $$
-MRR = \frac{1}{|Q|}\sum_{i=1}^{|Q|}\frac{1}{rank_i}
+MRR = \frac{1}{|Q|}\sum_{i=1}^{|Q|}\frac{1}{r_i}
 $$
 
+> $r_i$ 表示$i\text{-}th$ 查询对应的第一个正确答案排名名次；  
+> $Q$ 表示参与测试的查询集
 
-- Pearson/Spearman correlation Coefficient，有道云笔记
-- Matthews correlation Coefficient，有道云笔记
-- Lp距离，有道云笔记
+#### HR
+命中率Hit Ratio，是衡量推荐系统准确性的一个指标，表示推荐列表中用户实际感兴趣（如点击或购买等）的项目所占比例。$HR@k$计算方式如下：
+
+$$
+HR@k = \frac{\sum_{u \in U} \mathbb{I}(\text{user }u\text{ has a hit in top-k})}{\vert U\vert}
+$$
+
+> $U$ 表示用户集
+
+#### NDCG
+归一化折扣累积收益Normalized Discounted Cumulative Gain，旨在衡量排序结果的质量，即通过考虑推荐或检索结果中相关项目的排名位置来评估排序质量，并且对结果进行了归一化处理，不仅关注推荐结果的相关性，还重视项目的具体排序位次。
+
+1. 累计收益Commulative Gain (CG)，单纯累加，不考虑位次信息
+
+    $$
+    CG@k = \sum_{i=1}^k rel_i
+    $$
+
+2. 折扣累计收益Discounted Comulative Gain (DCG)，排名位次越低折扣惩罚越大
+
+    $$
+    DCG@k = \sum_{i=1}^k \frac{2^{rel_i}-1}{\log_2(i+1)}
+    $$
+
+    > $rel_i$ 表示推荐列表中 $i\text{-}th$ 排名项的相关性得分
+
+3. 理想折扣累计收益Ideal DCG (IDCG)，按照推荐列表中相关性得分降序排序后求得的DCG，即相关性得分越高在理想情况下排名应该越高
+4. NDCG，取值范围[0, 1]，进一步考虑到了推荐列表和每个检索中真正有效的结果个数，数值越大表示越符合理想排序结果
+
+    $$
+    NDCG@k = \frac{DCG@k}{IDCG@k}
+    $$
