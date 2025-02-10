@@ -7,12 +7,14 @@ You Need
 
 #### 工作要点
 1. 所有的heads使用同一个K和V，即【$h\ \text{Q} + 1\ \text{K} + 1\ \text{V}$】
-2. 是一个性能与效果的trade-off，通过牺牲一点点效果表现，速度提升的同时减少GPU使用量
+2. 是一个性能与效果的trade-off，通过牺牲一点点效果表现，提升速度的同时减少GPU使用量
     <div class="one-image-container">
         <img src="\AI\Paper_Reading\Trick\Memory_Saving\Attention_Variants\image\mqa_time_performance.png" style="width: 95%;">
         <!-- <p style="text-align: center;">图片标题</p> -->
     </div>
-3. 加速原因：1）少了$h-1$次K,V结果计算；2）K,V缓存减少，更高速SRAM腾出了更多空间用以加速计算。
+3. 加速原因
+    - [x] 少了$h-1$次K、V结果计算；
+    - [x] K、V缓存减少，为更高速SRAM腾出了更多空间用以加速计算。
 
 
 ### GQA
@@ -30,5 +32,11 @@ You Need
     <!-- <p style="text-align: center;">图片标题</p> -->
     </div>
 
-2. 是一个性能与效果的trade-off，通过牺牲一点点效果表现，速度提升的同时减少GPU使用量
-3. 加速原因：1）少了$h-g$次K,V结果计算；2）K,V缓存减少，更高速SRAM腾出了更多空间用以加速计算。
+2. 是一个性能与效果的trade-off，通过牺牲一点点效果表现，提升速度的同时减少GPU使用量
+3. 加速原因：MHA与MQA的trade-off产物
+
+
+### MLA
+> 论文：DeepSeek-V2: A Strong, Economical, and Efficient Mixture-of-Experts Language Model  
+> MLA: **M**ulti-head **L**atent **A**ttention  
+> DeepSeek-AI, 2024

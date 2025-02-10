@@ -7,7 +7,7 @@
 - GPT
 - DeBERTa、DeBERTa_v3
 - [LLaMA 3.1](LLaMA/llama.md)
-
+- [DeepSeek](DeepSeek/deepseek.md)
 
 ### Prefix LM
 - UniLM
@@ -18,9 +18,7 @@
 - T5
 
 
-#### BERT系
 
-#### GPT系
 ### LLM
 
 #### META系列

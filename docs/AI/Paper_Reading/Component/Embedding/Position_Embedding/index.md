@@ -4,6 +4,7 @@
 
 ### Relative Position Embedding
 - [旋转位置编码RoPE](RelativePE/RoPE.md)
+- Decoupled RoPE
 
 ### Position Embedding Patches
 

@@ -11,3 +11,7 @@ $$
 
 
 - power iteration method
+
+1. 复数的三角函数表示：
+
+    - $e^{i\theta}=\cos \theta + i\sin \theta$

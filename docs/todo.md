@@ -1,6 +1,9 @@
 - [ ] MinHash de-duplication
 - Frobenius范数，次可加性$\Vert A+B \Vert_{F}\le \Vert A \Vert_F + \Vert B \Vert_F$，空间向量相加，两边之和大于第三边
 - [ ] DeepSeek
+- [ ] Pre-Norm与Post-Norm的区别与选择
+- [ ] KV cache
+- [ ] Decouped RoPE
 - [x] LDA潜在迪利克雷分布，b站视频 LDA主题模型
 - [ ] LSA/PLSA
 - [ ] Cholesky分解
