@@ -40,3 +40,6 @@ You Need
 > 论文：DeepSeek-V2: A Strong, Economical, and Efficient Mixture-of-Experts Language Model  
 > MLA: **M**ulti-head **L**atent **A**ttention  
 > DeepSeek-AI, 2024
+
+- decoupled RoPE，$h_t$ 而不是 $c^{KV}_t$只是一个直观上的选择，没有效果对比或本质区别
+- https://spaces.ac.cn/archives/10091/comment-page-1#comments
