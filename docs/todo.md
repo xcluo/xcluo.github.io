@@ -3,7 +3,7 @@
 - [ ] DeepSeek
 - [ ] Pre-Norm与Post-Norm的区别与选择
 - [x] KV cache：将L层K与V进行缓存以执行Attention
-- [ ] Decouped RoPE
+- [x] Decouped RoPE
 - [x] LDA潜在迪利克雷分布，b站视频 LDA主题模型
 - [ ] LSA/PLSA
 - [ ] Cholesky分解

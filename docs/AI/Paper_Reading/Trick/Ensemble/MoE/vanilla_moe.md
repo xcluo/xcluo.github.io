@@ -2,7 +2,7 @@
 > 论文：Outrageously Large Neural Networks: the Sparsely-gated Mixture-of-Experts Layer  
 > **MoE**：**M**ixture **o**f **E**xperts  
 > Github: [mixture-of-experts](https://github.com/davidmrau/mixture-of-experts/blob/master/moe.py#L17)  
-> Google Brain & Jagiellonian University,, ICLR 2017  
+> Google Brain & Jagiellonian University, ICLR 2017  
 
 ### 工作要点
 ### 主要内容
@@ -31,7 +31,7 @@ MoE通过门控网络加权$K_r$个专家网络的结果作为最终输出
     > - 当$G(x)_i=0$时，可直接**不计算对应专家网络$E_i(x)$**以节省计算量
     
 #### MoE Load Balance
-1. $L_{importance}$，通过**缩小专家网络分数集的离散程度**来均衡专家网络的使用率，该方法<span style="color: red">只均衡了专家网络总分数和</span>，而相同分数和可由少量高分数token或大量低分数token组合，因此<span style="color: red">可能会出现token number unblance现象</span>。
+1. $L_{importance}$ 通过**缩小专家网络权重值分数的离散程度**来均衡专家网络的使用率，该方法<span style="color: red">只均衡了专家网络总权重分数和</span>，而相同分数和可由少量高分数token或大量低分数token组合，因此<span style="color: red">可能会出现token number unblance现象</span>。
 
 
     $$
@@ -44,17 +44,23 @@ MoE通过门控网络加权$K_r$个专家网络的结果作为最终输出
 
     > - 变异系数Coefficient of Variation，用于衡量数据集的相对离散程度。  
 
-2. $L_{load}$ 
+2. $L_{load}$ 通过**缩小token在各专家网络上分布的离散程度** 来均衡专家网络使用率
 
     $$
     \begin{aligned}
-      kth\_excluding(v, k, i) =& \text{k-th highest component of v except }v_i\\
+      kth\_excluding(v, k, i) =& \text{k-th highest component of v after excluding }v_i\\
       P(x, i) =& Pr\big(H(x)_i \gt kth\_excluding(H(x), K_r, i)\big) \\
       =& \Phi \bigg(\frac{(W_gx)_i - kth\_excluding(H(x), K_r, i)}{\text{softplus}((W_{noise}x)_i)}\bigg) \\
       Load(X)_i =& \sum_{x \in X} P(x, i) \\
       L_{load}(X) =& w_{load}\cdot CV\big(Load(X)\big)^2
     \end{aligned}
     $$
+
+    > - $\Phi$ 为标准正态分布的累积分布函数CDF
+    > - Eq 3. 通过移项和对称性$Pr(X \gt -x) = Pr(X \lt x)$求得，表示token在当前专家网络上的分布概率
+
+#### Shrink Batch Problem
+$\frac{K_rb}{N_r}\ll b$ inefficient as the $N_r$ increasing
 
 #### Load Balance Loss
 1. Expert-Level Balance Loss
