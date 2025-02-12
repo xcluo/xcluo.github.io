@@ -1,11 +1,11 @@
 
-### RoPE
+## RoPE
 
 - 论文：[RoFormer: Enhanced Transformer with **Ro**tary **P**osition **E**mbedding](pdf/RoFormer.pdf)  
 - Github：[roformer](https://github.com/ZhuiyiTechnology/roformer)
 - [苏剑林](https://spaces.ac.cn/) 2021, Neurocomputing 2024
 
-#### 工作要点
+### 工作要点
 1. Attentino机制中：在计算注意力分数之前，需根据Query和Key向量对Query执行相对位置旋转  
     
     > ==RoPE与Value向量无关==
@@ -13,7 +13,8 @@
 2. [远距离衰减](https://zhuanlan.zhihu.com/p/705492804)，相对距离越大注意力分数相对越小
 - [x] 加快模型的训练收敛速度
 
-#### 工作原理
+### 主要内容
+#### RoPE工作原理
 为了保持各位置间向量的(乘性)相对关系，即$\langle f_q(x_m, m), f_k(x_n, n) \rangle =g(x_m, x_n, n-m)$， RoPE设计了以下满足上述关系的 $f$ 和 $g$
 
 - $d=2$ 形式
