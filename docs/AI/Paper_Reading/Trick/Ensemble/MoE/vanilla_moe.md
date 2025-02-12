@@ -61,6 +61,10 @@ MoE通过门控网络加权$K_r$个专家网络的结果作为最终输出
 
 #### Shrink Batch Problem
 $\frac{K_rb}{N_r}\ll b$ inefficient as the $N_r$ increasing
+- Mixing Data Parallelism and Model Parallelism
+- Taking Advantage of Convolutionality
+- Increasing Batch Size for a Recurrent MoE
+- Network Bandwidth
 
 #### Load Balance Loss
 1. Expert-Level Balance Loss
