@@ -282,6 +282,19 @@ Recall-Oriented Understudy for Gisting Evaluation，是评估摘要总结以及�
     - L表示最长公共子序列Longest common subsequence（==注意不是最长连续公共子序列==）；
 
 
+### LLM Throughput
+#### Generation Throughput
+
+$$
+\text{Generation Throghtput} = \frac{\text{Total Generated Tokens}}{\text{Total Time}}
+$$
+
+#### Prompt Input Throughput
+
+$$
+\text{Prompt Input Throghtput} = \frac{\text{Total Input Tokens}}{\text{Total Time}}
+$$
+
 ### Search Recommendation
 #### MRR
 平均倒数排名Mean Reciprocal Rank，旨在衡量排序结果的质量，是指多个查询语句的第一个正确结果排名的倒数均值
