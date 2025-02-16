@@ -14,7 +14,7 @@
 - [ ] A/B test
 - [ ] TF-IDF_j, MI_{a, b, c, d}
 - [x] evaluation metrics: MRR, HR, NDCG
-- Attention softmax后除以$\sqrt{d_k}$是因为权重矩阵中每个元素都是通过两个(1， d_k)方差为1的向量相乘得到的，基于正态分布累加后的标准差公式可知该值方差变为$\sqrt{d_k}$，因此执行该操作
+- [x] Attention softmax后除以$\sqrt{d_k}$是因为权重矩阵中每个元素都是通过两个(1， d_k)方差为1的向量相乘得到的，基于正态分布累加后的标准差公式可知该值方差变为$\sqrt{d_k}$，因此执行该操作，不除以$\sqrt{d_k}$，根据softmax函数曲线，softmax结果表现更倾向于one-hot分布，[会带来梯度消失问题](https://spaces.ac.cn/archives/8620/comment-page-4#comment-24076)
 - tensorflow 1.x中在梯度下降时如何设置L1，L2正则化约束
     ```python
     with tf.variable_scope("layer1", regularizer=l2_regularizer):
