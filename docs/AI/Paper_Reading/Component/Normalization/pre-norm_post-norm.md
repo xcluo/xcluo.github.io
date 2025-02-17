@@ -28,7 +28,7 @@ $$
     =& \cdots \\
     =& x_{0} +\underbrace{F_{0}\big(\text{Norm}(x_{0})\big) + F_{1}\big(\text{Norm}(x_{1})\big) + \cdots  + F_{t}\big(\text{Norm}(x_{t})\big)}_{t+1} \\
     \text{由上式可知 }x_{t+1}&\text{ 是增量模型，后t+1项为同一数量级，于是有}\text{Norm}(x_t) = \frac{x_t}{\sqrt{t+1}} \\
-    x_l =& x_0 + F_{0}(x_{0}) + F_{1}\Big(\frac{x_1}{\sqrt{2}}\Big) + \cdots + F_t\Big(\frac{x_{l-1}}{\sqrt{l}}\Big) \\
+    \Rightarrow x_l =& x_0 + F_{0}(x_{0}) + F_{1}\Big(\frac{x_1}{\sqrt{2}}\Big) + \cdots + F_t\Big(\frac{x_{l-1}}{\sqrt{l}}\Big) \\
 \end{aligned}
 $$
 
