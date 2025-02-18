@@ -2,7 +2,7 @@
 - Frobenius范数，次可加性$\Vert A+B \Vert_{F}\le \Vert A \Vert_F + \Vert B \Vert_F$，空间向量相加，两边之和大于第三边
 - [ ] DeepSeek
 - [ ] DeepSpeed（Zero Redundancy Optimizer）、Megatron-LM、HAI-LLM framework（higher flyer）
-- [ ] Pre-Norm与Post-Norm的区别与选择
+- [x] Pre-Norm与Post-Norm的区别与选择
 - [x] KV cache：将L层K与V进行缓存以执行Attention
 - [x] Decouped RoPE
 - [x] LDA潜在迪利克雷分布，b站视频 LDA主题模型

@@ -1,6 +1,5 @@
 ## MoE
-> 论文：Outrageously Large Neural Networks: the Sparsely-gated Mixture-of-Experts Layer  
-> **MoE**：**M**ixture **o**f **E**xperts  
+> 论文：Outrageously Large Neural Networks: the Sparsely-gated **M**ixture-**o**f-**E**xperts Layer  
 > Github: [mixture-of-experts](https://github.com/davidmrau/mixture-of-experts/blob/master/moe.py#L17)  
 > Google Brain & Jagiellonian University, ICLR 2017  
 
@@ -65,6 +64,12 @@ $\frac{K_rb}{N_r}\ll b$ inefficient as the $N_r$ increasing
 - Taking Advantage of Convolutionality
 - Increasing Batch Size for a Recurrent MoE
 - Network Bandwidth
+
+如果有 b 个样本，每个样本选择 k 个专家，一共有 n 个专家，那么实际上平均每个专家收到的样本数量为 $\frac{K_rb}{N_r}\ll b$ 
+ ，且随着 n 的增加，会使得实际上每个专家接收到的样本量更低了，为了解决这个问题，一般情况下，会让总体的 b 增大，但是 b 增大之后，会导致内存受限（在前向和反向两个传播阶段）因此做了很多并行处理，比如数据并行、模型并行处理等
+
+- https://zhuanlan.zhihu.com/p/669312652
+- https://lilianweng.github.io/posts/2021-09-25-train-large/
 
 #### Load Balance Loss
 1. Expert-Level Balance Loss
