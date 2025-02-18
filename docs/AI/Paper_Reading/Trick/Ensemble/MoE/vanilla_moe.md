@@ -61,8 +61,13 @@ MoE通过门控网络加权$K_r$个专家网络的结果作为最终输出
 #### Shrink Batch Problem
 $\frac{K_rb}{N_r}\ll b$ inefficient as the $N_r$ increasing
 - Mixing Data Parallelism and Model Parallelism
+    - DP
+    - ModelP
+    - hierachical MoE
 - Taking Advantage of Convolutionality
+    - 将多个时间步的$h_t$统一输入到同一批expert（各层共享experts）进行计算，以达到扩大batch
 - Increasing Batch Size for a Recurrent MoE
+    - Memory-efficient backpropagation through time
 - Network Bandwidth
 
 如果有 b 个样本，每个样本选择 k 个专家，一共有 n 个专家，那么实际上平均每个专家收到的样本数量为 $\frac{K_rb}{N_r}\ll b$ 
