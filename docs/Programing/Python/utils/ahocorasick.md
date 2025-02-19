@@ -1,3 +1,5 @@
+https://www.hankcs.com/program/algorithm/aho-corasick-double-array-trie.html
+
 ```python title="ahocorasick.py"
 # coding=utf-8
 import collections

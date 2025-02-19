@@ -61,14 +61,21 @@ MoE通过门控网络加权$K_r$个专家网络的结果作为最终输出
 #### Shrink Batch Problem
 $\frac{K_rb}{N_r}\ll b$ inefficient as the $N_r$ increasing
 - Mixing Data Parallelism and Model Parallelism
-    - DP
-    - ModelP
-    - hierachical MoE
+    - primary gating network employs Data P，每个设备上都有完整的门控网络副本，处理不同批次的数据
+    - secondary MoEs imploy Model P，每个设备只负责一个moe层
+    - hierachical MoE：
 - Taking Advantage of Convolutionality
     - 将多个时间步的$h_t$统一输入到同一批expert（各层共享experts）进行计算，以达到扩大batch
 - Increasing Batch Size for a Recurrent MoE
     - Memory-efficient backpropagation through time
 - Network Bandwidth
+    - 专家网络中的计算量与输入输出io之比要大于机器设备的计算能力与网络带宽之比
+    - $C_{expert}$专家网络的计算量FLOPS
+    - $D_{io}$ 输入输出的数据量，即$d_{in}$和$d_{out}$维度和 byte
+    - $C_{device}$ 计算设备的计算能力 FLOPs/s
+    - $B_{network}$ 计算设备的网络带宽 byte/s
+    - 保证 $\frac{C{expert}}{D_{io}}\gt \frac{C_{device}}{B_{network}}$ 以提高计算效率（无法充分利用设备计算能力）
+    - 可直接增大$hidden\_dim$或增加隐层的大小或层数
 
 如果有 b 个样本，每个样本选择 k 个专家，一共有 n 个专家，那么实际上平均每个专家收到的样本数量为 $\frac{K_rb}{N_r}\ll b$ 
  ，且随着 n 的增加，会使得实际上每个专家接收到的样本量更低了，为了解决这个问题，一般情况下，会让总体的 b 增大，但是 b 增大之后，会导致内存受限（在前向和反向两个传播阶段）因此做了很多并行处理，比如数据并行、模型并行处理等
