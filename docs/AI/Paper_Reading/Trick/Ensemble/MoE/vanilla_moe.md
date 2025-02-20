@@ -63,7 +63,7 @@ $\frac{K_rb}{N_r}\ll b$ inefficient as the $N_r$ increasing
 - Mixing Data Parallelism and Model Parallelism
     - primary gating network employs Data P，每个设备上都有完整的门控网络副本，处理不同批次的数据
     - secondary MoEs imploy Model P，每个设备只负责一个moe层
-    - hierachical MoE：
+    - hierachical MoE：双层门限，先确定组，后确定组内专家网络
 - Taking Advantage of Convolutionality
     - 将多个时间步的$h_t$统一输入到同一批expert（各层共享experts）进行计算，以达到扩大batch
 - Increasing Batch Size for a Recurrent MoE
@@ -89,11 +89,11 @@ $\frac{K_rb}{N_r}\ll b$ inefficient as the $N_r$ increasing
 3. Communication Balance Loss
 
 
-- batchwise balance
+- batchwise mask
   -  $M_{batch}(X, m)_{j, i}\begin{cases}
     1,\text{ if } X_{j, i} \text{ is the top } m \text{ values for expert } i \\
     0,\text{ otherwise }
   \end{cases}$
   - $L_{batchwise}$
-- hierarchical MoEs in appendix B
+
 #### 主要内容

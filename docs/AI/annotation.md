@@ -23,6 +23,7 @@
 - **DAE**：**D**enoising **A**uto-**E**ncoder，去噪自编码器
 - **DDIM**：**D**enoising **D**iffusion **I**mplicit **M**odel，去噪扩散隐式模型
 - **DDPM**：**D**enoising **D**iffusion **P**robabilistic **M**odel，去噪扩散概率模型
+- **DPO**：**D**irect **P**reference **O**ptimization
 - **DPU**：**D**eep learning **P**rocessing **U**nit，深度学习处理器
 
 ###E
@@ -81,8 +82,8 @@
 - **PEFT**: **P**arameter-**E**fficient **F**ine-**T**uning，参数高效微调
 - **PLM**：**P**retrained **L**anguage **M**odel，预训练语言模型
 - **pLSA**：**P**robabilistic **L**atent **S**emantic **A**nalysis，概率潜在语义分析，也称为概率潜在语义索引（PLSI）
-
 - **PoS**: **P**art **o**f **S**peech, 词性
+- **PPO**：**P**roximal **P**olicy **O**ptimization
 - **PTQ**：**P**ost-**T**raining **Q**uantization，训练后量化，也称作离线量化
 
 ###Q
