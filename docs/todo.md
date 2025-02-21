@@ -3,6 +3,8 @@
 - [ ] DeepSeek
 - [ ] NSA: natively trainable sparse Attention
 - [ ] label smoothing
+- [ ] importance sampling
+- [ ] DPO, PPO, GRPO
 - [ ] DeepSpeed（Zero Redundancy Optimizer）、Megatron-LM、HAI-LLM framework（higher flyer）
 - [x] Pre-Norm与Post-Norm的区别与选择
 - [x] KV cache：将L层K与V进行缓存以执行Attention
