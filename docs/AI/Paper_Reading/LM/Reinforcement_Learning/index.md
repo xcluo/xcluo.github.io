@@ -1,0 +1,6 @@
+- q-learning
+- policy gradient methods（PG）
+- trust region policy optimization (TRPO)
+- ppo
+- dpo
+- grpo
