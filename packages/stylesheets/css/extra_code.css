@@ -1,0 +1,59 @@
+/* 行内代码 */
+/* .md-typeset code {
+    color: lightskyblue;
+    background-color: black;
+}  */
+
+
+/* 代码块标题before */
+.highlight span.filename::before {
+    content: "⌨️ ";
+    font-size: 18px;
+}
+
+
+/* 代码块标题 */
+.highlight span.filename {
+    font-weight: bold;
+    padding: 0px;
+    padding-left: 5px;
+}
+
+
+/* 代码块边框 */
+pre {
+    border-top: 2px solid #999;
+    border-bottom: 2px solid #999;
+}
+
+
+/* 代码块内容 */
+.md-typeset pre code {
+    color: inherit; 
+    background-color: #f5f5f5;
+    padding-left: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+/* 代码块内元素h(igh)l(ight) https://squidfunk.github.io/mkdocs-material/reference/code-blocks/#usage */
+:root > * {    
+    /* title head color */           
+    --md-code-hl-color: #d1e0f7;
+    /* --md-code-bg-color: red;
+    --md-code-bg-color: red; */
+}
+
+/* 代码块内元素 */
+/* pre::before {
+    background: #fc625d;
+    box-shadow: 20px 0 #fdbc40, 40px 0 #35cd4b;
+    left: 8px;
+    margin-top: 2px;
+    position: absolute;
+    border-radius: 50%;         // 方形 -> 圆形
+    content: ' ';
+    height: 12px;
+    width: 12px;
+} */
+
