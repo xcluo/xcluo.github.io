@@ -1,2 +1,3 @@
 - cuda
+- hopper GPU架构
 - Megatron-AI威震天
