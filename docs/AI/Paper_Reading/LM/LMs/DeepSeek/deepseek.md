@@ -24,7 +24,8 @@
    - expert-level balance loss: 类似于$L_{importance}$
    - Device(gpus or tpus)-Level Balance Loss: 
    - Communication Balance Loss
-2. Token-Dropping Strategy: In this way, we can flexibly decide whether to drop tokens during inference according to the efficiency requirements, and always ensure consistency between training and inference.
+2. Token-Dropping Strategy: In this way, we can flexibly decide whether to drop tokens during inference according to the efficiency requirements, and always ensure consistency between training and inference.  
+3. R1中的reward model和v2中的不相同，实际上是一个rulee-based system
 
 3. HAI-LLM framework
 

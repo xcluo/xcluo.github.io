@@ -57,7 +57,9 @@
     - TP(Tensor Parallelism)
     - PP(Pipeline Parallelism)
     - CP(Context Parallelism)
-    - DP(Data Pparallelism)
+    - DDP(Data Pparallelism)
+      - DDP, Distributed Data Parallelism
+      - FSDP, Fully Sharded Data Parallel，全切片数据并行
     - MP(Model Parallelism)
     - SP(Sequence Parallel)
 - 量化 [Quantization](Memory_Saving/Quantization/quantization.md)

@@ -1,7 +1,15 @@
 - [ ] MinHash de-duplication
 - Frobenius范数，次可加性$\Vert A+B \Vert_{F}\le \Vert A \Vert_F + \Vert B \Vert_F$，空间向量相加，两边之和大于第三边
 - [ ] DeepSeek
+- [ ] instruct gpt: Training language models to follow instructions with human feedback
+- [ ] [大模型面试](https://zhuanlan.zhihu.com/p/691588703)
 - [ ] NSA: natively trainable sparse Attention
+- [ ] Wizardmath: Empowering mathematical reasoning for large language models via reinforced evol-instruct
+- [ ] Math-shepherd: Verify and reinforce llms step-by-step without human annotations
+- [ ] vllm: Efficient Memory Management for Large Language Model Serving with PagedAttention
+- [ ] ollama
+- [ ] [gradient checkpointing](https://www.bilibili.com/video/BV1nJ4m1M7Qw/?spm_id_from=333.1387.search.video_card.click&vd_source=782e4c31fc5e63b7cb705fa371eeeb78): Training Deep Nets with Sublinear Memory Cost
+- [ ] accelerate config
 - [ ] label smoothing
 - [ ] importance sampling
 - [ ] DPO, PPO, GRPO
