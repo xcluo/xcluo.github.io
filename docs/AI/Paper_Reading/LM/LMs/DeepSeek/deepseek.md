@@ -32,3 +32,7 @@
 数据处理：
 1. Data Construction
 2. BBPE（Byte-level Byte-Pair Encoding）
+
+
+
+- low-precision training
