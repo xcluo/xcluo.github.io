@@ -8,20 +8,20 @@
 - [ ] Wizardmath: Empowering mathematical reasoning for large language models via reinforced evol-instruct
 - [ ] Math-shepherd: Verify and reinforce llms step-by-step without human annotations
 - [ ] vllm: Efficient Memory Management for Large Language Model Serving with PagedAttention
+- [ ] DeepSpeed（Zero Redundancy Optimizer）、Megatron-LM、HAI-LLM framework（higher flyer）
 - [ ] ollama, tensorRT
-- [ ] hallucination
+- [ ] 模型幻觉hallucination
 - [ ] 模型DP时，多个数据loss结果会进行交互all reduce
 - [ ] [gradient checkpointing](https://www.bilibili.com/video/BV1nJ4m1M7Qw/?spm_id_from=333.1387.search.video_card.click&vd_source=782e4c31fc5e63b7cb705fa371eeeb78): Training Deep Nets with Sublinear Memory Cost
+- Gradient Checkpointing，[gif](https://pic3.zhimg.com/v2-1679b74a85687cdb250e532931bb266a_b.webp)
 - [ ] accelerate config
 - [ ] label smoothing
 - [ ] importance sampling
 - [ ] DPO, PPO, GRPO
 - [ ] Prefix Tuning， Prompt Tuning
-- [ ] 模型幻觉
-- [ ] DeepSpeed（Zero Redundancy Optimizer）、Megatron-LM、HAI-LLM framework（higher flyer）
 - [x] Pre-Norm与Post-Norm的区别与选择
 - [x] KV cache：将L层K与V进行缓存以执行Attention
-- [x] Decouped RoPE
+- [x] MLA: Decouped RoPE
 - [x] LDA潜在迪利克雷分布，b站视频 LDA主题模型
 - [ ] LSA/PLSA
 - [ ] Cholesky分解
@@ -46,4 +46,3 @@
     - [x] 推荐系统与深度学习论文笔记
 - https://km.netease.com/v4/detail/blog/223053  
 - https://readpaper.feishu.cn/docx/CrMGdSVPKow5d1x1XQMcJioRnQe
-- Gradient Checkpointing，[gif](https://pic3.zhimg.com/v2-1679b74a85687cdb250e532931bb266a_b.webp)

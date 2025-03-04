@@ -1,69 +1,79 @@
-#### 多模态融合 & 多任务学习
+### 多模态融合
 - [token](Multimodality_Fusion/token_modality.md)
 - [sound](Multimodality_Fusion/sound_modality.md)
 - [shape](Multimodality_Fusion/shape_modality.md)
 - [fusion](Multimodality_Fusion/modality_fusion.md)
 - 视觉语言模型：对页面内容进行语义进行分析
-- hallucination幻觉
 - ali cosyvoice、f5-tts
 
-####  Attention Variants & Proxy Task
-- multitask learning
 
-#### 集成学习 & 数据增强 & 对比学习
-- [Boosting](Ensemble/Ensemble/Boosting/boosting.md)
+### 训练数据利用
+#### 集成学习
+1. [Boosting](Ensemble/Ensemble/Boosting/boosting.md)
 
-- [Bagging](Ensemble/Ensemble/Bagging/bagging.md)
+2. [Bagging](Ensemble/Ensemble/Bagging/bagging.md)
       - [Random Forests]
-- Stacking
-- Voting
-- [MoE](Ensemble/MoE/moe.md)
-- [dropout](Denoising/Dropout/dropout.md)
-- [DAE](Denoising/DAE/dae.md)
-- [VAE](Denoising/VAE/vae.md)
-- [Adversarial Training](Denoising/AdversarialTraining/vat.md)
-- 数据增强  
+3. Stacking
+4. Voting
+5. [MoE](Ensemble/MoE/moe.md)
+#### 数据增强
+1. [dropout](Denoising/Dropout/dropout.md)
+2. 加噪自编码器
+    - [DAE](Denoising/DAE/dae.md)、[VAE](Denoising/VAE/vae.md)
+    - [对抗训练](Denoising/AdversarialTraining/vat.md)
+3. 数据增强  
     - flipping  
     - rotating  
     - transforming the color  
     - text_image + mask
-  - 对比学习
+#### 对比学习
 
-#### 大模型使用
-- [蒸馏](LLM_Extend/distillation/distillation.md)
-  - label smooth，标签平滑
-  - switch transformer mixture hard and soft label: 0.25 of teacher and 0.75 of ground truth label
-  - ULMFit, Universal language model fine-tuning for text classification
-- [LLM_SFT](LLM_Extend/LLM_SFT/LLM_SFT.md)
+### 大模型使用
+#### [Pre-training]()
+- multitask learning
+#### [SFT](LLM_Extend/LLM_SFT/LLM_SFT.md)
 - prefix tuning
 - Instrument Finetune
 - Prompt Finetune
-- gradient clip
 - RAdam
 - scaling law失效 https://arxiv.org/pdf/2001.08361
-- https://arxiv.org/pdf/2409.14781 Pretraining Data Detection for Large Language Models: A Divergence-based Calibration Method
-- https://arxiv.org/pdf/2404.02655 Calibrating the Confidence of Large Language Models by Eliciting Fidelity
-- deepseek
+- hallucination幻觉
 
-#### 存储优化
-- Attention优化
-    - [flash attention](Memory_Saving/Flash_Attention/FlashAttention.md)
-    - [MQA](Memory_Saving/Attention_Variants/mqa/#mqa)、[GQA](Memory_Saving/Attention_Variants/mga/#gqa)
-    - KV cache https://blog.csdn.net/ningyanggege/article/details/134564203
-- 分布式训练
-    - [DeepSpeed]
-    - [Megatron-LM]
-- [Parallelism](Memory_Saving/Parallelism/parallelism.md)
-    - TP(Tensor Parallelism)
-    - PP(Pipeline Parallelism)
-    - CP(Context Parallelism)
-    - DDP(Data Pparallelism)
-      - DDP, Distributed Data Parallelism
-      - FSDP, Fully Sharded Data Parallel，全切片数据并行
-    - MP(Model Parallelism)
-    - SP(Sequence Parallel)
-- 量化 [Quantization](Memory_Saving/Quantization/quantization.md)
+#### RLHF
+#### [Distillation](LLM_Extend/distillation/distillation.md)
+- ULMFit, Universal language model fine-tuning for text classification
+- label smooth，标签平滑，可以进行cross-entropy，也可以使用$D_{KL}$
+- switch transformer mixture hard and soft label: 0.25 of teacher and 0.75 of ground truth label
 
+
+
+### 效率优化
+#### Attention变种
+- [MQA](Efficiency_Speedup/Attention_Variants/mqa.html#mqa)、[GQA](Efficiency_Speedup/Attention_Variants/mqa.html#gqa)、[MLA]
+#### Attention效率优化    
+- [flash attention](Efficiency_Speedup/Attention_Speedup/flash_attention.md)
+- vLLM
+- ollama
+- KV cache https://blog.csdn.net/ningyanggege/article/details/134564203
+#### 分布式训练模型
+- [generate config]
+- [DeepSpeed]
+- [Megatron-LM]
+- ZeRO: Zero Redundancy Optimizer
+- HAI-LLM framework（higher flyer）
+#### [并行训练方案](Efficiency_Speedup/Parallelism/parallelism.md)
+- TP(Tensor Parallelism)
+- PP(Pipeline Parallelism)
+- CP(Context Parallelism)
+- DDP(Data Pparallelism)
+  - DDP, Distributed Data Parallelism
+  - FSDP, Fully Sharded Data Parallel，全切片数据并行
+- MP(Model Parallelism)
+- SP(Sequence Parallel)
+#### [量化](Efficiency_Speedup/Quantization/quantization.md)
+#### 模型推理优化
+- onnx
+- TensorRT
 
 目标重要性衡量  
 
