@@ -10,6 +10,7 @@
 - [ ] vllm: Efficient Memory Management for Large Language Model Serving with PagedAttention
 - [ ] ollama, tensorRT
 - [ ] hallucination
+- [ ] 模型DP时，多个数据loss结果会进行交互all reduce
 - [ ] [gradient checkpointing](https://www.bilibili.com/video/BV1nJ4m1M7Qw/?spm_id_from=333.1387.search.video_card.click&vd_source=782e4c31fc5e63b7cb705fa371eeeb78): Training Deep Nets with Sublinear Memory Cost
 - [ ] accelerate config
 - [ ] label smoothing

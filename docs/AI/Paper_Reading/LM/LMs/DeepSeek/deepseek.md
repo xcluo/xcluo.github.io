@@ -33,6 +33,6 @@
 1. Data Construction
 2. BBPE（Byte-level Byte-Pair Encoding）
 
-
+- MTP: 类似于skip-gram，t预测t+1, t+2, ..., t+k
 
 - low-precision training
