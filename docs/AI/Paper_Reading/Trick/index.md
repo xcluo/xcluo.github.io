@@ -49,6 +49,9 @@
 
 
 ### 效率优化
+#### 显存优化
+- gradient checkpointing
+
 #### Attention变种
 - [MQA](Efficiency_Speedup/Attention_Variants/mqa.html#mqa)、[GQA](Efficiency_Speedup/Attention_Variants/mqa.html#gqa)、[MLA]
 #### Attention效率优化    

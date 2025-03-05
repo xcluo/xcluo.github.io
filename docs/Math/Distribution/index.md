@@ -8,6 +8,8 @@ $X \sim\mathcal{N}(\mu, \sigma^2)$，密度函数$f(x)=\frac{1}{\sqrt{2\pi}\sigm
 
 
 ### 采样方式
+#### Importance Sampling
+
 #### Inverse Sampling
 - 逆采样inverse sampling是一种可以从概率分布中生成随机样本的计数。特别**适用于离散分布或某些特定的连续分布**，其中累计分布函数CDF是已知的，并且可以方便求逆，逆采样的基本思路是利用分布的累计分布函数CDF来生成随机数，步骤为
     1. 确定累计分布函数$F(x)$  

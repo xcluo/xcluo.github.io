@@ -74,6 +74,7 @@
 - **NPU**：**N**eural network **P**rocessing **U**nit，中科院计算所/寒武纪公司出品的神经网络处理器
 
 ###O
+- **OCR**：**O**ptical **C**haracter **R**ecognition，光学字符识别
 - **ONNX**：**O**pen **N**eural **N**etwork **E**xchange，一种模型结构优化开源数据类型
 - **OOM**：**O**out **O**f **M**emory，内存溢出或内存不足
 - **OOV**: **O**ut **O**f **V**ocabulary，不在词表内
@@ -90,6 +91,7 @@
 - **QAT**：**Q**uantization **A**ware **T**raining，量化感知训练，训练时量化，也称作在线量化
 
 ###R
+- **RAG**：**R**etrieval-**A**ugmented **G**eneration，检索增强生成
 - **RL(HF)**：**R**einforcement **L**earning （from **H**uamn **F**eedback），（人类反馈）强化学习
 - **ROC**：**R**eceiver **O**perating **C**haracteristic curve，受试者工作特征曲线
 - **ROUGE**：**R**ecall-**O**riented **U**nderstudy for **G**isting **E**valuation

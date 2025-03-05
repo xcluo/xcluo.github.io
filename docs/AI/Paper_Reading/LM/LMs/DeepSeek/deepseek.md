@@ -101,8 +101,8 @@ MLA（**M**ulti-head **L**atent **A**ttention）与MHA机制类似，区别在�
     $$
     \begin{aligned}
         o_{t} =& \sum_{j=1}^t \text{Softmax}_j \bigg(\frac{q^T_{t}k_{j}}{\sqrt{d_h + d_h^R}}\bigg)v_{j}^C \\
-        = & \sum_{j=1}^t \text{Softmax}_j \bigg(\frac{[q^C_{t}; q^R_{t}]^T[k^C_{j}; k^R_{j}]}{\sqrt{d_h + d_h^R}}\bigg)v_{j}^C\\
-        = & \sum_{j=1}^t \text{Softmax}_j \bigg(\frac{[W^{UQ}c^{Q}_t; \text{RoPE}(W^{QR}c^Q_t)]^T[W^{UK}c^{KV}_j; k^R_t)]}{\sqrt{d_h + d_h^R}}\bigg)W^{UV}c^{KV}_j\\
+        = & \sum_{j=1}^t \text{Softmax}_j \bigg(\frac{[q^C_{t}; q^R_{t}][k^C_{j}; k^R_{j}]^T}{\sqrt{d_h + d_h^R}}\bigg)v_{j}^C\\
+        = & \sum_{j=1}^t \text{Softmax}_j \bigg(\frac{[W^{UQ}c^{Q}_t; \text{RoPE}(W^{QR}c^Q_t)][W^{UK}c^{KV}_j; k^R_t)]^T}{\sqrt{d_h + d_h^R}}\bigg)W^{UV}c^{KV}_j\\
         u_t =& W^Oo_{t}
     \end{aligned}
     $$
@@ -145,7 +145,7 @@ s_{i,t} =& \text{Softmax}_i (\mathbf{u}_t^T e_i).
 \end{aligned}
 $$
 
-> topK操作后的路由专家网络权重$g_{i, t}$未归一化
+> topK操作后的路由专家网络权重$g_{i, t}$未softmax，在[v3](#deepseek-v3)中进行了topK后softmax
 
 
 由于模型训练的时候采用了并行技术，为防止专家网络激活路由坍塌，采用了以下辅助损失函数：
