@@ -265,6 +265,7 @@ extra_javascript:
   # katex
   - packages/mkdocs/javascripts/katex.js
   - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.js  
+  - https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js
   - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/contrib/auto-render.min.js
 
 
@@ -272,6 +273,7 @@ extra_css:
   # - packages/mkdocs/css/no-footer.css # 不使用底部的翻页
   # - packages/mkdocs/css/unordered-list-symbols.css # multiplt unordered list symbols
   - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.css
+  - https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css
   - packages/stylesheets/css/extra_img.css            # image.css
   - packages/stylesheets/css/extra_font.css           # font.css
   - packages/stylesheets/css/extra_component.css      # component.css

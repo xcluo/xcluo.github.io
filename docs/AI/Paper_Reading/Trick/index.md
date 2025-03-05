@@ -30,13 +30,14 @@
 
 ### 大模型使用
 #### [Pre-training]()
+- scaling law失效 https://arxiv.org/pdf/2001.08361
 - multitask learning
+- batch train时，next token 为pad时，可以ignore此预测token的loss完全忽略PAD的影响
 #### [SFT](LLM_Extend/LLM_SFT/LLM_SFT.md)
 - prefix tuning
 - Instrument Finetune
 - Prompt Finetune
 - RAdam
-- scaling law失效 https://arxiv.org/pdf/2001.08361
 - hallucination幻觉
 
 #### RLHF

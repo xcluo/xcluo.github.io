@@ -3,6 +3,8 @@
 - [ ] sft roberta with multiple sequence concurrent with customized attention mask
 - [ ] DeepSeek
 - [ ] instruct gpt: Training language models to follow instructions with human feedback
+- [ ] Kvquant: Towards 10 million context length LLM inference with KV cache quantization
+- [ ] Atom: Low-bit quantization for efficient and accurate LLM serving
 - [ ] [大模型面试](https://zhuanlan.zhihu.com/p/691588703)
 - [ ] NSA: natively trainable sparse Attention
 - [ ] Wizardmath: Empowering mathematical reasoning for large language models via reinforced evol-instruct
