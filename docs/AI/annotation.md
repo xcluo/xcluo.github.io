@@ -66,6 +66,7 @@
 - **MoLE**：**M**ixture **o**f **L**oRA **E**xperts，LoRA专家混合
 - **MQA**：**M**ulti-**Q**uery **A**ttention，多查询注意力
 - **MRR**：**M**ean **R**eciprocal **R**ank，平均倒数排名
+- **MTP**：**M**ulti-**T**oken **P**rediction，连续多token预测任务
 
 ###N
 - **NLG**：**N**atural **L**anguage **G**eneration，自然语言生成
