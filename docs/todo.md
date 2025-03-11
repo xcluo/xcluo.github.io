@@ -23,7 +23,10 @@
 - [ ] label smoothing
 - [ ] importance sampling
 - [ ] DPO, PPO, GRPO
-- [ ] Prefix Tuning， Prompt Tuning
+- [ ] Prefix Tuning: 基于prefix内容进行回答
+- [ ] Prompt Tuning: 自动化提示工程，改动prompt完成问题的回答
+- [ ], p-tuning v1/v2
+- [ ] lora with diffusion model 
 - [x] Pre-Norm与Post-Norm的区别与选择
 - [x] KV cache：将L层K与V进行缓存以执行Attention
 - [x] MLA: Decouped RoPE

@@ -43,6 +43,8 @@
     - [Approximating kl divergence](http://joschu.net/blog/kl-approx.html), seq-all-token prob
     - tokne-level 输出
 
+- actor model，用于RLHF学习更新
+
 - reward model
     - reward function: xmlcount_reward_func, soft_format_reward_func, strict_format_reward_func, int_reward_func, correctness_reward_func
     - pair-wise loss：比较对象的相对偏好来优化模型，如$\log \sigma(f(x_i) - f(x_j))$
