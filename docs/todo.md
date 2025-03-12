@@ -1,5 +1,5 @@
 - [ ] MinHash de-duplication
-- [x] RAG
+- [ ] RAG的多实体问题如何解决：爱因斯坦和牛顿在物理学上的贡献有何不同？
 - [ ] ann近似最近零算法
 - [ ] 文档检索top-k后还要进行重排reranking，可在结合搜索推荐中的重排技术
 - Frobenius范数，次可加性$\Vert A+B \Vert_{F}\le \Vert A \Vert_F + \Vert B \Vert_F$，空间向量相加，两边之和大于第三边
@@ -14,18 +14,27 @@
 - [ ] Math-shepherd: Verify and reinforce llms step-by-step without human annotations
 - [ ] vllm: Efficient Memory Management for Large Language Model Serving with PagedAttention
 - [ ] DeepSpeed（Zero Redundancy Optimizer）、Megatron-LM、HAI-LLM framework（higher flyer）
+- [ ] zeroquant, 
+- [ ] zero-dp：zero 1,2,3 用通信换内存，zero-3引入了额外的通信开销用于forward和backward（用了就扔）
+- [ ] zero-r, zero-offload, zero-infinity
+- [ ] ring all-reduce：梯度同步；ring all-gather：参数更新和加载
 - [ ] 模型DP时，多个数据loss结果会进行交互all reduce
 - [ ] accelerate config
 - [ ] ollama, tensorRT
 - [ ] 模型幻觉hallucination
+- [ ] 持续学习，避免灾难性遗忘
+    - 正则化、数据放回、增量学习、adapter网络，使用pre model软标签数据参与训练等
+- [ ] MCP：model context protocol
 - [ ] [gradient checkpointing](https://www.bilibili.com/video/BV1nJ4m1M7Qw/?spm_id_from=333.1387.search.video_card.click&vd_source=782e4c31fc5e63b7cb705fa371eeeb78): Training Deep Nets with Sublinear Memory Cost
 - Gradient Checkpointing，[gif](https://pic3.zhimg.com/v2-1679b74a85687cdb250e532931bb266a_b.webp)
 - [ ] label smoothing
+- [ ] 在embedding 层后添加layer normalization，有利于提升训练稳定性:但可能会带来很大的性能损失.
 - [x] importance sampling
 - [ ] DPO, PPO, GRPO
 - [ ] Prefix Tuning: 基于prefix内容进行回答
 - [ ] Prompt Tuning: 自动化提示工程，改动prompt完成问题的回答
 - [ ] p-tuning v1/v2
+- [ ] prompt engineering
 - [ ] lora with diffusion model 
 - [x] Pre-Norm与Post-Norm的区别与选择
 - [x] KV cache：将L层K与V进行缓存以执行Attention
