@@ -4,7 +4,7 @@
 - [ ] 文档检索top-k后还要进行重排reranking，可在结合搜索推荐中的重排技术
 - Frobenius范数，次可加性$\Vert A+B \Vert_{F}\le \Vert A \Vert_F + \Vert B \Vert_F$，空间向量相加，两边之和大于第三边
 - [ ] sft roberta with multiple sequence concurrent with customized attention mask
-- [ ] DeepSeek
+- [x] DeepSeek
 - [ ] instruct gpt: Training language models to follow instructions with human feedback
 - [ ] Kvquant: Towards 10 million context length LLM inference with KV cache quantization
 - [ ] Atom: Low-bit quantization for efficient and accurate LLM serving
@@ -14,18 +14,18 @@
 - [ ] Math-shepherd: Verify and reinforce llms step-by-step without human annotations
 - [ ] vllm: Efficient Memory Management for Large Language Model Serving with PagedAttention
 - [ ] DeepSpeed（Zero Redundancy Optimizer）、Megatron-LM、HAI-LLM framework（higher flyer）
+- [ ] 模型DP时，多个数据loss结果会进行交互all reduce
+- [ ] accelerate config
 - [ ] ollama, tensorRT
 - [ ] 模型幻觉hallucination
-- [ ] 模型DP时，多个数据loss结果会进行交互all reduce
 - [ ] [gradient checkpointing](https://www.bilibili.com/video/BV1nJ4m1M7Qw/?spm_id_from=333.1387.search.video_card.click&vd_source=782e4c31fc5e63b7cb705fa371eeeb78): Training Deep Nets with Sublinear Memory Cost
 - Gradient Checkpointing，[gif](https://pic3.zhimg.com/v2-1679b74a85687cdb250e532931bb266a_b.webp)
-- [ ] accelerate config
 - [ ] label smoothing
-- [ ] importance sampling
+- [x] importance sampling
 - [ ] DPO, PPO, GRPO
 - [ ] Prefix Tuning: 基于prefix内容进行回答
 - [ ] Prompt Tuning: 自动化提示工程，改动prompt完成问题的回答
-- [ ], p-tuning v1/v2
+- [ ] p-tuning v1/v2
 - [ ] lora with diffusion model 
 - [x] Pre-Norm与Post-Norm的区别与选择
 - [x] KV cache：将L层K与V进行缓存以执行Attention

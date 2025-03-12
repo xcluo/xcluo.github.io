@@ -9,6 +9,26 @@ $X \sim\mathcal{N}(\mu, \sigma^2)$，密度函数$f(x)=\frac{1}{\sqrt{2\pi}\sigm
 
 ### 采样方式
 #### Importance Sampling
+- 目标：估计目标分布$P(x)$下的期望值
+
+    $$
+    \mathbb{E}_{P}[f(x)] = \int f(x)P(x) dx
+    $$
+
+- 挑战：如果$P(x)$难以直接采样或计算，可以使用重要性采样  
+- 方法如下：  
+    1. 选择一个易于采样的提议分布$Q(x)$
+    2. 从$Q(x)$中采样$x_1, x_2, \dots, x_N$
+    3. 计算重要性权重$w(x_i) = \frac{P(x_i)}{Q_{x_i}}$
+    4. 估计期望值
+
+        $$
+        \mathbb{E}_{P}[f(x)]\approx\mathbb{E}_{Q}[f(x)\frac{P(x)}{Q(x)}] = \frac{1}{N} \sum_{i=1}^{N}f(x_i)w(x_i)
+        $$
+
+
+- 灵活性：可以选择任意易于采样的提议分布$Q(x)$
+- 高效性：通过选择合适的Q(x)，可以减少估计的方差
 
 #### Inverse Sampling
 - 逆采样inverse sampling是一种可以从概率分布中生成随机样本的计数。特别**适用于离散分布或某些特定的连续分布**，其中累计分布函数CDF是已知的，并且可以方便求逆，逆采样的基本思路是利用分布的累计分布函数CDF来生成随机数，步骤为
@@ -29,7 +49,6 @@ $X \sim\mathcal{N}(\mu, \sigma^2)$，密度函数$f(x)=\frac{1}{\sqrt{2\pi}\sigm
 
 > https://www.zhihu.com/question/38056285/answer/1803920100
 
-- 重要性采样importance sampling
 
 - 马尔科夫链的当前状态只依赖于前一状态，即$P(x_t\vert x_1, x_2, \dots, x_{t-1}) = P(x_t\vert x_{t-1})$
     - $\pi$ 为马尔科夫链的平稳分布，满足$\pi P = \pi$
