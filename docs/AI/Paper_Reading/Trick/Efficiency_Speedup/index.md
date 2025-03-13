@@ -6,12 +6,12 @@
     - v3：在Key和Value的序列长度`seq_len`上分块，进一步设置了多起点，从而新增了一个并行化操作。Q还是按照block顺序执行
 
 <figure markdown>
-  ![Image title](Flash_Attention/media/iamge/flash_attention_v1,2_schematic_diagram.gif)
+  ![Image title](Attention_Speedup/immge/flash_attention_v1,2_schematic_diagram.gif)
   <figcaption>Flash Attention v1, v2运行原理图</figcaption>
 </figure>
 
 <figure markdown>
-  ![Image title](Flash_Attention/media/iamge/flash_attention_v3_schematic_diagram.gif)
+  ![Image title](Attention_Speedup/immge/flash_attention_v3_schematic_diagram.gif)
   <figcaption>Flash Attention v3运行原理图</figcaption>
 </figure>
 

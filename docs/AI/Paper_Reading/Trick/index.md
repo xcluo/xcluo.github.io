@@ -61,9 +61,8 @@
 - KV cache https://blog.csdn.net/ningyanggege/article/details/134564203
 #### 分布式训练模型
 - [generate config]
-- [DeepSpeed]
+- [DeepSpeed]: ZeRO: Zero Redundancy Optimizer
 - [Megatron-LM]
-- ZeRO: Zero Redundancy Optimizer
 - HAI-LLM framework（higher flyer）
 #### [并行训练方案](Efficiency_Speedup/Parallelism/parallelism.md)
 - TP(Tensor Parallelism)
