@@ -12,6 +12,7 @@
 - [ ] Atom: Low-bit quantization for efficient and accurate LLM serving
 - [ ] MoE: https://zhuanlan.zhihu.com/p/669312652
 - [ ] q-learning DQN, DDPG不用重要性采样
+- [ ] DPO, PPO, GRPO
 - [ ] [huggingface leaderboard](https://huggingface.co/spaces?q=leaderboard)
 - [ ] [code with paper leaderboard](https://paperswithcode.com/sota)
 - [ ] [大模型面试](https://zhuanlan.zhihu.com/p/691588703)
@@ -36,7 +37,6 @@
 - [ ] label smoothing
 - [ ] 在embedding 层后添加layer normalization，有利于提升训练稳定性:但可能会带来很大的性能损失.
 - [x] importance sampling
-- [ ] DPO, PPO, GRPO
 - [ ] Prefix Tuning: 基于prefix内容进行回答
 - [ ] Prompt Tuning: 自动化提示工程，改动prompt完成问题的回答
 - [ ] p-tuning v1/v2
