@@ -1,6 +1,10 @@
 - [ ] MinHash de-duplication
 - [ ] RAG的多实体问题如何解决：爱因斯坦和牛顿在物理学上的贡献有何不同？
 - [ ] ragflow
+- [ ] gte, bge, jina等嵌入
+- [x] bm25
+- [ ] COIL Contextualized Inverted List
+- [ ] uniCOIL Unified Contextualized Lexical Representationsunicoil与splade结合DPR混合检索
 - [ ] ann近似最近零算法
 - [ ] 文档检索top-k后还要进行重排reranking，可在结合搜索推荐中的重排技术
 - Frobenius范数，次可加性$\Vert A+B \Vert_{F}\le \Vert A \Vert_F + \Vert B \Vert_F$，空间向量相加，两边之和大于第三边

@@ -80,3 +80,25 @@ $$
 $$
 
 > $d_i$ 表示向量 $x$ 和 $y$ 中 $i\text{-}th$ 元素argsort排序后的位次差值
+
+
+#### BM25
+BM25 (Best Matching 25)，是一种TF-IDF改进版本的信息检索算法，用于计算查询（Query）和文档（Document）之间的相关性分数，广泛应用于搜索引擎、文档检索和问答系统等领域。
+
+$$
+\text{BM25}(q, d) = \sum_{i=1}^n \text{IDF}(q_i)\frac{f(q_i, d)\times(k_1 + 1)}{f(q_i, d) + k_1(1-b + b\frac{\vert d \vert}{\text{avg dl}})}
+$$
+
+> - $q$ 表示查询内容，由一组词 $q_1, q_2, \dots, q_n$ 组成
+> - $d$ 表示一个文本文档，$\vert d \vert$ 则表示该文档中的词数
+> - $f(q_i, d)$ 表示词 $q_i$ 在文档 $d$ 中的词频
+> - $\text{IDF}(q_i)$ 表示词 $q_i$ 的逆文档频率
+> - $\text{avg dl}$ 表示所有文档的平均词数
+> - $k_1$ 和 $b$ 为可调参数，通常取值$k_1 \in [1.2, 2.0]$，$b \in [0.5, 0.8]$
+
+
+!!! failure "缺陷"
+    - 词汇不匹配(vocabulary mismatch)：如cat和kitty均表示猫
+    - 语义不匹配(semantic mismatch)：在不同场景中一词多义，如bank of river 和 bank in finance
+
+
