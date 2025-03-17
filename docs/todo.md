@@ -1,13 +1,19 @@
 - [ ] MinHash de-duplication
 - [ ] RAG的多实体问题如何解决：爱因斯坦和牛顿在物理学上的贡献有何不同？
+- [ ] ragflow
 - [ ] ann近似最近零算法
 - [ ] 文档检索top-k后还要进行重排reranking，可在结合搜索推荐中的重排技术
 - Frobenius范数，次可加性$\Vert A+B \Vert_{F}\le \Vert A \Vert_F + \Vert B \Vert_F$，空间向量相加，两边之和大于第三边
 - [ ] sft roberta with multiple sequence concurrent with customized attention mask
-- [x] DeepSeek
+- [x] DeepSeek v2
+- [ ] DeepSeek v3 https://zhuanlan.zhihu.com/p/16323685381
 - [ ] instruct gpt: Training language models to follow instructions with human feedback
 - [ ] Kvquant: Towards 10 million context length LLM inference with KV cache quantization
 - [ ] Atom: Low-bit quantization for efficient and accurate LLM serving
+- [ ] MoE: https://zhuanlan.zhihu.com/p/669312652
+- [ ] q-learning DQN, DDPG不用重要性采样
+- [ ] [huggingface leaderboard](https://huggingface.co/spaces?q=leaderboard)
+- [ ] [code with paper leaderboard](https://paperswithcode.com/sota)
 - [ ] [大模型面试](https://zhuanlan.zhihu.com/p/691588703)
 - [ ] NSA: natively trainable sparse Attention
 - [ ] Wizardmath: Empowering mathematical reasoning for large language models via reinforced evol-instruct
