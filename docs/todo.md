@@ -24,6 +24,7 @@
 - [ ] Wizardmath: Empowering mathematical reasoning for large language models via reinforced evol-instruct
 - [ ] Math-shepherd: Verify and reinforce llms step-by-step without human annotations
 - [ ] vllm: Efficient Memory Management for Large Language Model Serving with PagedAttention
+- [ ] triton框架
 - [ ] DeepSpeed（Zero Redundancy Optimizer）、Megatron-LM、HAI-LLM framework（higher flyer）
 - [ ] zeroquant, 
 - [ ] zero-dp：zero 1,2,3 用通信换内存，zero-3引入了额外的通信开销用于forward和backward（用了就扔）
