@@ -23,6 +23,7 @@
 - [ ] NSA: natively trainable sparse Attention
 - [ ] Wizardmath: Empowering mathematical reasoning for large language models via reinforced evol-instruct
 - [ ] Math-shepherd: Verify and reinforce llms step-by-step without human annotations
+- [ ] langchain
 - [ ] vllm: Efficient Memory Management for Large Language Model Serving with PagedAttention
 - [ ] triton框架
 - [ ] DeepSpeed（Zero Redundancy Optimizer）、Megatron-LM、HAI-LLM framework（higher flyer）
