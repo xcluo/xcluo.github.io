@@ -100,5 +100,6 @@ $$
 !!! failure "缺陷"
     - 词汇不匹配(vocabulary mismatch)：如cat和kitty均表示猫
     - 语义不匹配(semantic mismatch)：在不同场景中一词多义，如bank of river 和 bank in finance
+    - 词袋模型未考虑词距：q={亚马逊，雨林}；d={我在亚马逊上网购了一本书，介绍东南亚热带雨林的植物群落…}
 
 
