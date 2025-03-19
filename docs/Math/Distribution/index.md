@@ -1,11 +1,20 @@
 ### 分布
-- normal distribution正态分布
+#### Normal Distribution
 $X \sim\mathcal{N}(\mu, \sigma^2)$，密度函数$f(x)=\frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{(x-\mu)^2}{2\sigma^2}}$
 - 独立分布正态分布组合 $Z = aX  + bY$：$E(Z)=a\mu_X + b\mu_Y$ 和 $Var(Z) = a^2\sigma^2_X + b^2\sigma_Y^2$
 - 累计分布函数CDF $\Phi(x)=Pr(X\le x)=\frac{1}{\sqrt{2\pi}}\int_{-\infty}^{x}e^{-\frac{x^2}{2}}dx$
 
-- poisson distribution泊松分布，是一种离散概率分布，用于描述在一定时间或空间内事件发生的次数。它特别适用于当这些事件是独立发生且以恒定的平均速率出现时的情景。
+#### Poisson Distribution
+泊松分布，是一种离散概率分布，用于描述在一定时间或空间内事件发生的次数。它特别适用于当这些事件是独立发生且以恒定的平均速率出现时的情景。
 
+#### Zipfian Distribution
+一个离散幂律概率分布，也就是常常提到的长尾分布，即某个对象的出现频率与其排名成反比（少数对象占据了大部分频率，大多数对象的频率很低），通常用于描述自然语言、城市人口、网站访问量等领域的现象。
+
+$$
+f(k) = \frac{C}{k^s}
+$$
+
+> $k$ 为对象的排名，$C$ 为归一化常数，$s$ 为分布的幂律超参，通常接近于1
 
 ### 采样方式
 #### Importance Sampling
