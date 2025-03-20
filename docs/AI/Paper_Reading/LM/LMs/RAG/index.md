@@ -1,2 +1,3 @@
 - doc2query-T5
 - inverted indexes
+- faiss-based implementation,
