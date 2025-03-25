@@ -5,6 +5,7 @@
 - [x] bm25
 - [ ] COIL Contextualized Inverted List
 - [ ] splade结合DPR混合检索
+- [ ] MIPS
 - [ ] ann近似最近零算法
 - [ ] 文档检索top-k后还要进行重排reranking，可在结合搜索推荐中的重排技术
 - Frobenius范数，次可加性$\Vert A+B \Vert_{F}\le \Vert A \Vert_F + \Vert B \Vert_F$，空间向量相加，两边之和大于第三边
