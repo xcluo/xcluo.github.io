@@ -1,6 +1,17 @@
-- doc2query-T5
 - inverted indexes
-- faiss-based implementation,
+- faiss: facebook ai similarity search
+- Anserini IR toolkit
+
+### query expansion
+- splade
+### document expansion
+generate query from document
+#### doc2query
+#### docT5query
+- to train a model, that when given an input document, generates questions that the document might answer
+### 词级别交互
+- colbert
+
 
 
 
