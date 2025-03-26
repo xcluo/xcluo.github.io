@@ -79,7 +79,7 @@ $$
 \rho(x , y) = 1 - \frac{6\sum_{i=1}^n d_i^2}{n(n^2-1)} = 1 - \frac{6\sum_{i=1}^n (r_{x_i} - r_{y_i})^2}{n(n^2-1)}
 $$
 
-> $d_i$ 表示向量 $x$ 和 $y$ 中 $i\text{-}th$ 元素argsort排序后的位次差值
+> $d_i$ 表示向量 $x$ 和 $y$ 中 $i\text{-}th$ 元素在各自向量内argsort排序后的位次差值
 
 
 #### BM25
@@ -103,3 +103,9 @@ $$
     - 词袋模型未考虑词距：q={亚马逊，雨林}；d={我在亚马逊上网购了一本书，介绍东南亚热带雨林的植物群落…}
 
 
+#### Jaccard Similarity
+Jaccard Similarity杰卡德相似系数用于衡量两个集合之间相似度。
+
+$$
+J(A, B) = \frac{\vert A \cap  B \vert}{\vert A \cup B \vert} = \frac{\vert A \cap  B \vert}{\vert A \vert + \vert B \vert - \vert A \cap B \vert}
+$$

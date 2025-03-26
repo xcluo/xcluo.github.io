@@ -24,9 +24,12 @@
 2. 手动兼容`org.lightgbm.predict4j`  
 `pip install lightgbm`，输出的gbdt文件已弃用`default_value`字段，需手动兼容
     ```python title="compliant_org.lightgbm.predict4j"
-    if line.startswith('decision_type'):
-        num = len(line.strip().split())
-        default_value = f'default_value={" ".join(["0"]*num)}\n'
+    for line in f_in:
+        f_out.write(line)
+        if line.startswith('decision_type'):
+            num = len(line.strip().split())
+            f_out.write(f'default_value={" ".join(["0"]*num)}\n')
+        f_out.flush()
     ```
     
     > 新版本效果表现更好
