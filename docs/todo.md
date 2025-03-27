@@ -1,12 +1,10 @@
-- [ ] MinHash de-duplication, Signed Random Projection, Random Projection
 - [ ] RAG的多实体问题如何解决：爱因斯坦和牛顿在物理学上的贡献有何不同？
 - [ ] ragflow
 - [ ] gte, bge, jina等嵌入
-- [x] bm25
 - [ ] COIL Contextualized Inverted List
 - [ ] splade结合DPR混合检索
-- [ ] MIPS
-- [ ] ann近似最近零算法
+- [ ] 文档chunk方案：windows，overlapping
+- [ ] 对比学习负样本选择方案
 - [ ] 文档检索top-k后还要进行重排reranking，可在结合搜索推荐中的重排技术
 - [ ] 量化float2float，float2int
 - Frobenius范数，次可加性$\Vert A+B \Vert_{F}\le \Vert A \Vert_F + \Vert B \Vert_F$，空间向量相加，两边之和大于第三边
@@ -44,7 +42,6 @@
 - Gradient Checkpointing，[gif](https://pic3.zhimg.com/v2-1679b74a85687cdb250e532931bb266a_b.webp)
 - [ ] label smoothing
 - [ ] 在embedding 层后添加layer normalization，有利于提升训练稳定性:但可能会带来很大的性能损失.
-- [x] importance sampling
 - [ ] Prefix Tuning: 基于prefix内容进行回答
 - [ ] Prompt Tuning: 自动化提示工程，改动prompt完成问题的回答
 - [ ] p-tuning v1/v2
@@ -52,7 +49,6 @@
 - [ ] lora with diffusion model 
 - [x] Pre-Norm与Post-Norm的区别与选择
 - [x] KV cache：将L层K与V进行缓存以执行Attention
-- [x] MLA: Decouped RoPE
 - [x] LDA潜在迪利克雷分布，b站视频 LDA主题模型
 - [ ] LSA/PLSA
 - [ ] Cholesky分解

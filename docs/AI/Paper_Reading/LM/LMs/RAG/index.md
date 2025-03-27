@@ -1,4 +1,6 @@
 
+- Lucene搜索引擎
+
 ### query expansion
 - splade
 ### document expansion
@@ -11,30 +13,58 @@ generate query from document
 
 ### 数据库向量去重
 #### MinHash
-核心目标为高效估计[$J(A, B)$](./../../../../Metrics/correlation_metrics.html#jaccard-similarity)，具体实现如下：
+MinHash 是一种用于检测近重复文本的[LSH](#lsh)技术，核心目标为高效估计[$J(A, B)$](./../../../../Metrics/correlation_metrics.html#jaccard-similarity)，具体实现如下：
 
-1. **特征提取**：将文档表示为词集合（如n-gram）
+- 直觉选取的原理
+
+1. **特征提取**：将文档表示为词去重（或非去重）集合（如n-gram）
 2. **构建哈希函数族**：设计 $n$ 个独立的哈希函数 $h_1, h_2, \dots, h_n$
-3. **生成MinHash签名**：对于每个集合A，计算其MinHash向量 $s^A = [s_1, s_2, \dots, s_n]$，其中 $s^A_i = \min_{x \in A} h_i(x)$
+3. **[生成MinHash签名](https://blog.csdn.net/qq_41357569/article/details/118614164#32__33)**：对于 ^^每个集合A^^ ，计算其MinHash向量 $s^A = [s_1, s_2, \dots, s_n]$，其中 $s^A_i = \min_{x \in A} h_i(x)$ ，其中$x \in A$ 表示只考虑集合A包含的特征
     
-    > 直觉：最小哈希值相同的概率等于Jaccard Similarity
+    > 直觉：保留最小哈希值，对应集合该哈希值相同的概率等于Jaccard Similarity
 
-4. **相似度估计**：$\hat{J}(A, B) = \frac{1}{n} \sum_{i=1}^n \mathbb{I}(s^A_i == s^B_i)$
+4. **相似度估计**：$\hat{J}(A, B) = \frac{1}{n} \sum_{i=1}^n \mathbb{I}(s^A_i = s^B_i)$
 #### SimHash
-SimHash 是一种用于检测近重复文本的局部敏感哈希技术，由 Google 提出，核心思想是将高维向量映射到低维二值哈希码，保持相似向量的哈希码汉明距离小，具体实现如下：
+SimHash 是一种用于检测近重复文本的[LSH](#lsh)技术，由 Google 提出，核心思想是将高维向量映射到低维二值哈希码，保持相似向量的哈希码汉明距离小，具体实现如下：
 
-1. 特征提取：将文档表示为词频向量或TF-IDF向量
-2. 权重分配：对每个特征（词）分配权重
-3. 生成SimHash：对每个特征，用哈希函数生成一个b-bit 二进制编码 $h_i$，并加权求和所有特征二进制码 $v = \sum_i w_ih_i$，对求和结果每个维度取符号得到最终
+<div class="one-image-container">
+    <img src="image/SimHash_diagram.jpg" style="width: 60%;">
+    <!-- <p>LoRA在Attention各部分权重上的消融实验效果</p> -->
+    <figcaption>SimHash计算示意图</figcaption>
+</div>
 
+1. **特征提取**：将文档表示为词序列
+2. **权重分配**：对每个特征（词）分配权重，如TF-IDF
+3. **生成哈希值**：对每个特征用哈希函数生成一个 $b$-bit 二进制编码值 $[v_1, v_2, \dots, v_b]$
+4. **加权获取SimHash值**：加权获取各特征对应的权重和哈希值，随后合并所有加权结果并通过 `sign` 函数获取文档SimHash值
+    
+    $$
+    \begin{aligned}
+            f_{i} = & [w_i\text{sign}_1(v_1), w_i\text{sign}_1(v_2), \dots, w_i\text{sign}_1(v_b)]  \\
+            \text{sign}_1(x) =& \begin{cases}
+            1 & x\gt 0 \\
+            -1 &  x \le 0
+            \end{cases} \\
+            F_d =& \sum_{i=1}^{D} f_i \\
+            \text{SimHash}_d =& \text{sign}_2(F_d) \\
+            \text{sign}_2(x) =& \begin{cases}
+            1 & x\gt 0 \\
+            0 &  x \le 0
+            \end{cases} 
+    \end{aligned}
+    $$
+
+5. **距离计算**：各文档SimHash值汉明码距离即为文档间距离
 
 ### ANN算法
-查询向量$q\in \mathbb{R}^{d}$，文档向量集合$\mathcal{X} = \{x_1, x_2, \dots, x_n\}$，其中$x_i \in \mathbb{R}^d$，目标是找到$\text{Top-}k=\argmax_{x \in \mathcal{X}} q^T x$
+查询向量$q\in \mathbb{R}^{d}$，文档向量集合$\mathcal{X} = \{d_1, d_2, \dots, d_N\}$，其中$d_i \in \mathbb{R}^D$，目标是找到$\text{Top-}k=\text{arg}\mathop{\text{ max }}\limits
+_{x \in \mathcal{X}}^k q^T x$
 
-- 暴力计算复杂度为$O(nd)$，当$n$很大时，代价极高
+- 暴力计算复杂度为$O(ND)$，当$N$很大时，代价极高
 
-因此需要借助approximate nearese neighbor search近似最近邻算法的索引结构提升效率，常见的工具有
-- faiss: facebook ai similarity search
+因此需要借助ANN（Approximate Nearese Neighbor search）近似最近邻算法的索引结构提升效率，常见的工具有
+
+- FAISS: Facebook AI Similarity Search
 - Anserini IR toolkit
 
 
@@ -58,28 +88,8 @@ Inverted File Index倒排文件索引的核心思想是分治，包括以下几�
 #### HNSW
 Hierarchical Navigable Small World graphs，分层可导航小世界图，也称作分层IVF，即对聚类簇再次聚类划分，进一步加速粗搜索
 
-1. **设计哈希函数**：对于任意两个向量 $d_1$ 和 $d_2$ 以及距离$dis(\cdot, \cdot)$，存在概率函数 $P$ 使得
 
-    $$
-    P\big(h(d_1) = h(d_2)\big) = f\big(dis(d_1, d_2)\big)
-    $$
-
-    > 其中 $f$ 为单调递减函数，即距离小的分到相同桶的概率大，距离大的分到相同概率小
-
-2. **多哈希表与放大技术**：单一哈希函数可能漏检或误检相似项，因此LSH可通过以下方案优化效果
-    - ^^多哈希函数 k-bit hash^^，使用 $k$ 个独立哈希函数 $h(x) = [h_1(x), \dots, h_k(x)]$，只有复合哈希函数所有哈希值相同（或有一定的相似度）才能视为候选  
-        
-        > 增大 $k$ 减少误检率
-
-    - ^^多哈希表 L表^^，构建 $L$ 个独立的哈希表，每个表使用不同的哈希函数族，搜素时合并所有表的候选集  
-        
-        > 通过增大 $L$ 提高找到近邻的概率
-
-3. **搜索流程**：离线构建哈希表，在线查询时哈希查询向量 $h(q)$ 并从对应哈希桶候选项中搜索
 #### FLAT
-
-#### LSH
-Locality-Sensitive Hashing局部敏感哈希，核心思想是通过哈希函数将高维空间中距离相近的向量以高概率映射到相同的哈希桶中，从而将搜索范围减少到少数候选集，显著降低计算复杂度。核心思想如下：
 
 #### Tree-based
 #### Graph-based
@@ -107,6 +117,7 @@ NSG（Navigating Spreading-out Graph）
 3. **LSQ**（Learned Scalar Quantization）学习型标量量化，通过训练学习每个维度的可学习量化间隔并将各维度向量独立地从高精度（非均匀分桶）映射为低精度表示，以减少内存占用  
     1. ^^前向传播^^：将向量量化为低精度表示；  
     2. ^^反向传播^^：优化更新量化间隔和模型参数
+### 距离计算优化
 #### Distance Computation
 <div class="one-image-container">
     <img src="image/SDC_vs_ADC.jpg" style="width: 60%;">
@@ -141,6 +152,28 @@ NSG（Navigating Spreading-out Graph）
 
     > - 搜索时计算复杂度优化为 $O(m \cdot K\cdot \frac{D}{m} + N\cdot m) = O(K\cdot D+ N\cdot m)$
     > - 平衡精度与效率，需实时计算$Dis$
+
+#### LSH
+Locality-Sensitive Hashing局部敏感哈希，即假定A、B具有一定相似性，在hash之后，仍能保持这种相似性。核心思想是通过哈希函数将高维空间中距离相近的向量以高概率映射到相同的哈希桶中，从而将搜索范围减少到少数候选集，显著降低计算复杂度。核心思想如下：
+
+1. **设计哈希函数**：对于任意两个向量 $d_1$ 和 $d_2$ 以及距离$dis(\cdot, \cdot)$，存在概率函数 $P$ 使得
+
+    $$
+    P\big(h(d_1) = h(d_2)\big) = f\big(dis(d_1, d_2)\big)
+    $$
+
+    > 其中 $f$ 为单调递减函数，即距离小的分到相同桶的概率大，距离大的分到相同概率小
+
+2. **多哈希表与放大技术**：单一哈希函数可能漏检或误检相似项，因此LSH可通过以下方案优化效果
+    - ^^多哈希函数 k-bit hash^^，使用 $k$ 个独立哈希函数 $h(x) = [h_1(x), \dots, h_k(x)]$，只有复合哈希函数所有哈希值相同（或有一定的相似度）才能视为候选  
+        
+        > 增大 $k$ 减少误检率
+
+    - ^^多哈希表 L表^^，构建 $L$ 个独立的哈希表，每个表使用不同的哈希函数族，搜素时合并所有表的候选集  
+        
+        > 通过增大 $L$ 提高找到近邻的概率
+
+3. **搜索流程**：离线构建哈希表，在线查询时哈希查询向量 $h(q)$ 并从对应哈希桶候选项中搜索
 
 #### BQ
 Batch Querying批量查询
