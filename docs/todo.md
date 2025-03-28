@@ -3,14 +3,18 @@
 - [ ] gte, bge, jina等嵌入
 - [ ] COIL Contextualized Inverted List
 - [ ] splade结合DPR混合检索
+- [ ] rm3
 - [ ] 文档chunk方案：windows，overlapping
 - [ ] 对比学习负样本选择方案
 - [ ] 文档检索top-k后还要进行重排reranking，可在结合搜索推荐中的重排技术
 - [ ] 量化float2float，float2int
+- [ ] wordpiece支持##前缀，BPE无前缀标记；常见分词库tiktoken、sentencepiece
+- [ ] pre_tokenizer：split分割句子，bytelevel拆分句子至字节级，因此BPE字典中不会有中文，反而有很多分解出的字节串，
 - Frobenius范数，次可加性$\Vert A+B \Vert_{F}\le \Vert A \Vert_F + \Vert B \Vert_F$，空间向量相加，两边之和大于第三边
 - [ ] sft roberta with multiple sequence concurrent with customized attention mask
 - [x] DeepSeek v2
 - [ ] DeepSeek v3 https://zhuanlan.zhihu.com/p/16323685381
+- [ ] 免费 gpt-4: https://gpt.xfai.online/list/#/home
 - [ ] instruct gpt: Training language models to follow instructions with human feedback
 - [ ] Kvquant: Towards 10 million context length LLM inference with KV cache quantization
 - [ ] Atom: Low-bit quantization for efficient and accurate LLM serving

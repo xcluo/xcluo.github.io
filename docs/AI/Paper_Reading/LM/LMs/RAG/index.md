@@ -1,10 +1,14 @@
-
 - Lucene搜索引擎
+- FAISS: Facebook AI Similarity Search
+- Anserini IR toolkit
 
 ### query expansion
+enrich the query representation
+
+- RM3（Relevance Model 3）, Pseudo-relevance feedback
 - splade
 ### document expansion
-generate query from document
+enrich document content (maybe issued queries)
 #### doc2query
 #### docT5query
 - to train a model, that when given an input document, generates questions that the document might answer
