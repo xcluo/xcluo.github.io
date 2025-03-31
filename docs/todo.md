@@ -1,7 +1,6 @@
 - [ ] RAG的多实体问题如何解决：爱因斯坦和牛顿在物理学上的贡献有何不同？
 - [ ] ragflow
 - [ ] gte, bge, jina等嵌入
-- [ ] COIL Contextualized Inverted List
 - [ ] splade结合DPR混合检索
 - [ ] rm3
 - [ ] 文档chunk方案：windows，overlapping
@@ -10,6 +9,7 @@
 - [ ] 量化float2float，float2int
 - [ ] wordpiece支持##前缀，BPE无前缀标记；常见分词库tiktoken、sentencepiece
 - [ ] pre_tokenizer：split分割句子，bytelevel拆分句子至字节级，因此BPE字典中不会有中文，反而有很多分解出的字节串，
+- [ ] 很多BPE分词器会保留空格，因此需要预先将空格" "替换为一个不常用的字符，如replace(" ", "Ġ")
 - Frobenius范数，次可加性$\Vert A+B \Vert_{F}\le \Vert A \Vert_F + \Vert B \Vert_F$，空间向量相加，两边之和大于第三边
 - [ ] sft roberta with multiple sequence concurrent with customized attention mask
 - [x] DeepSeek v2

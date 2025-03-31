@@ -94,10 +94,17 @@ class DataResourece:
             dataset = dataset.shuffle(buffer_size=100 * batch_size)
         # 设置随机取值池大小
         dataset = dataset.prefetch(buffer_size=100 * batch_size)
-        # 每次取值 `batch_size` 样本
-        # `None`` 表示 `pad_to_longest`
-        dataset = dataset.padded_batch(batch_size, padded_shapes=([None], [None], [None], [None], [None], [None], 
-                                       drop_remainder=welf.drop_remainder))
+        
+        dataset = dataset.padded_batch(
+            batch_size,             # 每次取值 `batch_size` 样本
+            padded_shapes=([None], [None], [None], [None], [None], [None]), 
+                                    # `None` 表示 `pad_to_longest` ，[] 表示不填充
+                                    # shape.length与generate方法返回值一致
+            drop_remainder=welf.drop_remainder,
+                                    # 对于batch_size取整的余数部分处理方式
+            padding_values=None     # 指定padding_values，缺省情况下数值补0，布尔值补False，字符串补""
+                                    # 可以为数值或元组，但shape和类型应该与generate方法返回值一致
+        )
 
         iterator = dataset.make_initializable_iterator()
         return iterator.get_next(), iterator.initializer
