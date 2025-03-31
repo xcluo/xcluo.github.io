@@ -299,9 +299,25 @@ $$
 #### MAP
 Mean Average Precision平均平均精度，用于衡量模型在所有查询（或用户请求）检索到排名靠前的相关文档的精度。
 
-1. Agerage Precision (AP)，对单个查询，计算不同召回率下的平均精度
+1. Agerage Precision (AP)，对单个查询，依次计算各真实相关文档在检索文档排名处及之前排名结果中的平均精度
+
+    ```python 
+    R_q = {d_2, d_4}    # R_q 表示查询 q 对应的真实相关文档集合
+    rank = [d_2, d_3, d_4, d_1, d_7]
+    P(≥r(d_2)) = 1/1    # 前1有d_2是TP
+    P(≥r(d_4)) = 2/3    # 前3有d_2和d_4是TP
+    AP(q) = (1/1 + 2/3)/2 ≈ 0.835
+    ```
+
+    $$
+    AP(q) = \frac{1}{\vert R_q \vert} \sum_{d \in R_q} P\big(\ge r(d)\big)
+    $$
 
 2. Mean AP，对所有查询的AP值取平均
+
+    $$
+    MAP = \frac{1}{\vert Q\vert} \sum_{q\in Q} AP(q)
+    $$
 
 #### MRR
 平均倒数排名Mean Reciprocal Rank，旨在衡量排序结果的质量，是指多个查询语句的第一个正确结果排名的倒数均值
@@ -316,7 +332,7 @@ Mean Average Precision平均平均精度，用于衡量模型在所有查询（�
     > $Q$ 表示参与测试的查询集
 
 
-2. MRR@K
+2. MRR@K，和MRR类似，但是只有在排名前K个时才有分数，否则为0
 
 #### HR
 命中率Hit Ratio，是衡量推荐系统准确性的一个指标，表示推荐列表中用户实际感兴趣（如点击或购买等）的项目所占比例。$HR@k$计算方式如下：
