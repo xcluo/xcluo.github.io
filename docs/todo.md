@@ -3,6 +3,33 @@
 - [ ] gte, bge, jina等嵌入
 - [ ] splade结合DPR混合检索
 - [ ] rm3
+- [ ] transformers.optmization
+- [ ] tf.metrics, torchmetrics
+```python
+from torchmetrics import Accuracy, Precision, Recall
+
+# 初始化指标（支持多分类、多标签）
+accuracy = Accuracy(task="multiclass", num_classes=10)
+precision = Precision(task="multiclass", num_classes=10, average='macro')
+recall = Recall(task="multiclass", num_classes=10, average='macro')
+
+# 计算批次指标
+logits = torch.randn(32, 10)  # batch_size=32, 10类
+labels = torch.randint(0, 10, (32,))
+preds = torch.argmax(logits, dim=1).to("cpu")
+
+accuracy.update(preds, labels)
+precision.update(preds, labels)
+recall.update(preds, labels)
+
+# 获取累积结果
+print(f"Accuracy: {accuracy.compute():.4f}")
+print(f"Precision: {precision.compute():.4f}")
+print(f"Recall: {recall.compute():.4f}")
+
+# 重置指标
+accuracy.reset()
+```
 - [ ] 文档chunk方案：windows，overlapping
 - [ ] 对比学习负样本选择方案
 - [ ] 文档检索top-k后还要进行重排reranking，可在结合搜索推荐中的重排技术
