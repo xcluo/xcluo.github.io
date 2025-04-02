@@ -3,7 +3,8 @@
 - [ ] gte, bge, jina等嵌入
 - [ ] splade结合DPR混合检索
 - [ ] rm3
-- [ ] transformers.optmization
+- [ ] transformers.optmization, transformers.Trainer
+- [ ] from sklearn.metrics import accuracy_score, f1_score
 - [ ] tf.metrics, torchmetrics
 ```python
 from torchmetrics import Accuracy, Precision, Recall
