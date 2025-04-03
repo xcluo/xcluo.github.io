@@ -52,9 +52,9 @@ class MyDataset(Dataset):
         with open(data_file, 'r', encoding='utf-8') as f:
             for line in tqdm(f, desc=f"parsing {base_name}"):
                 line = json.loads(line)
-                cnt = pre_process_content(self.trie, self.t2s, self.case_sensitive, line)
-                label = uni_label(cnt)
-                data.append(cnt)
+                line = pre_process_content(self.trie, self.t2s, self.case_sensitive, line)
+                label = uni_label(line.get("label", "0"))
+                data.append(line["content"])
                 labels.append(label)
 
         print(f"{base_name} has {len(data)} samples")

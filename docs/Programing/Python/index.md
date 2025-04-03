@@ -50,6 +50,7 @@
 - [`char_alpha_numeric.py`](utils/char_alpha_numeric.md)
 - [`random_methods.py`](utils/random_methods.md)
 - [`general_dataset_utils.py`](utils/general_dataset_utils.md)、[`torch_dataset_utils.py`](utils/torch_dataset_utils.md)、[`tf1_dataset_utils.py`](utils/tf1_dataset_utils.md)
+- [`tokenization.py`](utils/tokenization.md)
 
 ### 进阶：文件读写
 
