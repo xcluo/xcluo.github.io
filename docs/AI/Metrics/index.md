@@ -1,3 +1,4 @@
 - [特征值](features.md)
 - [相关系数](correlation_metrics.md)
 - [评判指标](evaluation_metrics.md)
+- [平滑系数](smoothing_metrics.md)

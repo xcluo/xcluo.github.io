@@ -1,12 +1,20 @@
 - Lucene搜索引擎
 - FAISS: Facebook AI Similarity Search
 - Anserini IR toolkit
+- Anserini，Elasticsearch
 
 ### query expansion
 enrich the query representation
 
-- RM3（Relevance Model 3）, Pseudo-relevance feedback
+- PRF（Pseudo-Relevance Feedback）伪相关反馈，‌Rocchio算法
+- RM1-4（Relevance Model 1-4），相关模型1-4
+- 1: Relevance-Based Language Models
+- 2: A Generative Theory of Relevance
+- 3, Indri、Galago中有RM3实现: UMass at TREC 2004: Novelty and HARD
+- 4: Adaptive Relevance Feedback in Information Retrieval
+- implicit relevance feedback，间接相关反馈
 - splade
+- query rewriting
 ### document expansion
 enrich document content (maybe issued queries)
 #### doc2query
