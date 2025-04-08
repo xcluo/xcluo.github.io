@@ -6,12 +6,65 @@
 ### query expansion
 enrich the query representation
 
-- PRF（Pseudo-Relevance Feedback）伪相关反馈，‌Rocchio算法
+- 用户反馈算法，Rocchio算法
+
+    $$
+    q_\text{new} = \alpha q + \beta \frac{1}{\vert D_R \vert} \sum_{d \in D_R} \overrightarrow{h(q, d)} - \gamma \frac{1}{\vert D_{NR} \vert} \sum_{d \in D_{NR}} \overrightarrow{h(q, d)}
+    $$
+
+    > $\alpha, \beta, \gamma$ 相关性权重参数，控制各部分参数，通过人户反馈的人工标注数据进行调优
+
+
+- PRF（Pseudo-Relevance Feedback）伪相关反馈
 - RM1-4（Relevance Model 1-4），相关模型1-4
 - 1: Relevance-Based Language Models
-- 2: A Generative Theory of Relevance
+
+    1. 基于Dirichlet平滑 或 Jelinek-Mercer平滑 计算词在文档中的概率获取伪相关文档的加权平均概率 $P(w\vert R) = \frac{1}{\vert D_R \vert}\sum_{d\in D_{R}} P(w\vert d)$
+    2. 选择 $P(w\vert R)$ 最高的$M$ 个词作为拓展词
+    3. 将原始查询 $q$ 和拓展词结合，形成新的查询 $q_\text{expanded}$
+
+    > 如果初始top-k 文档不相关，拓展词可能引入噪声  
+    > 未考虑词权重，所有文档平均加权，可能受高频词干扰  
+
+- 2: A Generative Theory of Relevance，不再假设文档中的词互相独立，而是考虑词项之间的依赖关系（如二元模型），从而更准确地估计相关性模型
+
+    $$
+    \begin{aligned}
+        P(w\vert R) =& \sum_{d \in D_R} P(w\vert d)\times P(q\vert d)\times P(d\vert R) \\
+        =& \frac{1}{\vert D_q \vert} \sum_{d \in D_q} P(w\vert d)\times P(q\vert d) \\
+        P(w\vert d) \approx& P(w\vert w_\text{prev}, d) \\
+        P(q\vert d) =& \prod_{w \in q} P(w\vert d) \\
+        P(d\vert R) =& \frac{1}{\vert D_R \vert}
+    \end{aligned}
+    $$
+
+    > - $P(w\vert d)$ 词 $w$ 在文档 $d$ 中的概率（考虑词依赖，如二元模型）
+    > - $P(q\vert d)$ 查询 $q$ 在文档 $d$ 中的生成概率
+    > - $p(d\vert R)$ 文档 $d$ 的相关性概率
+    > - 计算复杂度高：需维护词共现统计
+
 - 3, Indri、Galago中有RM3实现: UMass at TREC 2004: Novelty and HARD
+
+    $$
+    P(w \vert q_\text{expanded}) = \lambda P(w\vert q) + (1-\lambda) P(w\vert R)
+    $$
+
+    > - $\lambda \in [0, 1]$，插值系数，控制原始查询和拓展词的权重用以更新 $q$，减少噪声词的影响  
+    > - 一元模型
+
 - 4: Adaptive Relevance Feedback in Information Retrieval
+
+    $$
+    \begin{aligned}
+        P(w\vert R) =& \max\big(P_\text{pos}(w\vert R) -\alpha P_\text{neg}(w|NR), 0\big) \\
+        =& \max\big(\frac{1}{\vert D_R \vert} \sum_{d\in D_R} P(w\vert d)P(q\vert d) - \alpha \frac{1}{\vert D_{NR} \vert}\sum_{d\in D_{NR}}P(w|d), 0\big)
+    \end{aligned}
+    $$
+
+    > 使用了分数排名靠后的$D_{NR}$ 非相关文档进行负反馈，经验取后100~200文档  
+    > $\alpha$ 负反馈权重，经验取值 0.1~0.5  
+    > 选择分数最高的的前M个词拓展查询
+
 - implicit relevance feedback，间接相关反馈
 - splade
 - query rewriting
