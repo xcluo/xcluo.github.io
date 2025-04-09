@@ -1,5 +1,6 @@
 - [ ] RAG的多实体问题如何解决：爱因斯坦和牛顿在物理学上的贡献有何不同？
 - [ ] ragflow
+- [ ] 联邦学习
 - [ ] gte, bge, jina等嵌入
 - [ ] splade结合DPR混合检索
 - [ ] https://github.com/castorini/pyserini

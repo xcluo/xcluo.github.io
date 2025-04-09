@@ -6,7 +6,7 @@ SubWord算法，顾名思义就是把一个文本序列划分为更小的一个�
 2. [UnigramUnigram Language Model (ULM)](SubWord/subword_tokenize.md#ulm)，出自论文Subword Regularization: Improving Neural Network Translation Models with Multiple Subword Candidates
 3. [BPE (Byte Pair Encoding)](SubWord/subword_tokenize.md#bpe)
 
-- BPE无前缀标记；常见分词库tiktoken、sentencepiece
+- B；常见分词库tiktoken、sentencepiece
 - [ ] pre_tokenizer：split分割句子，bytelevel拆分句子至字节级，因此BPE字典中不会有中文，反而有很多分解出的字节串，
 - [ ] 很多BPE分词器会保留空格，因此需要预先将空格" "替换为一个不常用的字符，如replace(" ", "Ġ")，一般可以替换为一个词频少的char
 
