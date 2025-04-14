@@ -104,9 +104,9 @@ logits = torch.randn(32, 10)  # batch_size=32, 10类
 labels = torch.randint(0, 10, (32,))
 preds = torch.argmax(logits, dim=1).to("cpu")
 
-accuracy.update(preds, labels)
-precision.update(preds, labels)
-recall.update(preds, labels)
+# accuracy.update(preds, labels)
+# precision.update(preds, labels)
+# recall.update(preds, labels)
 
 # 获取累积结果
 print(f"Accuracy: {accuracy.compute():.4f}")
@@ -115,4 +115,12 @@ print(f"Recall: {recall.compute():.4f}")
 
 # 重置指标
 accuracy.reset()
+
+
+torchmetrics.functional.accuracy(preds, target)
+
+for s in batch_s:
+    accuracy(preds, target)     # batch accuracy
+accuracy.compute()              # total accuracy
+
 ```

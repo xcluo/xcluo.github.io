@@ -3,7 +3,11 @@
 - [ ] 联邦学习
 - [ ] dashscope for alibaba; openai for openai; requests for glm4
 - [ ] xfyun for xunfei
-- [ ] gte, bge, jina等嵌入
+- [ ] gte (General Text Embeddings)，阿里巴巴达摩院推出
+- [ ] bge(BAAI General Embedding)，智源研究院推出 1, 1.5, 2, pro
+- [ ] jina embedding，jina ai推出
+- [ ] e5 embedding，intfloat团队研发
+- [ ] xlm-roberta，fair研发
 - [ ] splade结合DPR混合检索
 - [ ] https://github.com/castorini/pyserini
 - [ ] transformers.optmization, transformers.Trainer

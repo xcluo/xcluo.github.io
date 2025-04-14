@@ -2,9 +2,26 @@
 - FAISS: Facebook AI Similarity Search
 - Anserini IR toolkit
 - Anserini，Elasticsearch
+- Pyserini
 
-### query expansion
-enrich the query representation
+
+![Alt text](image/llm_query_expansion.png)
+![Alt text](image/bge_gte_jina_comparsion.png)
+
+
+### Basic Retrieval 
+#### 相似度衡量
+1. **Lexical Match**：主要基于词汇统计的 [BM25](../../../../Metrics/correlation_metrics.md#bm25) 衡量  相关性，基于关键词进行匹配
+2. **Semantic Match**：主要基于向量表示的 L2 distance, MSE或consine similarity衡量相关性，基于语义相关进行匹配
+
+#### 损失函数
+1. **对比学习InfoNCE**：目标为检索出最相关的，因此通过对比学习思想获取相对选择倾向
+
+### Retrieval Augmentation
+#### Query expansion
+- 兼顾二者联合搜索
+
+对输入的问题查询进行拓展
 
 - 用户反馈算法，Rocchio算法
 
@@ -15,66 +32,32 @@ enrich the query representation
     > $\alpha, \beta, \gamma$ 相关性权重参数，控制各部分参数，通过人户反馈的人工标注数据进行调优
 
 
-- PRF（Pseudo-Relevance Feedback）伪相关反馈
-- RM1-4（Relevance Model 1-4），相关模型1-4
-- 1: Relevance-Based Language Models
+- 基于统计结果最大似然的 PRF（Pseudo-Relevance Feedback）伪相关反馈
+    - [RM](rm.md)（Relevance Model）v1~v4
 
-    1. 基于Dirichlet平滑 或 Jelinek-Mercer平滑 计算词在文档中的概率获取伪相关文档的加权平均概率 $P(w\vert R) = \frac{1}{\vert D_R \vert}\sum_{d\in D_{R}} P(w\vert d)$
-    2. 选择 $P(w\vert R)$ 最高的$M$ 个词作为拓展词
-    3. 将原始查询 $q$ 和拓展词结合，形成新的查询 $q_\text{expanded}$
-
-    > 如果初始top-k 文档不相关，拓展词可能引入噪声  
-    > 未考虑词权重，所有文档平均加权，可能受高频词干扰  
-
-- 2: A Generative Theory of Relevance，不再假设文档中的词互相独立，而是考虑词项之间的依赖关系（如二元模型），从而更准确地估计相关性模型
-
-    $$
-    \begin{aligned}
-        P(w\vert R) =& \sum_{d \in D_R} P(w\vert d)\times P(q\vert d)\times P(d\vert R) \\
-        =& \frac{1}{\vert D_q \vert} \sum_{d \in D_q} P(w\vert d)\times P(q\vert d) \\
-        P(w\vert d) \approx& P(w\vert w_\text{prev}, d) \\
-        P(q\vert d) =& \prod_{w \in q} P(w\vert d) \\
-        P(d\vert R) =& \frac{1}{\vert D_R \vert}
-    \end{aligned}
-    $$
-
-    > - $P(w\vert d)$ 词 $w$ 在文档 $d$ 中的概率（考虑词依赖，如二元模型）
-    > - $P(q\vert d)$ 查询 $q$ 在文档 $d$ 中的生成概率
-    > - $p(d\vert R)$ 文档 $d$ 的相关性概率
-    > - 计算复杂度高：需维护词共现统计
-
-- 3, Indri、Galago中有RM3实现: UMass at TREC 2004: Novelty and HARD
-
-    $$
-    P(w \vert q_\text{expanded}) = \lambda P(w\vert q) + (1-\lambda) P(w\vert R)
-    $$
-
-    > - $\lambda \in [0, 1]$，插值系数，控制原始查询和拓展词的权重用以更新 $q$，减少噪声词的影响  
-    > - 一元模型
-
-- 4: Adaptive Relevance Feedback in Information Retrieval
-
-    $$
-    \begin{aligned}
-        P(w\vert R) =& \max\big(P_\text{pos}(w\vert R) -\alpha P_\text{neg}(w|NR), 0\big) \\
-        =& \max\big(\frac{1}{\vert D_R \vert} \sum_{d\in D_R} P(w\vert d)P(q\vert d) - \alpha \frac{1}{\vert D_{NR} \vert}\sum_{d\in D_{NR}}P(w|d), 0\big)
-    \end{aligned}
-    $$
-
-    > 使用了分数排名靠后的$D_{NR}$ 非相关文档进行负反馈，经验取后100~200文档  
-    > $\alpha$ 负反馈权重，经验取值 0.1~0.5  
-    > 选择分数最高的的前M个词拓展查询
-
-- implicit relevance feedback，间接相关反馈
 - splade
 - query rewriting
-### document expansion
-enrich document content (maybe issued queries)
-#### doc2query
-#### docT5query
-- to train a model, that when given an input document, generates questions that the document might answer
-### 词级别交互
+- 使用模型生成
+    - query2doc：向LLM输入query生成伪文档，整合 $q_\text{expanded} = \text{concat}(q, d_\text{pseudo})$ 
+
+#### Document Expansion
+对被检索的文档进行内容拓展
+
+- 使用模型生成
+    - doc2query、docT5query：（SFT训练）输入doc，生成伪查询，整合 $d_\text{expanded} = \text{concat}(d, q_\text{pseudo})$
+
+#### Term-Level Inter
+- deepct
 - colbert
+- coil
+- PROMPTAGATOR
+
+#### InfoNCE优化
+1. 增加负样本
+    - in batch negatives，同batch内负样本  
+    - hard negative，增加高分难区分负样本（高BM25负样本、相关模型高分负样本）  
+
+2. 负样本去噪
 
 ### 数据库向量去重
 #### MinHash
