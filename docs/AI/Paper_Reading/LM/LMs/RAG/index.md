@@ -9,7 +9,7 @@
 ![Alt text](image/bge_gte_jina_comparsion.png)
 
 
-### Basic Retrieval 
+### Basic Retrieval
 #### 相似度衡量
 1. **Lexical Match**：主要基于词汇统计的 [BM25](../../../../Metrics/correlation_metrics.md#bm25) 衡量  相关性，基于关键词进行匹配
 2. **Semantic Match**：主要基于向量表示的 L2 distance, MSE或consine similarity衡量相关性，基于语义相关进行匹配
@@ -19,43 +19,41 @@
 
 ### Retrieval Augmentation
 #### Query expansion
-- 兼顾二者联合搜索
-
 对输入的问题查询进行拓展
 
-- 用户反馈算法，Rocchio算法
-
-    $$
-    q_\text{new} = \alpha q + \beta \frac{1}{\vert D_R \vert} \sum_{d \in D_R} \overrightarrow{h(q, d)} - \gamma \frac{1}{\vert D_{NR} \vert} \sum_{d \in D_{NR}} \overrightarrow{h(q, d)}
-    $$
-
-    > $\alpha, \beta, \gamma$ 相关性权重参数，控制各部分参数，通过人户反馈的人工标注数据进行调优
-
-
-- 基于统计结果最大似然的 PRF（Pseudo-Relevance Feedback）伪相关反馈
+1. 基于统计结果最大似然的 PRF（Pseudo-Relevance Feedback）伪相关反馈拓展
     - [RM](rm.md)（Relevance Model）v1~v4
 
-- splade
-- query rewriting
-- 使用模型生成
-    - query2doc：向LLM输入query生成伪文档，整合 $q_\text{expanded} = \text{concat}(q, d_\text{pseudo})$ 
+2. 基于语义的词级别稀疏拓展
+    - [SLPADE](splade.md)，此外还保留了[Term-Level Interaction](#term-level-interaction)
+
+3. 使用模型生成拓展
+    - [query2doc](query2doc.md)
 
 #### Document Expansion
 对被检索的文档进行内容拓展
 
-- 使用模型生成
-    - doc2query、docT5query：（SFT训练）输入doc，生成伪查询，整合 $d_\text{expanded} = \text{concat}(d, q_\text{pseudo})$
+1. 使用模型生成
+    - [doc2query](doc2query.md#doc2query)、[docT5query](doc2query.md#doct5query)
 
-#### Term-Level Inter
-- deepct
-- colbert
-- coil
-- PROMPTAGATOR
+
+#### Term Interaction
+稀疏词级别相关性交互
+
+1. 词项动态加权  
+    - [DeepCT](deepct.md)
+#### Dense Representation Interaction
+连续语义级别相关性交互
+
+1. 多流语义表示后交互
+    - [ColBERT](colbert.md)
+    - [COIL](coil.md)
+    - PROMPTAGATOR
 
 #### InfoNCE优化
 1. 增加负样本
     - in batch negatives，同batch内负样本  
-    - hard negative，增加高分难区分负样本（高BM25负样本、相关模型高分负样本）  
+    - hard negative，增加高分难区分负样本（如高BM25负样本、相关模型高分负样本）  
 
 2. 负样本去噪
 

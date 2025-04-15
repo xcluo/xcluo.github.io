@@ -17,7 +17,7 @@ A Generative Theory of Relevance，不再假设文档中的词互相独立，而
 $$
 \begin{aligned}
     P(w\vert R) =& \sum_{d \in D_R} P(w\vert d)\times P(q\vert d)\times P(d\vert R) \\
-    =& \frac{1}{\vert D_q \vert} \sum_{d \in D_q} P(w\vert d)\times P(q\vert d) \\
+    =& \frac{1}{\vert D_R \vert} \sum_{d \in D_R} P(w\vert d)\times P(q\vert d) \\
     P(w\vert d) \approx& P(w\vert w_\text{prev}, d) \\
     P(q\vert d) =& \prod_{w \in q} P(w\vert d) \\
     P(d\vert R) =& \frac{1}{\vert D_R \vert}
@@ -30,25 +30,36 @@ $$
 > - 计算复杂度高：需维护词共现统计
 
 #### RM3
-ndri、Galago中有RM3实现: UMass at TREC 2004: Novelty and HARD
-
-$$
-P(w \vert q_\text{expanded}) = \lambda P(w\vert q) + (1-\lambda) P(w\vert R)
-$$
-
-> - $\lambda \in [0, 1]$，插值系数，控制原始查询和拓展词的权重用以更新 $q$，减少噪声词的影响  
-> - 一元模型
-
-#### RM4
-Adaptive Relevance Feedback in Information Retrieval
+UMass at TREC 2004: Novelty and HARD，通过控制原始查询和拓展词的权重减少噪声词的影响
 
 $$
 \begin{aligned}
-    P(w\vert R) =& \max\big(P_\text{pos}(w\vert R) -\alpha P_\text{neg}(w|NR), 0\big) \\
-    =& \max\big(\frac{1}{\vert D_R \vert} \sum_{d\in D_R} P(w\vert d)P(q\vert d) - \alpha \frac{1}{\vert D_{NR} \vert}\sum_{d\in D_{NR}}P(w|d), 0\big)
+P(w \vert q_\text{expanded}) =& \lambda P(w\vert q) + (1-\lambda) \sum_{d \in D_R}P(w\vert d)P(d\vert q)   \\
+P(d\vert q) =&  \text{BM25}(q, d)
 \end{aligned}
 $$
 
-> 使用了分数排名靠后的$D_{NR}$ 非相关文档进行负反馈，经验取后100~200文档  
-> $\alpha$ 负反馈权重，经验取值 0.1~0.5  
-> 选择分数最高的的前M个词拓展查询
+> - $\lambda \in [0, 1]$，插值系数，经验取值 0.5~0.7  
+> - 一元模型
+
+#### RM4
+Adaptive Relevance Feedback in Information Retrieval，进一步引入了负反馈样本
+
+$$
+\begin{aligned}
+    P(w \vert q_\text{expanded}) =& \lambda P(w\vert q) + (1-\lambda) \bigg[\sum_{d \in D_R} P(w\vert d)P(d\vert q) -\alpha \sum_{d \in D_{NR}}P(w\vert d)P(d\vert q) \bigg]
+\end{aligned}
+$$
+
+> - 使用了分数排名靠后的 $D_{NR}$ 低相关文档进行负反馈，经验取后100~200文档  
+> - $\alpha$ 负反馈权重，经验取值 0.1~0.5  
+
+
+#### Rocchio
+用户反馈算法，Rocchio算法
+
+$$
+q_\text{new} = \alpha q + \beta \frac{1}{\vert D_R \vert} \sum_{d \in D_R} \overrightarrow{h(q, d)} - \gamma \frac{1}{\vert D_{NR} \vert} \sum_{d \in D_{NR}} \overrightarrow{h(q, d)}
+$$
+
+> - $\alpha, \beta, \gamma$ 相关性权重参数，控制各部分参数，通过人户反馈的人工标注数据进行调优
