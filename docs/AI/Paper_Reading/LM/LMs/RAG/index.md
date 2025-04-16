@@ -5,19 +5,19 @@
 - Pyserini
 
 
-![Alt text](image/llm_query_expansion.png)
 ![Alt text](image/bge_gte_jina_comparsion.png)
 
 
 ### Basic Retrieval
 #### 相似度衡量
-1. **Lexical Match**：主要基于词汇统计的 [BM25](../../../../Metrics/correlation_metrics.md#bm25) 衡量  相关性，基于关键词进行匹配
+1. **Exact Match**：主要基于词汇统计的 [BM25](../../../../Metrics/correlation_metrics.md#bm25) 衡量  相关性，基于关键词进行匹配
 2. **Semantic Match**：主要基于向量表示的 L2 distance, MSE或consine similarity衡量相关性，基于语义相关进行匹配
 
 #### 损失函数
 1. **对比学习InfoNCE**：目标为检索出最相关的，因此通过对比学习思想获取相对选择倾向
 
 ### Retrieval Augmentation
+中心思想为通过各种手段提升问题查询与目标文档的关键词相关性和语义相关性
 #### Query expansion
 对输入的问题查询进行拓展
 
@@ -25,10 +25,16 @@
     - [RM](rm.md)（Relevance Model）v1~v4
 
 2. 基于语义的词级别稀疏拓展
-    - [SLPADE](splade.md)，此外还保留了[Term-Level Interaction](#term-level-interaction)
+    - [SLPADE](splade.md)，此外还保留了[Sparse Term Interaction](#sparse-term-interaction)
 
 3. 使用模型生成拓展
+    <div class="one-image-container">
+        <img src="image/llm_query_expansion.png" style="width: 90%;">
+        <!-- <p>LoRA在Attention各部分权重上的消融实验效果</p> -->
+        <!-- <figcaption>SimHash计算示意图</figcaption> -->
+    </div>
     - [query2doc](query2doc.md)
+
 
 #### Document Expansion
 对被检索的文档进行内容拓展
@@ -37,13 +43,13 @@
     - [doc2query](doc2query.md#doc2query)、[docT5query](doc2query.md#doct5query)
 
 
-#### Term Interaction
+#### Sparse Term Interaction
 稀疏词级别相关性交互
 
 1. 词项动态加权  
     - [DeepCT](deepct.md)
 #### Dense Representation Interaction
-连续语义级别相关性交互
+连续语义（一般会投影至较小维度表示）级别相关性交互
 
 1. 多流语义表示后交互
     - [ColBERT](colbert.md)
@@ -145,15 +151,15 @@ NSG（Navigating Spreading-out Graph）
 #### Quantization
 1. **PQ**（Product Quantization）乘积量化通过**子空间量化**和**查表法**提升搜索效率，主要包含以下核心思想：
     1. ^^划分子空间^^：将 $D$ 维向量分为 $m$ 个 $\frac{D}{m}$ 维子空间，因此可以得到$m$ 个embedding table子空间矩阵 $d^{(i)} \in \mathbb{R}^{N \times \frac{D}{m}}$
-    2. ^^子空间聚类^^：使用K-means聚类方法对每个子空间矩阵进行聚类得到$K$ （一般为$2^{b}$） 个 $\frac{D}{m}$ 维向量的聚类中心 $C^{(1)} = \{c^{(i)}_1, c^{(i)}_2, \dots, c^{(i)}_K\} \in \mathbb{R}^{K\times \frac{D}{m}}$，聚类损失函数为最小化各子空间向量到最近邻聚类中心距离之和
+    2. ^^子空间聚类^^：使用K-means聚类方法对每个子空间矩阵进行聚类得到$K \ll N$ （一般为$2^{b}$） 个 $\frac{D}{m}$ 维向量的聚类中心 $C^{(1)} = \{c^{(i)}_1, c^{(i)}_2, \dots, c^{(i)}_K\} \in \mathbb{R}^{K\times \frac{D}{m}}$，聚类损失函数为最小化各子空间向量到最近邻聚类中心距离之和
         
         $$
         \mathcal{L} = \sum_{n=1}^{N} \min_{k=1}^{K} \Vert d^{(i)}_{n} - c^{(i)}_{k} \Vert^2
         $$
     
     3. ^^生成码本^^：$C^{(i)}$ 即为i-th 子空间码本codebook
-    4. ^^量化向量^^：将每个原始的子向量$d^{i}_{n}$ 量化映射为 $C^{(i)}$ 中最近的聚类中心 $\text{ID}^{(i)}_n$，即（0~K-1）
-    5. ^^[(查表法)距离计算](#distance-computation)^^：对于查询向量$q$，同样进行上述划分子空间 $\{q^{(1)}, q^{(2)}, \dots, q^{(m)} \}$并分别计算各子空间内到 $K$个聚类中心的距离，随后通过查 look table 得到 $m$ 子空间内距离总和即为查询与文档的最终距离
+    4. ^^分桶量化向量^^：将每个原始的子向量$d^{i}_{n}$ 量化映射为 $C^{(i)}$ 中最近的聚类中心 $\text{ID}^{(i)}_n$，即（0~K-1）
+    5. ^^[(查表法)距离计算](#distance-computation)^^：对于查询向量$q$，同样进行上述划分子空间 $\{q^{(1)}, q^{(2)}, \dots, q^{(m)} \}$，随后通过查表法得到 $m$ 子空间内距离总和即为查询与文档的最终距离
 
         
     > - 子空间数 $m$ 越大，量化粒度更精细，但计算开销越大

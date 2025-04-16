@@ -55,22 +55,18 @@ $$
 
 
 1. 效果表现  
-
+    - `D ⟷ A, B`：MaxSim效果优于其他方案，查询文档检索任务中更注重个别关键字  
+    - `D ⟷ C`：Query Encoder的PAD `[MASK]` to $N_q$ 方案具有查询拓展的增益效用  
     <div class="one-image-container">
         <img src="image/colbert_performance_ablation.png" style="width: 80%;">
         <!-- <p>LoRA在Attention各部分权重上的消融实验效果</p> -->
         <!-- <figcaption>这是图片的标题或描述。</figcaption> -->
     </div>
 
-2. 效率表现
+2. 效率表现  
+    - `length-based bucketing`：基于文档长度分桶的方法能有效减少 `pad_to_max` token数
     <div class="one-image-container">
         <img src="image/colbert_efficiency_ablation.png" style="width: 80%;">
         <!-- <p>LoRA在Attention各部分权重上的消融实验效果</p> -->
         <!-- <figcaption>这是图片的标题或描述。</figcaption> -->
     </div>
-
-
-
-
-## COIL
-- project each Transformer—based token vector of query and document from  into low dimension
