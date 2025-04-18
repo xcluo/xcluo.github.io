@@ -24,7 +24,7 @@ single_byte_str = byte_stream.decode("latin-1")     # 很多BBPE词表就是以�
 #### bytearray2unicode
 在字节转unicode设计中，为使互相转换无歧义，设计了以下规则：
 
-|字节类型 |首字节前缀 |手续字节前缀 | Unicode范围  |
+|字节类型 |首字节前缀 |后续字节前缀 | Unicode范围  |
 | --- | --- | --- |  --- |
 |单字节 | `0b0xxxxxxx` | 无 |  `U+0000` ~ `U+007F` |
 |双字节 | `0b110xxxxx` | `0b10xxxxxx` |  `U+0000` ~ `U+07FF` |

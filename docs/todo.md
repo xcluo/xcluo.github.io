@@ -1,5 +1,5 @@
 - [ ] RAG的多实体问题如何解决：爱因斯坦和牛顿在物理学上的贡献有何不同？
-- [ ] ragflow
+- [ ] ragflow、haystack、dify、langchain，阿里百炼
 - [ ] 联邦学习
 - [ ] dashscope for alibaba; openai for openai; requests for glm4
 - [ ] xfyun for xunfei
@@ -26,7 +26,7 @@
 - [ ] Atom: Low-bit quantization for efficient and accurate LLM serving
 - [ ] MoE: https://zhuanlan.zhihu.com/p/669312652
 - [ ] q-learning DQN, DDPG不用重要性采样
-- [ ] DPO, PPO, GRPO
+- [ ] DPO, PPO, GRPO, DAPO
 - [ ] [huggingface leaderboard](https://huggingface.co/spaces?q=leaderboard)
 - [ ] [code with paper leaderboard](https://paperswithcode.com/sota)
 - [ ] [大模型面试](https://zhuanlan.zhihu.com/p/691588703)
