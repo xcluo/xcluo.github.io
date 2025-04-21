@@ -71,9 +71,10 @@
 1. [Q-Learning](q_learning.md)
 2. DQN（Deep Q-Network）
 ### 评估状态价值
-3. Policy Gradient（PG）
+3. [Policy Gradient（PG）](pg.md)
 
 ### 评估优势函数
+1. A2C（Advantage Actor-Critic）
 1. A3C（Asynchronous Advantage Actor-Critic）：Asynchronous Methods for Deep Reinforcement Learning
 2. TRPO（Trust Region Policy Optimization）
 3. PPO（Proximal Policy Optimization）
