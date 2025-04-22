@@ -348,4 +348,32 @@ class FullTokenizer(object):
 
     def convert_ids_to_tokens(self, ids):
         return convert_by_vocab(self.inv_vocab, ids)
+
+
+class BPETokenizer(object):
+    def __init__(
+            self,
+            ):
+        """Initialize BPE tokenizer."""
+        self.vocab = {}
+        self.inv_vocab = {}
+        self.merges = {}
+        self.special_tokens = {}
+        # 对输入文本进行划分
+        # 1. `'(?!:[sdmt]|ll|ve|re)`  →  匹配连写, 's, 'd, 'm, 't, 'll, 've 以及 're
+        # 2. ` ?\p{L}+`  →  按语言字母匹配，如 "hello你好"匹配结果为 ["hello", "你好"]
+        # 3. ` ?\p{N}+`  →  
+        self.pattern = re.compile(r"""'(?i:[sdmt]|ll|ve|re)|[^\r\n\p{L}\p{N}]?+\p{L}+|\p{N}{1,3}| ?[^\s\p{L}\p{N}]++[\r\n]*|\s*[\r\n]|\s+(?!\S)|\s+""")
+
+    def apply_merge(self, element_list):
+        # 执行合并策略，一直迭代至没有待合并的 subword-pair
+        # char-level, element_list = list(input_str)
+        # byte-level, element_list = list(map(chr, input_str(encoding="utf-8")))
+        pass
+
+    def convert_tokens_to_ids(self, tokens):
+        return convert_by_vocab(self.vocab, tokens)
+
+    def convert_ids_to_tokens(self, ids):
+        return convert_by_vocab(self.inv_vocab, ids)
 ```

@@ -1,5 +1,5 @@
 - [ ] RAG的多实体问题如何解决：爱因斯坦和牛顿在物理学上的贡献有何不同？
-- [ ] ragflow、haystack、dify、langchain，阿里百炼
+- [x] ragflow、haystack、dify、langchain，阿里百炼
 - [ ] 联邦学习
 - [ ] dashscope for alibaba; openai for openai; requests for glm4
 - [ ] xfyun for xunfei
@@ -8,13 +8,14 @@
 - [ ] jina embedding，jina ai推出
 - [ ] e5 embedding，intfloat团队研发
 - [ ] xlm-roberta，fair研发
-- [ ] splade结合DPR混合检索
 - [ ] https://github.com/castorini/pyserini
 - [ ] transformers.optmization, transformers.Trainer
 - [ ] tf.metrics, torchmetrics
-- [ ] 文档chunk方案：windows，overlapping
+- [ ] 文档chunk方案
+        - Fixed-size window Chunking + overlapping, charatertextsplitter
+        - 结构化分块：markdown、html、pdf等结构化文档
 - [ ] 对比学习负样本选择方案
-- [ ] 文档检索top-k后还要进行重排reranking，可在结合搜索推荐中的重排技术
+- [x] 文档检索top-k后还要进行重排reranking，可在结合搜索推荐中的重排技术
 - [ ] 量化float2float，float2int
 - Frobenius范数，次可加性$\Vert A+B \Vert_{F}\le \Vert A \Vert_F + \Vert B \Vert_F$，空间向量相加，两边之和大于第三边
 - [ ] sft roberta with multiple sequence concurrent with customized attention mask
@@ -22,7 +23,8 @@
 - [ ] DeepSeek v3 https://zhuanlan.zhihu.com/p/16323685381
 - [ ] 免费 gpt-4: https://gpt.xfai.online/list/#/home
 - [ ] instruct gpt: Training language models to follow instructions with human feedback
-- [ ] Kvquant: Towards 10 million context length LLM inference with KV cache quantization
+- [x] Kvquant: Towards 10 million context length LLM inference with KV cache quantization
+- [ ] zeroquant, 
 - [ ] Atom: Low-bit quantization for efficient and accurate LLM serving
 - [ ] MoE: https://zhuanlan.zhihu.com/p/669312652
 - [ ] q-learning DQN, DDPG不用重要性采样
@@ -33,17 +35,16 @@
 - [ ] NSA: natively trainable sparse Attention
 - [ ] Wizardmath: Empowering mathematical reasoning for large language models via reinforced evol-instruct
 - [ ] Math-shepherd: Verify and reinforce llms step-by-step without human annotations
-- [ ] langchain
-- [ ] vllm: Efficient Memory Management for Large Language Model Serving with PagedAttention
-- [ ] triton框架
-- [ ] DeepSpeed（Zero Redundancy Optimizer）、Megatron-LM、HAI-LLM framework（higher flyer）
-- [ ] zeroquant, 
-- [ ] zero-dp：zero 1,2,3 用通信换内存，zero-3引入了额外的通信开销用于forward和backward（用了就扔）
-- [ ] zero-r, zero-offload, zero-infinity
+- [x] langchain
+- [x] vllm: Efficient Memory Management for Large Language Model Serving with PagedAttention
+- [x] triton框架
+- [x] ollama, tensorRT
+- [x] DeepSpeed（Zero Redundancy Optimizer）、Megatron-LM、HAI-LLM framework（higher flyer）
+- [x] zero-dp：zero 1,2,3 用通信换内存，zero-3引入了额外的通信开销用于forward和backward（用了就扔）
+- [x] zero-r, zero-offload, zero-infinity
 - [ ] ring all-reduce：梯度同步；ring all-gather：参数更新和加载
 - [ ] 模型DP时，多个数据loss结果会进行交互all reduce
 - [ ] accelerate config
-- [ ] ollama, tensorRT
 - [ ] 模型幻觉hallucination
 - [ ] 持续学习，避免灾难性遗忘
     - 正则化、数据放回、增量学习、adapter网络，使用pre model软标签数据参与训练等
@@ -67,7 +68,6 @@
 - [ ] Restricted Boltzmann Machines (RBM)
 - [ ] A/B test
 - [ ] TF-IDF_j, MI_{a, b, c, d}
-- [x] evaluation metrics: MRR, HR, NDCG
 - [x] Attention softmax后除以$\sqrt{d_k}$是因为权重矩阵中每个元素都是通过两个(1， d_k)方差为1的向量相乘得到的，基于正态分布累加后的标准差公式可知该值方差变为$\sqrt{d_k}$，因此执行该操作，不除以$\sqrt{d_k}$，根据softmax函数曲线，softmax结果表现更倾向于one-hot分布，[会带来梯度消失问题](https://spaces.ac.cn/archives/8620/comment-page-4#comment-24076)
 - tensorflow 1.x中在梯度下降时如何设置L1，L2正则化约束
     ```python

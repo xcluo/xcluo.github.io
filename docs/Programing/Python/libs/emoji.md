@@ -15,7 +15,7 @@ import emoji    # pip install emoji
 > `👍 -> :thumbs_up:`
 4. `emoji_list()` 返回list，包含字符串中所有emoji及其位置信息
    ```python
-   for emj in emoji.emoji_list():
+   for emj in emoji.emoji_list(input_str):
        print(emj['emoji'], emj['match_start'], emj['match_end'])   # [match_start, match_end)
    ```
 5. `emoji.EMOJI_DATA` 字典，key为emoji字符串
