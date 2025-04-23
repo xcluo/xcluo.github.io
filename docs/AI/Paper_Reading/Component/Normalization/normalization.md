@@ -5,7 +5,15 @@
 
 
 ### LN
-即 Layer Normalization
+即 Layer Normalization，基于样本所有维度信息进行平移不换转化和缩放不变转化，随后进行投影变换。
+
+$$
+\begin{aligned}
+    \text{LN}(x_i) = \hat{x_i} =&\frac{x_i - \mu}{\sqrt{\frac{1}{d}\sum_{j=1}^d (x_j - \mu)^2} + \epsilon}    \\
+    y_i =& \gamma_i\hat{x_i} + \beta_i \\
+    &\gamma, \beta \in \mathbb{R}^{d}
+\end{aligned}
+$$
 
 #### Pre-Norm & Post-Norm
 [Pre-Norm/Post-Norm](pre-norm_post-norm.md) 是指在残差连接操作之前/之后执行Norm操作，直白的区别是在要用的时候进行Norm操作还是用之前就执行Norm操作
@@ -27,6 +35,12 @@ $$
     - Post-Norm模型的训练极度依赖warmup
 
 #### RMSNorm
-即 Root Mean Squared Layer Normalization，==RMS认为LN取得的成功是缩放不变性，而不是平移不变性，因此较LN只保留了缩放（除以标准差）==，去除了平移（减去均值）
+即 Root Mean Squared Layer Normalization，==RMS认为LN取得的成功是缩放不变性，而不是平移不变性，因此较LN只保留了缩放转化（除以标准差）==，去除了平移转化（减去均值），随后进行无偏置项的投影变换
 
-$$\text{RMS}(x_i)=\frac{x_i}{\sqrt{\frac{1}{d}\sum_{1}^{d}x_i^2}+\epsilon}$$
+$$
+\begin{aligned}
+    \text{RMS}(x_i)=\hat{x_i} =& \frac{x_i}{\sqrt{\frac{1}{d}\sum_{j=1}^{d}x_j^2}+\epsilon} \\
+    y_i =& \gamma_i \hat{x_i} \\
+    & \gamma \in \mathbb{R}^d
+\end{aligned}
+$$

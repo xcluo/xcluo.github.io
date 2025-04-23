@@ -9,7 +9,7 @@
 - [ ] e5 embedding，intfloat团队研发
 - [ ] xlm-roberta，fair研发
 - [ ] https://github.com/castorini/pyserini
-- [ ] transformers.optmization, transformers.Trainer
+- [x] transformers.optmization, transformers.Trainer
 - [ ] tf.metrics, torchmetrics
 - [ ] 文档chunk方案
         - Fixed-size window Chunking + overlapping, charatertextsplitter
@@ -58,7 +58,6 @@
 - [ ] p-tuning v1/v2
 - [ ] prompt engineering
 - [ ] lora with diffusion model 
-- [x] Pre-Norm与Post-Norm的区别与选择
 - [x] KV cache：将L层K与V进行缓存以执行Attention
 - [x] LDA潜在迪利克雷分布，b站视频 LDA主题模型
 - [ ] LSA/PLSA
