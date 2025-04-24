@@ -69,7 +69,6 @@
 2. [NF4 quantization](../../LLM_Extend/LLM_SFT/qlora.md)，分位量化  
 先验地认为模型数据符合正态分布，并基于正态分布累计分布函数CDF求得16个固定浮点数作为最终量化值；此外，还设计了多重量化方案，即进一步对多个量化缩放因子进行浮点数量化
 
-
     $$
     \begin{aligned}
         c(x_{up}) =& \frac{1}{\text{absmax}(x_{up})} \\
@@ -85,7 +84,25 @@
 混合精度训练[Mixed Precision Training](https://arxiv.org/pdf/1710.03740)
 
 #### PTQ
-Post Training Quantization
+Post Training Quantization，对训练后的模型进行量化处理，当量化为FP16时，无需校准；当量化为INT8时，一般需要使用少量代表性校准数据集，==不重新训练而是通过统计分析确定最优量化参数==，
+
+常见的校准算法包括：
+
+1. **Entropy Calibration**，选择对应量化前后分布最小KL散度的阈值来确定最优的量化参数
+
+    - 准备校准数据集，数据规模一般为500~1000  
+    - P模型推理，记录各层激活值  
+    - 基于激活值构建直方图
+
+    $$
+    D_{KL}(P\Vert Q) = \sum_{i} P(i)\log \frac{P(i)}{Q(i)}
+    $$
+
+    > $P$ 为原始模型，$Q$ 为量化后模型
+
+2. **MSE Calibration**，最小化量化前后的均方差
+
+3. **MinMax Calibration**，
 
 
 converter.representative_dataset

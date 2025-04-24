@@ -25,6 +25,7 @@
 - [ ] instruct gpt: Training language models to follow instructions with human feedback
 - [x] Kvquant: Towards 10 million context length LLM inference with KV cache quantization
 - [ ] zeroquant, 
+- [ ] smooth quant
 - [ ] Atom: Low-bit quantization for efficient and accurate LLM serving
 - [ ] MoE: https://zhuanlan.zhihu.com/p/669312652
 - [ ] q-learning DQN, DDPG不用重要性采样
