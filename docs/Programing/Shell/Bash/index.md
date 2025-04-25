@@ -24,7 +24,7 @@
 - 内容合并：`join`、`paste`
 - 内容分割：`cut`
 - 内容拆分：[`split`](file_related/split)
-- 内容去重：`sort` + `uniq`
+- 内容去重：`sort` + `uniq`，`uniq -c` 统计每行的出现频数
 - 内容替换：`tr`、[`sed`](file_related/sed)
 - 内容扰动：`shuf`
 - 文件传输：[`nc`](file_related/nc)

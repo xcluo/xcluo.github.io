@@ -86,12 +86,12 @@
 #### PTQ
 Post Training Quantization，对训练后的模型进行量化处理，当量化为FP16时，无需校准；当量化为INT8时，一般需要使用少量代表性校准数据集，==不重新训练而是通过统计分析确定最优量化参数==，
 
-常见的校准算法包括：
+一般校准操作默认在层融合之前，常见的校准算法包括，不同batch顺序会产生不同的校准尺度，因此建议使用large batch：https://docs.nvidia.com/deeplearning/tensorrt/archives/tensorrt-843/pdf/TensorRT-Developer-Guide.pdf
 
 1. **Entropy Calibration**，选择对应量化前后分布最小KL散度的阈值来确定最优的量化参数
 
     - 准备校准数据集，数据规模一般为500~1000  
-    - P模型推理，记录各层激活值  
+    - P模型推理，记录各层激活值，量化激活值activations  
     - 基于激活值构建直方图
 
     $$
@@ -100,9 +100,8 @@ Post Training Quantization，对训练后的模型进行量化处理，当量化
 
     > $P$ 为原始模型，$Q$ 为量化后模型
 
-2. **MSE Calibration**，最小化量化前后的均方差
-
-3. **MinMax Calibration**，
+2. **MinMax Calibration**，更适合NLP任务
+3. **Legacy Calibration**，最小化量化前后的均方差
 
 
 converter.representative_dataset
