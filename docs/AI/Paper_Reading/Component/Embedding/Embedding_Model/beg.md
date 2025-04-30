@@ -1,0 +1,1 @@
+bge(BAAI General Embedding)，智源研究院推出 1, 1.5, 2, pro

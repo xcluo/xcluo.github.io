@@ -18,13 +18,13 @@
 #### 部署
 - [vLLM](../Paper_Reading/Trick/Efficiency_Speedup/Attention_Speedup/vllm.md)
 - [TensorRT](Nvidia/tensorrt.md)
-#### +运行
 - triton
+#### +开发
 - Ollama
+- LangChain
 - Dify
 - RAGFlow
 - Haystack
-- LangChain
 - 阿里百炼
 
 

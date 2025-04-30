@@ -1,0 +1,1 @@
+gte (General Text Embeddings)，阿里巴巴达摩院推出

@@ -17,7 +17,7 @@ def tokenize_function(tokenizer, max_seq_length, examples):
 
 
 def split_dataset(data_files, train_percent=.99, pre_process_fn=None, tokenize_fn=None):
-    dataset_dict = load_dataset("json", data_files)
+    dataset_dict = load_dataset("json", data_files=data_files)
     if len(dataset_dict) == 1:
         dataset = dataset_dict["train"].shuffle()
         train_dataset = dataset.select(range(int(train_percent * len(dataset))))
@@ -51,7 +51,12 @@ class MyDataset(Dataset):
         data, labels = [], []
         with open(data_file, 'r', encoding='utf-8') as f:
             for line in tqdm(f, desc=f"parsing {base_name}"):
-                line = json.loads(line)
+                try:
+                    line = json.loads(line)
+                except:
+                    print(json.dumps(line, ensure_ascii=False))
+                    raise ValueError
+
                 line = pre_process_content(self.trie, self.t2s, self.case_sensitive, line)
                 label = uni_label(line.get("label", "0"))
                 data.append(line["content"])

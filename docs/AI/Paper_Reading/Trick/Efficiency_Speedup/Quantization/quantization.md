@@ -86,13 +86,71 @@
 #### PTQ
 Post Training Quantization，对训练后的模型进行量化处理，当量化为FP16时，无需校准；当量化为INT8时，一般需要使用少量代表性校准数据集，==不重新训练而是通过统计分析确定最优量化参数==，
 
-一般校准操作默认在层融合之前，常见的校准算法包括，不同batch顺序会产生不同的校准尺度，因此建议使用large batch：https://docs.nvidia.com/deeplearning/tensorrt/archives/tensorrt-843/pdf/TensorRT-Developer-Guide.pdf
+- 权重参数直接量化，无需校准集，通常对称量化，也可非对称量化  
+- 激活值需要通过校准集进行动态调整校正，可对称也可非对称  
+- 混合精度量化，某些层高精度，某些层低精度
+
+一般校准操作默认在层融合之前，用于校正激活值，校准步骤如下：
+
+1. 准备校准数据集，数据规模一般为500~1000  
+2. P模型推理，记录前向传播各层激活值activations  
+3. 构建直方图**分别统计各层**激活值在不同数值区间的出现频率
+    - 统计最小值和最大值，确定数值范围  
+    - 将范围划分为若干个桶bin（如2048），统计各区间内激活值的出现频率  
+4. 使用校准算法分析直方图  
+    - 通过KL散度比较原始分布和量化后分布，寻找最小信息损失的截断阈值 (保留的最大FP32值，即`x=min(x, threshold), fp32_dist = hist[:threshold] / np.sum(hist[:threshold])`) 
+    - 根据阈值计算每个量化后bin的宽度 `scale = threshold / INT8_max`，即`quant_bins = np.liespace(0, threshold, INT8_max)`  
+    - 统计FP32激活值在上述量化桶的出现频数，并归一化频率`quant_dist /= np.sum(quant_dist)`  
+    - 为避免log 0，`fp32_dist = np.clip(fp32_dist, 1e-10, 1), quant_dist=np.clip(quant_dist, 1e-10, 1)`
+    - 计算KL distance
+    - 选定range_width（对左右边界进行截断选择），然后进行 `bin_width = range_width / INT8_max` 分桶  
+    - 计算归一化范围进行分桶 `(x - min(x)) / bin_width`
+    - KL矫正算法：计算并选择最小量化前后KL散度对应的截断范围，适用于长尾分布、双峰分布等  
+    - MinMax：直接取min/max值以**全量保存激活值动态范围**，因此对离群机值点十分敏感，适用于均匀分布情况  
+    - MinMax改进，使用分位数截断缓解离群点影响，如$[P_{0.1\%}, P_{99.9\%}]$
+    - 范围无需对称，因为可通过减去 `min_value` 进行平移处理
+
+```python
+import numpy as np
+from scipy.stats import entropy
+
+def compute_scale(activations, num_bins=2048):
+    hist, bin_edges = np.histogram(activations, bins=num_bins)
+    bin_width = bin_edges[1] - bin_edges[0]
+    
+    # 使用KL散度选择最优截断阈值
+    def kl_divergence(threshold):
+        # 将FP32分布截断到[0, threshold]并归一化，因为此处时ReLU激活函数示例
+        fp32_dist = hist[:threshold] / np.sum(hist[:threshold])
+        
+        # 生成量化后的分布（INT8模拟）
+        quant_bins = np.linspace(0, threshold, 256)
+        quant_dist = np.zeros(256)
+        for i in range(256):
+            start = quant_bins[i]
+            end = quant_bins[i+1] if i < 255 else threshold
+            quant_dist[i] = np.sum(hist[(bin_edges >= start) & (bin_edges < end)])
+        quant_dist /= np.sum(quant_dist)
+        
+        # 避免log(0)
+        fp32_dist = np.clip(fp32_dist, 1e-10, 1)
+        quant_dist = np.clip(quant_dist, 1e-10, 1)
+        
+        return entropy(fp32_dist, quant_dist)
+    
+    # 搜索最佳阈值
+    best_threshold = np.argmin([kl_divergence(t) for t in range(100, num_bins)])
+    scale = bin_edges[best_threshold] / 127.0  # INT8对称量化
+    
+    return scale
+```
+
+不同batch顺序会产生不同的校准尺度，因此建议使用large batch
+    - https://docs.nvidia.com/deeplearning/tensorrt/archives/tensorrt-843/pdf/TensorRT-Developer-Guide.pdf
+    - 常见校准算法如下
+
 
 1. **Entropy Calibration**，选择对应量化前后分布最小KL散度的阈值来确定最优的量化参数
-
-    - 准备校准数据集，数据规模一般为500~1000  
-    - P模型推理，记录各层激活值，量化激活值activations  
-    - 基于激活值构建直方图
 
     $$
     D_{KL}(P\Vert Q) = \sum_{i} P(i)\log \frac{P(i)}{Q(i)}

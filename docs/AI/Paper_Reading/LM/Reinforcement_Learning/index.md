@@ -24,6 +24,9 @@
 - **Trajectory**：轨迹，即状态动作序列 $\tau = \{s_0,a_0,s_1,a_1, \dots\}$
 - **Return**: 回报，即从当前状态 $s_t$ 到轨迹结束的 Reward 总和 $R_t$
 
+
+- episodes: 等价于sample
+
 ### 优势函数
 <div class="row-image-container">
     <div>
@@ -53,11 +56,11 @@
 ### 优化策略
 核心区别在于数据可不可以重复利用，https://zhuanlan.zhihu.com/p/26603719923
 
-1. On-Policy 同策略，即行为策略等于目标策略  
+1. On-Policy 同策略，必须使用当前策略生成的数据进行训练  
     - $E_{\tau \sim p_{\theta}(\tau) }[R(\tau)\nabla \log p_{\theta}(\tau)]$  
     - 边学习数据边更新状态，此时需要使用新状态下的数据，数据利用率低，
 
-2. Off-Policy 异策略，即行为策略不等于目标策略  
+2. Off-Policy 异策略，可以使用历史策略生成的数据  
     - $E_{\tau \sim p_{\theta}^{'}(\tau) }[\frac{p_\theta(\tau)}{p_{\theta}^{'}(\tau)}R(\tau)\nabla \log p_{\theta}(\tau)]$  
     - 观察他人学习，数据利用率高
 
@@ -74,11 +77,11 @@
 3. [Policy Gradient（PG）](pg.md)
 
 ### 评估优势函数
-1. A2C（Advantage Actor-Critic）
 1. A3C（Asynchronous Advantage Actor-Critic）：Asynchronous Methods for Deep Reinforcement Learning
-2. TRPO（Trust Region Policy Optimization）
-3. PPO（Proximal Policy Optimization）
-4. ppo  
+2. A2C（Advantage Actor-Critic）
+3. TRPO（Trust Region Policy Optimization）：using only first-order optimization
+4. [PPO](ppo.md)（Proximal Policy Optimization）
+5. ppo  
     - Generalized Advantage Estimation, GAE，多步采样方式结合，步数越多权重越小
 
     <div class="one-image-container">
@@ -87,12 +90,12 @@
         <!-- <figcaption>这是图片的标题或描述。</figcaption> -->
     </div>
 
-5. SAC（Soft Actor-Critic）：Soft Actor-Critic: Off-Policy Maximum Entropy Deep Reinforcement Learning with a Stochastic Actor
-6. dpo
-7. grpo
+6. SAC（Soft Actor-Critic）：Soft Actor-Critic: Off-Policy Maximum Entropy Deep Reinforcement Learning with a Stochastic Actor
+7. dpo
+8. grpo
     - [Approximating kl divergence](http://joschu.net/blog/kl-approx.html), seq-all-token prob
     - tokne-level 输出
-8. DAPO
+9. DAPO
 
 #### llm sft
 - [ ] [大模型监督微调SFT](https://www.bilibili.com/video/BV1gmWDeLEMZ?spm_id_from=333.788.videopod.sections&vd_source=782e4c31fc5e63b7cb705fa371eeeb78)

@@ -31,9 +31,13 @@ class DataResource:
     def generator(self):
         f = open(self.input_file, "r", encoding="utf-8")
         for line in f:
-            line = json.loads(line)
-            line = pre_process(self.trie, self.t2s, self.case_sensitive, line)
+            try:
+                line = json.loads(line)
+            except:
+                print(json.dumps(line, ensure_ascii=False))
+                raise ValueError
 
+            line = pre_process(self.trie, self.t2s, self.case_sensitive, line)
             inputs = self.tokenizer(line["content"])
 
             # 生成的tuple每一项都应该是一个list

@@ -1,13 +1,21 @@
 - [ ] RAG的多实体问题如何解决：爱因斯坦和牛顿在物理学上的贡献有何不同？
-- [x] ragflow、haystack、dify、langchain，阿里百炼
+- [x] triton框架
+- [x] ollama, tensorRT
+- [ ] langchain (Language Chain)
+- [ ] dify(do it for you)
+- [x] ragflow
+- [ ] haystack
+- [ ] 阿里百炼
+- [x] docker
+- [ ] kubernetes (k8s)
 - [ ] 联邦学习
 - [ ] dashscope for alibaba; openai for openai; requests for glm4
 - [ ] xfyun for xunfei
-- [ ] gte (General Text Embeddings)，阿里巴巴达摩院推出
-- [ ] bge(BAAI General Embedding)，智源研究院推出 1, 1.5, 2, pro
-- [ ] jina embedding，jina ai推出
-- [ ] e5 embedding，intfloat团队研发
-- [ ] xlm-roberta，fair研发
+- [x] gte (General Text Embeddings)，阿里巴巴达摩院推出
+- [x] bge(BAAI General Embedding)，智源研究院推出 1, 1.5, 2, pro
+- [x] jina embedding，jina ai推出
+- [x] e5 embedding，intfloat团队研发
+- [x] xlm-roberta，fair研发
 - [ ] https://github.com/castorini/pyserini
 - [x] transformers.optmization, transformers.Trainer
 - [ ] tf.metrics, torchmetrics
@@ -24,22 +32,19 @@
 - [ ] 免费 gpt-4: https://gpt.xfai.online/list/#/home
 - [ ] instruct gpt: Training language models to follow instructions with human feedback
 - [x] Kvquant: Towards 10 million context length LLM inference with KV cache quantization
-- [ ] zeroquant, 
-- [ ] smooth quant
+- [x] zeroquant, 
+- [x] smooth quant
 - [ ] Atom: Low-bit quantization for efficient and accurate LLM serving
 - [ ] MoE: https://zhuanlan.zhihu.com/p/669312652
 - [ ] q-learning DQN, DDPG不用重要性采样
-- [ ] DPO, PPO, GRPO, DAPO
+- [x] DPO, PPO, GRPO, DAPO
 - [ ] [huggingface leaderboard](https://huggingface.co/spaces?q=leaderboard)
 - [ ] [code with paper leaderboard](https://paperswithcode.com/sota)
 - [ ] [大模型面试](https://zhuanlan.zhihu.com/p/691588703)
-- [ ] NSA: natively trainable sparse Attention
+- [x] NSA: natively trainable sparse Attention
 - [ ] Wizardmath: Empowering mathematical reasoning for large language models via reinforced evol-instruct
 - [ ] Math-shepherd: Verify and reinforce llms step-by-step without human annotations
-- [x] langchain
 - [x] vllm: Efficient Memory Management for Large Language Model Serving with PagedAttention
-- [x] triton框架
-- [x] ollama, tensorRT
 - [x] DeepSpeed（Zero Redundancy Optimizer）、Megatron-LM、HAI-LLM framework（higher flyer）
 - [x] zero-dp：zero 1,2,3 用通信换内存，zero-3引入了额外的通信开销用于forward和backward（用了就扔）
 - [x] zero-r, zero-offload, zero-infinity
