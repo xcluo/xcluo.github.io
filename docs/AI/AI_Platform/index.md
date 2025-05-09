@@ -20,10 +20,10 @@
 - [TensorRT](Nvidia/tensorrt.md)
 - triton
 #### +开发
-- Ollama
-- LangChain
-- Dify
-- RAGFlow
+- [Ollama](Ollama/ollama.md)
+- [LangChain](LangChain/langchain.md)
+- [Dify](Dify/dify.md)
+- [RAGFlow](RAGFlow/ragflow.md)
 - Haystack
 - 阿里百炼
 

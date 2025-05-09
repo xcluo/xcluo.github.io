@@ -10,4 +10,8 @@ a tolerable level of bias
 - 有折扣优势函数$A^{\pi, \gamma}$，无折扣优势函数$A^{\pi}$
 - trust region optimization for the value function  
 - bias-variance tradeoff  
-- 
+
+
+```
+We’ve described an advantage estimator with two separate parameters and , both of which contribute to the bias-variance tradeoff when using an approximate value function. However, they serve different purposes and work best with different ranges of values. most importantly determines the scale of the value function V ; , which does not depend on . Taking  < 1 introduces bias into the policy gradient estimate, regardless of the value function’s accuracy. On the other hand,  < 1 introduces bias only when the value function is inaccurate. Empirically, we find that the best value of  is much lower than the best value of , likely because  introduces far less bias than  for a reasonably accurate value function.
+```

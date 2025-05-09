@@ -49,8 +49,6 @@
 
 
 ### 效率优化
-#### 显存优化
-- gradient checkpointing
 
 #### Attention变种
 - [MQA](Efficiency_Speedup/Attention_Variants/mqa.html#mqa)、[GQA](Efficiency_Speedup/Attention_Variants/mqa.html#gqa)、[MLA]
@@ -60,11 +58,9 @@
 - ollama
 - KV cache https://blog.csdn.net/ningyanggege/article/details/134564203
 #### 分布式训练模型
-- [generate config]
-- [DeepSpeed]: ZeRO: Zero Redundancy Optimizer
-- [Megatron-LM]
+
 - HAI-LLM framework（higher flyer）
-#### [并行训练方案](Efficiency_Speedup/Parallelism/parallelism.md)
+#### [并行训练](Efficiency_Speedup/Parallelism/parallelism.md)
 - TP(Tensor Parallelism)
 - PP(Pipeline Parallelism)
 - CP(Context Parallelism)
@@ -73,6 +69,13 @@
   - FSDP, Fully Sharded Data Parallel，全切片数据并行
 - MP(Model Parallelism)
 - SP(Sequence Parallel)
+1. 超大模型训练
+    - [generate config]
+    - [DeepSpeed](../../AI_Platform/Microsoft/deepspeed.md): ZeRO: Zero Redundancy Optimizer
+    - [Megatron-LM](../../AI_Platform/Nvidia/megatron-lm.md)
+#### 显存优化
+- [gradient checkpointing](Efficiency_Speedup/Quantization/gradient_checkpointing.md)
+
 #### [量化](Efficiency_Speedup/Quantization/quantization.md)
 #### 模型推理优化
 - onnx

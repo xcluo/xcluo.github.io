@@ -62,6 +62,7 @@
 - [`pickle`](libs/file_format.md#pkl)：Python专用自定义存储数据格式
 - [`csv`](libs/xlsx.md#csv)：CSV文件读写
 - [`xlsx`](libs/xlsx.md#xlsx)：excel文件读写
+- [`pdf`](libs/pdf.md)
 
 ### 进阶：数据处理
 

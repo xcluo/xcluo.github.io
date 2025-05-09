@@ -1,8 +1,8 @@
-transformers版本越新越好，且要求python>=3.11
+transformers版本越新越好，最好python>=3.9
 
-- [ ] transformers'
 - [ ] from transformers import Trainer, TrainingArguments
 - [ ] transformers.optimization
+- [ ] pipeline
 
 ```python
 from transformers import Trainer, TrainingArguments, AutoTokenizer, AutoModelForSequenceClassification

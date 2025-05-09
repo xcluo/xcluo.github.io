@@ -1,7 +1,7 @@
 - [ ] RAG的多实体问题如何解决：爱因斯坦和牛顿在物理学上的贡献有何不同？
 - [x] triton框架
 - [x] ollama, tensorRT
-- [ ] langchain (Language Chain)
+- [x] langchain (Language Chain)
 - [ ] dify(do it for you)
 - [x] ragflow
 - [ ] haystack
@@ -12,7 +12,6 @@
 - [ ] dashscope for alibaba; openai for openai; requests for glm4
 - [ ] xfyun for xunfei
 - [x] gte (General Text Embeddings)，阿里巴巴达摩院推出
-- [x] bge(BAAI General Embedding)，智源研究院推出 1, 1.5, 2, pro
 - [x] jina embedding，jina ai推出
 - [x] e5 embedding，intfloat团队研发
 - [x] xlm-roberta，fair研发
@@ -55,8 +54,8 @@
 - [ ] 持续学习，避免灾难性遗忘
     - 正则化、数据放回、增量学习、adapter网络，使用pre model软标签数据参与训练等
 - [ ] MCP：model context protocol
-- [ ] [gradient checkpointing](https://www.bilibili.com/video/BV1nJ4m1M7Qw/?spm_id_from=333.1387.search.video_card.click&vd_source=782e4c31fc5e63b7cb705fa371eeeb78): Training Deep Nets with Sublinear Memory Cost
-- Gradient Checkpointing，[gif](https://pic3.zhimg.com/v2-1679b74a85687cdb250e532931bb266a_b.webp)
+- [x] [gradient checkpointing](https://www.bilibili.com/video/BV1nJ4m1M7Qw/?spm_id_from=333.1387.search.video_card.click&vd_source=782e4c31fc5e63b7cb705fa371eeeb78): Training Deep Nets with Sublinear Memory Cost
+- [x] Gradient Checkpointing，[gif](https://pic3.zhimg.com/v2-1679b74a85687cdb250e532931bb266a_b.webp)
 - [ ] label smoothing
 - [ ] 在embedding 层后添加layer normalization，有利于提升训练稳定性:但可能会带来很大的性能损失.
 - [ ] Prefix Tuning: 基于prefix内容进行回答
@@ -64,7 +63,7 @@
 - [ ] p-tuning v1/v2
 - [ ] prompt engineering
 - [ ] lora with diffusion model 
-- [x] KV cache：将L层K与V进行缓存以执行Attention
+- [x] KV cache：将L层K与V进行缓存以执行Attention，各层矩阵为 `k.shape = (bs, n_heads, seq_len, head_dim)`
 - [x] LDA潜在迪利克雷分布，b站视频 LDA主题模型
 - [ ] LSA/PLSA
 - [ ] Cholesky分解
