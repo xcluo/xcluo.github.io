@@ -7,7 +7,7 @@
 - [ ] haystack
 - [ ] 阿里百炼
 - [x] docker
-- [ ] kubernetes (k8s)
+- [x] kubernetes (k8s)
 - [ ] 联邦学习
 - [ ] dashscope for alibaba; openai for openai; requests for glm4
 - [ ] xfyun for xunfei
@@ -29,7 +29,7 @@
 - [x] DeepSeek v2
 - [ ] DeepSeek v3 https://zhuanlan.zhihu.com/p/16323685381
 - [ ] 免费 gpt-4: https://gpt.xfai.online/list/#/home
-- [ ] instruct gpt: Training language models to follow instructions with human feedback
+- [x] instruct gpt: Training language models to follow instructions with human feedback
 - [x] Kvquant: Towards 10 million context length LLM inference with KV cache quantization
 - [x] zeroquant, 
 - [x] smooth quant
@@ -47,8 +47,7 @@
 - [x] DeepSpeed（Zero Redundancy Optimizer）、Megatron-LM、HAI-LLM framework（higher flyer）
 - [x] zero-dp：zero 1,2,3 用通信换内存，zero-3引入了额外的通信开销用于forward和backward（用了就扔）
 - [x] zero-r, zero-offload, zero-infinity
-- [ ] ring all-reduce：梯度同步；ring all-gather：参数更新和加载
-- [ ] 模型DP时，多个数据loss结果会进行交互all reduce
+- [x] ring all-reduce：梯度同步reduce_sum或reduce_mean；ring all-gather：参数堆叠在一起，模型DP时，多个数据loss结果会进行交互all reduce
 - [ ] accelerate config
 - [ ] 模型幻觉hallucination
 - [ ] 持续学习，避免灾难性遗忘

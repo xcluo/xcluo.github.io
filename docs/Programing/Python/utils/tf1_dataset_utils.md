@@ -68,9 +68,16 @@ class DataResource:
             )
         )
 
-        # 进行 #epochs repeat
+        # dataset repeats by epochs times
         dataset = dataset.repeat(epochs)
-        # 设置扰动池和预取池大小
+
+        # 设置预取池和扰动池大小用于样本随机抽取 #
+        # 1. 预取 prefetch_size 个样本进入预取池
+        # 2. 当预取池满时，从其中 shuffle_size 个样本中随机抽取一个样本
+        #    `idx = random.randint(shuffle_size)` 
+        #    `choose prefetch_reservoir[idx]`
+        #    `prefetch_reservoir[idx] = current_line`
+        # > prefetch_size 和 shuffle_size 越大随机效果越趋近于全局扰动
         if shuffle:
             dataset = dataset.shuffle(buffer_size=100 * batch_size)
         dataset = dataset.prefetch(buffer_size=100 * batch_size)
@@ -78,13 +85,12 @@ class DataResource:
         dataset = dataset.padded_batch(
             batch_size,
             padded_shapes=(
-                [None], [None], [None], [None], [None] #, [None]
-            ),                                  # None 表示 `pad_to_longest`
-                                                # [] 表示不填充
-            padding_values=None,                # 对不到longest的进行pad操作
-                                                # None 表示 {int→PAD_0, str→PAD_""}
-                                                # 因此[PAD]不等于0情况下需自定义对应的pad_value
-                                                # 自定义padding_values时对齐output_types
+                [None], [None], [None], [None], [None]
+            ),                      # None 表示 `pad_to_longest`, [] 表示不填充
+            padding_values=None,    # pad_to_longest
+                                    # None 表示缺省PAD {int→0, str→""}
+                                    # [PAD] idx≠0 时可自定义对应的pad_value
+                                    # 自定义pad_values时需对齐output_types
             drop_remainder=drop_remainder,
         )
 

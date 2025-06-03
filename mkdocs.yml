@@ -21,9 +21,7 @@ nav:
         - 架构分析: AI/Paper_Reading/LM/Model_Analysis/index.md  
       - 基本组件: 
         - Tokenizer: AI/Paper_Reading/Component/Tokenizer/index.md
-        - Embedding:
-          - Token Embedding: AI/Paper_Reading/Component/Embedding/Token_Embedding/index.md
-          - Position Embedding: AI/Paper_Reading/Component/Embedding/Position_Embedding/index.md
+        - Embedding: AI/Paper_Reading/Component/Embedding/embedding.md
         - Normlization: AI/Paper_Reading/Component/Normalization/normalization.md
         - Optimizer: AI/Paper_Reading/Component/Optimizer/optimizer.md
         - HyperParameter: AI/Paper_Reading/Component/HyperParameter/index.md

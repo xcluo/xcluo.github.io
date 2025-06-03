@@ -2,6 +2,7 @@
 import random
 import json
 import tqdm
+from wheel_utils.char_alpha_numeric import *
 
 
 def uni_label(label):
@@ -18,7 +19,7 @@ def uni_labels(example):
     return example
 
 
-def pre_process_content(trie, t2s, case_sensitive, example):
+def pre_process_content(example, trie, t2s, case_sensitive):
     cnt = example.get("content", example.get("Content", example.get("c")))
 
     if trie:
@@ -28,13 +29,14 @@ def pre_process_content(trie, t2s, case_sensitive, example):
     if not case_sensitive:
         cnt = cnt.lower()
 
+    cnt = PunctuationUtils.strip_white_space(cnt, replace_token=" ")
     example["content"] = cnt
     return example
 
 
-def pre_process(trie, t2s, case_sensitive, example):
+def pre_process(example, trie, t2s, case_sensitive):
     example = uni_labels(example)
-    example = pre_process_content(trie, t2s, case_sensitive, example)
+    example = pre_process_content(example, trie, t2s, case_sensitive)
     return example
 
 

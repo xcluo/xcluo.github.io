@@ -4,14 +4,14 @@
 - [Tensorflow](Tensorflow/index.md)
 #### Pytorch
 - [PyTorch](PyTorch/index.md)
-- [Transformers](Transformers/index.md)
+- [Transformers](Transformers/transformers.md)
 #### PaddlePaddle
 - [PaddlePaddle](PaddlePaddle/index.md)
 - [Nvidia](Nvidia/index.md)
 
 ### 分布式训练框架
 - [DeepSpeed](DeepSpeed/deepspeed.md)
-- Megatron-LM
+- [Megatron-LM](Nvidia/megatron-lm.md)
 - HAI-LLM
 
 ### 运行部署框架

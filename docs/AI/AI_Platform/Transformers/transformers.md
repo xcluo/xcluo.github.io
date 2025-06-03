@@ -1,6 +1,5 @@
 transformers版本越新越好，最好python>=3.9
 
-- [ ] from transformers import Trainer, TrainingArguments
 - [ ] transformers.optimization
 - [ ] pipeline
 
@@ -10,12 +9,10 @@ from datasets import load_dataset
 from sklearn.metrics import accuracy_score, f1_score, recall_score, precision_score
 import numpy as np
 from opencc import OpenCC
-from wheel_utils.char_alpha_numeric import *
+from functools import partial
 from sklearn.cluster import KMeans
-
-
-trie = StringUtils.SpanReplacement("../data/replace_map.txt")
-t2s = OpenCC("t2s")
+from wheel_utils.char_alpha_numeric import *
+from wheel_utils.general_dataset_utils import *
 
 
 def compute_metrics(eval_pred):
@@ -29,7 +26,7 @@ def compute_metrics(eval_pred):
     }
 
 
-def tokenize_function(examples):
+def tokenize_function(examples, max_seq_length):
     return tokenizer(
         examples["content"],
         padding="longest",
@@ -39,35 +36,8 @@ def tokenize_function(examples):
     )
 
 
-def uni_label(label):
-    if label in {'0', 0, 'normal', 'other'}:
-        return 0
-    elif label in {'1', 1, 'porno', '2'}:
-        return 1
-    else:
-        raise ValueError(f"{label} is not a valid label")
-
-
-def uni_labels(example):
-    example["label"] = uni_label(example.get("label", "0"))
-    return example
-
-
-def pre_process_content(example):
-    cnt = example.get("content", example.get("Content", example.get("c")))
-    cnt_no_emoji = trie.replace_span(cnt)
-    example['content'] = cnt_no_emoji.lower()
-    return example
-
-
-def pre_process(example):
-    example = uni_labels(example)
-    example = pre_process_content(example)
-    return example
-
-
-def split_dataset(data_files, train_percent=.99):
-    dataset_dict = load_dataset("json", data_files)
+def split_dataset(data_files, process_func, tokenize_func, train_percent=.99):
+    dataset_dict = load_dataset("json", data_files=data_files)
     if len(dataset_dict) == 1:
         dataset = dataset_dict["train"].shuffle()
         train_dataset = dataset.select(range(int(train_percent * len(dataset))))
@@ -75,10 +45,10 @@ def split_dataset(data_files, train_percent=.99):
     else:
         train_dataset = dataset_dict["train"]
         valid_dataset = dataset_dict["valid"]
-    train_dataset = train_dataset.map(pre_process, desc="preprocessing train dataset")
-    valid_dataset = valid_dataset.map(pre_process, desc="preprocessing valid dataset")
-    tokenized_train_dataset = train_dataset.map(tokenize_function, batched=True, desc="tokenizing train dataset")
-    tokenized_valid_dataset = valid_dataset.map(tokenize_function, batched=True, desc="tokenizing valid dataset")
+    train_dataset = train_dataset.map(process_func, desc="preprocessing train dataset")
+    valid_dataset = valid_dataset.map(process_func, desc="preprocessing valid dataset")
+    tokenized_train_dataset = train_dataset.map(tokenize_func, batched=True, desc="tokenizing train dataset")
+    tokenized_valid_dataset = valid_dataset.map(tokenize_func, batched=True, desc="tokenizing valid dataset")
 
     return tokenized_train_dataset, tokenized_valid_dataset
 
@@ -90,16 +60,23 @@ if __name__ =="__main__":
     gradient_accumulation_steps = 1
     train_batch_size = 64
     eval_batch_size = 64
-    max_seq_length = 256
+    max_seq_length = 512
     epochs = 1
     lr=2e-5
+
+    trie = StringUtils.SpanReplacement("../data/replace_map.txt")
+    t2s = OpenCC("t2s")
+    case_sensitive=False
 
     # init model
     tokenizer = AutoTokenizer.from_pretrained(model_path)
     model = AutoModelForSequenceClassification.from_pretrained(model_path)
 
     # prepare dataset
-    tokenized_train_dataset, tokenized_valid_dataset = split_dataset(data_path)
+    process_func = partial(pre_process, trie=trie, t2s=t2s, case_sensitive=case_sensitive)
+    tokenize_func = partial(tokenize_function, max_seq_lenght=max_seq_length)
+    tokenized_train_dataset, tokenized_valid_dataset = split_dataset(data_path, process_func, tokenize_func)
+
 
     # trainer arguments
     training_args = TrainingArguments(
