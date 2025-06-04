@@ -10,7 +10,6 @@ from sklearn.metrics import accuracy_score, f1_score, recall_score, precision_sc
 import numpy as np
 from opencc import OpenCC
 from functools import partial
-from sklearn.cluster import KMeans
 from wheel_utils.char_alpha_numeric import *
 from wheel_utils.general_dataset_utils import *
 

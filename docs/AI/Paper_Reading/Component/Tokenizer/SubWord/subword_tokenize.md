@@ -1,16 +1,57 @@
 
-### ULM
-
+### [ULM](https://arxiv.org/abs/1804.10959)
+ULM 为概率模型驱动，将子词切分视为一个概率生成问题，通过统计语料库中子词的出现频率，建立 Unigram 语言模型，计算所有可能的子词切分概率，找到最可能的子词序列。
 #### 基本原理
+1. 初始化词表：从训练语料中统计所有字符和常见子串，作为初始候选词表。  
+2. 训练Unigram模型：通过EM算法迭代优化子词概率 $p(w_i)$，**使语料的似然最大**
+
+    - E-Step：对每个句子$x$，使用动态规划或Viterbi算法枚举所有可能的子词切分 $S(x)$，并计算各种切分$w$的概率
+
+        $$
+        \begin{aligned}
+            P(w\vert x) =& \frac{\prod_{i=1}^{\vert w \vert} p(w_i)}{\sum_{w^{'}\in S(x)}\prod_{i=1}^{\vert w^{'} \vert} p(w^{'}_i)} \\
+            c(w_i) =& \sum_{x\in X} \sum_{w \in S(x)} P(w\vert x)\cdot \text{count}(w_i, x)
+        \end{aligned}
+        $$
+
+        > $p(w_i)$ 为当前子词 $w_i$ 的概率（初始化为均匀分布或频率统计）  
+        > $\text{count}(w_i, x)$ 为子词 $w_i$ 在句子 $x$ 切分中的出现次数
+
+    - M-Step，更新子词概率$p(w_i)$，最大化语料似然
+
+        $$
+        p(w_i) = \frac{c(w_i)}{\sum_{w^{'}_i \in V} c(w^{'}_i)}
+        $$
+
+3. 交替执行步骤E-Step和M-Step，直到子词概率收敛或达到指定迭代次数
+4. 剪枝词表：保留概率最高的Top-K 子词（如8K~32K）
+
+!!! info 
+    分词时对应分数最高的 $p(w\vert x)$ 即为分词结果
+
+#### Subword Regularization
+Subword Regularization 是 ULM 的扩展技术，基于训练好的ULM分词器，**通过引入随机子词切分**，使模型学会对不同切分生成一致的表征，提升分词模型的鲁棒性和泛化能力。核心思想如下：
+
+1. 采样候选的多分词，从句子$N$个可能的子词切分按^${1/\alpha}$归一化后的概率采样，而非固定选择分数最高切分。
+
+    $$
+    P_\text{sample}(w\vert x) \propto P(w\vert x) ^{1/\alpha}
+    $$
+
+2. 动态噪声注入，在每个 epoch（或 batch）为同一句子选择不同的切分输入语言模型，使模型学会对不同切分生成一致的表征。
+
+!!! info 
+    本质上在tokenizer过程中进行了数据增强，即将同一文本划分为不同的subword序列
+
 
 ### WordPiece
-WordPiece需要前缀`##`作为中间subword标记，因此需要预先分词。可以回退到
+WordPiece需要前缀`##`作为中间subword标志，因此需要预先分词。
 #### 基本原理
 算法流程如下：
 
-1. 初始化：类似于BPE，对训练语料进行与分词（如按空格分割）并拆分  
-2. 统计所有可能的subword-pair 的共现频次，选择似然分数最大的subword-pair合并为新的subword，基于新subword更新subword-pair 的统计结果  
-    
+1. 初始化：对训练语料进行分割为单词（如按空格、标点符号等分割）再进一步拆分单词为subword序列  
+2. 统计所有可能的subword-pair 的共现频次，选择似然分数$score$最大的subword-pair合并为新的subword
+
     $$
     score = \frac{\text{freq}(\text{subword-pair})}{\big(\text{freq}(\text{pair-left}) + \text{freq}(\text{pair-right})\big)}
     $$
@@ -18,7 +59,7 @@ WordPiece需要前缀`##`作为中间subword标记，因此需要预先分词。
 3. 重复第2步直到subwords数达到最大$\vert V \vert$或当前step最高频的subword-pair频率为1，退出循环
 
 
-#### 可回退至字符级
+#### 回退优化
 === "标准版"
 
     ```python
@@ -98,7 +139,7 @@ WordPiece需要前缀`##`作为中间subword标记，因此需要预先分词。
     ```
 
 ### BPE
-无需前缀`##`作为单词中间subword标记
+无需前缀`##`作为中间subword标记
 
 #### 基本原理
 算法流程如下：

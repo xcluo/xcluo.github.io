@@ -1,5 +1,3 @@
-
-
 #### spatial_dropout
 随机对没个 channel 的所有值进行 `dropout`
 === "TF 1.x"

@@ -1,9 +1,10 @@
-量化是将包含更多信息的表示离散化为包含较少信息表示的过程，通过减少模型参数和激活值的表示精度以达到降低模型存储空间和计算量的目的。
+量化是将包含更多信息的表示离散化为包含较少信息表示的过程，通过减少模型参数与激活值的表示精度以达到降低模型存储空间和计算量的目的。
 
 1. 模型存储空间会减少，算力要求降低，，但推理速度不一定更快；
 2. 模型效果效果会略微下降；
-### 量化流程
-#### Float Point Format
+
+### 量化概念
+#### 浮点数格式
 
 <div class="one-image-container">
     <img src="image/fp32_float_point_format.jpg" style="width: 95%;">
@@ -22,7 +23,7 @@
     > $bias = 2^{E-1} - 1$，因此指数部分值域为$[-2^{E-1}+1, 2^{E-1}]$  
     > $m = \sum_{n=1}^{M1} \text{bit}_n*2^{-n}$
     
-#### Float Type
+#### 浮点数分类
 
 | Type      | S                          | E | M/F
 | ----------- | ------------------------------------ | --- | ---|
@@ -35,51 +36,16 @@
 | FP8 E5M2 | 1 | 5 | 2 |
 | FP4 | 1 | 2 | 1 | 
 
-> - Nvidia专为Ampere架构设计的数据格式TF32，即TensorFloat 32，实际上只使用了19位
-> - Google Brain提出的BF16，即BrainFloat 16
-> - 华盛顿大学在QLoRA中提出的[NF4](../../LLM_Extend/LLM_SFT/qlora.md)，即NormalFloat 4，本质上为4-bit字节码，用于下标0-15对应的固定浮点数
-
-
+!!! info ""
+    - Nvidia专为Ampere架构设计的数据格式TF32(TensorFloat 32)，实际上只使用了19位
+    - Google Brain提出BF16(BrainFloat 16)
+    - 华盛顿大学在QLoRA中提出的[NF4](../../LLM_Extend/LLM_SFT/qlora.md)(NormalFloat 4)，本质上为4-bit字节码，对应0-15下标的固定浮点数
 
 #### Quantize & Dequantize
-量化，将高精度数值类型转化为低精度数值类型，如`FP32 → FP16`；解量化，将量化后的低精度数值类型转化为高精度数值类型，如`FP16 → FP32`
+1. 量化Quantize，将高精度数值表示转化为低精度数值表示，如`FP32 → FP16`；
+2. 解量化Dequantize，将量化后的低精度数值表示转化为高精度数值表示，如`FP16 → FP32`
 
-1. Float2Float quantization，转型量化
-高精度转化为低精度时需要在指数位调整偏移量、尾数位低位截断；低精度转化为高精度时则需要在指数位调整偏移量、尾数位低位进行补0操作，常用 `cast` 方法实现转换
-
-2. block-wise k-bit (symmetric) quantization，对称线性量化  
-将数据划分为多个块block（元素个数为$B$），然后在每个块内应用k-bit量化方案
-
-    $$
-    \begin{aligned}
-    c(x_{up}, k)  =& \frac{2^{k-1} - 1}{\text{absmax}(x_{up})} \\
-    q(x_{up}, k, c) =& round(x_{up}*c) \\
-    deq(x_{low}, k, c) =& \frac{x_{low}}{c}
-    \end{aligned}
-    $$
-
-    > 分块原因：减缓由部分极值导致量化缩放因子 $c$ 过小，导致量化结果过于集中，粒度模糊，损害整体量化效果的现象
-
-1. asymmetric quantization，非对称线性量化  
-
-    $$
-
-    $$
-
-2. [NF4 quantization](../../LLM_Extend/LLM_SFT/qlora.md)，分位量化  
-先验地认为模型数据符合正态分布，并基于正态分布累计分布函数CDF求得16个固定浮点数作为最终量化值；此外，还设计了多重量化方案，即进一步对多个量化缩放因子进行浮点数量化
-
-    $$
-    \begin{aligned}
-        c(x_{up}) =& \frac{1}{\text{absmax}(x_{up})} \\
-        q(x_{up}, c) =& \text{find_nearest}(x_{up}*c) \\
-        deq(x_{low}, c) = & \frac{x_{low}}{c}
-    \end{aligned}
-    $$
-
-
-
-### 量化方案
+### 量化类型
 #### AMP
 混合精度训练[Mixed Precision Training](https://arxiv.org/pdf/1710.03740)
 
@@ -195,3 +161,43 @@ Quantization Aware Training
 2. 线性量化
 3. 对数量化
 - SmoothQuant: Accurate and Efficient Post-Training Quantization for Large Language Models
+
+
+### 量化方案
+#### Float2Float quantization
+浮点型转型量化
+高精度转化为低精度时需要在指数位调整偏移量、尾数位低位截断；低精度转化为高精度时则需要在指数位调整偏移量、尾数位低位进行补0操作，常用 `cast` 方法实现转换
+
+2. block-wise k-bit (symmetric) quantization，对称线性量化  
+将数据划分为多个块block（元素个数为$B$），然后在每个块内应用k-bit量化方案
+
+    $$
+    \begin{aligned}
+    c(x_{up}, k)  =& \frac{2^{k-1} - 1}{\text{absmax}(x_{up})} \\
+    q(x_{up}, k, c) =& round(x_{up}*c) \\
+    deq(x_{low}, k, c) =& \frac{x_{low}}{c}
+    \end{aligned}
+    $$
+
+    > 分块原因：减缓由部分极值导致量化缩放因子 $c$ 过小，导致量化结果过于集中，粒度模糊，损害整体量化效果的现象
+
+1. asymmetric quantization，非对称线性量化  
+
+    $$
+
+    $$
+
+#### [NF4 quantization](../../LLM_Extend/LLM_SFT/qlora.md)
+浮点型分位量化  
+先验地认为模型数据符合正态分布，并基于正态分布累计分布函数CDF求得16个固定浮点数作为最终量化值；此外，还设计了多重量化方案，即进一步对多个量化缩放因子进行浮点数量化
+
+$$
+\begin{aligned}
+    c(x_{up}) =& \frac{1}{\text{absmax}(x_{up})} \\
+    q(x_{up}, c) =& \text{find_nearest}(x_{up}*c) \\
+    deq(x_{low}, c) = & \frac{x_{low}}{c}
+\end{aligned}
+$$
+
+
+

@@ -17,22 +17,24 @@
 4. Voting
 5. [MoE](Ensemble/MoE/moe.md)
 #### 数据增强
-1. [dropout](Denoising/Dropout/dropout.md)
-2. 加噪自编码器
+1. [dropout](Denoising/dropout.md)
+2. [label smoothing](Denoising/label_smoothing.md)
+3. 加噪自编码器
     - [DAE](Denoising/DAE/dae.md)、[VAE](Denoising/VAE/vae.md)
     - [对抗训练](Denoising/AdversarialTraining/vat.md)
-3. 数据增强  
+4. 数据增强  
     - flipping  
     - rotating  
     - transforming the color  
     - text_image + mask
+5. [Subword Regularization](../Component/Tokenizer/SubWord/subword_tokenize.md#subword-regularization)
 #### 对比学习
 
 ### 大模型使用
 #### [Pre-training]()
 - scaling law失效 https://arxiv.org/pdf/2001.08361
 - multitask learning
-- batch train时，next token 为pad时，可以ignore此预测token的loss完全忽略PAD的影响
+- batch train时，next token 为pad时，可以ignore此PAD token的loss以完全忽略PAD的影响
 #### [SFT](LLM_Extend/LLM_SFT/LLM_SFT.md)
 - prefix tuning
 - Instrument Finetune
@@ -41,47 +43,50 @@
 - hallucination幻觉
 
 #### RLHF
-#### [Distillation](LLM_Extend/distillation/distillation.md)
+
+#### PEFT
 - ULMFit, Universal language model fine-tuning for text classification
-- label smooth，标签平滑，可以进行cross-entropy，也可以使用$D_{KL}$
-- switch transformer mixture hard and soft label: 0.25 of teacher and 0.75 of ground truth label
+- AdaLoRA奇异值重要性衡量(equation 11)
 
-
+#### 蒸馏
+- [软标签 & 硬标签](LLM_Extend/distillation/distillation.md#soft-label-hard-label)
+- [温度系数](LLM_Extend/distillation/distillation.md#temperature)
 
 ### 效率优化
 
 #### Attention变种
-- [MQA](Efficiency_Speedup/Attention_Variants/mqa.html#mqa)、[GQA](Efficiency_Speedup/Attention_Variants/mqa.html#gqa)、[MLA]
+- [MQA](Efficiency_Speedup/Attention_Variants/mqa.html#mqa)、[GQA](Efficiency_Speedup/Attention_Variants/mqa.html#gqa)、[MLA](../LM/LMs/Infrastructure/DeepSeek/deepseek.md#mla)
 #### Attention效率优化    
 - [flash attention](Efficiency_Speedup/Attention_Speedup/flash_attention.md)
 - [vLLM](Efficiency_Speedup/Attention_Speedup/vllm.md)
 - ollama
 - KV cache https://blog.csdn.net/ningyanggege/article/details/134564203
-#### 分布式训练模型
-
-- HAI-LLM framework（higher flyer）
-#### [并行训练](Efficiency_Speedup/Parallelism/parallelism.md)
-- TP(Tensor Parallelism)
-- PP(Pipeline Parallelism)
-- CP(Context Parallelism)
-- DDP(Data Pparallelism)
-  - DDP, Distributed Data Parallelism
-  - FSDP, Fully Sharded Data Parallel，全切片数据并行
-- MP(Model Parallelism)
-- SP(Sequence Parallel)
-1. 超大模型训练
-    - [generate config]
-    - [DeepSpeed](../../AI_Platform/Microsoft/deepspeed.md): ZeRO: Zero Redundancy Optimizer
-    - [Megatron-LM](../../AI_Platform/Nvidia/megatron-lm.md)
 #### 显存优化
 - [gradient checkpointing](Efficiency_Speedup/Quantization/gradient_checkpointing.md)
 
-#### [量化](Efficiency_Speedup/Quantization/quantization.md)
-#### 模型推理优化
-- onnx
-- TensorRT
+#### [并行训练](Efficiency_Speedup/Parallelism/parallelism.md)
+- 数据并行 DP(Data Pparallelism)
+    - DP
+    - DDP, Distributed Data Parallelism
+    - FSDP, Fully Sharded Data Parallel，全切片数据并行
+- 模型并行 MP(Model Parallelism)
+    - TP(Tensor Parallelism)，如GEMM
+    - PP(Pipeline Parallelism)
+- SP(Sequence Parallel)
+- CP(Context Parallelism)
+- EP(Expert Parallelism)
+- 分布式训练
+    - [generate config]
+    - [DeepSpeed](../../AI_Platform/Microsoft/deepspeed.md): ZeRO: Zero Redundancy Optimizer
+    - [Megatron-LM](../../AI_Platform/Nvidia/megatron-lm.md)
+    - HAI-LLM framework（higher flyer）
+
+
+#### 推理优化
+- [量化](Efficiency_Speedup/Quantization/quantization.md)
+- onnx：open neural network exchange
+- TensorRT：
 
 目标重要性衡量  
 
     - 比较去除目标的前后变化，一般差异值越大表示目标越重要  
-    - AdaLoRA奇异值重要性衡量(equation 11)
