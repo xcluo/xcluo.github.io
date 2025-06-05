@@ -3,6 +3,7 @@
 > MSR & Carnegie Mellon University & Stanford University, 2018 Jun
 
 ### 主要内容
+- https://zhuanlan.zhihu.com/p/715442799
 - https://www.cnblogs.com/rossiXYZ/p/15212165.html#%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90-%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%B9%B6%E8%A1%8C%E4%B9%8Bpipedream1----profile%E9%98%B6%E6%AE%B5
 - PipeDream aggressively pipelines minibatch processing, with different workers processing different inputs at any instant of time. This is accomplished by injecting multiple inputs into the worker with the first DNN layer, thereby keeping the pipeline full and ensuring concurrent processing on all workers  
 - It also uses data parallelism for selected subsets of layers to balance computation load among workers.

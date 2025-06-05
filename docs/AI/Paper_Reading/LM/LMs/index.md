@@ -12,6 +12,7 @@
 - [LLaMA](Infrastructure/LLaMA/llama.md)
 - [DeepSeek](Infrastructure/DeepSeek/deepseek.md)
 - Mistral
+- Manus
 - 阿里：通义千文
 - 月之暗面Moonshot：Kimi
 - 百川智能：百川大模型

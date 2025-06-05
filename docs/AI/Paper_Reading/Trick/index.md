@@ -17,8 +17,8 @@
 4. Voting
 5. [MoE](Ensemble/MoE/moe.md)
 #### 数据增强
-1. [dropout](Denoising/dropout.md)
-2. [label smoothing](Denoising/label_smoothing.md)
+1. [Dropout](Denoising/dropout.md)
+2. [Label Smoothing](Denoising/label_smoothing.md)
 3. 加噪自编码器
     - [DAE](Denoising/DAE/dae.md)、[VAE](Denoising/VAE/vae.md)
     - [对抗训练](Denoising/AdversarialTraining/vat.md)
@@ -49,8 +49,8 @@
 - AdaLoRA奇异值重要性衡量(equation 11)
 
 #### 蒸馏
-- [软标签 & 硬标签](LLM_Extend/distillation/distillation.md#soft-label-hard-label)
-- [温度系数](LLM_Extend/distillation/distillation.md#temperature)
+- [软标签 & 硬标签](LLM_Extend/Distillation/distillation.md#soft-label-hard-label)
+- [温度系数](LLM_Extend/Distillation/distillation.md#temperature)
 
 ### 效率优化
 
@@ -66,7 +66,7 @@
 
 #### [并行训练](Efficiency_Speedup/Parallelism/parallelism.md)
 - 数据并行 DP(Data Pparallelism)
-    - DP
+    - DP，数据并行
     - DDP, Distributed Data Parallelism
     - FSDP, Fully Sharded Data Parallel，全切片数据并行
 - 模型并行 MP(Model Parallelism)

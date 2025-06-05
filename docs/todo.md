@@ -19,8 +19,6 @@
 - [x] transformers.optmization, transformers.Trainer
 - [ ] sentencepiece, Sentencepiece: A simple and language independent subword tokenizer
 and detokenizer for neural text processing
-- [ ] ULM, Subword regularization: Improving neural network translation models with multiple subword candidates
-- [ ] XLM, Crosslingual language model pretraining
 - [ ] tf.metrics, torchmetrics
 - [ ] 文档chunk方案
         - Fixed-size window Chunking + overlapping, charatertextsplitter
@@ -49,6 +47,7 @@ and detokenizer for neural text processing
 - [ ] Math-shepherd: Verify and reinforce llms step-by-step without human annotations
 - [x] vllm: Efficient Memory Management for Large Language Model Serving with PagedAttention
 - [x] DeepSpeed（Zero Redundancy Optimizer）、Megatron-LM、HAI-LLM framework（higher flyer）
+- [ ] Colossal-AI:  A Unified Deep Learning System For Large-Scale Parallel Training
 - [x] zero-dp：zero 1,2,3 用通信换内存，zero-3引入了额外的通信开销用于forward和backward（用了就扔）
 - [x] zero-r, zero-offload, zero-infinity
 - [x] ring all-reduce：梯度同步reduce_sum或reduce_mean；ring all-gather：参数堆叠在一起，模型DP时，多个数据loss结果会进行交互all reduce
@@ -57,7 +56,7 @@ and detokenizer for neural text processing
 - [ ] 持续学习，避免灾难性遗忘
     - 正则化、数据放回、增量学习、adapter网络，使用pre model软标签数据参与训练等
 - [ ] MCP：model context protocol
-- [x] [gradient checkpointing](https://www.bilibili.com/video/BV1nJ4m1M7Qw/?spm_id_from=333.1387.search.video_card.click&vd_source=782e4c31fc5e63b7cb705fa371eeeb78): Training Deep Nets with Sublinear Memory Cost
+- [x] [gradient checkpointing, activation checkpointing](https://www.bilibili.com/video/BV1nJ4m1M7Qw/?spm_id_from=333.1387.search.video_card.click&vd_source=782e4c31fc5e63b7cb705fa371eeeb78): Training Deep Nets with Sublinear Memory Cost
 - [x] Gradient Checkpointing，[gif](https://pic3.zhimg.com/v2-1679b74a85687cdb250e532931bb266a_b.webp)
 - [ ] 在embedding 层后添加layer normalization，有利于提升训练稳定性:但可能会带来很大的性能损失.
 - [ ] Prefix Tuning: 基于prefix内容进行回答
