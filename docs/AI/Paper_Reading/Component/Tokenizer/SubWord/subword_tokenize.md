@@ -145,7 +145,7 @@ WordPiece需要前缀`##`作为中间subword标志，因此需要预先分词。
 算法流程如下：
 
 1. 初始化：将所有文本序列**以字节Byte或字级别为单位**拆分，并在尾部添加一个停止符`</w>`
-2. 统计各相邻 subword-pair 的频次，选择最高频次 subword-pair 合并成新的subword，基于新subword更新subword-pair 的统计结果
+2. 统计各相邻 subword-pair 的频次，选择最高频次 subword-pair 合并成新的subword（subword-pair更新入合并规则），基于新subword更新subword-pair 的统计结果
 3. 重复第2步直到subwords数达到最大$\vert V \vert$或当前step最高频的subword-pair频率为1，退出循环
 
 ```python
@@ -164,6 +164,19 @@ WordPiece需要前缀`##`作为中间subword标志，因此需要预先分词。
 # 重复迭代直到subwords数达到词表大小|V|或当前step最高频的字节对频率为1，退出循环
 ```
 
+#### BPE-Dropout
+BPE-Dropout 在 BPE 的合并过程中引入随机性，以概率 $p$ 跳过某些合并步骤，从而生成同一单词的多种分词结果。
+
+1. 合并规则：`"l" + "o" → "lo", "lo" + "w" → "low", "e" + "r" → "er"`
+2. 基于合并规则，应用BPE-Dropout后，"lower"的可能分词为：
+    - `"low" + "er"`（未跳过任何合并）
+    - `"lo" + "w" + "er"` （跳过 `"lo" + "w" → "low"`）
+    - `"l" + "o" + "w" + "er"` （跳过所有合并）
+
+!!! success "优势"
+    1. 对拼写错误、（大小写或形态）变体、多语言混合文本更鲁棒（如`"l0wer", "lOwer", "l〇wer"`）
+
+- [sentencepiece subword regularization and BPE-dropout](https://github.com/google/sentencepiece?tab=readme-ov-file#subword-regularization-and-bpe-dropout)
 #### 预先分词选择
  - [x] 处理包括大量固定属于的专业领域文本（医学、法律等）时
  - [x] 训练面向特定下游任务的tokenizer

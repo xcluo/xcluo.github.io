@@ -27,7 +27,7 @@
     - rotating  
     - transforming the color  
     - text_image + mask
-5. [Subword Regularization](../Component/Tokenizer/SubWord/subword_tokenize.md#subword-regularization)
+5. [Subword Regularization](../Component/Tokenizer/SubWord/subword_tokenize.md#subword-regularization)、[BPE-Dropout](../Component/Tokenizer/SubWord/subword_tokenize.md#bpe-dropout)
 #### 对比学习
 
 ### 大模型使用
