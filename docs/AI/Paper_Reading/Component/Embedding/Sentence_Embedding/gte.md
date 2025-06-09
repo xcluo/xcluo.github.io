@@ -38,8 +38,34 @@ methods. details in Appendix A
 - enlarges the negative samples with both in-batched queries and documents
 - amp with fp16, deepspeed zero, gradient checkpointing
 
-#### Ablation
+#### Ablation Study
+- pretrained: 三种dataset group对比。1) 5个最大的的数据集; 2) +随机抽取的10个数据集; 3) total 33数据集
+- finetune: E5中的3个数据集 + MEDI中的数据集 + BERRI中的数据集
+- multistages: full > PT > FT
+- mixing ratio used in sampling distribution on pretraining data, 按dataset随机采样和按sample随机采样效果均不是最佳
+    ![alt text](image-4.png)
+- improved contrastive loss consistently improves model performance
 
+#### Details about Pre-training Data
+1. Web Page: short title + most relevant body texts from a set of randomly sampled texts
+2. Academic Paper: title  + abstract
+3. Hyperlink: citation argument + the text from reference
+4. Community QA: text lengths and voting numbers are used to filter out low-quality data.
+5. Social Media: post title + post body. post comment are also regared as positive pairs for data mining
+6. News: title + body
+7. Knowledge Base: entity/event + destribution
+8. Code: text + code
+9. Others: reviews about goods, debate websites about one argument, googaq q-a pairs by prompting google search box with search log queries.
+#### Details about Training Data
+(query, positive, hard negative) triple
+
+1. Web Search
+2. Open QA
+3. Natural Language Inference
+4. Fact Verification
+5. Paraphrase
+6. Others
+#### Data Resources
 ## mGTE
 > 论文：mGTE: Generalized Long-Context Text Representation and Reranking Models for Multilingual Text Retrieval  
 > Alibaba Group, 2024 Jul，EMNLP 2024

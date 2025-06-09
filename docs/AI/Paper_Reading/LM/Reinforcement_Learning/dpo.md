@@ -1,9 +1,9 @@
 ## DPO
 > 论文：**D**irect **P**reference **O**ptimization: Your Language Model is Secretly a Reward Model  
 >  
-> Stanford University 2023 May, ICONIP 2023  
+> Stanford University 2023 May, NeruIPS 2023  
 
-
+### 主要内容
 
 ----------
 - Bradley-Terry偏好模型，pair-loss，类似于负采样

@@ -16,6 +16,7 @@
 - [x] e5 embedding，intfloat团队研发
 - [x] xlm-roberta，fair研发
 - [ ] https://github.com/castorini/pyserini
+- [ ] cot, cot-sc, tot
 - [x] transformers.optmization, transformers.Trainer
 - [ ] sentencepiece, Sentencepiece: A simple and language independent subword tokenizer
 and detokenizer for neural text processing

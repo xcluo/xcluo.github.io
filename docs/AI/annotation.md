@@ -16,6 +16,7 @@
 ###C
 - **CART**：**C**lassification **A**nd **R**egression **T**ree，分类和回归二叉树决策树。
 - **CoT**: **Chain** **o**f  **T**hink，链式思维
+- **CPT**：**C**ontrastive **P**re**T**raining model，对比学习预训练模型
 - **CRF**: **C**onditional **R**andom **F**ield，条件随机场，也叫做马尔可夫随机场
 - **CTR**: **C**lick-**T**hrought **R**ate点击通过率，指一定时间内用户点击链接次数与展示链接次数的比例
 
@@ -66,6 +67,7 @@
 - **MoLE**：**M**ixture **o**f **L**oRA **E**xperts，LoRA专家混合
 - **MQA**：**M**ulti-**Q**uery **A**ttention，多查询注意力
 - **MRR**：**M**ean **R**eciprocal **R**ank，平均倒数排名
+- **MTEB**: **M**assive **T**ext **E**mbedding **B**enchmark，海量文本embedding测试基准
 - **MTP**：**M**ulti-**T**oken **P**rediction，连续多token预测任务
 
 ###N

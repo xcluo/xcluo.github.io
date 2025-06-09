@@ -1,4 +1,9 @@
-TRPO（Trust Region Policy Optimization），只在置信区间内进行策略优化，即通过clip操作约束策略优化区间
+## TRPO
+> 论文：**T**rust **R**egion **P**olicy **O**ptimization  
+> University of California, 2015 Feq, PMLR 2015
+
+### 主要内容
+TRPO只在置信区间内进行策略优化，即通过clip操作约束策略优化区间
 
 $$
 \max_{\theta} \hat{\mathbb{E}}_t\bigg[  \frac{\pi_{\theta}(a_t\vert s_t)}{\pi_{old}(a_t\vert s_t)} \hat{A}_t\bigg] \\

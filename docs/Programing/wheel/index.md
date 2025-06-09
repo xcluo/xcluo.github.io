@@ -207,6 +207,7 @@
 
     if __name__ == "__main__":
         dump_lines = set()
+        total_line = 0
         with open(args.file_name, 'r', encoding='utf-8') as f, \
                 open(f'./{args.file_name}_unique_result.json', 'w', encoding='utf-8') as fout:
             for i, line in enumerate(tqdm(f), 1):
@@ -225,6 +226,7 @@
                     if cnt in dump_lines:
                         continue
                     dump_lines.add(cnt)
+                    total_line += 1
                     line['c'] = cnt                         # text_piece 替代原文本
                     if args.slice_len and len(cnts) > 1:    # 记录切片所属的文本
                         line['p'] = i
@@ -232,6 +234,7 @@
                     fout.flush()
                     if len(dump_lines) >= 80000000:
                         dump_lines.clear()
+        print("#line:", total_line)
     ```
 
 

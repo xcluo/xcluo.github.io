@@ -1,5 +1,5 @@
 - [gte](gte.md)
-- [beg](beg.md)
+- [beg](bge.md)
 - [e5](e5.md)
 - [jina](jina.md)
 - [xlm-roberta](xlm-roberta.md)
