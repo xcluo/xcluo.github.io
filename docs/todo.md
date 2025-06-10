@@ -11,7 +11,7 @@
 - [ ] 联邦学习
 - [ ] dashscope for alibaba; openai for openai; requests for glm4
 - [ ] xfyun for xunfei
-- [x] gte (General Text Embeddings)，阿里巴巴达摩院推出
+- [x] GTE-Qwen3 Embedding, mGTE
 - [x] jina embedding，jina ai推出
 - [x] e5 embedding，intfloat团队研发
 - [x] xlm-roberta，fair研发

@@ -66,12 +66,34 @@ methods. details in Appendix A
 5. Paraphrase
 6. Others
 #### Data Resources
+
+
 ## mGTE
 > 论文：mGTE: Generalized Long-Context Text Representation and Reranking Models for Multilingual Text Retrieval  
 > Alibaba Group, 2024 Jul，EMNLP 2024
 
 
-## Qwen3 Embedding
-> Github：[Qwen3-Embedding](https://github.com/QwenLM/Qwen3-Embedding)
+## GTE-Qwen3 Embedding
+> 论文：Qwen3 Embedding: Advancing Text Embedding and Reranking Through Foundation Models  
+> Github：[Qwen3-Embedding](https://github.com/QwenLM/Qwen3-Embedding)  
+> Blog：[Qwen3 Embedding](https://qwenlm.github.io/blog/qwen3-embedding/)  
+> Alibaba Group, 2025 Jun
 
-- https://qwenlm.github.io/blog/qwen3-embedding/
+### 主要内容
+- multistage training pipeline: large-scale unsupervised pre-training followed by supervised fine-tuning on high-quality datasets.
+- task/instruction-aware sample $\{I_i, q_i, d_i^{+}, d_{i, 1}^{-}, \dots, d_{i, n}^{-}\}$，$I_i$ 为embedding or reranking instruction, $d_{i, n}^{-}$ 为 n 个 hard negatives
+- 基于Qwen3 基础模型的LoRA 微调
+
+
+
+#### Embedding Model
+- Embedding model + causal attention：双塔模型分别输入`{Instruction} + {Query} + [EOS]` 和 `{Doc} + [EOS]`
+#### Reranking Model
+- Reranking model: 单塔模型输入 `{Instruction} + {Query} + {Doc} + assistant: `，next_token_prediction
+
+    $$
+    score(q, d)  = \frac{e^{P(\text{yes}\vert I, q, d)}}{e^{P(\text{yes}\vert I, q, d)} + e^{P(\text{no}\vert I, q, d)}}
+    $$
+
+- SFT $L_\text{reranking} = -\log p(y\vert q, d)$
+#### Ablation Study
