@@ -9,6 +9,8 @@
 - [x] docker
 - [x] kubernetes (k8s)
 - [ ] 联邦学习
+- [ ] Model Merging: Improving General Text Embedding Model: Tackling Task Conflict and Data Imbalance through Model Merging
+- [ ] MRL paper: Matryoshka Representation Learning
 - [ ] dashscope for alibaba; openai for openai; requests for glm4
 - [ ] xfyun for xunfei
 - [x] GTE-Qwen3 Embedding, mGTE

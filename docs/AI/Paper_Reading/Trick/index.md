@@ -53,6 +53,8 @@
 - [温度系数](LLM_Extend/Distillation/distillation.md#temperature)
 
 ### 效率优化
+- dim 压缩
+- MRL
 
 #### Attention变种
 - [MQA](Efficiency_Speedup/Attention_Variants/mqa.html#mqa)、[GQA](Efficiency_Speedup/Attention_Variants/mqa.html#gqa)、[MLA](../LM/LMs/Infrastructure/DeepSeek/deepseek.md#mla)

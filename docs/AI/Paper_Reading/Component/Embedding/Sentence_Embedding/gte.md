@@ -73,7 +73,7 @@ methods. details in Appendix A
 > Alibaba Group, 2024 Jul，EMNLP 2024
 
 
-## GTE-Qwen3 Embedding
+## Qwen3 Embedding
 > 论文：Qwen3 Embedding: Advancing Text Embedding and Reranking Through Foundation Models  
 > Github：[Qwen3-Embedding](https://github.com/QwenLM/Qwen3-Embedding)  
 > Blog：[Qwen3 Embedding](https://qwenlm.github.io/blog/qwen3-embedding/)  
@@ -82,18 +82,73 @@ methods. details in Appendix A
 ### 主要内容
 - multistage training pipeline: large-scale unsupervised pre-training followed by supervised fine-tuning on high-quality datasets.
 - task/instruction-aware sample $\{I_i, q_i, d_i^{+}, d_{i, 1}^{-}, \dots, d_{i, n}^{-}\}$，$I_i$ 为embedding or reranking instruction, $d_{i, n}^{-}$ 为 n 个 hard negatives
-- 基于Qwen3 基础模型的LoRA 微调
-
-
-
+- 基于Qwen3 基础模型的LoRA 微调 (causal attention)
+- both stages of training: $L_\text{embedding}$
+- self.tokenizer.padding_side = "left"
+- MRL: Matryoshka Representation Learning
+- **truncate_dim**: embeddings = embeddings[:, :self.truncate_dim]
+- extract the unnormalized embedding (MRL before embedding normalization)
+![alt text](image-8.png)
 #### Embedding Model
-- Embedding model + causal attention：双塔模型分别输入`{Instruction} + {Query} + [EOS]` 和 `{Doc} + [EOS]`
+- Embedding model：双塔模型分别输入`{Instruction} + {Query} + [EOS]` 和 `{Doc} + [EOS]`, `[EOS]`为`<|endoftext|>`
+![alt text](image-7.png)
+- both stages of training, improved contrastive loss $L_\text{embedding} = - \frac{1}{N} \sum_{i=1}^N \log \frac{e^{s(q_i, d_i^{+})/\tau}}{Z_i}$
+    1. `q v.s. d+`
+    2. `q v.s. all paired d-`
+    3. `q v.s. in batch positive_negative d` 
+    4. `q v.s. in batch q`
+    5. `d+ v.s. in batch positive_negative d`
+
+    $$
+    \begin{aligned}
+        Z_i =& e^{s(q_i, d_i^+)/\tau} + \sum_{k}^K m_{i,k} e^{s(q_i, d_{i,k}^-)/\tau} + \sum_{i\ne j} m_{i,j} e^{s(q_i, d_{j})/\tau} + \sum_{j \neq i} m_{i,j} e^{s(q_i, q_j)/\tau} + \sum_{j \neq i} m_{i,j} e^{s(d_i^+, d_j)/\tau} \\
+        m_{i, j} =& \begin{cases}
+            0 & \text{if } s_{i, j} \gt s(q_i, d_i^+) + 0.1 \text{ or is_equal}(d_j, d_i^+)  \\
+            1 & \text{otherwise}
+        \end{cases}
+    \end{aligned}
+    $$
+
+    > $m_{i,j}$为用于消除False Negatives的mask系数, $s_{i, j}$ 为相应对象的相关性分数
+
 #### Reranking Model
-- Reranking model: 单塔模型输入 `{Instruction} + {Query} + {Doc} + assistant: `，next_token_prediction
+- Reranking model: point-wise reranking（用于评估每个文档与查询的相关性，并生成独立的分数进行排序） + 单塔模型输入 `{Instruction} + {Query} + {Doc} + assistant: `，next_token_prediction对应的yes和no结果的softmax值即为分数
 
     $$
     score(q, d)  = \frac{e^{P(\text{yes}\vert I, q, d)}}{e^{P(\text{yes}\vert I, q, d)} + e^{P(\text{no}\vert I, q, d)}}
     $$
 
-- SFT $L_\text{reranking} = -\log p(y\vert q, d)$
+- SFT $L_\text{reranking} = -\log p(l \vert q, d)$
+- `(bs, seq_len, |V|) -idx_final-token→ (bs, |V|) → (bs, )_{no}, (bs, )_{yes} -stack→ (bs, 2) -softmax + idx_1→ (bs, 1)`
+- rerank the top-100 candidates
+#### Multi-Stage Training
+![alt text](image-5.png)
+
+1. Large-Scale Synthetic Data-Driven Weak Supervision Training: leveraging the text understanding and generation capabilities of foundation models to synthesize pair data directly
+2. High-Quality Synthetic Data Utilization in Supervised Fine Tuning: selective incorporation of this highquality synthetic data further enhances the overall model performance and generalization capabilities.
+3. Model Merging: applied a model merging technique based on spherical linear interpolation (slerp). merging multiple model checkpoints saved during the fine-tuning process. This step aims to boost the model’s robustness and generalization performance across various data distributions.
+
+#### Synthetic Dataset
+![alt text](image-6.png)
+
+- first stage: synthetic data with specific roles to get injection of user perspectives to enhances the diversity and realism of the synthetic queries
+    1. utilize a retrieval model to identify the top five role candidates for each document
+    2. present these documents along with their role candidates to the prompt
+    3. guides the model in outputting the most suitable role configuration for query generation
+    4. the prompt incorporates various dimensions such as query type (e.g., keyword, factual, summary, judgment), query length, difficulty, and language. This multidimensional approach ensures the quality and diversity of the synthetic data
+
+- four types of synthetic data—retrieval, bitext mining, semantic textual similarity, and classification
+- synthetic data is a two-stage generation pipeline: 1) configuration; 2) query generation
+    1. configuration: 让LLM决定question type（关键字，知识问答，总结，判断，背景）, difficulty（学历水平难度） and character （基于top-5中候选者的选择结果），通过{language}指定生成输出的语言类型
+    2. query generation: 基于选择的配置并 explicitly specify the desired length and language of the generated query.
+    - prompt中应用了few-shot方式
+
+- second stage high-quality synthetic data: retaining those with a cosine similarity greater than 0.7 from randomly sampled data for further training
+
 #### Ablation Study
+- Effectiveness of Large-ScaleWeakly Supervised Pre-Training
+- w/ only synthetic data (Weakly Supervised Pre-Training Dataset): first stage
+- w/o synthetic data: without first stage
+
+![alt text](image-9.png)
+- Effectiveness of Model Merging
