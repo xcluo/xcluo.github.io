@@ -9,7 +9,7 @@
 - [x] docker
 - [x] kubernetes (k8s)
 - [ ] 联邦学习
-- [ ] Model Merging: Improving General Text Embedding Model: Tackling Task Conflict and Data Imbalance through Model Merging
+- [x] DARE: Language Models are Super Mario: Absorbing Abilities from Homologous Models as a Free Lunch
 - [ ] MRL paper: Matryoshka Representation Learning
 - [ ] dashscope for alibaba; openai for openai; requests for glm4
 - [ ] xfyun for xunfei
@@ -18,10 +18,8 @@
 - [x] e5 embedding，intfloat团队研发
 - [x] xlm-roberta，fair研发
 - [ ] https://github.com/castorini/pyserini
-- [ ] cot, cot-sc, tot
+- [ ] cot, cot-sc, tot, got
 - [x] transformers.optmization, transformers.Trainer
-- [ ] sentencepiece, Sentencepiece: A simple and language independent subword tokenizer
-and detokenizer for neural text processing
 - [ ] tf.metrics, torchmetrics
 - [ ] 文档chunk方案
         - Fixed-size window Chunking + overlapping, charatertextsplitter

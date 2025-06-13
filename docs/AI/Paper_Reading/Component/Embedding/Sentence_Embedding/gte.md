@@ -80,53 +80,21 @@ methods. details in Appendix A
 > Alibaba Group, 2025 Jun
 
 ### 主要内容
-- multistage training pipeline: large-scale unsupervised pre-training followed by supervised fine-tuning on high-quality datasets.
-- task/instruction-aware sample $\{I_i, q_i, d_i^{+}, d_{i, 1}^{-}, \dots, d_{i, n}^{-}\}$，$I_i$ 为embedding or reranking instruction, $d_{i, n}^{-}$ 为 n 个 hard negatives
-- 基于Qwen3 基础模型的LoRA 微调 (causal attention)
-- both stages of training: $L_\text{embedding}$
-- self.tokenizer.padding_side = "left"
-- MRL: Matryoshka Representation Learning
-- **truncate_dim**: embeddings = embeddings[:, :self.truncate_dim]
-- extract the unnormalized embedding (MRL before embedding normalization)
-![alt text](image-8.png)
-#### Embedding Model
-- Embedding model：双塔模型分别输入`{Instruction} + {Query} + [EOS]` 和 `{Doc} + [EOS]`, `[EOS]`为`<|endoftext|>`
-![alt text](image-7.png)
-- both stages of training, improved contrastive loss $L_\text{embedding} = - \frac{1}{N} \sum_{i=1}^N \log \frac{e^{s(q_i, d_i^{+})/\tau}}{Z_i}$
-    1. `q v.s. d+`
-    2. `q v.s. all paired d-`
-    3. `q v.s. in batch positive_negative d` 
-    4. `q v.s. in batch q`
-    5. `d+ v.s. in batch positive_negative d`
 
-    $$
-    \begin{aligned}
-        Z_i =& e^{s(q_i, d_i^+)/\tau} + \sum_{k}^K m_{i,k} e^{s(q_i, d_{i,k}^-)/\tau} + \sum_{i\ne j} m_{i,j} e^{s(q_i, d_{j})/\tau} + \sum_{j \neq i} m_{i,j} e^{s(q_i, q_j)/\tau} + \sum_{j \neq i} m_{i,j} e^{s(d_i^+, d_j)/\tau} \\
-        m_{i, j} =& \begin{cases}
-            0 & \text{if } s_{i, j} \gt s(q_i, d_i^+) + 0.1 \text{ or is_equal}(d_j, d_i^+)  \\
-            1 & \text{otherwise}
-        \end{cases}
-    \end{aligned}
-    $$
+#### Qwen3 Embedding Pipeline
+<div class="one-image-container">
+    <img src="image/qwen3_embedding_pipeline.png" style="width: 95%;">
+</div>
 
-    > $m_{i,j}$为用于消除False Negatives的mask系数, $s_{i, j}$ 为相应对象的相关性分数
+Qwen3 Embedding模型使用Qwen3 Causal LLM初始化，经以下步骤得到目标模型：
 
-#### Reranking Model
-- Reranking model: point-wise reranking（用于评估每个文档与查询的相关性，并生成独立的分数进行排序） + 单塔模型输入 `{Instruction} + {Query} + {Doc} + assistant: `，next_token_prediction对应的yes和no结果的softmax值即为分数
+1. **Weakly Supervised Pre-Training**：基于合成的弱监督文本对预训练模型  
+2. **Supervised Fine Tuning**：基于高质量的合成数据和标注数据有监督微调模型  
+3. **Model Merging**：采样训练过程中的多个Checkpoint，合并出最终模型
 
-    $$
-    score(q, d)  = \frac{e^{P(\text{yes}\vert I, q, d)}}{e^{P(\text{yes}\vert I, q, d)} + e^{P(\text{no}\vert I, q, d)}}
-    $$
-
-- SFT $L_\text{reranking} = -\log p(l \vert q, d)$
-- `(bs, seq_len, |V|) -idx_final-token→ (bs, |V|) → (bs, )_{no}, (bs, )_{yes} -stack→ (bs, 2) -softmax + idx_1→ (bs, 1)`
-- rerank the top-100 candidates
-#### Multi-Stage Training
-![alt text](image-5.png)
-
-1. Large-Scale Synthetic Data-Driven Weak Supervision Training: leveraging the text understanding and generation capabilities of foundation models to synthesize pair data directly
-2. High-Quality Synthetic Data Utilization in Supervised Fine Tuning: selective incorporation of this highquality synthetic data further enhances the overall model performance and generalization capabilities.
-3. Model Merging: applied a model merging technique based on spherical linear interpolation (slerp). merging multiple model checkpoints saved during the fine-tuning process. This step aims to boost the model’s robustness and generalization performance across various data distributions.
+!!! info ""
+    - [Embedding Model](#embedding-model)包含了完整的3个阶段  
+    - [Reraning Model](#reranking-model)只包含了后2个阶段
 
 #### Synthetic Dataset
 ![alt text](image-6.png)
@@ -144,6 +112,56 @@ methods. details in Appendix A
     - prompt中应用了few-shot方式
 
 - second stage high-quality synthetic data: retaining those with a cosine similarity greater than 0.7 from randomly sampled data for further training
+
+#### Embedding Model
+1. **Prompt**：Embedding Model采用了（共享参数的）双塔结构分别处理查询 Query 和文档 Doc，其中
+
+    - ^^Query Prompt^^: `{Embedding Instruction} + {Query} + [EOS]` 
+    - ^^Doc Prompt^^: `{Doc} + [EOS]`
+    > `[EOS]`为`<|endoftext|>`
+
+2. **Training Objective**：Embedding Model在两个阶段中的训练目标损失函数相同，均为改善版InfoNCE loss，分母包括以下部分：
+
+    - 查询与目标文档：$s(q_i, d_i^{+})$  
+    - 查询与hard negative难分辨负样本：$\sum s(q_i, d_i^{-})$
+    - 查询与in-batch文档：$\sum_{i\ne j} s(q_i, d_j)$  
+    - 查询与in-batch查询：$\sum_{i\ne j} s(q_i, q_j)$  
+    - 文档与in-batch查询：$\sum_{i\ne j} s(d_i, d_j)$
+
+    $$
+    \begin{aligned}
+        L_\text{embedding} =& - \frac{1}{N} \sum_{i=1}^N \log \frac{e^{s(q_i, d_i^{+})/\tau}} {Z_i} \\
+        Z_i =& e^{s(q_i, d_i^+)/\tau} + \sum_{k}^K m_{i,k} e^{s(q_i, d_{i,k}^-)/\tau} + \sum_{i\ne j} m_{i,j} e^{s(q_i, d_{j})/\tau} \\
+        + & \sum_{i \neq j} m_{i,j} e^{s(q_i, q_j)/\tau} + \sum_{i \neq j} m_{i,j} e^{s(d_i^+, d_j)/\tau} \\
+        m_{i, j} =& \begin{cases}
+            0 & \text{if } s_{i, j} \gt s(q_i, d_i^+) + 0.1 \text{ or is_equal}(d_j, d_i^+)  \\
+            1 & \text{otherwise}
+        \end{cases}
+    \end{aligned}
+    $$
+
+    > - $s_{i, j}$ 为相应对象的相关性分数  
+    > - mask系数 $m_{i,j}$ 用于消除in-batch样本中的False Negatives
+
+#### Reranking Model
+
+1. **Prompt**：Reranking Model基于point-wise reranking（用于评估每个文档与查询的相关性，并生成独立的分数进行排序） + 单塔模型输入 `{Reranking Instruction} + {Query} + {Doc} + assistant: `，next_token_prediction对应的yes和no结果的softmax值即为分数
+- self.tokenizer.padding_side = "left"
+- MRL: Matryoshka Representation Learning
+- **truncate_dim**: embeddings = embeddings[:, :self.truncate_dim]
+- extract the unnormalized embedding (MRL before embedding normalization)
+![alt text](image-8.png)
+
+
+
+$$
+score(q, d)  = \frac{e^{P(\text{yes}\vert I, q, d)}}{e^{P(\text{yes}\vert I, q, d)} + e^{P(\text{no}\vert I, q, d)}}
+$$
+
+- SFT $L_\text{reranking} = -\log p(l \vert q, d)$
+- `(bs, seq_len, |V|) -idx_final-token→ (bs, |V|) → (bs, )_{no}, (bs, )_{yes} -stack→ (bs, 2) -softmax + idx_1→ (bs, 1)`
+- rerank the top-100 candidates
+
 
 #### Ablation Study
 - Effectiveness of Large-ScaleWeakly Supervised Pre-Training

@@ -10,12 +10,12 @@
 ### 训练数据利用
 #### 集成学习
 1. [Boosting](Ensemble/Ensemble/Boosting/boosting.md)
-
-2. [Bagging](Ensemble/Ensemble/Bagging/bagging.md)
+2. [Model Merging](Ensemble/Ensemble/Model_Merging/model_merging.md)
+3. [Bagging](Ensemble/Ensemble/Bagging/bagging.md)
       - [Random Forests]
-3. Stacking
-4. Voting
-5. [MoE](Ensemble/MoE/moe.md)
+4. Stacking
+5. Voting
+6. [MoE](Ensemble/MoE/moe.md)
 #### 数据增强
 1. [Dropout](Denoising/dropout.md)
 2. [Label Smoothing](Denoising/label_smoothing.md)
