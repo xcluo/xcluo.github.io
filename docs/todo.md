@@ -10,13 +10,14 @@
 - [x] kubernetes (k8s)
 - [ ] 联邦学习
 - [x] DARE: Language Models are Super Mario: Absorbing Abilities from Homologous Models as a Free Lunch
-- [ ] MRL paper: Matryoshka Representation Learning
+- [ ] MRL paper: Matryoshka Representation Learning, 一般mrl → norm
 - [ ] dashscope for alibaba; openai for openai; requests for glm4
 - [ ] xfyun for xunfei
 - [x] GTE-Qwen3 Embedding, mGTE
 - [x] jina embedding，jina ai推出
 - [x] e5 embedding，intfloat团队研发
 - [x] xlm-roberta，fair研发
+- [ ] llm tokenizer为什么是left_pad
 - [ ] https://github.com/castorini/pyserini
 - [ ] cot, cot-sc, tot, got
 - [x] transformers.optmization, transformers.Trainer

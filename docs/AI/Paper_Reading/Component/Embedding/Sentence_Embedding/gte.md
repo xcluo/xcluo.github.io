@@ -90,14 +90,19 @@ Qwen3 Embedding模型使用Qwen3 Causal LLM初始化，经以下步骤得到目�
 
 1. **Weakly Supervised Pre-Training**：基于合成的弱监督文本对预训练模型  
 2. **Supervised Fine Tuning**：基于高质量的合成数据和标注数据有监督微调模型  
-3. **Model Merging**：采样训练过程中的多个Checkpoint，合并出最终模型
+3. **[Model Merging](../../../Trick/Ensemble/Ensemble/Model_Merging/self-positioning.md)**：采样训练过程中的多个Checkpoint，合并出最终模型
 
 !!! info ""
     - [Embedding Model](#embedding-model)包含了完整的3个阶段  
     - [Reraning Model](#reranking-model)只包含了后2个阶段
 
 #### Synthetic Dataset
-![alt text](image-6.png)
+<div class="one-image-container">
+    <img src="image/qwen3_embedding_stage_datasets.png" style="width: 95%;">
+</div>
+
+1. **阶段1 Synthetic Data**：
+2. **阶段2 High-quality Synthetic Data**：从阶段1的 Synthetic Data 中随机抽取数据，保留语义相关性 `cos_similarity > 0.7` 的样本，最终高质量合成样本数 ~12M
 
 - first stage: synthetic data with specific roles to get injection of user perspectives to enhances the diversity and realism of the synthetic queries
     1. utilize a retrieval model to identify the top five role candidates for each document
@@ -111,20 +116,20 @@ Qwen3 Embedding模型使用Qwen3 Causal LLM初始化，经以下步骤得到目�
     2. query generation: 基于选择的配置并 explicitly specify the desired length and language of the generated query.
     - prompt中应用了few-shot方式
 
-- second stage high-quality synthetic data: retaining those with a cosine similarity greater than 0.7 from randomly sampled data for further training
-
 #### Embedding Model
 1. **Prompt**：Embedding Model采用了（共享参数的）双塔结构分别处理查询 Query 和文档 Doc，其中
 
     - ^^Query Prompt^^: `{Embedding Instruction} + {Query} + [EOS]` 
     - ^^Doc Prompt^^: `{Doc} + [EOS]`
-    > `[EOS]`为`<|endoftext|>`
+    > `[EOS]`为`<|endoftext|>`，该token对应的 `last_hidden_state` 即为句向量
 
 2. **Training Objective**：Embedding Model在两个阶段中的训练目标损失函数相同，均为改善版InfoNCE loss，分母包括以下部分：
-
     - 查询与目标文档：$s(q_i, d_i^{+})$  
     - 查询与hard negative难分辨负样本：$\sum s(q_i, d_i^{-})$
     - 查询与in-batch文档：$\sum_{i\ne j} s(q_i, d_j)$  
+    <div class="one-image-container">
+        <img src="image/qwen3_embedding_improved_infonce_loss_supplementary.png" style="width: 95%;">
+    </div>
     - 查询与in-batch查询：$\sum_{i\ne j} s(q_i, q_j)$  
     - 文档与in-batch查询：$\sum_{i\ne j} s(d_i, d_j)$
 
@@ -145,28 +150,37 @@ Qwen3 Embedding模型使用Qwen3 Causal LLM初始化，经以下步骤得到目�
 
 #### Reranking Model
 
-1. **Prompt**：Reranking Model基于point-wise reranking（用于评估每个文档与查询的相关性，并生成独立的分数进行排序） + 单塔模型输入 `{Reranking Instruction} + {Query} + {Doc} + assistant: `，next_token_prediction对应的yes和no结果的softmax值即为分数
-- self.tokenizer.padding_side = "left"
-- MRL: Matryoshka Representation Learning
-- **truncate_dim**: embeddings = embeddings[:, :self.truncate_dim]
-- extract the unnormalized embedding (MRL before embedding normalization)
-![alt text](image-8.png)
+1. **Prompt**：Reranking Model基于Point-wise Reranking（独立评估查询与每个候选文档的相关性分数） 的单塔结构处理 Query 和候选 Docs（如top-100），其中
+    - `{Reranking Instruction} + {Query} + {Doc} + assistant: `
+    - `next_token_prediction` 对应`yes`和`no`概率的softmax值即为分数
+
+    $$
+    score(q, d)  = \frac{e^{P(\text{yes}\vert I, q, d)}}{e^{P(\text{yes}\vert I, q, d)} + e^{P(\text{no}\vert I, q, d)}}
+    $$
+
+2. **Training Objective**：采用标准分类SFT方式微调模型，$l \in \{\text{yes}, \text{no}\}$
+
+    $$
+    L_\text{reranking} = -\log p(l \vert q, d)
+    $$
 
 
+#### Evaluations
+<div class="one-image-container">
+    <img src="image/qwen3_embedding_embedding_model_performance.png" style="width: 95%;">
+</div>
 
-$$
-score(q, d)  = \frac{e^{P(\text{yes}\vert I, q, d)}}{e^{P(\text{yes}\vert I, q, d)} + e^{P(\text{no}\vert I, q, d)}}
-$$
+<div class="one-image-container">
+    <img src="image/qwen3_embedding_reranking_model_performance.png" style="width: 95%;">
+</div>
 
-- SFT $L_\text{reranking} = -\log p(l \vert q, d)$
-- `(bs, seq_len, |V|) -idx_final-token→ (bs, |V|) → (bs, )_{no}, (bs, )_{yes} -stack→ (bs, 2) -softmax + idx_1→ (bs, 1)`
-- rerank the top-100 candidates
-
-
+!!! success ""
+    - Qwen3 Embedding Model、Reranking Model能在各benchmarks中取得SOTA效果表现
 #### Ablation Study
-- Effectiveness of Large-ScaleWeakly Supervised Pre-Training
-- w/ only synthetic data (Weakly Supervised Pre-Training Dataset): first stage
-- w/o synthetic data: without first stage
+<div class="one-image-container">
+    <img src="image/qwen3_embedding_ablation_study.png" style="width: 95%;">
+</div>
+> `synthetic data` 为LLM生成的应用于阶段1的预训练数据
 
-![alt text](image-9.png)
-- Effectiveness of Model Merging
+!!! success ""
+    - LLM生成的弱监督数据与模型合并均对模型效果有提升
