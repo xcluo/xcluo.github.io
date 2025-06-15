@@ -101,20 +101,17 @@ Qwen3 Embedding模型使用Qwen3 Causal LLM初始化，经以下步骤得到目�
     <img src="image/qwen3_embedding_stage_datasets.png" style="width: 95%;">
 </div>
 
-1. **阶段1 Synthetic Data**：
-2. **阶段2 High-quality Synthetic Data**：从阶段1的 Synthetic Data 中随机抽取数据，保留语义相关性 `cos_similarity > 0.7` 的样本，最终高质量合成样本数 ~12M
-
-- first stage: synthetic data with specific roles to get injection of user perspectives to enhances the diversity and realism of the synthetic queries
-    1. utilize a retrieval model to identify the top five role candidates for each document
-    2. present these documents along with their role candidates to the prompt
-    3. guides the model in outputting the most suitable role configuration for query generation
-    4. the prompt incorporates various dimensions such as query type (e.g., keyword, factual, summary, judgment), query length, difficulty, and language. This multidimensional approach ensures the quality and diversity of the synthetic data
-
-- four types of synthetic data—retrieval, bitext mining, semantic textual similarity, and classification
-- synthetic data is a two-stage generation pipeline: 1) configuration; 2) query generation
-    1. configuration: 让LLM决定question type（关键字，知识问答，总结，判断，背景）, difficulty（学历水平难度） and character （基于top-5中候选者的选择结果），通过{language}指定生成输出的语言类型
-    2. query generation: 基于选择的配置并 explicitly specify the desired length and language of the generated query.
-    - prompt中应用了few-shot方式
+1. **阶段1 Synthetic Data**：基于Qwen3-32B，生成大量的高质量、多任务（包括retrieval, bitext mining, classification, and STS）、多语种的弱监督文本相关数据对。 其中检索任务以Doc2Query方式生成数据，步骤如下：
+    1. 使用检索模型对输入文档（源于Qwen3多语种预训练语料库）检索并保留top-5候选文档（源于Persona Hub）；
+    2. 输入文档与top-5候选文档，使用Qwen3-32B自主选择文档可能感兴趣的候选文档，问题类型以及问题难度作为生成Query的设置要求，具体输出 `Character, Quetion_Type, Difficulty` 字段；
+    <div class="one-image-container">
+        <img src="image/qwen3_embedding_query_configuration_output_prompt.png" style="width: 100%;">
+    </div>
+    3. 基于Query设置要求以及自定义的Qeury生成长度与语种类型进行Doc2Query生成
+    <div class="one-image-container">
+        <img src="image/qwen3_embedding_query_output_prompt.png" style="width: 100%;">
+    </div>
+2. **阶段2 High-quality Synthetic Data**：从阶段1的 Synthetic Data 中随机抽取数据，保留阶段1结果中语义相关性 `cos_similarity > 0.7` 的样本，最终高质量合成样本数 ~12M
 
 #### Embedding Model
 1. **Prompt**：Embedding Model采用了（共享参数的）双塔结构分别处理查询 Query 和文档 Doc，其中

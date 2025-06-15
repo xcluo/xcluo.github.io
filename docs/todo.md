@@ -11,21 +11,21 @@
 - [ ] 联邦学习
 - [x] DARE: Language Models are Super Mario: Absorbing Abilities from Homologous Models as a Free Lunch
 - [ ] MRL paper: Matryoshka Representation Learning, 一般mrl → norm
+- [ ] Persona Hub：Scaling Synthetic Data Creation with 1,000,000,000 Personas
 - [ ] dashscope for alibaba; openai for openai; requests for glm4
 - [ ] xfyun for xunfei
-- [x] GTE-Qwen3 Embedding, mGTE
+- [x] mGTE
 - [x] jina embedding，jina ai推出
 - [x] e5 embedding，intfloat团队研发
 - [x] xlm-roberta，fair研发
-- [ ] llm tokenizer为什么是left_pad
 - [ ] https://github.com/castorini/pyserini
-- [ ] cot, cot-sc, tot, got
+- [x] cot, cot-sc, tot, got
 - [x] transformers.optmization, transformers.Trainer
 - [ ] tf.metrics, torchmetrics
 - [ ] 文档chunk方案
         - Fixed-size window Chunking + overlapping, charatertextsplitter
         - 结构化分块：markdown、html、pdf等结构化文档
-- [ ] 对比学习负样本选择方案
+- [x] 对比学习负样本选择方案, improved infonce loss
 - [x] 文档检索top-k后还要进行重排reranking，可在结合搜索推荐中的重排技术
 - [ ] 量化float2float，float2int
 - Frobenius范数，次可加性$\Vert A+B \Vert_{F}\le \Vert A \Vert_F + \Vert B \Vert_F$，空间向量相加，两边之和大于第三边

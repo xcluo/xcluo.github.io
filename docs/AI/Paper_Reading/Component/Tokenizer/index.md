@@ -1,6 +1,10 @@
 ### SubWord算法
 SubWord算法，顾名思义就是把一个文本序列划分为更小的一个个**子词**（可能为单个字词的一部分，也可为常用的多个词）
 
+!!! info 
+    - 生成模型在train时因为整个句子已经确定，`right_padding` 也可通过 `attention_mask` 结果准确地识别所有token
+    - 生成模型在generate时由于整个句子还未生成确定，在batch infer时为了防止最右边token为`[PAD]`影响生成，因此通过`left_padding`实现`pad_to_longest`
+
 #### SubWord分词器
 1. [WordPiece](SubWord/subword_tokenize.md#wordpiece)
 2. [UnigramUnigram Language Model (ULM)](SubWord/subword_tokenize.md#ulm)
