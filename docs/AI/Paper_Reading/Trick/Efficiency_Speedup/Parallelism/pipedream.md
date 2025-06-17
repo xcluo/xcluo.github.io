@@ -51,7 +51,9 @@
 - **Initialization**：`A(1, m) = T(1 → 1, m) for m in range(1, M+1)`, `A(i, 1) = T(1 → i, 1) for i in range(1, N+1)`
 - **Runtime Analysis**：A有N*M个子空间，因此为$O(NM)$，每个子空间需要分别对层i和数据并行数m进行分割遍历，为$O(NM)$，总复杂度为$O(N^2M^2)$
 
-- 传统流水线并行采用全转发后全反向的调度，导致大量计算资源闲置，1F1B策略交错进行前向传播和后向传播，显著减少流水线气泡，每个工作器(worker)交替执行一个mini-batch的前向和一个mini-batch的后向
+- 传统流水线并行采用全转发后全反向的调度，导致大量计算资源闲置，每个工作器(worker)交替执行一个mini-batch的前向和一个mini-batch的后向(1F1B)，显著减少流水线气泡
+- **Work Scheduling**：
+
 
 ## PipeDream-2BW
 > 论文：Memory-Efficient Pipeline-Parallel DNN Training  
