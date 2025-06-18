@@ -17,7 +17,7 @@
 - asynchronous parallel or ASP, reduces GPU idle time
 - pipeline parallel将模型划分为多个部分，每部分叫做stage，每个stage对应一个gpu，其中输入部分是input stage，输出部分是output stage
 - 传统的model-parallel DNN training results in severe under-utilization of GPU resources
-- ![alt text](image.png)
+- ![alt text](1750254727335.jpg)
 - 为使每一时刻没有gpu闲置，通过inject multiple minibatches into the pipeline one after the other来避免该问题
 - ![alt text](image-1.png)
 - 由于通信时间为forward或backward的一小部分，又因为在pipeline中连续注入了多个minibatch，因此可以完美的避免通信等待
@@ -51,9 +51,11 @@
 - **Initialization**：`A(1, m) = T(1 → 1, m) for m in range(1, M+1)`, `A(i, 1) = T(1 → i, 1) for i in range(1, N+1)`
 - **Runtime Analysis**：A有N*M个子空间，因此为$O(NM)$，每个子空间需要分别对层i和数据并行数m进行分割遍历，为$O(NM)$，总复杂度为$O(N^2M^2)$
 
-- 传统流水线并行采用全转发后全反向的调度，导致大量计算资源闲置，每个工作器(worker)交替执行一个mini-batch的前向和一个mini-batch的后向(1F1B)，显著减少流水线气泡
-- **Work Scheduling**：
+![alt text](1750254779090.jpg)
+- **Work Scheduling**：in the steady state, every machine is busy either doing the forward pass or backward pass for a minibatch，显著减少流水线气泡
+- Figure 8 illustrates this using a partitioning with no data parallelism
 
+- in the backward pass for minibatch 5 on stage 1, the gradient is computed using a different set of weights than the ones used in the corresponding forward pass; this discrepancy in weight versions can prevent the model from converging.
 
 ## PipeDream-2BW
 > 论文：Memory-Efficient Pipeline-Parallel DNN Training  
@@ -61,4 +63,4 @@
 
 ### 主要内容
 - PipeDream-2BW
-- PipeDream-Flush
+- PipeDream-Flush 
