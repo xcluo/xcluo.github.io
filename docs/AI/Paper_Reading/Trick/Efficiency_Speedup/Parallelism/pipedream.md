@@ -12,8 +12,6 @@
 - PipeDream can use data parallelism for some stages—multiple workers can be assigned to a given stage, processing different minibatches in parallel.
 - PipeDream在运行时会交织运行前向forward和后向backward
 - 保证流水线时刻运行，不出现流水线停滞现象 while preventing excessive inprogress minibatches and ensuring model convergence
-- Bulk Synchronous Parallel, BSP
-- Stale Synchronous Parallel, SSP
 - asynchronous parallel or ASP, reduces GPU idle time
 - pipeline parallel将模型划分为多个部分，每部分叫做stage，每个stage对应一个gpu，其中输入部分是input stage，输出部分是output stage
 - 传统的model-parallel DNN training results in severe under-utilization of GPU resources
@@ -52,10 +50,27 @@
 - **Runtime Analysis**：A有N*M个子空间，因此为$O(NM)$，每个子空间需要分别对层i和数据并行数m进行分割遍历，为$O(NM)$，总复杂度为$O(N^2M^2)$
 
 ![alt text](1750254779090.jpg)
-- **Work Scheduling**：in the steady state, every machine is busy either doing the forward pass or backward pass for a minibatch，显著减少流水线气泡
+
+- **Work Scheduling**：in the steady state, every machine is busy either doing the forward pass or backward pass for a minibatch，显著减少流水线气泡，1F1B，forward、backward交替进行
 - Figure 8 illustrates this using a partitioning with no data parallelism
 
 - in the backward pass for minibatch 5 on stage 1, the gradient is computed using a different set of weights than the ones used in the corresponding forward pass; this discrepancy in weight versions can prevent the model from converging.
+
+naive pipelining does not achieve the same accuracy as data-parallel training. To address this problem, PipeDream uses two techniques:
+
+- **Weight Stashing**权重存储: 计算minibatch i 的forward时，当前machine保存使用的权重 $W_i$，在计算改minibatch的backward时，从stash中取出保存的 $W_i$ 计算梯度而不是使用最新状态的权重（梯度计算基于前向传播时相同的权重版本；避免权重版本不一致导致的训练不稳定问题。）
+
+    - [x] 保证梯度计算的正确性，确保各minibatch的forward和backward使用的权重相同，避免版本漂移问题。
+    - [x] 允许不同machine同时处理不同的minibatch，提高训练效率
+    - [x] 仅需在machine本地缓存权重版本，无需全局同步
+    - [ ] 内存开销增加，每个machine需要存储多个权重副本（一般流水线stage数越多，开销越大）
+    - [ ] 不能完全消除延迟，仍存在流水线泡沫bubble（空闲时间），但相比传统方法更稳定
+    > 因此minibatch 5，forward [update_1, update_2, update_3, update_4]
+
+- Vertical Sync垂直同步：
+
+    > impact of vertical sync is negligible.
+- Staleness
 
 ## PipeDream-2BW
 > 论文：Memory-Efficient Pipeline-Parallel DNN Training  
