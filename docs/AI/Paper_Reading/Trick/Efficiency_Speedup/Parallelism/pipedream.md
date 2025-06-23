@@ -56,6 +56,8 @@
 
 - in the backward pass for minibatch 5 on stage 1, the gradient is computed using a different set of weights than the ones used in the corresponding forward pass; this discrepancy in weight versions can prevent the model from converging.
 
+- NOAM (NUM_OPT_ACTIVE_MINIBATCHES)：$\lceil \#\text{machines}/(\#\text{machines in the input stage}) \rceil$
+
 naive pipelining does not achieve the same accuracy as data-parallel training. To address this problem, PipeDream uses two techniques:
 
 - **Weight Stashing**权重存储: 计算minibatch i 的forward时，当前machine保存使用的权重 $W_i$，在计算改minibatch的backward时，从stash中取出保存的 $W_i$ 计算梯度而不是使用最新状态的权重（梯度计算基于前向传播时相同的权重版本；避免权重版本不一致导致的训练不稳定问题。）
@@ -70,7 +72,8 @@ naive pipelining does not achieve the same accuracy as data-parallel training. T
 - Vertical Sync垂直同步：
 
     > impact of vertical sync is negligible.
-- Staleness
+
+- If the stage is replicated, the weight update is copied to host memory and then sent to the parameter server. When a newer version of the parameters becomes available, the prior version is not immediately discarded, as part of the weight stashing scheme. Parameter data is only discarded once a backward pass that uses fresher parameters is performed. (阶段性SP，各minibatch更新完就push至PS)
 
 ## PipeDream-2BW
 > 论文：Memory-Efficient Pipeline-Parallel DNN Training  

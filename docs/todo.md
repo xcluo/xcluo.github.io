@@ -14,6 +14,7 @@
 - [ ] Persona Hub：Scaling Synthetic Data Creation with 1,000,000,000 Personas
 - [ ] dashscope for alibaba; openai for openai; requests for glm4
 - [ ] yolo家族
+- [ ] Inception家族
 - [ ] xfyun for xunfei
 - [x] mGTE
 - [x] jina embedding，jina ai推出
