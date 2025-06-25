@@ -69,9 +69,10 @@ naive pipelining does not achieve the same accuracy as data-parallel training. T
     - [ ] 不能完全消除延迟，仍存在流水线泡沫bubble（空闲时间），但相比传统方法更稳定
     > 因此minibatch 5，forward [update_1, update_2, update_3, update_4]
 
-- Vertical Sync垂直同步：
-
-    > impact of vertical sync is negligible.
+- Vertical Sync垂直同步：minibatch 5 stage 1的前向权重只更新了1，而stage 2前向权重更新了1和2，权重版本不一致。为了解决该问题提出了垂直同步
+    
+    - 对于minibatch 5，所有stage均使用只由minibatch 1更新的权重参数，即$m_i$全程只用 $i-x$ 版本权重，在backward后，$w^{i-x}$ 更新为 $w^(i)$  
+    > impact of vertical sync is negligible. 保证forward + backward过程中权重一致更重要
 
 - If the stage is replicated, the weight update is copied to host memory and then sent to the parameter server. When a newer version of the parameters becomes available, the prior version is not immediately discarded, as part of the weight stashing scheme. Parameter data is only discarded once a backward pass that uses fresher parameters is performed. (阶段性SP，各minibatch更新完就push至PS)
 
