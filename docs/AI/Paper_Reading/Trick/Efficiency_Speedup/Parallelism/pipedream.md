@@ -76,6 +76,11 @@ naive pipelining does not achieve the same accuracy as data-parallel training. T
 
 - If the stage is replicated, the weight update is copied to host memory and then sent to the parameter server. When a newer version of the parameters becomes available, the prior version is not immediately discarded, as part of the weight stashing scheme. Parameter data is only discarded once a backward pass that uses fresher parameters is performed. (阶段性SP，各minibatch更新完就push至PS)
 
+- Effect of using faster compute (V100s)
+- Effect of varying number of machines
+- Comparison to asynchronous parallel
+- MP: 每一部分顺序执行
+- PP：每一部分顺序是执行，且同时处理不同minibatch
 ## PipeDream-2BW
 > 论文：Memory-Efficient Pipeline-Parallel DNN Training  
 > MSR & Stanford University, 2020 Jun, ICML 2021
