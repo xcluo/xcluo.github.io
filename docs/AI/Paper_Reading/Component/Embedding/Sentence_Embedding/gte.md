@@ -3,17 +3,43 @@
 > Alibaba Group, 2023 Aug
 
 ### 主要内容
-GTE，阿里巴巴达摩院推出
+#### GTE Training Pipeline
+<div class="one-image-container">
+    <img src="image/gte_pipeline.png" style="width: 70%;">
+</div>
 
-- multi-stage contrastive learning pipeline  
-    1. unsupervised text pairs from various data sources for contrastive pre-training
-    2. high-quality supervised text pairs with human labels from multiple sources for contrastive fine-tuning
-    3. Furthermore, since our model is trained using code data as well
+经由以下步骤训练得到GTE模型：
 
+1. **Unsupervised Contrastive  Pre-training**：使用大量无监督文本对进行对比学习预训练
+2. **Supervised Contrastive Fine-tuning**：使用多个任务的高质量有标签数据三元组进行有监督对比训练微调
+
+    > 该阶段使用了有标签代码数据训练微调
+
+两阶段均的损失函数均为改善版InfoNCE loss，分母包括以下部分：
+
+- 查询与目标文档：$s(q_i, d_i^{+})$  
+- 查询与hard negative难分辨负样本：$\sum s(q_i, d_i^{-})$
+- 查询与in-batch文档：$\sum_{i\ne j} s(q_i, d_j)$  
+- 查询与in-batch查询：$\sum_{i\ne j} s(q_i, q_j)$  
+- 文档与in-batch文档：$\sum_{i\ne j} s(d_i, d_j)$
+
+    $$
+    \begin{aligned}
+        L_\text{icl} =& - \frac{1}{N} \sum_{i=1}^N \log \frac{e^{s(q_i, d_i^{+})/\tau}} {Z_i} \\
+        Z_i =& \sum_{j}e^{s(q_i, d_j)/\tau} + \sum_{j \ne i}e^{s(q_i, d_j)/\tau} + \sum_{j \ne i}e^{s(q_i, d_j)/\tau} + \sum_{j \ne i}e^{s(q_i, d_j)/\tau} \\
+    \end{aligned}
+    $$
+
+#### Dataset
+
+1. Unsupervised Pre-training Data
+
+
+2. Supervised Fine-tuning Data
+
+#### Unsupervised CPT
+- Contrastive Pre-Training
 - using a large batch size is crucial to better model performance by reducing the gap between training and inference
-#### Unsupervised CL
-- CPT, Contrastive Pre-Training
-- unsupervised pre-training
 - we exclusively utilized open-source data and did not employ any filtering or cleaning
 methods. details in Appendix A
 - text pair format including (title, body), (title, abstract), (citation, reference), (post, comment), (entity, description), (question, answer), (summary, content), (text, code)
@@ -25,8 +51,9 @@ methods. details in Appendix A
 - 大batch_size非常有必要
 - 分布式并行训练，large batch_size, set max_seq_length=128
 - pretrained models were initialized using the corresponding size MiniLM/BERT models
-#### Supervised CL
-- supervised fine-tuning
+
+#### Supervised CFT
+- Supervised Contrastive Fine-tuning
 - two pieces of text and optional hard negatives mined by an extra retriever to form text triples.
 - handle both symmetric tasks (e.g., semantic textual similarity) and asymmetric tasks (e.g., passage retrieval), collecting large variety of tasks and domains. details in Appendix A
 - ∼3M pairs for fine-tuning
@@ -37,6 +64,9 @@ methods. details in Appendix A
 #### special optimization strategies
 - enlarges the negative samples with both in-batched queries and documents
 - amp with fp16, deepspeed zero, gradient checkpointing
+
+#### Evaluation
+- pre-trained on this dataset, exhibits remarkable performance, surpassing BM25 and E5 model
 
 #### Ablation Study
 - pretrained: 三种dataset group对比。1) 5个最大的的数据集; 2) +随机抽取的10个数据集; 3) total 33数据集
@@ -128,7 +158,7 @@ Qwen3 Embedding模型使用Qwen3 Causal LLM初始化，经以下步骤得到目�
         <img src="image/qwen3_embedding_improved_infonce_loss_supplementary.png" style="width: 95%;">
     </div>
     - 查询与in-batch查询：$\sum_{i\ne j} s(q_i, q_j)$  
-    - 文档与in-batch查询：$\sum_{i\ne j} s(d_i, d_j)$
+    - 文档与in-batch文档：$\sum_{i\ne j} s(d_i, d_j)$
 
     $$
     \begin{aligned}

@@ -52,9 +52,10 @@
 - [软标签 & 硬标签](LLM_Extend/Distillation/distillation.md#soft-label-hard-label)
 - [温度系数](LLM_Extend/Distillation/distillation.md#temperature)
 
-### 效率优化
-- dim 压缩
-- MRL
+### 模型压缩
+- dim 压缩：MRL
+- 网络压缩：Slimmable Neural Networks
+
 
 #### Attention变种
 - [MQA](Efficiency_Speedup/Attention_Variants/mqa.html#mqa)、[GQA](Efficiency_Speedup/Attention_Variants/mqa.html#gqa)、[MLA](../LM/LMs/Infrastructure/DeepSeek/deepseek.md#mla)
