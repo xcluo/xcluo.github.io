@@ -10,12 +10,20 @@
 - [x] kubernetes (k8s)
 - [ ] 联邦学习
 - [x] DARE: Language Models are Super Mario: Absorbing Abilities from Homologous Models as a Free Lunch
-- [ ] MRL paper: Matryoshka Representation Learning, 一般mrl → norm
+- [x] MRL paper: Matryoshka Representation Learning, 一般mrl → norm
+- [x] Slimmable Neural Networks
 - [ ] Persona Hub：Scaling Synthetic Data Creation with 1,000,000,000 Personas
 - [ ] dashscope for alibaba; openai for openai; requests for glm4
-- [ ] yolo家族
-- [ ] Inception家族
+- [ ] yolo家族， SSD（Single Shot MultiBox Detector）多尺度特征图预测，RetinaNet
+- [ ] Faster R-CNN
+- [ ] GoogleNet=Inception v1，Inception家族，Inception-ResNet
+- [ ] AlexNet: 引入dropout和ReLU激活函数
+- [ ] VGGNet：全部使用3*3的kernel，减少参数，增加非线性
+- [ ] ResNet：提出残差连接
+- [ ] FCN（Fully Convolutional Network）
+- [ ] ConvNeXt，MobileNet，ShuffleNet EfficientNet，3D CNN，PointNet 
 - [ ] xfyun for xunfei
+- [ ] 多任务学习中互斥任务影响削减：1) model merging; 2) 基于prompt训练
 - [x] mGTE
 - [x] jina embedding，jina ai推出
 - [x] e5 embedding，intfloat团队研发
@@ -23,6 +31,9 @@
 - [ ] https://github.com/castorini/pyserini
 - [x] cot, cot-sc, tot, got
 - [x] transformers.optmization, transformers.Trainer
+- [x] pipedream, pipedream-2bw
+- [ ] q-learning DQN, DDPG不用重要性采样
+- [x] DPO, PPO, GRPO, DAPO
 - [ ] tf.metrics, torchmetrics
 - [ ] 文档chunk方案
         - Fixed-size window Chunking + overlapping, charatertextsplitter
@@ -41,8 +52,6 @@
 - [x] smooth quant
 - [ ] Atom: Low-bit quantization for efficient and accurate LLM serving
 - [ ] MoE: https://zhuanlan.zhihu.com/p/669312652
-- [ ] q-learning DQN, DDPG不用重要性采样
-- [x] DPO, PPO, GRPO, DAPO
 - [ ] [huggingface leaderboard](https://huggingface.co/spaces?q=leaderboard)
 - [ ] [code with paper leaderboard](https://paperswithcode.com/sota)
 - [ ] [大模型面试](https://zhuanlan.zhihu.com/p/691588703)

@@ -57,4 +57,3 @@ $$
     - else machine i暂停计算并等待其它machine追赶
 
 4. PS聚合有效梯度并更新全局参数 $W_{t+1} = W_t - \eta\cdot\nabla W_{t_i}$
-#### Hybrid Parallel

@@ -1,0 +1,7 @@
+- CNN（Convolution）
+- 反卷积Deconvolution 通过逆向操作模拟卷积的逆过程（但并非数学上的严格逆运算），是用于上采用upsampling的关键操作，其核心是通过填充（padding）和步长（stride）的调整实现尺寸放大。  
+- 转置卷积（Transposed Convolution）或分数步长卷积（Fractionally-Strided Convolution）
+- 空洞卷积Dilated Convolution
+- 子像素卷积Sub-Pixel Convolution
+- pooling: mean, avg, max
+- upooling: Max Unpooling, Average Unpooling
