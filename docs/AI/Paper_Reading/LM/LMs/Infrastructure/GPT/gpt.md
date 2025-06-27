@@ -1,6 +1,9 @@
-## GPT_v1
+## GPT-1
 
-## GPT_V2
+## GPT-2
+
+## GPT-3
+
 
 ## InstructGPT
 > 论文：Training language models to follow instructions with human feedback  
@@ -58,6 +61,14 @@
 4. Data diversity
 #### Human Data Collection Details
 
-## GPT_v3
+## GPT-3.5
 
 ## ChatGPT
+
+## GPT-4
+## GPT-4 Turbo
+## GPT-4o
+## OpenAI o1
+## GPT-4.5
+## OpenAI o3
+## OpenAI O4

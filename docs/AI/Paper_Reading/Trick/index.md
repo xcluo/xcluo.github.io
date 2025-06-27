@@ -30,7 +30,7 @@
 5. [Subword Regularization](../Component/Tokenizer/SubWord/subword_tokenize.md#subword-regularization)、[BPE-Dropout](../Component/Tokenizer/SubWord/subword_tokenize.md#bpe-dropout)
 #### 对比学习
 
-### 大模型使用
+### 大模型相关
 #### [Pre-training]()
 - scaling law失效 https://arxiv.org/pdf/2001.08361
 - multitask learning
@@ -48,7 +48,7 @@
 - ULMFit, Universal language model fine-tuning for text classification
 - AdaLoRA奇异值重要性衡量(equation 11)
 
-#### 蒸馏
+#### 蒸馏、压缩
 - [软标签 & 硬标签](LLM_Extend/Distillation/distillation.md#soft-label-hard-label)
 - [温度系数](LLM_Extend/Distillation/distillation.md#temperature)
 
@@ -59,7 +59,7 @@
 
 #### Attention变种
 - [MQA](Efficiency_Speedup/Attention_Variants/mqa.html#mqa)、[GQA](Efficiency_Speedup/Attention_Variants/mqa.html#gqa)、[MLA](../LM/LMs/Infrastructure/DeepSeek/deepseek.md#mla)
-#### Attention效率优化    
+#### Attention效率优化
 - [flash attention](Efficiency_Speedup/Attention_Speedup/flash_attention.md)
 - [vLLM](Efficiency_Speedup/Attention_Speedup/vllm.md)
 - ollama

@@ -10,98 +10,152 @@
 
 经由以下步骤训练得到GTE模型：
 
-1. **Unsupervised Contrastive  Pre-training**：使用大量无监督文本对进行对比学习预训练
+1. **Weakly Supervised Contrastive Pre-training**：使用大量无监督文本对进行对比预训练
 2. **Supervised Contrastive Fine-tuning**：使用多个任务的高质量有标签数据三元组进行有监督对比训练微调
 
     > 该阶段使用了有标签代码数据训练微调
 
-两阶段均的损失函数均为改善版InfoNCE loss，分母包括以下部分：
+**Training Objective**：两阶段均的损失函数均为改善版InfoNCE loss，分母包括以下部分
 
 - 查询与目标文档：$s(q_i, d_i^{+})$  
 - 查询与hard negative难分辨负样本：$\sum s(q_i, d_i^{-})$
-- 查询与in-batch文档：$\sum_{i\ne j} s(q_i, d_j)$  
-- 查询与in-batch查询：$\sum_{i\ne j} s(q_i, q_j)$  
-- 文档与in-batch文档：$\sum_{i\ne j} s(d_i, d_j)$
+- 查询与in-batch文档：$\sum_{j\ne i} s(q_i, d_j)$  
+- 查询与in-batch查询：$\sum_{j\ne i} s(q_i, q_j)$  
+- 文档与in-batch查询：$\sum_{j\ne i} s(q_j, d_i)$  
+- 文档与in-batch文档：$\sum_{i\ne i} s(d_j, d_i)$
 
     $$
     \begin{aligned}
         L_\text{icl} =& - \frac{1}{N} \sum_{i=1}^N \log \frac{e^{s(q_i, d_i^{+})/\tau}} {Z_i} \\
-        Z_i =& \sum_{j}e^{s(q_i, d_j)/\tau} + \sum_{j \ne i}e^{s(q_i, d_j)/\tau} + \sum_{j \ne i}e^{s(q_i, d_j)/\tau} + \sum_{j \ne i}e^{s(q_i, d_j)/\tau} \\
+        Z_i =& \sum_{j}e^{s(q_i, d_j)/\tau} + \sum_{j \ne i}e^{s(q_i, q_j)/\tau} + \sum_{j \ne i}e^{s(q_j, d_i)/\tau} + \sum_{j \ne i}e^{s(d_j, d_i)/\tau} \\
     \end{aligned}
     $$
 
-#### Dataset
+    > $\tau$ 温度系数此工作中设为 0.01
 
-1. Unsupervised Pre-training Data
+#### Dataset Collection
+
+<div class="one-image-container">
+    <img src="image/gte_pretraining-data_statistics.png" style="width: 50%;">
+</div>
+
+1. **Weakly Supervised Pre-training Data**：仅使用爬取的开源数据，没有采用任何过滤或清理方法。数据格式为文本对，包括以下几种数据来源
+
+    - ^^Web Page^^：`(title, most_relevant_body_text from randomly_sampled_body_texts)`
+    - ^^Academic Paper^^：`(title, abstract)`
+    - ^^Hyperlink^^：`(citation_argument, text_from_reference)`
+    - ^^Community QA^^：structured `(question, answer_by_text-length_and_voting-numbers_heuristics)`
+    - ^^Social Media^^：structured `(post, comment)`
+    - ^^News^^：structured `(highlighted_sentences, content)`
+    - ^^Knowledge Base^^：`(entity, description)`
+    - ^^Code Repository^^：`(requirement_text, code)`
+    - ^^Others^^：`(good, review)`、`(argument, debeat)`、`(googaq_q, googqa_a)`, etc.
+    > more details about data resource in Appendix A.1, A.3
+
+    <div class="one-image-container">
+        <img src="image/gte_pretraining-data_examples.png" style="width: 100%;">
+    </div>
 
 
-2. Supervised Fine-tuning Data
+
+2. **Supervised Fine-tuning Data**：包括既有的有标签文本对以及可选的特意挖掘的hard negatives难分辨负样本，以构成文本三元组，包括以下几种数据来源
+
+    - ^^Web Search^^：`MS_MARCO + high-ranked hard negatives by doc retriever`  
+    - ^^Open QA^^：`open QA datasets + top-ranked negative passages by retriever`  
+    - ^^NLI^^：`entailment + contradiction`
+    - ^^Fact Verification^^：`one argument and supporting source`
+    - ^^Paraphrase^^：`two sentences with similar meanings`
+    - ^^Others^^：`MEDI, BERRI and sub-sampled version of pre-training data`
+    > 总样本数 ~3M，三元组的hard negative部分可为多个负样本  
+    > more details about data resource in Appendix A.1, A.3
+
+    <div class="one-image-container">
+        <img src="image/gte_finetuning-data_examples.png" style="width: 100%;">
+    </div>
 
 #### Unsupervised CPT
-- Contrastive Pre-Training
-- using a large batch size is crucial to better model performance by reducing the gap between training and inference
-- we exclusively utilized open-source data and did not employ any filtering or cleaning
-methods. details in Appendix A
-- text pair format including (title, body), (title, abstract), (citation, reference), (post, comment), (entity, description), (question, answer), (summary, content), (text, code)
-- 788M pairs
-![alt text](image-3.png)
+对比预训练 Contrastive Pre-Training 过程中具有以下训练细节
 
-- **data sources often differ significantly** in terms of the number of training instances. To address this imbalance, 对各个data source进行多项式采样$p_i = \frac{n_i^{\alpha}}{\sum_j n_j^{\alpha}}$
-- 每个batch中的任务类型确保相同
-- 大batch_size非常有必要
-- 分布式并行训练，large batch_size, set max_seq_length=128
-- pretrained models were initialized using the corresponding size MiniLM/BERT models
+1. **Data Sampling**：由于各来源数据量存在巨大差异，要求每batch仅来源于同一任务，因此设计了多项式采样分布函数，各数据集样本采样概率为
+
+    $$
+    p_i = \frac{\vert  D_i \vert^{\alpha}}{\sum_{i=1}^m \vert D_i \vert ^\alpha}
+    $$
+
+    > $\alpha$ 为多项式各成分混合比例 mixing ratio
+
+2. **Ensure Large Batch Size**：尽可能地通过各种技巧增大CPT阶段的 `batch_size`，得到更多的in-batch negatives，从而缩小训练和推理阶段（如检索）的差距，提高模型效果表现
+
+    - `max_seq_len=128`
+    - AMP training with fp16
+    - 将分布在各GPU上的样本用作负样本
+    - DeepSpeed ZeRO stage 1
+    - gradient checkpointing
 
 #### Supervised CFT
-- Supervised Contrastive Fine-tuning
-- two pieces of text and optional hard negatives mined by an extra retriever to form text triples.
-- handle both symmetric tasks (e.g., semantic textual similarity) and asymmetric tasks (e.g., passage retrieval), collecting large variety of tasks and domains. details in Appendix A
-- ∼3M pairs for fine-tuning
-- a large batch size is unnecessary since hard negatives can already provide a reliable gradient estimation of the learning objective
-- batch_size=128, 16 contrastive samples (1 positive + 1 hard + remaining in-batch random)
-- max_seq_length=512
+有监督对比训练微调Supervised Contrastive Fine-tuning 具有以下训练细节
 
-#### special optimization strategies
-- enlarges the negative samples with both in-batched queries and documents
-- amp with fp16, deepspeed zero, gradient checkpointing
+1. **Unnecessary Large Batch Size**：由于使用了高质量数据和难区分负样本hard negatives进行SFT足够获取可靠的梯度估计，因此无需刻意保持大 `batch_size` 进行对比训练  
+
+    - `batch_size=128`, 16 contrastive samples (1 positive + 1 hard + remaining in-batch random)
+    - `max_seq_length=512` 使模型更好处理长文本问题
+    - amp with fp16
 
 #### Evaluation
-- pre-trained on this dataset, exhibits remarkable performance, surpassing BM25 and E5 model
+
+<div class="one-image-container">
+    <img src="image/gte_performance_comparison.png" style="width: 95%;">
+</div>
+
+!!! success "效果表现"
+    - GTE预训练模型较BM25以及E5模型有更出色的效果表现
+    - SFT情况下，GTE-small模型与E5-large模型效果表现相当（模型规模存在10×差距）
+    - GTE-large效果表现优于多任务指令微调嵌入模型InstructOR-xl，且取得SOTA效果表现
+    
+<div class="one-image-container">
+    <img src="image/gpt_performance_vary_dataset-batch_size-parameter.png" style="width: 95%;">
+</div>
+
+> PT，**+**：5个最大数据集；**++**：5个最大数据集 + 10个随机抽取的数据集；**+++**：all 33数据集  
+> FT，**+**：E5中3个数据集；**++**：E5中3个数据集 + MEDI；**+++**：E5中3个数据集 + MEDI + BERRI
+
+!!! success "效果表现"
+    - 更多样化的数据源可以持续提升模型在预训练和微调阶段的性能  
+    - 随着`batch_size`增大，预训练模型效果越好，且在10000左右达到饱和
+
+<div class="one-image-container">
+    <img src="image/gte_performance_vary_ratio.png" style="width: 40%;">
+</div>
+
+!!! success "效果表现"
+    - 数据集均匀采样($\alpha=0$)和单纯基于数据集样本量采样($\alpha=1$)均不是最优选择  
+    - mixing ratio $\alpha=0.5$ 的效果表现最佳
 
 #### Ablation Study
-- pretrained: 三种dataset group对比。1) 5个最大的的数据集; 2) +随机抽取的10个数据集; 3) total 33数据集
-- finetune: E5中的3个数据集 + MEDI中的数据集 + BERRI中的数据集
-- multistages: full > PT > FT
-- mixing ratio used in sampling distribution on pretraining data, 按dataset随机采样和按sample随机采样效果均不是最佳
-    ![alt text](image-4.png)
-- improved contrastive loss consistently improves model performance
+<div class="row-image-container">
+    <div>
+        <img src="image/gte_ablation_stage.png" style="width: 100%;">
+        <!-- <p>LoRA在Attention各部分权重上的消融实验效果</p> -->
+        <!-- <figcaption>这是图片的标题或描述。</figcaption> -->
+    </div>
 
-#### Details about Pre-training Data
-1. Web Page: short title + most relevant body texts from a set of randomly sampled texts
-2. Academic Paper: title  + abstract
-3. Hyperlink: citation argument + the text from reference
-4. Community QA: text lengths and voting numbers are used to filter out low-quality data.
-5. Social Media: post title + post body. post comment are also regared as positive pairs for data mining
-6. News: title + body
-7. Knowledge Base: entity/event + destribution
-8. Code: text + code
-9. Others: reviews about goods, debate websites about one argument, googaq q-a pairs by prompting google search box with search log queries.
-#### Details about Training Data
-(query, positive, hard negative) triple
+    <div>
+        <img src="image/gte_ablation_in-batch_negative.png" style="width: 85%;">
+        <!-- <p>LoRA在Attention各部分权重上的消融实验效果</p> -->
+        <!-- <figcaption>这是图片的标题或描述。</figcaption> -->
+    </div>
+</div>
 
-1. Web Search
-2. Open QA
-3. Natural Language Inference
-4. Fact Verification
-5. Paraphrase
-6. Others
-#### Data Resources
+!!! success "效果表现"
+    - 两阶段训练对GTE效果表现均有提升效果
+    - imporved in-batch negatives 较传统in-batch negatives有更佳效果提升
 
 
 ## mGTE
 > 论文：mGTE: Generalized Long-Context Text Representation and Reranking Models for Multilingual Text Retrieval  
 > Alibaba Group, 2024 Jul，EMNLP 2024
 
+### 主要内容
 
 ## Qwen3 Embedding
 > 论文：Qwen3 Embedding: Advancing Text Embedding and Reranking Through Foundation Models  
@@ -192,7 +246,7 @@ Qwen3 Embedding模型使用Qwen3 Causal LLM初始化，经以下步骤得到目�
     $$
 
 
-#### Evaluations
+#### Evaluation
 <div class="one-image-container">
     <img src="image/qwen3_embedding_embedding_model_performance.png" style="width: 95%;">
 </div>
@@ -201,7 +255,7 @@ Qwen3 Embedding模型使用Qwen3 Causal LLM初始化，经以下步骤得到目�
     <img src="image/qwen3_embedding_reranking_model_performance.png" style="width: 95%;">
 </div>
 
-!!! success ""
+!!! success "效果表现"
     - Qwen3 Embedding Model、Reranking Model能在各benchmarks中取得SOTA效果表现
 #### Ablation Study
 <div class="one-image-container">
@@ -209,5 +263,5 @@ Qwen3 Embedding模型使用Qwen3 Causal LLM初始化，经以下步骤得到目�
 </div>
 > `synthetic data` 为LLM生成的应用于阶段1的预训练数据
 
-!!! success ""
+!!! success "效果表现"
     - LLM生成的弱监督数据与模型合并均对模型效果有提升
