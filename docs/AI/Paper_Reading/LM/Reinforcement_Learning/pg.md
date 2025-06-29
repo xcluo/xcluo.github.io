@@ -5,15 +5,14 @@
 PG 的核心思想为最大化轨迹（折扣或非折扣）回报
 
 $$
-J(\theta) = \mathbb{E}_{\tau \text{\textasciitilde} \pi_{\theta}} \bigg[ \sum_{t=0}^\infty \gamma^{t}r_t \bigg]
+J(\theta) = \mathbb{E}_{\tau \sim  \pi_{\theta}} \bigg[ \sum_{t=0}^\infty \gamma^{t}r_t \bigg]
 $$
 
 #### 梯度推导
 
 $$
 \begin{aligned}
-    \nabla_{\theta} J(\theta) =& \mathbb{E}_{\tau \text{\textasciitilde} \pi_{\theta}} \bigg[ \sum_{t=0}^{T_n} \Psi_t \nabla_{\theta} \log \pi_{\theta}(a_t\vert s_t) \bigg]
-
+    \nabla_{\theta} J(\theta) =& \mathbb{E}_{\tau \sim \pi_{\theta}} \bigg[ \sum_{t=0}^{T_n} \Psi_t \nabla_{\theta} \log \pi_{\theta}(a_t\vert s_t) \bigg]
 \end{aligned}
 $$
 
@@ -40,7 +39,7 @@ $\Psi_t$ 有以下多种选择：
 2. Actor-Critic
 
     $$
-    \nabla_{\theta} J(\theta) \approxcolon \mathbb{E} \big[  \nabla_{\theta} \log \pi_{\theta}(a_t\vert s_t)\cdot A^{\pi_\theta}(s_t, a_t) \big]
+    \nabla_{\theta} J(\theta) \approx \mathbb{E} \big[  \nabla_{\theta} \log \pi_{\theta}(a_t\vert s_t)\cdot A^{\pi_\theta}(s_t, a_t) \big]
     $$
 
     > 通过估计每一步的优势值替代蒙特卡洛回报 $G_t$

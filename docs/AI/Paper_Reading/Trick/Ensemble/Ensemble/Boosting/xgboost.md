@@ -105,7 +105,6 @@
     $$
         r_k(z) = \frac{\sum_{(x, k)\in D_k, x\lt z} \hbar}{\sum_{(x, k)\in D_k} \hbar} \\
         \vert r_k(s_{k, j}) - r_k(s_{k, j+1}) \vert \lt \epsilon, s_{k1} = \min_i x_{ik}, s_{kl} = \max_{i} x_{i, k}
-        
     $$
 
     > $\epsilon$ 为分位置误差，因此每个bucket中约有 $1/\epsilon\approx N$ 个候选样本，基于 $\hbar$ 进行 N 等分
