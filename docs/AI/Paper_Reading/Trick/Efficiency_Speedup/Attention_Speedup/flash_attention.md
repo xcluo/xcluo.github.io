@@ -17,7 +17,7 @@
     - 当前主流的Attention加速算法都是近似算法（如稀疏Attention），以减少复杂度为$O(N^2d)$ Attention计算开销，但当前GPU的浮点数计算效率比IO访存效率快得多，*过分的优化FLOPS效果不明显*
     - 标准HBM IO访存复杂度=$O(Nd + N^2)$，<span style="color: red">瓶颈在HBM IO访存</span>。
 
-### FlashAttention_v1
+### FlashAttention-1
 通过`Q`、`K`、`V`分块tiling和重计算（不保存Attention的部分中间结果）的方式节省了HBM的IO访存次数
 
 - [x] Attention部分显存使用数量级从平方降为线性
@@ -53,12 +53,12 @@
     - 不保存$P$至HBM，减少IO
 
 外循环是K、V，内循环是Q，前者只需要读2+T_r次，后者需要读1+2*T_c次
-### FlashAttention_v2
+### FlashAttention-2
 
 #### 动机
 #### 基本原理
 
-### FlashAttention_v3
+### FlashAttention-3
 ### 方法介绍
 
 #### 基本原理

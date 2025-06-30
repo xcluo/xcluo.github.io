@@ -25,6 +25,7 @@
 - [ ] xfyun for xunfei
 - [ ] 多任务学习中互斥任务影响削减：1) model merging; 2) 基于prompt训练
 - [x] mGTE
+- [x] bge, bge-m3
 - [x] jina embedding，jina ai推出
 - [x] e5 embedding，intfloat团队研发
 - [x] xlm-roberta，fair研发
