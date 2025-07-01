@@ -25,6 +25,7 @@
 - [ ] ResNet：提出残差连接
 - [ ] FCN（Fully Convolutional Network）
 - [ ] ConvNeXt，MobileNet，ShuffleNet EfficientNet，3D CNN，PointNet 
+- [ ] openCV
 - [ ] xfyun for xunfei
 - [ ] 多任务学习中互斥任务影响削减：1) model merging; 2) 基于prompt训练
 - [x] mGTE
