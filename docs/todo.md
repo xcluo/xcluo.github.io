@@ -12,6 +12,9 @@
 - [x] DARE: Language Models are Super Mario: Absorbing Abilities from Homologous Models as a Free Lunch
 - [x] MRL paper: Matryoshka Representation Learning, 一般mrl → norm
 - [x] Slimmable Neural Networks
+- [ ] ROI Pooling, Region of Interest: 1) region proposal; 2) pooling sections; 3) max_pooling of sections
+        - 将feature map划分为 H*W 个区域
+        - 通过max_pooling得到 H*W 大小的特征图
 - [ ] Persona Hub：Scaling Synthetic Data Creation with 1,000,000,000 Personas
 - [ ] dashscope for alibaba; openai for openai; requests for glm4
 - [ ] yolo家族， SSD（Single Shot MultiBox Detector）多尺度特征图预测，RetinaNet
@@ -79,6 +82,12 @@
 - [ ] prompt engineering
 - [ ] lora with diffusion model 
 - [x] KV cache：将L层K与V进行缓存以执行Attention，各层矩阵为 `k.shape = (bs, n_heads, seq_len, head_dim)`
+- [x] https://ai.stackexchange.com/questions/48185/why-not-cache-the-q-query-matrix
+    - infer时只需要得到`current_last_hidden_state`，不需要关心`previous_last_hidden_state`，因此无需进行 q cache（FFN和Attention均不存在current $t$ 与previous $\lt t$的交互）  
+    - Attention部分存在$QK^TV$，因此需要持续缓存K、V
+    - during autoregressive generation you do not use the entire cached input X
+ to recompute Q ; instead, you compute the projection for the new token $x_\text{new}$ on the fly to get $q_\text{new}$, $q_\text{new}K^TV$
+    - 在AR模型的infer阶段，只需要输入$x_t$与其对应的位置信息，结合缓存的K、V cache，即可实现next token prediction
 - [x] LDA潜在迪利克雷分布，b站视频 LDA主题模型
 - [ ] LSA/PLSA
 - [ ] Cholesky分解
