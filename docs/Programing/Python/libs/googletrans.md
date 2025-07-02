@@ -8,6 +8,9 @@ translator = Translator()
 ```python
 # Translated.text 为翻译后的文本
 def translate(self, text, dest='en', src='auto') -> Translated:
+
+# 获取翻译结果，`dest`指定翻译的目标语言
+translator.translate(content, dest='zh-cn').text
 ```
 2. 常用语种
 ```python
