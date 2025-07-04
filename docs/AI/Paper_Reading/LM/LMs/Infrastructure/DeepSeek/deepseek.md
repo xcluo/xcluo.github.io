@@ -31,7 +31,51 @@ $$
 \end{aligned}
 $$
 
-## DeepSeek-v2
+## DeepSeek-1
+> 论文：DeepSeek LLM Scaling Open-Source Language Models with Longtermism  
+> DeepSeek-AI, 2024 Jan
+
+### 主要内容
+
+
+- scaling laws  
+    - of batch size and learning rate, and found their trends with model size  
+    - of the data and model scale  
+    - scaling laws derived from different datasets show significant differences  
+    - choice of dataset remarkably affects the scaling behavior, indicating that caution should be exercised when generalizing scaling laws across datasets.  
+
+- stages: 2 trillion tokens in Chinese and English for pre-training + 1 million instances for SFT + DPO
+
+- safety evaluation
+
+#### Dataset
+- deduplication: deduplicating across 91 dumps eliminates four times more documents than a single dump method.
+![alt text](image.png)
+
+- filtering: incorporating both linguistic and semantic evaluations
+- remixing: address data imbalances, focusing on increasing the presence of underrepresented domains
+- tokenizer: 
+    - BBPE  
+    - Pre-tokenization, prevent the merging of tokens from different character categories such as new lines, punctuation, and Chinese-Japanese-Korean (CJK) symbols  
+    - split number into individual digits following llama
+    - vocab: 100000 + 15 special tokens + used for future → 102400
+
+#### Architecture
+micro
+
+- replace pre-layer-norm with pre-rms-norm
+- SwiGLU for FFN
+- GQA
+
+- replaced the cosine learning rate scheduler with a multi-step learning rate scheduler, maintaining performance while facilitating continual training. 1) 2000 warmup steps to maximum; 2) decrease to 31.6% after 80% training tokens; 3) decrease to 10% after 90% training tokens; 即warmup to maximum → maximum → 80% to 31.6% → 90% to 10%
+- adjusting the proportions of different stages in the multi-step learning rate scheduler can yield slightly better performance.
+- gradient_clip=1.0
+- The batch size and learning rate vary with the model size, illustrated in Table 2
+
+- Data parallelism, tensor parallelism, sequence parallelism, and 1F1B pipeline parallelism
+- continuous batching in non-generative tasks to avoid manual batch size tuning and reduce token padding.
+
+## DeepSeek-2
 > 论文：DeepSeek-V2: A Strong, Economical, and Efficient Mixture-of-Experts Language Model  
 > DeepSeek-AI 2024 May
 
@@ -225,10 +269,12 @@ $$
 
 - low-precision training
 
-## DeepSeek-v3
+## DeepSeek-3
 
 
 ### 主要内容
+- 共享专家与专业专家数量都乘以了m倍，为保持参数量不变，intermediate hidden state dim也需要1/m
+
 #### MoE Load Balance Loss-free
 #### MTP
 <div class="one-image-container">

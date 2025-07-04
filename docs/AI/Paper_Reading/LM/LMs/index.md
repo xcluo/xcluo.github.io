@@ -5,9 +5,9 @@
 - [RoBERTa](Infrastructure/BERT/RoBERTa/roberta.md)
 
 ### Decoder
-- GPT
-- Gemini
-- Cladue
+- OpenAI: GPT
+- Google: Gemini
+- thropic: Cladue
 - DeBERTa、DeBERTa_v3
 - [LLaMA](Infrastructure/LLaMA/llama.md)
 - [DeepSeek](Infrastructure/DeepSeek/deepseek.md)

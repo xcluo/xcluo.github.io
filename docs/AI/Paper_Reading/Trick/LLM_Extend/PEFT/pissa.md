@@ -8,7 +8,7 @@
 
 #### 细节实现
 <div class="one-image-container">
-    <img src="\AI\Paper_Reading\Trick\LLM_Extend\LLM_SFT\image\pissa_diagram.jpg" style="width: 30%;">
+    <img src="image\pissa_diagram.jpg" style="width: 30%;">
 </div>
 
 - nuclear norm，核范式，矩阵特征值得迹tr
