@@ -16,7 +16,7 @@ Y^{\text{BF16}} = X^{\text{BF16}}\text{doubleDequant}(c_1^{\text{FP32}}, &c_2^{\
 $$
 
 <div class="one-image-container">
-    <img src="\AI\Paper_Reading\Trick\LLM_Extend\LLM_SFT\image\qlora_diagram.jpg" style="width: 85%;">
+    <img src="image\qlora_diagram.jpg" style="width: 85%;">
 </div>
 
 - [x] 4-bit NormalFloat(NF4) 在符合正态分布数据上量化效果优于4-bit Integers和4-bit Floats
@@ -64,15 +64,15 @@ $$
 #### 实验效果
 1. NF4 is better other 4-bit quantization
     <div class="one-image-container">
-        <img src="\AI\Paper_Reading\Trick\LLM_Extend\LLM_SFT\image\qlora_vary_data-type.png" style="width: 60%;">
+        <img src="image\qlora_vary_data-type.png" style="width: 60%;">
     </div>
 2. Guanaco is the best-performing model after GPT-4
     <div class="one-image-container">
-        <img src="\AI\Paper_Reading\Trick\LLM_Extend\LLM_SFT\image\qlora_guanaco_performance.png" style="width: 85%;">
+        <img src="image\qlora_guanaco_performance.png" style="width: 85%;">
     </div>
 3. NF4 quantization enables inference speedup
     <div class="one-image-container">
-        <img src="\AI\Paper_Reading\Trick\LLM_Extend\LLM_SFT\image\qlora_inference_speedup.png" style="width: 85%;">
+        <img src="image\qlora_inference_speedup.png" style="width: 85%;">
     </div>
 ```python
 from scipy.stats import norm

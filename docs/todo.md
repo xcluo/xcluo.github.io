@@ -11,6 +11,8 @@
 - [ ] 联邦学习
 - [x] DARE: Language Models are Super Mario: Absorbing Abilities from Homologous Models as a Free Lunch
 - [x] MRL paper: Matryoshka Representation Learning, 一般mrl → norm
+- [ ] Reducing activation recomputation in large transformer models.
+- [ ] 3D parallel
 - [x] Slimmable Neural Networks
 - [ ] ROI Pooling, Region of Interest: 1) region proposal; 2) pooling sections; 3) max_pooling of sections
         - 将feature map划分为 H*W 个区域
@@ -22,12 +24,22 @@
 - [ ] GoogleNet=Inception v1，Inception家族，Inception-ResNet
 - [ ] AlexNet: 引入dropout和ReLU激活函数
 - [ ] VGGNet：全部使用3*3的kernel，减少参数，增加非线性
-- [ ] ResNet：提出残差连接
+- [ ] ResNet-50：提出残差连接
 - [ ] FCN（Fully Convolutional Network）
-- [ ] ConvNeXt，MobileNet，ShuffleNet EfficientNet，3D CNN，PointNet 
+- [ ] ConvNeXt，MobileNet，ShuffleNet, EfficientNet，3D CNN，PointNet 
+- [ ] DETR
 - [ ] openCV
 - [ ] xfyun for xunfei
 - [ ] 多任务学习中互斥任务影响削减：1) model merging; 2) 基于prompt训练
+- [ ] continuous batching, continuous batching in non-generative tasks to avoid manual batch size tuning and reduce token padding.
+- [ ] kv cache：https://juejin.cn/post/7362789570217885759
+- [x] KV cache：将L层K与V进行缓存以执行Attention，各层矩阵为 `k.shape = (bs, n_heads, seq_len, head_dim)`
+- [x] https://ai.stackexchange.com/questions/48185/why-not-cache-the-q-query-matrix
+    - infer时只需要得到`current_last_hidden_state`，不需要关心`previous_last_hidden_state`，因此无需进行 q cache（FFN和Attention均不存在current $t$ 与previous $\lt t$的交互）  
+    - Attention部分存在$QK^TV$，因此需要持续缓存K、V
+    - during autoregressive generation you do not use the entire cached input X
+ to recompute Q ; instead, you compute the projection for the new token $x_\text{new}$ on the fly to get $q_\text{new}$, $q_\text{new}K^TV$
+    - 在AR模型的infer阶段，只需要输入$x_t$与其对应的位置信息，结合缓存的K、V cache，即可实现next token prediction
 - [x] mGTE
 - [x] bge, bge-m3
 - [x] jina embedding，jina ai推出
@@ -82,13 +94,6 @@
 - [ ] p-tuning v1/v2
 - [ ] prompt engineering
 - [ ] lora with diffusion model 
-- [x] KV cache：将L层K与V进行缓存以执行Attention，各层矩阵为 `k.shape = (bs, n_heads, seq_len, head_dim)`
-- [x] https://ai.stackexchange.com/questions/48185/why-not-cache-the-q-query-matrix
-    - infer时只需要得到`current_last_hidden_state`，不需要关心`previous_last_hidden_state`，因此无需进行 q cache（FFN和Attention均不存在current $t$ 与previous $\lt t$的交互）  
-    - Attention部分存在$QK^TV$，因此需要持续缓存K、V
-    - during autoregressive generation you do not use the entire cached input X
- to recompute Q ; instead, you compute the projection for the new token $x_\text{new}$ on the fly to get $q_\text{new}$, $q_\text{new}K^TV$
-    - 在AR模型的infer阶段，只需要输入$x_t$与其对应的位置信息，结合缓存的K、V cache，即可实现next token prediction
 - [x] LDA潜在迪利克雷分布，b站视频 LDA主题模型
 - [ ] LSA/PLSA
 - [ ] Cholesky分解

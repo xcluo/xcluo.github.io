@@ -54,7 +54,7 @@
 
 ### 模型压缩
 - dim 压缩：MRL
-- 网络压缩：Slimmable Neural Networks
+- 网络瘦身：Slimmable Neural Networks
 
 
 #### Attention变种
