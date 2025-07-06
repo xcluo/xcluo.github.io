@@ -29,6 +29,7 @@
 - [ ] ConvNeXt，MobileNet，ShuffleNet, EfficientNet，3D CNN，PointNet 
 - [ ] DETR
 - [ ] openCV
+- [ ] cv中常见的数据增强方案：crop 对单张输入图像裁剪
 - [ ] xfyun for xunfei
 - [ ] 多任务学习中互斥任务影响削减：1) model merging; 2) 基于prompt训练
 - [ ] continuous batching, continuous batching in non-generative tasks to avoid manual batch size tuning and reduce token padding.
