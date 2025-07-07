@@ -9,6 +9,11 @@
 - [x] docker
 - [x] kubernetes (k8s)
 - [ ] 联邦学习
+- [x] scaling laws
+    - Deep learning scaling is predictable, empirically
+    - Scaling laws for autoregressive generative modeling
+    - Training compute-optimal large language models
+    - Scaling laws for neural language models
 - [x] DARE: Language Models are Super Mario: Absorbing Abilities from Homologous Models as a Free Lunch
 - [x] MRL paper: Matryoshka Representation Learning, 一般mrl → norm
 - [ ] Reducing activation recomputation in large transformer models.
@@ -21,7 +26,7 @@
 - [ ] dashscope for alibaba; openai for openai; requests for glm4
 - [ ] yolo家族， SSD（Single Shot MultiBox Detector）多尺度特征图预测，RetinaNet
 - [ ] Faster R-CNN
-- [ ] GoogleNet=Inception v1，Inception家族，Inception-ResNet
+- [x] GoogleNet=Inception v1，Inception家族，Inception-ResNet
 - [ ] AlexNet: 引入dropout和ReLU激活函数
 - [ ] VGGNet：全部使用3*3的kernel，减少参数，增加非线性
 - [ ] ResNet-50：提出残差连接
@@ -77,6 +82,7 @@
 - [ ] Wizardmath: Empowering mathematical reasoning for large language models via reinforced evol-instruct
 - [ ] Math-shepherd: Verify and reinforce llms step-by-step without human annotations
 - [x] vllm: Efficient Memory Management for Large Language Model Serving with PagedAttention
+- [ ] https://www.high-flyer.cn/en/blog/hai-llm/
 - [x] DeepSpeed（Zero Redundancy Optimizer）、Megatron-LM、HAI-LLM framework（higher flyer）
 - [ ] Colossal-AI:  A Unified Deep Learning System For Large-Scale Parallel Training
 - [x] zero-dp：zero 1,2,3 用通信换内存，zero-3引入了额外的通信开销用于forward和backward（用了就扔）

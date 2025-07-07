@@ -31,6 +31,8 @@
 #### 对比学习
 
 ### 大模型相关
+#### Scaling Laws
+
 #### [Pre-training]()
 - scaling law失效 https://arxiv.org/pdf/2001.08361
 - multitask learning

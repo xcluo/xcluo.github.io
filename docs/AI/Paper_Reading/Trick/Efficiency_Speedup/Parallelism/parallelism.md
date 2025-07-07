@@ -1,4 +1,5 @@
 - https://zhuanlan.zhihu.com/p/368828844
+
 ### 分布式训练架构
 分布式计算中的关键集体通信（Collective Communication）操作，用于在多个计算节点/设备间同步数据
 

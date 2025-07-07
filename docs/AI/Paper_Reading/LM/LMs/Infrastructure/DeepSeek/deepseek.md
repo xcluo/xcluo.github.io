@@ -75,6 +75,12 @@ micro
 - Data parallelism, tensor parallelism, sequence parallelism, and 1F1B pipeline parallelism
 - continuous batching in non-generative tasks to avoid manual batch size tuning and reduce token padding.
 
+#### Scaling Laws
+- Scaling laws (Henighan et al., 2020; Hoffmann et al., 2022; Kaplan et al., 2020) suggest that model performance can be predictably improved with increases in compute budget 𝐶, model scale 𝑁, and data scale 𝐷
+    - N: model parameters
+    - D: number of tokens
+    - C: ≈6ND
+
 ## DeepSeek-2
 > 论文：DeepSeek-V2: A Strong, Economical, and Efficient Mixture-of-Experts Language Model  
 > DeepSeek-AI 2024 May
