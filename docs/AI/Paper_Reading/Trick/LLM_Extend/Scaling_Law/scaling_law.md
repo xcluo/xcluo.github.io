@@ -10,11 +10,13 @@
 
 #### Generalization Error Scaling with Data
 - learning curves measure how much training data a model family requires to reach a particular accuracy.
+- generalization error curve
+- loss learning curve
 - Many studies theoretically predict that generalization error "learning curves" take a power-law form, $\epsilon (m) \propto \alpha m^{\beta_g}$. 
     - $\epsilon$ 为generalization error  
     - $m$ number of training samples
     - $\alpha$ is a scalar
-    - $\beta_g$ scaling exponent，一般为负数
+    - $\beta_g$ scaling exponent，一般为负数, g=generation error
 
 - Our results show that power-law learning curves exist across all tested domains. Although different applications yield different power-law exponents and intercepts
 - Improved model architectures and optimizers can improve the power-law intercept, but not the exponent
@@ -24,7 +26,7 @@
 - number of model parameters to fit a data set should follow $s(m) \propto  \alpha m^{\beta_p}$
     - $s(m)$ is the required model size to fit a training set of size m
     - $\alpha$ is a scalar
-    - $\beta_p \in [0.5, 1]$
+    - $\beta_p \in [0.5, 1]$ p=parameter
 
 - These studies show that while model capacity might explain a model’s ability to memorize training examples, capacity may not adequately explain the model’s ability to generalize to new examples.
 - Rather than reason through these complexities, it is currently easier for researchers and practitioners to over-parameterize models to fit training data
@@ -33,6 +35,13 @@
 - Data sets: shard in steps of roughly 2x, e.g., 0.1% T, 0.2% T, 0.2% T, ...
 - We use either the validation set available with training data, or if such a validation set is not available, we use a hold-out subset of T that does not overlap with any of the T shards.
 - $\forall_i V \cap T_i = \phi$
+
+
+![alt text](image.png)
+- small data region
+- power-law region
+- irreducible error region
+
 ## 2
 > 论文：Scaling Laws for Neural Language Models  
 > Johns Hopkins University & OpenAI, 2020 Jan  
