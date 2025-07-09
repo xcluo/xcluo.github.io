@@ -55,8 +55,8 @@
 - [温度系数](LLM_Extend/Distillation/distillation.md#temperature)
 
 ### 模型压缩
-- dim 压缩：MRL
-- 网络瘦身：Slimmable Neural Networks
+- dim 压缩：[MRL](Efficiency_Speedup/Compression/mrl.md)
+- 网络瘦身：[Slimmable Neural Networks](Efficiency_Speedup/Compression/slimmable_network.md)
 
 
 #### Attention变种

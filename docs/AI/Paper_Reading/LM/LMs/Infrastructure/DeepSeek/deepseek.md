@@ -36,8 +36,7 @@ $$
 > DeepSeek-AI, 2024 Jan
 
 ### 主要内容
-
-
+- https://152334h.github.io/blog/deepseek-1/
 - scaling laws  
     - of batch size and learning rate, and found their trends with model size  
     - of the data and model scale  
@@ -79,7 +78,16 @@ micro
 - Scaling laws (Henighan et al., 2020; Hoffmann et al., 2022; Kaplan et al., 2020) suggest that model performance can be predictably improved with increases in compute budget 𝐶, model scale 𝑁, and data scale 𝐷
     - N: model parameters
     - D: number of tokens
-    - C: ≈6ND
+    - C: ≈6ND，6表示 1 forward + 2 backward + 3 update
+
+- IsoFLOP profile approach from Chinchilla
+- our contributions and findings: 3项
+- FLOPs/token，每处理一个token所需的**浮点运算**次数
+    - 嵌入层Embedding：映射操作，FLOPs/token=0
+    - 注意力层Self-Attention：1) QKC投影操作，$3*d_{model}^2$；2) 注意力权重矩阵，`n_head*d_head*seq_len=seq_len*d_model`；3) softmax，分母部分求和 $O(d_{model})$；4) value加权，`seq_len*d_model`；5) O输出投影，$d_{model}^2$
+    - 前馈网络FFN：`d_model → d_ff → d_model, 计算量为2*d_model*d_ff`, 通常 FLOPs/token=$8*d_{model}^2$
+    - LN：均值和方差 $O(d_{model})$，除操作是bitwise operation，FLOPs/token=$2*d_{model}$
+    - 残差连接：加法操作是bitwise operation，FLOPs/token=0
 
 ## DeepSeek-2
 > 论文：DeepSeek-V2: A Strong, Economical, and Efficient Mixture-of-Experts Language Model  

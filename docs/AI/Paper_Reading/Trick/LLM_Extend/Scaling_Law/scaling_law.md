@@ -42,6 +42,12 @@
 - power-law region
 - irreducible error region
 
+3 types of scaling limits: 
+
+- training data is too small
+- computation is too slow
+- irreducible error
+
 ## 2
 > 论文：Scaling Laws for Neural Language Models  
 > Johns Hopkins University & OpenAI, 2020 Jan  
@@ -50,6 +56,6 @@
 > 论文：Scaling Laws for Autoregressive Generative Modeling  
 > OpenAI, 2020 Oct
 
-## 3
+## Chinchilla
 > 论文：Training Compute-Optimal Large Language Models  
 > DeepMind, 2022 Mar
