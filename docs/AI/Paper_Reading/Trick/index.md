@@ -62,10 +62,11 @@
 #### Attention变种
 - [MQA](Efficiency_Speedup/Attention_Variants/mqa.html#mqa)、[GQA](Efficiency_Speedup/Attention_Variants/mqa.html#gqa)、[MLA](../LM/LMs/Infrastructure/DeepSeek/deepseek.md#mla)
 #### Attention效率优化
+- [KV Cache](Efficiency_Speedup/Attention_Speedup/kv_cache.md)
 - [flash attention](Efficiency_Speedup/Attention_Speedup/flash_attention.md)
 - [vLLM](Efficiency_Speedup/Attention_Speedup/vllm.md)
 - ollama
-- KV cache https://blog.csdn.net/ningyanggege/article/details/134564203
+
 #### 显存优化
 - [gradient checkpointing](Efficiency_Speedup/Quantization/gradient_checkpointing.md)
 

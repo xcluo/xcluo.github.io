@@ -52,6 +52,11 @@
 > 论文：Scaling Laws for Neural Language Models  
 > Johns Hopkins University & OpenAI, 2020 Jan  
 
+### 主要内容
+- observe precise power-law scalings for performance as a function of training time, context length, dataset size, model size, and compute budget
+
+
+
 ## 3
 > 论文：Scaling Laws for Autoregressive Generative Modeling  
 > OpenAI, 2020 Oct
