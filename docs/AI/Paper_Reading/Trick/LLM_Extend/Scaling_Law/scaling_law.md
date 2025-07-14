@@ -54,7 +54,8 @@
 
 ### 主要内容
 - observe precise power-law scalings for performance as a function of training time, context length, dataset size, model size, and compute budget
-
+- display predicted compute when using a sufficiently small batch size
+- model size > batch size > steps
 
 
 ## 3
