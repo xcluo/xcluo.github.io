@@ -1,3 +1,9 @@
+- forward：正常矩阵运算flops包括乘法和加法，如 $W\in \mathbb{R}^{m\times n}, X\in \mathbb{R}^{bs\times m}$，因此运算$AB$的浮点数运算数为$2*bs*m*n$
+- backwrd：反向传播过程一般为正向传播过程的2倍，分别对权重参数 $W \in \mathbb{R}^{m\times n}$ 和输入 $X \in \mathbb{R}^{bs \times m}$ 进行梯度计算，即 $\frac{\partial L}{\partial W} = X^T \frac{\partial L}{\partial Y}$ 和 $\frac{\partial L}{\partial X} =  \frac{\partial L}{\partial Y} W^T$，浮点数计算量为$2*2*bs*m*n=4*bs*m*n$，偏置项梯度 $\frac{\partial L}{\partial b}=\text{reduce_sum}(\frac{\partial L}{\partial Y}, 0)$ 可忽略不计  
+
+    > 一般不需要计算输入$X$ 梯度  
+
+- forward + backward = $2*3*N$，$N$表示参数量，2表示multiply+add操作
 ## 1
 > 论文：Deep Learning Scaling is Predictable, Empirically  
 > Baidu Research, 2017 Dec
@@ -56,6 +62,7 @@
 - observe precise power-law scalings for performance as a function of training time, context length, dataset size, model size, and compute budget
 - display predicted compute when using a sufficiently small batch size
 - model size > batch size > steps
+- PF-day $=10^{15}*24*3600$ FLOPs
 
 
 ## 3

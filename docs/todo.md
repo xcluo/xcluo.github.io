@@ -38,9 +38,7 @@
 - [ ] cv中常见的数据增强方案：crop 对单张输入图像裁剪
 - [ ] xfyun for xunfei
 - [ ] 多任务学习中互斥任务影响削减：1) model merging; 2) 基于prompt训练
-- [ ] continuous batching, continuous batching in non-generative tasks to avoid manual batch size tuning and reduce token padding.
-- [ ] kv cache：https://juejin.cn/post/7362789570217885759
-- [x] KV cache：将L层K与V进行缓存以执行Attention，各层矩阵为 `k.shape = (bs, n_heads, seq_len, head_dim)`
+- [x] kv cache：https://juejin.cn/post/7362789570217885759
 - [x] mGTE
 - [x] bge, bge-m3
 - [x] jina embedding，jina ai推出
@@ -77,12 +75,10 @@
 - [ ] Wizardmath: Empowering mathematical reasoning for large language models via reinforced evol-instruct
 - [ ] Math-shepherd: Verify and reinforce llms step-by-step without human annotations
 - [x] vllm: Efficient Memory Management for Large Language Model Serving with PagedAttention
-- [ ] https://www.high-flyer.cn/en/blog/hai-llm/
 - [x] DeepSpeed（Zero Redundancy Optimizer）、Megatron-LM、HAI-LLM framework（higher flyer）
 - [ ] Colossal-AI:  A Unified Deep Learning System For Large-Scale Parallel Training
 - [x] zero-dp：zero 1,2,3 用通信换内存，zero-3引入了额外的通信开销用于forward和backward（用了就扔）
 - [x] zero-r, zero-offload, zero-infinity
-- [x] ring all-reduce：梯度同步reduce_sum或reduce_mean；ring all-gather：参数堆叠在一起，模型DP时，多个数据loss结果会进行交互all reduce
 - [ ] accelerate config
 - [ ] 模型幻觉hallucination
 - [ ] 持续学习，避免灾难性遗忘
@@ -90,7 +86,6 @@
 - [ ] MCP：model context protocol
 - [x] [gradient checkpointing, activation checkpointing](https://www.bilibili.com/video/BV1nJ4m1M7Qw/?spm_id_from=333.1387.search.video_card.click&vd_source=782e4c31fc5e63b7cb705fa371eeeb78): Training Deep Nets with Sublinear Memory Cost
 - [x] Gradient Checkpointing，[gif](https://pic3.zhimg.com/v2-1679b74a85687cdb250e532931bb266a_b.webp)
-- [ ] 在embedding 层后添加layer normalization，有利于提升训练稳定性:但可能会带来很大的性能损失.
 - [ ] Prefix Tuning: 基于prefix内容进行回答
 - [ ] Prompt Tuning: 自动化提示工程，改动prompt完成问题的回答
 - [ ] p-tuning v1/v2

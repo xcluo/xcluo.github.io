@@ -1,4 +1,5 @@
 - https://mp.weixin.qq.com/s?__biz=MzU3Mzg5ODgxMg==&mid=2247489116&idx=1&sn=0f2771e71f2c3e020ab8e86684df0093&chksm=fd3bff0fca4c7619db3f3dc800df858150a12c7f192234625b871a4f15cfc699c5746846c5b8&token=1935281044&lang=zh_CN#rd
+- left_pad: 使同批次内数据等长，且有效数据靠右，right_pad会导致prompt和生成的token间存在mask，增加复杂性
 - 静态批处理（static batching）：输入通过left_pad将所有输入填充至相同长度进行生成，由于部分Prompt在批处理中较早“完成”，但需等待这一批次中Prompt最长的生成结束，因此GPU 未得到充分利用。batch_size保持不变
   - ![alt text](image.png)
 - 动态批处理（Dynamic batching）：将受到的服务组成批次进行处理（一般大批次的吞吐率较小批次的更高）

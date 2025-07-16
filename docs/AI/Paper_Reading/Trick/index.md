@@ -69,6 +69,7 @@
 
 #### 显存优化
 - [gradient checkpointing](Efficiency_Speedup/Quantization/gradient_checkpointing.md)
+- Reducing activation recomputation in large transformer models
 
 #### [并行训练](Efficiency_Speedup/Parallelism/parallelism.md)
 - 数据并行 DP(Data Pparallelism)
@@ -78,9 +79,9 @@
 - 模型并行 MP(Model Parallelism)
     - TP(Tensor Parallelism)，如GEMM
     - PP(Pipeline Parallelism)
+    - EP(Expert Parallelism)
 - SP(Sequence Parallel)
 - CP(Context Parallelism)
-- EP(Expert Parallelism)
 - 分布式训练
     - [generate config]
     - [DeepSpeed](../../AI_Platform/Microsoft/deepspeed.md): ZeRO: Zero Redundancy Optimizer
