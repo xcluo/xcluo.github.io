@@ -16,6 +16,9 @@
     - Training compute-optimal large language models
     - Scaling laws for neural language models
 - [x] DARE: Language Models are Super Mario: Absorbing Abilities from Homologous Models as a Free Lunch
+- [x] linear attention
+    - Transformers are RNNs: Fast Autoregressive Transformers with Linear Attention
+    - Linformer: Self-Attention with Linear Complexity
 - [x] MRL paper: Matryoshka Representation Learning, 一般mrl → norm
 - [ ] Reducing activation recomputation in large transformer models.
 - [ ] 3D parallel

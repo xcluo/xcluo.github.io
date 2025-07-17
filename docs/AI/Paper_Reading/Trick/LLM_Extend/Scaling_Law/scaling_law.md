@@ -62,7 +62,10 @@
 - observe precise power-law scalings for performance as a function of training time, context length, dataset size, model size, and compute budget
 - display predicted compute when using a sufficiently small batch size
 - model size > batch size > steps
-- PF-day $=10^{15}*24*3600$ FLOPs
+- PF-day $=10^{15}*24*3600=8.64*10^{19}$ FLOPs
+- equation 1.7和1.8如何得来
+- $B_\text{crit}$ provides a roughly optimal compromise(trade-off) between time and compute efficiency.
+- $C_\text{min}$ 和 $S_\text{min}$ 分别是在极小batch_size与极大batch_size情况下的取值
 
 
 ## 3
