@@ -66,7 +66,7 @@
 - equation 1.7和1.8如何得来
 - $B_\text{crit}$ provides a roughly optimal compromise(trade-off) between time and compute efficiency.
 - $C_\text{min}$ 和 $S_\text{min}$ 分别是在极小batch_size与极大batch_size情况下的取值
-
+- recurrent Transformers，类似于ALBERT
 
 ## 3
 > 论文：Scaling Laws for Autoregressive Generative Modeling  

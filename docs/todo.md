@@ -42,6 +42,7 @@
 - [ ] xfyun for xunfei
 - [ ] 多任务学习中互斥任务影响削减：1) model merging; 2) 基于prompt训练
 - [x] kv cache：https://juejin.cn/post/7362789570217885759
+- [ ] Universal transformers.
 - [x] mGTE
 - [x] bge, bge-m3
 - [x] jina embedding，jina ai推出
