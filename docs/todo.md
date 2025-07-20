@@ -1,5 +1,4 @@
 - [ ] RAG的多实体问题如何解决：爱因斯坦和牛顿在物理学上的贡献有何不同？
-- [ ] https://github.com/liguodongiot/llm-action/tree/main
 - [x] triton框架
 - [x] ollama, tensorRT
 - [x] langchain (Language Chain)
