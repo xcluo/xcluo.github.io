@@ -89,6 +89,7 @@ micro
     - LN：均值和方差 $O(d_{model})$，除操作是bitwise operation，FLOPs/token=$2*d_{model}$
     - 残差连接：加法操作是bitwise operation，FLOPs/token=0
 
+- https://152334h.github.io/blog/deepseek-1/
 ## DeepSeek-2
 > 论文：DeepSeek-V2: A Strong, Economical, and Efficient Mixture-of-Experts Language Model  
 > DeepSeek-AI 2024 May

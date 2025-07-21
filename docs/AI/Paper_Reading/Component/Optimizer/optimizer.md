@@ -136,8 +136,11 @@ $$
 ### Muon: [Blog](https://kellerjordan.github.io/posts/muon/), [Github](https://github.com/KellerJordan/Muon)
 **M**oment**U**m **O**rthogonalized by **N**ewton-Schulz
 
+
+- remove preconditioner accumulation, 即 $L_t = L_{t-1} + G_tG_t^T$ 和 $R_t = R_{t-1} + G_tG_t^T$，去除了前部分累加项，解释为关闭动量的状态（由shampoo发现梯度的正交化有效，因此提出了Muon Optimizer）
 - $\text{Ortho}(g) = \arg \min_O \{\Vert o-g\Vert_F, o^To=I \text{ or } oo^T=I$\}对梯度进行正交化处理Orthogonalization，强制梯度方向彼此正交，减少冲突（避免不同梯度分量在相同方向上的冗余更新），使参数更新更一致。一般g需要进行归一化处理，即$/\Vert g \Vert_F$
-- $\theta_t = \theta_{t-1} - \eta o_t$
+- Intuitively, orthogonalization can ensure that the update matrices are isomorphic, preventing the weight from learning along a few dominant directions
+- ![alt text](image-3.png)
 - And for an empirically-flavored motivation, we observe that based on manual inspection, the updates produced by both SGD-momentum and Adam for the 2D parameters in transformer-based neural networks typically have very high condition number. That is, they are almost low-rank matrices, with the updates for all neurons being dominated by just a few directions. We speculate that orthogonalization effectively increases the scale of other “rare directions” which have small magnitude in the update but are nevertheless important for learning.
 
 - [ ] SVD is far too slow 
@@ -191,5 +194,29 @@ def zeropower_via_newtonschulz5(G, steps: int):
 ```
 - 单层muon FLOPS add+mulply=$2*(2m^2n + m^3)$，最差m==n情况下$6m^2n$，extra FLOPs required by Muon compared to SGD $6Tm^2n$
 - 对于n*m的线性层，forward + backward = $2*(m*n + 2*m*n) = 6mn$，每个token的额外开销为 $Tm/B$
+- We find that using momentum is necessary for the best empirical performance.
+- In particular, when training transformers, AdamW should be used for the embedding and final classifier head layers in order to attain the best performance
+- The main evidence for it being better than AdamW comes from its success in the competitive task “NanoGPT speedrunning.” In particular, switching from AdamW to Muon set a new NanoGPT training speed record on 10/15/24, where Muon improved the training speed by 35%. Muon has persisted as the optimizer of choice through all 12 of the new NanoGPT speedrunning records since then, which have been set by 7 different researchers.
 
-[Kimi-K2 Tech Blog: Muon](https://moonshotai.github.io/Kimi-K2/)
+- [x] Muon is Scalable for LLM Training
+- While Muon performs significantly better than AdamW on a small scale as shown by K. Jordan, we found the performance gains diminish when we scale up to train a larger model with more tokens, ==both the weight and the layer output’s RMS keep growing to a large scale, exceeding the high-precision range of bf16, which might hurt the model’s performance==
+- like adamw, + weight decay.
+- ![alt text](image-4.png)
+
+- [x] [Kimi-K2 Tech Blog: Muon](https://moonshotai.github.io/Kimi-K2/)
+- ==training instability caused by exploding attention logits==, an issue that occurs more frequently with Muon but less with AdamW in our experiments. **
+- Existing solutions such as logit soft-capping and query-key normalization were found inadequate. **MuonClip**, qk-clip technique + rescale
+
+    $$
+    \begin{aligned}
+        q_i =& \eta^\alpha W_q x_i \\
+        k_i =& \eta^{1-\alpha} W_k x_i \\
+        (\eta^\alpha q_i)^T(\eta^{1-\alpha} k_j) =& \eta q_i^Tk_j \\
+        \eta =& \min \left( \frac{t}{\max_{i, j} \left(q_i^Tk_j\right)}, 1\right)
+    \end{aligned}
+    $$
+
+    > 设置attention logits上限为阈值 $t$
+
+- Kimi K2 was pre-trained on 15.5T tokens using MuonClip without training spike, demonstrating MuonClip as a robust solution for stable, large-scale LLM training.
+![alt text](image-2.png)
