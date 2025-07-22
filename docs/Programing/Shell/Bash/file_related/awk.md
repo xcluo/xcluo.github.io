@@ -27,11 +27,13 @@
 
 ### 常用awk命令
 ```bash
-awk "NR==6" luo.txt             # 显示luo.txt文件中的第6行内容
-awk “NR<=6” luo.txt             # 显示luo.txt文件中的前6行内容
-awk "NR>4 && NR<11" luo.txt     # 打印luo.txt文件中的5-10行
-awk "NR%2==0" luo.txt           # 打印luo.txt文件中的奇数行
+awk "NR==6" file_name               # 显示第6行内容
+awk “NR<=6” file_name               # 显示前6行内容
+awk "NR>4 && NR<11" file_name       # 显示5-10行
+awk "NR%2==0" file_name             # 显示奇数行
 
-awk -F ' '  '{print $1}' luo.txt # 打印luo.txt文件中每行由 ' ' 隔开的第一列
-                                 # -F ' '可简写为 -F' '
+awk -F ' '  '{print $1}' file_name  # 显示由 ' ' 分割的第一项（项下标由1开始）
+                                    # -F ' '可简写为 -F' '
+awk '$1 > .5 {count++} END {print count}' file_name
+                                    # 统计数值行大于0.5的行数
 ```

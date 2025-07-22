@@ -198,10 +198,7 @@ def zeropower_via_newtonschulz5(G, steps: int):
 - In particular, when training transformers, AdamW should be used for the embedding and final classifier head layers in order to attain the best performance
 - The main evidence for it being better than AdamW comes from its success in the competitive task “NanoGPT speedrunning.” In particular, switching from AdamW to Muon set a new NanoGPT training speed record on 10/15/24, where Muon improved the training speed by 35%. Muon has persisted as the optimizer of choice through all 12 of the new NanoGPT speedrunning records since then, which have been set by 7 different researchers.
 
-- [x] Muon is Scalable for LLM Training
-- While Muon performs significantly better than AdamW on a small scale as shown by K. Jordan, we found the performance gains diminish when we scale up to train a larger model with more tokens, ==both the weight and the layer output’s RMS keep growing to a large scale, exceeding the high-precision range of bf16, which might hurt the model’s performance==
-- like adamw, + weight decay.
-- ![alt text](image-4.png)
+
 
 - [x] [Kimi-K2 Tech Blog: Muon](https://moonshotai.github.io/Kimi-K2/)
 - ==training instability caused by exploding attention logits==, an issue that occurs more frequently with Muon but less with AdamW in our experiments. **

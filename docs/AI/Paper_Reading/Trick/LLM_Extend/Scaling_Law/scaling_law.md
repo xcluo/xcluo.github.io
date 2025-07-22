@@ -4,6 +4,7 @@
     > 一般不需要计算输入$X$ 梯度  
 
 - forward + backward = $2*3*N$，$N$表示参数量，2表示multiply+add操作
+- scaling law在处理moe model时，考量的时 $N_\text{active}$ 而不是 $N_\text{total}$ （但可能带来未激活参数量影响效率的问题）
 ## 1
 > 论文：Deep Learning Scaling is Predictable, Empirically  
 > Baidu Research, 2017 Dec
