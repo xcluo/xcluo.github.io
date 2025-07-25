@@ -27,7 +27,7 @@ theme:
 # 不可折叠形式，title缺省为type_qualifier
 !!! type_qualifier "qualifier_title"
     content
-# 可折叠形式，缺省折叠
+# 可折叠形式，缺省 ???折叠形式, ???+ 为不折叠形式
 ??? type_qualifier "qualifier_title"
     content
 # 行内块，缺省行内左侧对齐，end控制右侧对齐
@@ -57,17 +57,9 @@ hello world
 !!! info inline "lxc"
     xxx
 
-
-
 !!! info "$\sum\frac{\pi }{\sigma }-sin(x)$" 
     This is an admonition box without a title.
 
-sss
-sss  
-xxx  
-xxx
-</br>
-</br>
 
 
 ```html

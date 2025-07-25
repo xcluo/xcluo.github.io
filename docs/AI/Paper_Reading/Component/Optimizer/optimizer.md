@@ -134,71 +134,90 @@ $$
 
 
 ### Muon: [Blog](https://kellerjordan.github.io/posts/muon/), [Github](https://github.com/KellerJordan/Muon)
-**M**oment**U**m **O**rthogonalized by **N**ewton-Schulz
+**M**oment**U**m **O**rthogonalized by **N**ewton-Schulz 是一个二维参数神经网络（e.g., shape $[n, m]$）优化器，通过对待更新的动量梯度正交化，以提升模型预训练期间的性能和效果表现
 
+$$
+\begin{aligned}
+    m_t =& \mu m_{t-1} + g_t \\
+    o_t =& \text{Newton-Schulz} (m_t) \\
+    \theta_t =& \theta_{t-1} - \eta_t o_t
+\end{aligned}
+$$
 
-- remove preconditioner accumulation, 即 $L_t = L_{t-1} + G_tG_t^T$ 和 $R_t = R_{t-1} + G_tG_t^T$，去除了前部分累加项，解释为关闭动量的状态（由shampoo发现梯度的正交化有效，因此提出了Muon Optimizer）
-- $\text{Ortho}(g) = \arg \min_O \{\Vert o-g\Vert_F, o^To=I \text{ or } oo^T=I$\}对梯度进行正交化处理Orthogonalization，强制梯度方向彼此正交，减少冲突（避免不同梯度分量在相同方向上的冗余更新），使参数更新更一致。一般g需要进行归一化处理，即$/\Vert g \Vert_F$
-- Intuitively, orthogonalization can ensure that the update matrices are isomorphic, preventing the weight from learning along a few dominant directions
-- ![alt text](image-3.png)
-- And for an empirically-flavored motivation, we observe that based on manual inspection, the updates produced by both SGD-momentum and Adam for the 2D parameters in transformer-based neural networks typically have very high condition number. That is, they are almost low-rank matrices, with the updates for all neurons being dominated by just a few directions. We speculate that orthogonalization effectively increases the scale of other “rare directions” which have small magnitude in the update but are nevertheless important for learning.
+!!! info ""
+    - 实际上需要对 $m_t$ （梯度矩阵条件数$\text{high_number} \gg 1$，数值敏感性过高） 归一化，即$m_t/\Vert m_t \Vert_\text{F}$ 使矩阵奇异值被缩放至$[-1, 1]$范围内，确保 Newton-Schulz 迭代过程中的数值稳定
+    - 由于只能对矩阵进行正交化，因此Embedding和Norm等非矩阵参数层的优化需使用其它优化器，如AdamW
 
-- [ ] SVD is far too slow 
-- [ ] Coupled Newton iteration must be run in at least float32 precision to avoid numerical instability, which makes it slow on modern GPUs.
-- [x] Newton-Schulz (NS) iteration can be stably run in bfloat16，
+1. **梯度正交化Orthogonalization**，基于Shampoo Optimizer方案，去除左右矩阵的动量累加项，SVD分解梯度矩阵 $G_t = USV^T$，得到目标优化方案：$\theta_t = \theta_{t-1} - \eta UV^T$
+
+    <div class="one-image-container">
+        <img src="image/shampoo_optimizer_pseudocode.png" style="width: 80%;">
+    </div>
+
+    !!! info ""
+        - 直观理解，强制梯度矩阵正交化能够减少梯度分量方向冗余的同时有效地增加了其它稀有方向的更新（奇异值较小的方向对学习仍很重要），减少了优化冲突，提升优化效率
+        - 实验发现对 $m_t$ 进行NS迭代前额外应用动量累计 $m_t = \mu m_{t-1} + g_t$ 效果更优
+
+2. **Newton-Schulz** iteration 不存在以下问题并能够仅在bf16精度下快速实现矩阵正交化
+    - [ ] SVD将矩阵正交化速度太慢
+    - [ ] Coupled Newton至少需要基于fp32的精度来防止数值不稳定现象发生，GPU效率过低
 
     $$
-        \begin{aligned}
-            G^{'} &= aG + b(GG^T)G + c(GG^T)^2G \\
-            &= \left(aI + b\left(GG^T\right) + c \left(GG^T\right)^2 \right) G \\
-            &= \left(aI + bUS^2U^T + c US^4U^T \right) USV^T \\
-            &= U(aS + bS^3 + cS^5) V^T
-        \end{aligned}
+    \begin{aligned}
+        G^{'} &= aG + b(GG^T)G + c(GG^T)^2G \\
+        &= \left(aI + b\left(GG^T\right) + c \left(GG^T\right)^2 \right) G \\
+        &= \left(aI + bUS^2U^T + c US^4U^T \right) USV^T \\
+        &= U(aS + bS^3 + cS^5) V^T
+    \end{aligned}
     $$
 
-    > $G = USV^T$
+    > $\varphi(x) = ax + bx^3 + cx^5 \approx 1$，迭代结果才能近似 $UV^T$
 
-![alt text](image.png)
+3. **迭代细节**
 
-- 最高5次项$\varphi(x) = ax+bx^3+cx^5$，通过对$\varphi$的结果进行N次（一般取5）代入迭代得到 $U\varphi^N(x)V^T$
-- a 越大越好，即 $\varphi^{'}(0)=a$，用于控制（归一化后）小奇异值分量收敛速度
-- $\varphi^N(x) \rightarrow 1$，即值域处于$[1-\epsilon, 1+\epsilon]$（以此只保留$UV^T$而不要奇异值项），$\epsilon$ 一般取0.3
-![alt text](image-1.png)
-- In our experiments, when using Muon with these coefficients to train transformer language models and small convolutional networks, it suffices to run the NS iteration for only 5 steps.
-- We also considered using third-order and seventh-order polynomials for the NS iteration, but found that these could not improve the wallclock overhead any further.
-```python
-def zeropower_via_newtonschulz5(G, steps: int):
-    """
-    Newton-Schulz iteration to compute the zeroth power / orthogonalization of G. We opt to use a 5-time iteration whose 
-    coefficients are selected to maximize the slope at zero. For the purpose of minimizing steps, 
-    it turns out to be empirically effective to keep increasing the slope at zero even beyond the point where the iteration no longer converges all the way to one everywhere on the interval. This iteration therefore does not produce UV^T but rather something like US'V^T where S' is diagonal with S_{ii}' ~ Uniform(0.5, 1.5), which turns out not to hurt model performance at all relative to UV^T, where USV^T = G is the SVD.
-    """
-    assert G.ndim >= 2 # batched Muon implementation by @scottjmaddox, and put into practice in the record by @YouJiacheng
-    a, b, c = (3.4445, -4.7750,  2.0315)
-    X = G.bfloat16()
-    # 奇异值分解，选择数量少的那维
-    if G.size(-2) > G.size(-1):
-        X = X.mT
+    <div class="one-image-container">
+        <img src="image/ns_iteration_polynomials_plot.png" style="width: 90%;">
+    </div>
 
-    # Ensure spectral norm is at most 1
-    X = X / (X.norm(dim=(-2, -1), keepdim=True) + 1e-7)
-    # Perform the NS iterations
-    for _ in range(steps):
-        A = X @ X.mT
-        B = b * A + c * A @ A # quintic computation strategy adapted from suggestion by @jxbz, @leloykun, and @YouJiacheng
-        X = a * X + B @ X
-    
-    if G.size(-2) > G.size(-1):
-        X = X.mT
-    return X
-```
-- 单层muon FLOPS add+mulply=$2*(2m^2n + m^3)$，最差m==n情况下$6m^2n$，extra FLOPs required by Muon compared to SGD $6Tm^2n$
-- 对于n*m的线性层，forward + backward = $2*(m*n + 2*m*n) = 6mn$，每个token的额外开销为 $Tm/B$
-- We find that using momentum is necessary for the best empirical performance.
-- In particular, when training transformers, AdamW should be used for the embedding and final classifier head layers in order to attain the best performance
-- The main evidence for it being better than AdamW comes from its success in the competitive task “NanoGPT speedrunning.” In particular, switching from AdamW to Muon set a new NanoGPT training speed record on 10/15/24, where Muon improved the training speed by 35%. Muon has persisted as the optimizer of choice through all 12 of the new NanoGPT speedrunning records since then, which have been set by 7 different researchers.
+    !!! info ""
+        - 实验发现使用3阶或7阶多项式进行NS迭代使对时间开销无明显提升，因此选定5阶多项式进行NS迭代
+        - 迭代次数 $T=5$ 得到的近似结果准确率能够保证
+        - 在$x\in [0, 1]$范围内，$\varphi^T(x) \in [1-\epsilon, 1+\epsilon] = [0.7, 1.3]$
+        - $\varphi^{'}(0)=a$ 用于控制小奇异值方向分量，要求值尽可能大梯度越陡
+        - `#!python (a, b, c)=(3.4445, -4.7750, 2.0315)`
 
+4. **算法分析**，对于权重矩阵（shape $[n, m], n\ge m$），浮点数运算情况如下
+    - ^^Newton-Schulz^^ 为$2*(2nm^2 + m^3)*T$，最差$m==n$情况下为 $6Tnm^2$
+    - ^^Forward + Backward^^ 为 $2*(nm + 2nm) = 6nm$，Batch额外计算开销为 $Tm/B$，在大`batch_size`情况下额外计算开销占比更小
 
+    ```python
+    def zeropower_via_newtonschulz5(G, steps: int):
+        """
+        Newton-Schulz iteration to compute the zeroth power / orthogonalization of G. We opt to use a 5-time iteration whose 
+        coefficients are selected to maximize the slope at zero. For the purpose of minimizing steps, 
+        it turns out to be empirically effective to keep increasing the slope at zero even beyond the point where the iteration no longer converges all the way to one everywhere on the interval. This iteration therefore does not produce UV^T but rather something like US'V^T where S' is diagonal with S_{ii}' ~ Uniform(0.5, 1.5), which turns out not to hurt model performance at all relative to UV^T, where USV^T = G is the SVD.
+        """
+        assert G.ndim >= 2 # batched Muon implementation by @scottjmaddox, and put into practice in the record by @YouJiacheng
+        a, b, c = (3.4445, -4.7750,  2.0315)
+        X = G.bfloat16()
+        # 奇异值分解前调整小维度在后
+        if G.size(-2) > G.size(-1):
+            X = X.mT
+
+        # Ensure spectral norm is at most 1
+        X = X / (X.norm(dim=(-2, -1), keepdim=True) + 1e-7)
+        # Perform the NS iterations
+        for _ in range(steps):
+            A = X @ X.mT
+            B = b * A + c * A @ A # quintic computation strategy adapted from suggestion by @jxbz, @leloykun, and @YouJiacheng
+            X = a * X + B @ X
+        
+        if G.size(-2) > G.size(-1):
+            X = X.mT
+        return X
+    ```
+
+#### [MuonW](muonw.md)
 
 - [x] [Kimi-K2 Tech Blog: Muon](https://moonshotai.github.io/Kimi-K2/)
 - ==training instability caused by exploding attention logits==, an issue that occurs more frequently with Muon but less with AdamW in our experiments. **
@@ -217,3 +236,4 @@ def zeropower_via_newtonschulz5(G, steps: int):
 
 - Kimi K2 was pre-trained on 15.5T tokens using MuonClip without training spike, demonstrating MuonClip as a robust solution for stable, large-scale LLM training.
 ![alt text](image-2.png)
+

@@ -213,7 +213,7 @@ markdown_extensions:
   - pymdownx.tasklist:        # todo list
       custom_checkbox: true
   - md_in_html
-  - pymdownx.arithmatex: # latex支持
+  - pymdownx.arithmatex:      # latex支持
       generic: true
   - attr_list # 给图片后面添加{width="300"}设置大小
   - toc:
@@ -221,8 +221,8 @@ markdown_extensions:
 
   # 代码块特征设置
   - pymdownx.superfences      # enable代码设置
-  - pymdownx.snippets           # 导入外部文件资源
-  - pymdownx.inlinehilite       # 行内代码高亮，https://facelessuser.github.io/pymdown-extensions/extensions/inlinehilite/
+  - pymdownx.snippets         # 导入外部文件资源
+  - pymdownx.inlinehilite     # 行内代码高亮，https://facelessuser.github.io/pymdown-extensions/extensions/inlinehilite/
   - pymdownx.highlight:
       # linenums: true          # 代码块中显示代码行号
       # auto_title: true        # 自动为代码块添加标题
