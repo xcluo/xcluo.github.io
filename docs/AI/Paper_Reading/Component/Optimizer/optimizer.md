@@ -219,21 +219,5 @@ $$
 
 #### [MuonW](muonw.md)
 
-- [x] [Kimi-K2 Tech Blog: Muon](https://moonshotai.github.io/Kimi-K2/)
-- ==training instability caused by exploding attention logits==, an issue that occurs more frequently with Muon but less with AdamW in our experiments. **
-- Existing solutions such as logit soft-capping and query-key normalization were found inadequate. **MuonClip**, qk-clip technique + rescale
 
-    $$
-    \begin{aligned}
-        q_i =& \eta^\alpha W_q x_i \\
-        k_i =& \eta^{1-\alpha} W_k x_i \\
-        (\eta^\alpha q_i)^T(\eta^{1-\alpha} k_j) =& \eta q_i^Tk_j \\
-        \eta =& \min \left( \frac{t}{\max_{i, j} \left(q_i^Tk_j\right)}, 1\right)
-    \end{aligned}
-    $$
-
-    > 设置attention logits上限为阈值 $t$
-
-- Kimi K2 was pre-trained on 15.5T tokens using MuonClip without training spike, demonstrating MuonClip as a robust solution for stable, large-scale LLM training.
-![alt text](image-2.png)
 

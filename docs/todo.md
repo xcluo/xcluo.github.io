@@ -1,5 +1,6 @@
 - [ ] RAG的多实体问题如何解决：爱因斯坦和牛顿在物理学上的贡献有何不同？
 - [ ] nvtop
+- [ ] 从零构建DS：https://avoid.overfit.cn/post/ac6d4be0a234412ea00032737365638c#
 - [x] triton框架
 - [x] ollama, tensorRT
 - [x] langchain (Language Chain)
