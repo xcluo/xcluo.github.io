@@ -1,6 +1,9 @@
+- RMSNorm只有缩放参数
+- LN额外增加偏移参数
+- BN在上述基础上动量保留历史方差和均值
+
 ### BN
 即 Batch Normalization
-
 
 
 

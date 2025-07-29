@@ -121,7 +121,7 @@ $$
 ## Kimi-K2
 > 论文：Kimi K2: Open Agentic Intelligence  
 > [Blog](https://moonshotai.github.io/Kimi-K2/)  
-> Kimi Team
+> Kimi Team, 2025 Jul
 ### 主要内容
 #### MounClip
 由[MuonW](#evaluation)可知，在模型预训练过程中，一小部分head中attention logits的数值和出现频率会出现不健康的爆炸增长现象，实验发现该问题会导致训练不稳定。基于上述现象提出了`per-head QK-Clip`方案，对于每个head，执行
@@ -135,6 +135,11 @@ $$
 \end{aligned}
 $$
 
+```
+if max(1/sqrt(d)*W_qQ(W_kK).T) > τ:
+    γ = τ/max(1/sqrt(d)*W_qQ(W_kK).T)
+    W_q, W_k = pow(γ, α) W_q, pow(γ, 1-α)
+```
 > 截断attention logits上限为阈值 $\tau$
 
 <div class="one-image-container">

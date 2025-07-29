@@ -89,7 +89,13 @@ micro
     - LN：均值和方差 $O(d_{model})$，除操作是bitwise operation，FLOPs/token=$2*d_{model}$
     - 残差连接：加法操作是bitwise operation，FLOPs/token=0
 
+- $C=MD$，$M$的单位为 FLOPs/token
+- $\eta_\text{opt}=0.3118\cdot C^{-0.1250}, B_\text{opt} = 0.2920 \cdot C^{0.3271}$
 - https://152334h.github.io/blog/deepseek-1/
+- optimal Model：$N_\text{opt} \propto C^{a}$
+- optimal Data Scaling (#token)：$D_\text{opt} \propto C^{b}$
+- 对于attention操作，直接使用6ND估计不准，应该根据实际架构原理预估
+- bits-per-byte on the validation set
 ## DeepSeek-2
 > 论文：DeepSeek-V2: A Strong, Economical, and Efficient Mixture-of-Experts Language Model  
 > DeepSeek-AI 2024 May
