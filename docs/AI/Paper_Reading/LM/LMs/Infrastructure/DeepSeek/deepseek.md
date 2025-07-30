@@ -1,23 +1,19 @@
 ## DeepSeekMath
 > 论文：DeepSeekMath: Pushing the Limits of Mathematical Reasoning in Open Language Models  
-> DeepSeek-AI & Tsinghua University & Peking University 2024 Feb  
-
-- [x] 提出（PPO变种）GRPO强化学习方案提升模型对齐效果
+> DeepSeek-AI & Tsinghua University & Peking University, 2024 Feb  
 
 ### 主要内容
+- [x] 提出（PPO变种）GRPO强化学习方案提升模型对齐效果
+
 #### GRPO
 
 <div class="one-image-container">
     <img src="image/ppo_grpo_diagram.jpg" style="width: 90%;">
-    <!-- <p>LoRA在Attention各部分权重上的消融实验效果</p> -->
-    <!-- <figcaption>这是图片的标题或描述。</figcaption> -->
 </div>
 
 GRPO (Group Relative Policy Optimization)是PPO算法的一个变种，不再需要维护一个计算量需求巨大的价值模型输出baseline来计算样本优势，而是
 <div class="one-image-container">
     <img src="image/grpo_algorithm.jpg" style="width: 95%;">
-    <!-- <p>LoRA在Attention各部分权重上的消融实验效果</p> -->
-    <!-- <figcaption>这是图片的标题或描述。</figcaption> -->
 </div>
 1. 使用$\pi_{old}$对同一问题采样生成$G$个回答  
 2. 根据RM输出对应的奖励分数  
@@ -36,36 +32,20 @@ $$
 > DeepSeek-AI, 2024 Jan
 
 ### 主要内容
-- https://152334h.github.io/blog/deepseek-1/
-- scaling laws  
-    - of batch size and learning rate, and found their trends with model size  
-    - of the data and model scale  
-    - scaling laws derived from different datasets show significant differences  
-    - choice of dataset remarkably affects the scaling behavior, indicating that caution should be exercised when generalizing scaling laws across datasets.  
-
-- stages: 2 trillion tokens in Chinese and English for pre-training + 1 million instances for SFT + DPO
-
-- safety evaluation
-
-#### Dataset
-- deduplication: deduplicating across 91 dumps eliminates four times more documents than a single dump method.
-![alt text](image.png)
-
-- filtering: incorporating both linguistic and semantic evaluations
-- remixing: address data imbalances, focusing on increasing the presence of underrepresented domains
-- tokenizer: 
-    - BBPE  
-    - Pre-tokenization, prevent the merging of tokens from different character categories such as new lines, punctuation, and Chinese-Japanese-Korean (CJK) symbols  
-    - split number into individual digits following llama
-    - vocab: 100000 + 15 special tokens + used for future → 102400
-
 #### Architecture
-micro
+基于LLaMA模型框架，并增加了部分改动：
 
-- replace pre-layer-norm with pre-rms-norm
-- SwiGLU for FFN
-- GQA
+<div class="one-image-container">
+    <img src="image/ds-1_architecture.png" style="width: 100%;">
+</div>
 
+- `Pre-RMSNorm`
+- `8/3 d_model FFN + SwiGLU` 
+- 67B: `GQA ← MHA`  
+
+    > 相同参数量下，加深模型层数而不是拓宽$d_\text{ff}$更容易获得效果提升
+
+#### Hyperparameter
 - replaced the cosine learning rate scheduler with a multi-step learning rate scheduler, maintaining performance while facilitating continual training. 1) 2000 warmup steps to maximum; 2) decrease to 31.6% after 80% training tokens; 3) decrease to 10% after 90% training tokens; 即warmup to maximum → maximum → 80% to 31.6% → 90% to 10%
 - adjusting the proportions of different stages in the multi-step learning rate scheduler can yield slightly better performance.
 - gradient_clip=1.0
@@ -74,7 +54,38 @@ micro
 - Data parallelism, tensor parallelism, sequence parallelism, and 1F1B pipeline parallelism
 - continuous batching in non-generative tasks to avoid manual batch size tuning and reduce token padding.
 
+
+
+#### Pre-Training
+
+- https://152334h.github.io/blog/deepseek-1/
+
+
+
+1. Dataset
+   - deduplication: deduplicating across 91 dumps eliminates four times more documents than a single dump method.
+    <div class="one-image-container">
+        <img src="image/ds-1_data_deduplication.png" style="width: 100%;">
+    </div>
+
+2. Hyperparameter
+- filtering: incorporating both linguistic and semantic evaluations
+- remixing: address data imbalances, focusing on increasing the presence of underrepresented domains
+- tokenizer: 
+    - BBPE  
+    - Pre-tokenization, prevent the merging of tokens from different character categories such as new lines, punctuation, and Chinese-Japanese-Korean (CJK) symbols  
+    - split number into individual digits following llama
+    - vocab: 100000 + 15 special tokens + used for future → 102400
+
 #### Scaling Laws
+- scaling laws  
+    - of batch size and learning rate, and found their trends with model size  
+    - of the data and model scale  
+    - scaling laws derived from different datasets show significant differences  
+    - choice of dataset remarkably affects the scaling behavior, indicating that caution should be exercised when generalizing scaling laws across datasets.  
+
+- stages: 2 trillion tokens in Chinese and English for pre-training + 1 million instances for SFT + DPO
+
 - Scaling laws (Henighan et al., 2020; Hoffmann et al., 2022; Kaplan et al., 2020) suggest that model performance can be predictably improved with increases in compute budget 𝐶, model scale 𝑁, and data scale 𝐷
     - N: model parameters
     - D: number of tokens
@@ -96,6 +107,9 @@ micro
 - optimal Data Scaling (#token)：$D_\text{opt} \propto C^{b}$
 - 对于attention操作，直接使用6ND估计不准，应该根据实际架构原理预估
 - bits-per-byte on the validation set
+
+- safety evaluation
+
 ## DeepSeek-2
 > 论文：DeepSeek-V2: A Strong, Economical, and Efficient Mixture-of-Experts Language Model  
 > DeepSeek-AI 2024 May
