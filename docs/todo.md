@@ -64,8 +64,9 @@
 - [ ] 量化float2float，float2int
 - Frobenius范数，次可加性$\Vert A+B \Vert_{F}\le \Vert A \Vert_F + \Vert B \Vert_F$，空间向量相加，两边之和大于第三边
 - [ ] sft roberta with multiple sequence concurrent with customized attention mask
-- [x] DeepSeek v2
-- [ ] DeepSeek v3 https://zhuanlan.zhihu.com/p/16323685381
+- [x] deepseek-1
+- [x] DeepSeek-2
+- [ ] DeepSeek-3 https://zhuanlan.zhihu.com/p/16323685381
 - [ ] 免费 gpt-4: https://gpt.xfai.online/list/#/home
 - [x] instruct gpt: Training language models to follow instructions with human feedback
 - [x] Kvquant: Towards 10 million context length LLM inference with KV cache quantization

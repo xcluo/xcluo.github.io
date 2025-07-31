@@ -40,7 +40,7 @@ $$
 </div>
 
 - `Pre-RMSNorm`
-- `8/3 d_model FFN + SwiGLU` 
+- `8/3 d_model FFN + SwiGLU` (8/3 d_model的SwiGLU算力等价于半个FFN，以此总体还是`8*d_model\*d_model`)
 - 67B: `GQA ← MHA`  
 
     > 相同参数量下，加深模型层数而不是拓宽$d_\text{ff}$更容易获得效果提升
@@ -77,11 +77,8 @@ $$
             2. 调整各step的token占比可能获得些微提升，综合考虑选择 80% + 10% + 10% 方案
 
 
-- https://152334h.github.io/blog/deepseek-1/
-
-
 #### Scaling Laws
-基于Attention机制的Transformer架构中，直接使用$C=6ND$ 估计算力不贴合实际，应改为：
+基于Attention机制的Transformer架构中，直接使用$C=6ND$ 估计算力不贴合实际，改为$C=MD$，$M$单位为 `FLOPs/token`，具体如下：
 
 $$
 \begin{aligned}
@@ -91,31 +88,29 @@ $$
 \end{aligned}
 $$
 
+> - 左式 6倍 来源于 `multiply-add * (forward + 2*backward)`
+> - 右式 72倍 来源于 `6*(W_q + W_k + W_v + W_o + 8*W_ffn)`
+> - $N_2$ 包括Embedding参数，因此额外加上 `next_token_prediction` 层
+> - $M$ 新增attention机制算力 12倍来（包括前、后向）源于，`6 * (d*l_seq + d*l_seq)`
 
 
 - scaling laws  
-    - of batch size and learning rate, and found their trends with model size  
-    - of the data and model scale  
-    - scaling laws derived from different datasets show significant differences  
-    - choice of dataset remarkably affects the scaling behavior, indicating that caution should be exercised when generalizing scaling laws across datasets.  
+- of batch size and learning rate, and found their trends with model size  
+- of the data and model scale  
+- scaling laws derived from different datasets show significant differences  
+- choice of dataset remarkably affects the scaling behavior, indicating that caution should be exercised when generalizing scaling laws across datasets.  
 
 - stages: 2 trillion tokens in Chinese and English for pre-training + 1 million instances for SFT + DPO
 
-- Scaling laws (Henighan et al., 2020; Hoffmann et al., 2022; Kaplan et al., 2020) suggest that model performance can be predictably improved with increases in compute budget 𝐶, model scale 𝑁, and data scale 𝐷
-    - N: model parameters
-    - D: number of tokens
-    - C: ≈6ND，6表示 1 forward + 2 backward + 3 update
 
 - IsoFLOP profile approach from Chinchilla
 - our contributions and findings: 3项
-- FLOPs/token，每处理一个token所需的**浮点运算**次数
-    - 嵌入层Embedding：映射操作，FLOPs/token=0
-    - 注意力层Self-Attention：1) QKC投影操作，$3*d_{model}^2$；2) 注意力权重矩阵，`n_head*d_head*seq_len=seq_len*d_model`；3) softmax，分母部分求和 $O(d_{model})$；4) value加权，`seq_len*d_model`；5) O输出投影，$d_{model}^2$
-    - 前馈网络FFN：`d_model → d_ff → d_model, 计算量为2*d_model*d_ff`, 通常 FLOPs/token=$8*d_{model}^2$
-    - LN：均值和方差 $O(d_{model})$，除操作是bitwise operation，FLOPs/token=$2*d_{model}$
-    - 残差连接：加法操作是bitwise operation，FLOPs/token=0
+- 嵌入层Embedding：映射操作，FLOPs/token=0
+- 注意力层Self-Attention：1) QKC投影操作，$3*d_{model}^2$；2) 注意力权重矩阵，`n_head*d_head*l_seq=l_seq*d_model`；3) scaling和softmax，分母部分求和 $3*O(l_\text{seq})$；4) value加权，`l_seq*d_model`；5) O输出投影，$d_{model}^2$
+- 前馈网络FFN：`d_model → d_ff → d_model, 计算量为2*d_model*d_ff`, 通常 FLOPs/token=$8*d_{model}^2$
+- LN：均值和方差 $O(d_{model})$，除操作是bitwise operation，FLOPs/token=$2*d_{model}$
+- 残差连接：加法操作是bitwise operation，FLOPs/token=0
 
-- $C=MD$，$M$的单位为 FLOPs/token
 - $\eta_\text{opt}=0.3118\cdot C^{-0.1250}, B_\text{opt} = 0.2920 \cdot C^{0.3271}$
 - https://152334h.github.io/blog/deepseek-1/
 - optimal Model：$N_\text{opt} \propto C^{a}$
