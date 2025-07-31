@@ -33,7 +33,7 @@ $$
 
 ### 主要内容
 #### Architecture
-基于LLaMA模型框架，并增加了部分改动：
+主体基于LLaMA模型框架，进行了部分改动：
 
 <div class="one-image-container">
     <img src="image/ds-1_architecture.png" style="width: 100%;">
@@ -45,39 +45,54 @@ $$
 
     > 相同参数量下，加深模型层数而不是拓宽$d_\text{ff}$更容易获得效果提升
 
-#### Hyperparameter
-- replaced the cosine learning rate scheduler with a multi-step learning rate scheduler, maintaining performance while facilitating continual training. 1) 2000 warmup steps to maximum; 2) decrease to 31.6% after 80% training tokens; 3) decrease to 10% after 90% training tokens; 即warmup to maximum → maximum → 80% to 31.6% → 90% to 10%
-- adjusting the proportions of different stages in the multi-step learning rate scheduler can yield slightly better performance.
-- gradient_clip=1.0
-- The batch size and learning rate vary with the model size, illustrated in Table 2
-
-- Data parallelism, tensor parallelism, sequence parallelism, and 1F1B pipeline parallelism
-- continuous batching in non-generative tasks to avoid manual batch size tuning and reduce token padding.
-
 
 
 #### Pre-Training
 
-- https://152334h.github.io/blog/deepseek-1/
-
-
-
-1. Dataset
-   - deduplication: deduplicating across 91 dumps eliminates four times more documents than a single dump method.
+1. **Dataset**  
     <div class="one-image-container">
         <img src="image/ds-1_data_deduplication.png" style="width: 100%;">
     </div>
+    - ^^去重deduplication^^：对Commom Crawl corpus的91个全网数据爬取存档([CC](https://data.commoncrawl.org/crawl-data/index.html) dump split by month)去重比对单个存档去重，去重结果更优  
+    - ^^过滤filtering^^: 集合语法和语义等局部和全局视角对文档质量评估  
+    - ^^混合remixing^^: 处理数据不平衡问题，重点增加代表性不足的领域样本
+2. **Tokenizer**，Byte-level BPE
+    - ^^Pre-tokenization^^ 类似于GPT-2，防止不同类别符号合并，如换行符、标点符号以及CJK符号  
+    - ^^Split Number^^ 类似于LLaMA，将数值划分为单个数字序列
+    - ^^Vocab^^: `100000 conventional + 15 special + used for future → 102400`
 
-2. Hyperparameter
-- filtering: incorporating both linguistic and semantic evaluations
-- remixing: address data imbalances, focusing on increasing the presence of underrepresented domains
-- tokenizer: 
-    - BBPE  
-    - Pre-tokenization, prevent the merging of tokens from different character categories such as new lines, punctuation, and Chinese-Japanese-Korean (CJK) symbols  
-    - split number into individual digits following llama
-    - vocab: 100000 + 15 special tokens + used for future → 102400
+3. **Hyperparameter**
+    - ^^AdamW^^：$\beta_1 = 0.9, \beta_2 = 0.95$
+    - gradient_clip=1.0
+    - ^^Multi-step LR scheduler^^
+        - ~2000 steps，warmup升至max_lr
+        - ~80% tokens，降至 0.316*max_lr
+        - ~90% tokens，降至 0.1*max_lr
+    <div class="one-image-container">
+        <img src="image/ds-1_lr_scheduler.png" style="width: 100%;">
+    </div>
+
+        !!! info ""
+            1. multi-step LR和cos LR效果一致，但前者的阶段性结果便于保存复用，因此选择multi-step方案
+            2. 调整各step的token占比可能获得些微提升，综合考虑选择 80% + 10% + 10% 方案
+
+
+- https://152334h.github.io/blog/deepseek-1/
+
 
 #### Scaling Laws
+基于Attention机制的Transformer架构中，直接使用$C=6ND$ 估计算力不贴合实际，应改为：
+
+$$
+\begin{aligned}
+    6N_1 =& 72 n_\text{layer} d^2_\text{model} \\
+    6N_2 =& 72 n_\text{layer} d^2_\text{model} + 6n_\text{vocab}d_\text{model}\\
+    M =& 72 n_\text{layer}d^2_\text{model} + 12 n_\text{layer}d_\text{model} l_\text{seq}
+\end{aligned}
+$$
+
+
+
 - scaling laws  
     - of batch size and learning rate, and found their trends with model size  
     - of the data and model scale  
@@ -105,7 +120,6 @@ $$
 - https://152334h.github.io/blog/deepseek-1/
 - optimal Model：$N_\text{opt} \propto C^{a}$
 - optimal Data Scaling (#token)：$D_\text{opt} \propto C^{b}$
-- 对于attention操作，直接使用6ND估计不准，应该根据实际架构原理预估
 - bits-per-byte on the validation set
 
 - safety evaluation
