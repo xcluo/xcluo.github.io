@@ -11,10 +11,11 @@
 - [x] docker
 - [x] kubernetes (k8s)
 - [ ] 联邦学习
+- [ ] bits-per-byte, BPB, The Pile: An 800GB Dataset of Diverse Text for Language Modeling
 - [x] scaling laws
     - Deep learning scaling is predictable, empirically
     - Scaling laws for autoregressive generative modeling
-    - Training compute-optimal large language models
+    - Training compute-optimal large language models, IsoFLOP固定算力
     - Scaling laws for neural language models
 - [x] DARE: Language Models are Super Mario: Absorbing Abilities from Homologous Models as a Free Lunch
 - [x] linear attention
@@ -23,6 +24,8 @@
 - [x] MRL paper: Matryoshka Representation Learning, 一般mrl → norm
 - [ ] Reducing activation recomputation in large transformer models.
 - [ ] 3D parallel
+- [x] Zero bubble pipeline parallelism
+- [ ] Device Capacity Factor
 - [x] Slimmable Neural Networks
 - [ ] ROI Pooling, Region of Interest: 1) region proposal; 2) pooling sections; 3) max_pooling of sections
         - 将feature map划分为 H*W 个区域
@@ -62,11 +65,9 @@
 - [x] 对比学习负样本选择方案, improved infonce loss
 - [x] 文档检索top-k后还要进行重排reranking，可在结合搜索推荐中的重排技术
 - [ ] 量化float2float，float2int
-- Frobenius范数，次可加性$\Vert A+B \Vert_{F}\le \Vert A \Vert_F + \Vert B \Vert_F$，空间向量相加，两边之和大于第三边
 - [ ] sft roberta with multiple sequence concurrent with customized attention mask
-- [x] deepseek-1
 - [x] DeepSeek-2
-- [ ] DeepSeek-3 https://zhuanlan.zhihu.com/p/16323685381
+- [x] DeepSeek-3 https://zhuanlan.zhihu.com/p/16323685381
 - [ ] 免费 gpt-4: https://gpt.xfai.online/list/#/home
 - [x] instruct gpt: Training language models to follow instructions with human feedback
 - [x] Kvquant: Towards 10 million context length LLM inference with KV cache quantization
@@ -92,9 +93,9 @@
 - [ ] MCP：model context protocol
 - [x] [gradient checkpointing, activation checkpointing](https://www.bilibili.com/video/BV1nJ4m1M7Qw/?spm_id_from=333.1387.search.video_card.click&vd_source=782e4c31fc5e63b7cb705fa371eeeb78): Training Deep Nets with Sublinear Memory Cost
 - [x] Gradient Checkpointing，[gif](https://pic3.zhimg.com/v2-1679b74a85687cdb250e532931bb266a_b.webp)
-- [ ] Prefix Tuning: 基于prefix内容进行回答
-- [ ] Prompt Tuning: 自动化提示工程，改动prompt完成问题的回答
-- [ ] p-tuning v1/v2
+- [x] Prompt Tuning: 自动化提示工程，改动prompt完成问题的回答, [The Power of Scale for Parameter-Efficient Prompt Tuning]
+- [x] p-tuning v1/v2, [GPT Understands, Too], [P-Tuning v2: Prompt Tuning Can Be Comparable to Fine-tuning Universally Across Scales and Tasks]
+- [x] Prefix Tuning: 基于prefix内容进行回答, [Prefix-Tuning: Optimizing Continuous Prompts for Generation]
 - [ ] prompt engineering
 - [ ] lora with diffusion model 
 - [x] LDA潜在迪利克雷分布，b站视频 LDA主题模型

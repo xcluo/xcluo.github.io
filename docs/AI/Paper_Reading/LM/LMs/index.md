@@ -7,7 +7,7 @@
 ### Decoder
 - OpenAI: GPT
 - Google: Gemini
-- thropic: Cladue
+- Anthropic: Cladue
 - DeBERTa、DeBERTa_v3
 - [LLaMA](Infrastructure/LLaMA/llama.md)
 - [DeepSeek](Infrastructure/DeepSeek/deepseek.md)

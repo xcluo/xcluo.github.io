@@ -1,14 +1,13 @@
-LeX (Length-Extrapolatable)
+## LeX
+> 论文：A Length-Extrapolatable Transformer  
+> LeX：**L**ength-**eX**trapolatable  
+> Github：[torchscale](https://github.com/sunyt32/torchscale)  
+> Microsoft, 2020 Dec, ACL 2023
 
+### 主要内容
 - [x] train short, test long
 - [x] XPos (Extrapolatable Position Embedding)在RoPE的基础上，增进了长距离依赖的表现
 - [x] 利用局部注意力机制BCA (Blockwise Causal Attention) 增进模型外推效果
----
-- 机构：MSR
-- [Paper](media/LeX.pdf)
-- [Github](https://github.com/sunyt32/torchscale)
-
-### 方法介绍
 
 #### 基本原理
 RoPE对$q$和$k$分别注入绝对位置信息$p_q$和$p_k$，通过乘性变换最终获得关于相对位置$p_q-p_k$的变换，即

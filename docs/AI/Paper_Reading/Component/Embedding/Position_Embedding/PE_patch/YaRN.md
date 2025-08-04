@@ -1,5 +1,8 @@
 ## YaRN
-YaRN（**Y**et **a**nother **R**oPE extensio**N** method）是一种用于改进Transformer模型中旋转位置编码(RoPE)外推能力的技术，由微软研究院提出。
+> YaRN: Efficient ContextWindow Extension of Large Language Models  
+> YaRN: **Y**et **a**nother **R**oPE extensio**N** method  
+> Github: [yarn](https://github.com/jquesnelle/yarn)  
+> Nous Research & EleutherAI & University of Geneva, 2023 Aug, ICLR 2024
 
 ### 主要内容
 

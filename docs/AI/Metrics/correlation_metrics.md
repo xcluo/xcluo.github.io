@@ -54,7 +54,8 @@ $$
     $$
 
 !!! info ""
-    计算范数 $L_n$ norm($L_\infty$ norm为无穷范数)时，$y$ 值设为全0
+    - 计算范数 $L_n$ Norm时，$y$ 值设为全0
+    - Frobenius Norm为矩阵形式的$L_2$ Norm，即 $\Vert A \Vert_\text{F} = \sqrt{\sum_{i}\sum_j \vert a_{i, j} \vert ^2}$
 
 #### Kullback-Leibler Divergence
 KL散度，也叫做相对熵Relative Entropy或信息散度Information Divergence，描述两个概率分布间差异的**非对称性**度量，$D_{KL}(P\Vert Q)\ge 0$，值越大表示差异性越大。

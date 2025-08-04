@@ -6,5 +6,5 @@
     - during autoregressive generation you do not use the entire cached input X
  to recompute Q ; instead, you compute the projection for the new token $x_\text{new}$ on the fly to get $q_\text{new}$, $q_\text{new}K^TV$
     - 在AR模型的infer阶段，只需要输入$x_t$与其对应的位置信息，结合缓存的K、V cache，即可实现next token prediction
-
+    - prefix nlu，内容输出nlg
 - kv cache 量化

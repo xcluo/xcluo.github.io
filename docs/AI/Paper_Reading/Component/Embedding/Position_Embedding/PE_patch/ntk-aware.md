@@ -1,14 +1,19 @@
 - [ntk-aware](https://www.reddit.com/r/LocalLLaMA/comments/14lz7j5/ntkaware_scaled_rope_allows_llama_models_to_have/)  
 - [by parts](https://github.com/jquesnelle/yarn/pull/1)  
 - [dynamic](https://www.reddit.com/r/LocalLLaMA/comments/14mrgpr/dynamically_scaled_rope_further_increases/)
+- https://spaces.ac.cn/archives/9675
+- https://spaces.ac.cn/archives/9706
+- https://spaces.ac.cn/archives/9948
 - https://blog.csdn.net/v_JULY_v/article/details/135072211  
 - https://www.cnblogs.com/mudou/p/18309199#%E7%AC%AC%E4%B8%89%E9%83%A8%E5%88%86-%E4%BB%8Entk-awarentk-by-parts%E5%88%B0dynamic-ntk%E6%8F%92%E5%80%BC  
 - https://zhuanlan.zhihu.com/p/695978857
 - https://blog.csdn.net/z551646/article/details/140494221
-## NTK-aware
-神经正切核 NTK（Neural Tangent Kernel），
+## NTK-aware Scaled RoPE
+NTK-aware是一种基于神经正切核K(Neural Tangent Kernel)理论的模型优化方案，核心思想是利用 NTK 理论性质，调整模型的参数更新或特征表示，优化其在插值任务（如分类、回归）中的表现
 
-- 思路：动态调整频率base，因为进制转换（10→16），`1749 → 6,13,5`，更少的位表示更长的范围  
+### 原理：进制转化
+- 思路：动态调整频率base，因为进制转换（10→16），`749 → 2,14(E),13(D)`，使用相同的位表示更长的范围（代价为每位的数字从0~9变成了0~15）
+- 还可通过设置拓展上界，缩窄每位的表示范围，如3位数表示2000，$x^3 + x^2 + x^1 \ge 2000, x\ge 13$
 - $\theta_{m, i} = m * b^{-2(i-1)/d}, j\in \{1, 2, \cdots, d/2\}$，$b$ 为基数，每个位置的高维度三角函周期越来越大，频率越来越低；
 - 低维高频周期小：高频插值后相对密集，为不导致拥挤，目标为不进行缩放，退化为原始RoPE，保留短距离位置关系（$L \lt L_{train}$）
 - 高维低频周期大：低频插值后依然相对宽松，缩放无明显影响目标，提升外推效果（$L \gt L_{train}$）  
@@ -17,7 +22,8 @@
 - 低频目标代入求得 $m*(b\lambda)^{(-d+2)/d}= \frac{m}{k}b^{(-d+2)/d}$，$\lambda = k^{d/(d-2)}, k = \lambda ^{(d-2)/d}$
 - 因此 $\theta_{i}^{'} = m*{(b\lambda)^{-2(i-1)/d}} = m*{b^{-2(i-1)/d}*k^{-2(i-1)/(d-2)}}$
 
-## NTK-by-parts
+### NTK-by-parts
+
 通过分段差异化缩放旋转频率，解决长序列外推时的高频震荡问题。
 
 $$
@@ -39,12 +45,12 @@ $$
 1. 初始化RoPE的频率 $\theta_b$
 2. 根据公式通过加权组合计算 $h(\theta_d)$，对每个维度的频率进行调整，主要涉及 $\frac{\theta_{d}}{s}$ 和原始频率 $\theta_d$
 
-## Dynamic NTK
-每次前向传递中，更新缩放倍数 $k=\max(1, l/L)$，其中$l$表示当前序列的序列长度，防止模型在长度小于$L$时出现性能折扣，大于$L^{'}$时出现退化
+### Dynamic NTK
+- 每次前向传递中，更新缩放倍数 $k=\max(1, l/L)$，其中$l$表示当前序列的序列长度，防止模型在长度小于$L$时出现性能折扣，大于$L^{'}$时出现退化
 
 1. $k=\max(1, l/L), b = b*k^{d/(d-2)}$
-1. 当$l \gt L_{train}$，进行插值外推
-2. 当$l \lt L_{train}$，保持原有RoPE不变
+2. 当$l \gt L_{train}$，进行插值外推
+3. 当$l \lt L_{train}$，保持原有RoPE不变
 
 
 $s = (s* l/L_{train}) - (s-1)$
