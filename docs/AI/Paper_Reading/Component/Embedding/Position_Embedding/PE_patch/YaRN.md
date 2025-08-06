@@ -1,12 +1,14 @@
 ## YaRN
-> YaRN: Efficient ContextWindow Extension of Large Language Models  
+> 论文：YaRN: Efficient ContextWindow Extension of Large Language Models  
 > YaRN: **Y**et **a**nother **R**oPE extensio**N** method  
 > Github: [yarn](https://github.com/jquesnelle/yarn)  
 > Nous Research & EleutherAI & University of Geneva, 2023 Aug, ICLR 2024
 
 ### 主要内容
-
-- 对Attention分母乘以了$t$，可理解为对$q$和$k$均进行温度因子 $\frac{1}{\sqrt{t}} = 1 +\frac{\log \alpha}{d} \ln s$ 的缩放，$s = \max(1, l/L_{train})$，因为RoPE具有长度衰减特性，当插值后较长部分值会减小，因此需要通过乘以 $\frac{1}{\sqrt{t}}$进行方法
+- YARN = NTK-by-parts + attention scaling
+- $f^{'}(x,m, \theta_i)$
+- 对Attention分母乘以了$t$，可理解为对$q$和$k$均进行温度因子 $\frac{1}{\sqrt{t}} = 1 +\frac{\log \alpha}{d} \ln s$ 的缩放，$s = \max(1, l/L_{train})$
+- 因为RoPE具有长度衰减特性，当插值后较长部分值会减小，因此需要通过乘以 $\frac{1}{\sqrt{t}}$进行方法
 - 在微调和非微调场景下均超过以往所有方法
 - 只需要对不到原始预训练数据的0.1%进行微调，YaRN的上下窗口拓展到最先进的性能
 
@@ -25,6 +27,3 @@ YaRN通过三个关键机制解决位置外推问题
 
     > 建议取值，小模型`d <= 2556`，γ=0.05~0.1；大模型`d > 256`，γ=0.1~0.15
 
-## YARN-piecewise
-
-## YARN-adaptive

@@ -20,7 +20,7 @@ PI通过插值方法二次训练PLM，增大模型的`context_window`处理能�
 </div>
 
 $$
-  f^{'}(x,m)=f\large( x, m\frac{L}{L^{'}} \large)
+  f^{'}(x,m, \theta_i)=f\left( x, m/k, \theta_i \right)
 $$
 
 > - RoPE只利用了整数粒度（e.g., 1 < 2），PI进一步使用了小数粒度（e.g., 1 < 1.5 < 2）  

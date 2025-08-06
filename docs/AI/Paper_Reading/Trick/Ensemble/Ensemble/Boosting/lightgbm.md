@@ -11,7 +11,7 @@
 - Stochastic Gradient Boosting
 - definition 3.1: $\frac{1}{n}*(\frac{(n_lg_l)^2}{n_l} + \frac{(n_rg_r)^2}{n_r})=\frac{n_lg_l^2 + n_rg_r^2}{n}$
 - alg. 3 alg. 4
-
+- `for_col_wise=True`，https://www.cnblogs.com/travel92/p/18824909，列WISE减少内存占用，适合CPU核心超多的，行WISE会DOUBLE内存占用，适合CPU核心没有那么多的。
 
 -----
 

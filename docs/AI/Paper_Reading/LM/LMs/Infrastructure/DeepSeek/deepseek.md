@@ -1,31 +1,3 @@
-## DeepSeekMath
-> 论文：DeepSeekMath: Pushing the Limits of Mathematical Reasoning in Open Language Models  
-> DeepSeek-AI & Tsinghua University & Peking University, 2024 Feb  
-
-### 主要内容
-- [x] 提出（PPO变种）GRPO强化学习方案提升模型对齐效果
-
-#### GRPO
-
-<div class="one-image-container">
-    <img src="image/ppo_grpo_diagram.jpg" style="width: 90%;">
-</div>
-
-GRPO (Group Relative Policy Optimization)是PPO算法的一个变种，不再需要维护一个计算量需求巨大的价值模型输出baseline来计算样本优势，而是
-<div class="one-image-container">
-    <img src="image/grpo_algorithm.jpg" style="width: 95%;">
-</div>
-1. 使用$\pi_{old}$对同一问题采样生成$G$个回答  
-2. 根据RM输出对应的奖励分数  
-3. 对奖励分数结果 $\mathbb{R}^{G}$ 进行norm操作得到样本优势结果$A_{i}$  
-
-$$
-\begin{aligned}
-    \mathcal{J}_{GRPO}&(\theta) = \mathbb{E}\left[q \sim P(Q), \{o_i\}_{i=1}^G \sim \pi_{\theta_{\text{old}}} (O|q)\right] \\
-    \frac{1}{G} &\sum_{i=1}^G  \left( \min \left( \frac{\pi_{\theta}(o_i|q)} {\pi_{\theta_{\text{old}}}(o_i|q)} A_i, \operatorname{clip} \left( \frac{\pi_{\theta}(o_i|q)}{\pi_{\theta_{\text{old}}}(o_i|q)}, 1 - \varepsilon, 1 + \varepsilon \right) A_i \right) - \beta \mathbb{D}_{KL} (\pi_{\theta} | \pi_{\text{ref}}) \right) \\
-    &\mathbb{D}_{KL} (\pi_{\theta} | \pi_{\text{ref}}) = \frac{\pi_{\text{ref}}(o_i|q)}{\pi_{\theta}(o_i|q)} - \log \frac{\pi_{\text{ref}}(o_i|q)}{\pi_{\theta}(o_i|q)} - 1.
-\end{aligned}
-$$
 
 ## DeepSeek-1
 > 论文：DeepSeek LLM Scaling Open-Source Language Models with Longtermism  
@@ -152,6 +124,37 @@ $$
 
 3. **DPO**，`1 epochs, lr=5e-6, bs=512`
 
+
+## DeepSeekMath
+> 论文：DeepSeekMath: Pushing the Limits of Mathematical Reasoning in Open Language Models  
+> DeepSeek-AI & Tsinghua University & Peking University, 2024 Feb  
+
+### 主要内容
+- [x] 提出（PPO变种）GRPO强化学习方案提升模型对齐效果
+
+#### GRPO
+
+<div class="one-image-container">
+    <img src="image/ppo_grpo_diagram.jpg" style="width: 90%;">
+</div>
+
+GRPO (Group Relative Policy Optimization)是PPO算法的一个变种，不再需要维护一个计算量需求巨大的价值模型输出baseline来计算样本优势，而是
+<div class="one-image-container">
+    <img src="image/grpo_algorithm.jpg" style="width: 95%;">
+</div>
+1. 使用$\pi_{old}$对同一问题采样生成$G$个回答  
+2. 根据RM输出对应的奖励分数  
+3. 对奖励分数结果 $\mathbb{R}^{G}$ 进行norm操作得到样本优势结果$A_{i}$  
+
+$$
+\begin{aligned}
+    \mathcal{J}_{GRPO}&(\theta) = \mathbb{E}\left[q \sim P(Q), \{o_i\}_{i=1}^G \sim \pi_{\theta_{\text{old}}} (O|q)\right] \\
+    \frac{1}{G} &\sum_{i=1}^G  \left( \min \left( \frac{\pi_{\theta}(o_i|q)} {\pi_{\theta_{\text{old}}}(o_i|q)} A_i, \operatorname{clip} \left( \frac{\pi_{\theta}(o_i|q)}{\pi_{\theta_{\text{old}}}(o_i|q)}, 1 - \varepsilon, 1 + \varepsilon \right) A_i \right) - \beta \mathbb{D}_{KL} (\pi_{\theta} | \pi_{\text{ref}}) \right) \\
+    &\mathbb{D}_{KL} (\pi_{\theta} | \pi_{\text{ref}}) = \frac{\pi_{\text{ref}}(o_i|q)}{\pi_{\theta}(o_i|q)} - \log \frac{\pi_{\text{ref}}(o_i|q)}{\pi_{\theta}(o_i|q)} - 1.
+\end{aligned}
+$$
+
+## DeepSeek-Coder
 
 ## DeepSeek-2
 > 论文：DeepSeek-V2: A Strong, Economical, and Efficient Mixture-of-Experts Language Model  
@@ -346,16 +349,18 @@ $$
     - 总设备数和最大激活设备数 $D=8, M=3$
     - ^^Balance Factor^^：$\alpha_1=0.003, \alpha=0.05, \alpha_3=0.02$
 
-#### Long Context Extension
-在预训练LLM后，应用YaRN将文本窗口长度由4K拓展至128K
+#### Context Window Extension
+在预训练LLM后，应用YaRN将文本窗口长度由4K拓展至128K，实际为对解耦合的位置编码 $q^{R}_t, k^{R}_t$ 应用YaRN，其中  
 
-- 对解耦合的RoPE $k^{R}_t$ 应用YaRN，$s=40, \alpha=1, \beta=32$
-- 修改了length scaling factor $\sqrt{t} = 1 + 0.0707 \ln s$
-- train the model for 1000 steps, with a sequence length of 32K and a batch size of 576
-- Although the training is conducted solely at the sequence length of 32K, the model still demonstrates robust performance when being evaluated at a context length of 128K.
+- $s=40, \alpha=1, \beta=32$，理论上最大拓展长度为160K  
+- 长度缩放系数 $\sqrt{\frac{1}{t}} = 0.0707 \ln s + 1$  
+- `train_steps=1000, seq_len=32K, batch_size=576`  
+- [x] 虽然仅在 32K 的序列长度上YaRN训练进行`context_window`拓展，但在 128K 的上下文长度下进行评估时，该模型仍然表现出稳健的性能。
 <div class="one-image-container">
     <img src="image/ds-2_needle-in-a-haystack_performance.png" style="width: 90%;">
 </div>
+
+
 
 #### AI Infras
 1. 将所有参数量化为FP8精度类型
@@ -364,7 +369,7 @@ $$
 3. zero-bubble
 
 #### SFT
-1. 1.5M conventional sessions with various domains such math, code, writing, reasoning, safety, and more to SFT DeepSeek-v2 chat  
+1. 1.5M = 1.2M helpfulness + 0.3M safety
 
 #### GRPO
 
@@ -375,6 +380,7 @@ $$
 3. DeepSeek-V2-Chat_SFT
 4. DeepSeek-V2-Chat_RL
 
+## DeepSeek-Coder-2
 
 ## DeepSeek-3
 > 论文：DeepSeek-V3 Technical Report  
@@ -403,3 +409,8 @@ MTP (Multi-Token Predictoin)，基于当前token一次性预测未来$D$个位�
     - $\mathcal{L} = \mathcal{L}_{main} + \frac{\lambda}{D}\sum_{i=1}^{D}\mathcal{L}_{MTP}^k$
     - 在测试时可直接使用main model进行正常文本生成，也可基于提升文本生成效率考量，使用MTP网络快速生成邻近token
 #### FP8 Training
+
+
+## DeepSeek-R1
+> 论文：DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning  
+> DeepSeek-AI, 2025 Jan
