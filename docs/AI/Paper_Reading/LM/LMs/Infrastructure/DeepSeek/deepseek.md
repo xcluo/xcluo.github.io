@@ -214,6 +214,7 @@ MLA（**M**ulti-head **L**atent **A**ttention）对Q、K、V向量进行了压�
     !!! info ""
         - 计算$k^R_t$时使用$h_t$而不是使用$c_t^{KV}$ 是一个直观上的选择，因为前者保留了更多语义信息
         - per-head拥有$q_{t,i}^R$，all-head共享一个$k_t^R$  
+        - 计算logit值时分母为 $\sqrt{d_h + d_h^R}$
    
 3. **Inference阶段Trick**，在预测应用阶段，MLA的per-head Attention过程计算如下
 
@@ -347,7 +348,7 @@ $$
         - ~90% tokens，降至 `0.316*0.316*max_lr≈0.1*max_lr`
     - ^^BS Scheduler^^：~225B tokens，从2304升至9216，随后保持
     - 总设备数和最大激活设备数 $D=8, M=3$
-    - ^^Balance Factor^^：$\alpha_1=0.003, \alpha=0.05, \alpha_3=0.02$
+    - ^^Balance Factor^^：$\alpha_1=0.003, \alpha_2=0.05, \alpha_3=0.02$
 
 #### Context Window Extension
 在预训练LLM后，应用YaRN将文本窗口长度由4K拓展至128K，实际为对解耦合的位置编码 $q^{R}_t, k^{R}_t$ 应用YaRN，其中  
@@ -390,15 +391,51 @@ $$
 - MTP: 类似于skip-gram，t预测t+1, t+2, ..., t+k
 1. R1中的reward model和v2中的不相同，实际上是一个rulee-based system
 - low-precision training
+- pretrained on 14.8T diverse and high-quality tokens
+#### DeepSeekMoE & Auxiliary-Loss-Free
 
-#### MoE Load Balance Loss-free
+1. **修正DeepSeekMoe**，在[DeepSeekMoE](#deepseekmoe)的基础上对top-K操作后的Routed MoE权重$g'_{i, t}$归一化
+
+    > 因为上述归一化操作 $s_{i, t}$ 的计算改为了 `sigmoid`
+
+    $$
+    \begin{aligned} 
+    \mathbf{h}_t' =& \mathbf{u}_t + \sum_{i=1}^{N_s} \text{FFN}_i^{(s)} (\mathbf{u}_t) + \sum_{i=1}^{N_r} g_{i,t} \text{FFN}_i^{(r)} (\mathbf{u}_t) \\
+    g_{i, t} =& \frac{g'_{i, t}}{\sum_{j=1}^{N_r}g'_{j, t}} \\
+    g'_{i,t} = & 
+    \begin{cases} 
+    s_{i,t}, & s_{i,t} \in \text{Topk}(\{s_{j,t}|1 \leq j \leq N_r\}, K_r), \\
+    0, & \text{otherwise}
+    \end{cases} \\
+    s_{i,t} =& \text{Sigmoid} (\mathbf{u}_t^T e_i) \\
+    E \in \mathbb{R}^{N_r \times d} =& [e_1^T; e_2^T; \cdots; e_{N_r}^T]
+    \end{aligned}
+    $$
+
+2. **Auxiliary-Loss-Free Load Balancing**，用于Expert负载均衡的loss值占比过大，容易损伤模型效果，为权衡负载均衡与模型效果，使用了一个per-expert 的偏置项 $b_i$
+
+    $$
+    \begin{aligned}
+        g'_{i,t} = & 
+    \begin{cases} 
+    s_{i,t}, & s_{i,t} + b_i \in \text{Topk}(\{s_{j,t} + b_i|1 \leq j \leq N_r\}, K_r), \\
+    0, & \text{otherwise}
+    \end{cases} \\
+    \end{aligned}
+    $$
+
+- [x] Complementary Sequence-Wise Auxiliary Loss
+- [x] Node-Limited Routing
+- [x] No Token-Dropping
 #### MTP
+MTP (Multi-Token Predictoin)，基于当前token一次性预测未来$D$个位置的token。如上图所示，通过上一时序的隐层信息与当前状态的token_embedding输入，预测下一时刻的token，即：
+
 <div class="one-image-container">
     <img src="image/mtp.jpg" style="width: 95%;">
     <!-- <p>LoRA在Attention各部分权重上的消融实验效果</p> -->
     <!-- <figcaption>DeepSeekMoE</figcaption> -->
 </div>
-MTP (Multi-Token Predictoin)，基于当前token一次性预测未来$D$个位置的token。如上图所示，通过上一时序的隐层信息与当前状态的token_embedding输入，预测下一时刻的token，即：
+
 
 - $MTP_1$输入信息为$\text{cat}\big([t_1], \text{emb}(t_2)\big)$，预测$t_3$
 - $MTP_2$输入信息为$\text{cat}\big([t_1, t_2], \text{emb}(t_3))$，预测$t_4$
@@ -413,4 +450,5 @@ MTP (Multi-Token Predictoin)，基于当前token一次性预测未来$D$个位�
 
 ## DeepSeek-R1
 > 论文：DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning  
+> Github：[DeepSeek-V3](https://github.com/deepseek-ai/DeepSeek-V3)  
 > DeepSeek-AI, 2025 Jan
