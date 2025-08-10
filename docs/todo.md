@@ -93,9 +93,7 @@
 - [ ] MCP：model context protocol
 - [x] [gradient checkpointing, activation checkpointing](https://www.bilibili.com/video/BV1nJ4m1M7Qw/?spm_id_from=333.1387.search.video_card.click&vd_source=782e4c31fc5e63b7cb705fa371eeeb78): Training Deep Nets with Sublinear Memory Cost
 - [x] Gradient Checkpointing，[gif](https://pic3.zhimg.com/v2-1679b74a85687cdb250e532931bb266a_b.webp)
-- [x] Prompt Tuning: 自动化提示工程，改动prompt完成问题的回答, [The Power of Scale for Parameter-Efficient Prompt Tuning]
-- [x] p-tuning v1/v2, [GPT Understands, Too], [P-Tuning v2: Prompt Tuning Can Be Comparable to Fine-tuning Universally Across Scales and Tasks]
-- [x] Prefix Tuning: 基于prefix内容进行回答, [Prefix-Tuning: Optimizing Continuous Prompts for Generation]
+- [ ] length normalization
 - [ ] prompt engineering
 - [ ] lora with diffusion model 
 - [x] LDA潜在迪利克雷分布，b站视频 LDA主题模型
