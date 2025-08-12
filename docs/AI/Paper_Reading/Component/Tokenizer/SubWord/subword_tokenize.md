@@ -175,8 +175,7 @@ BPE-Dropout 在 BPE 的合并过程中引入随机性，以概率 $p$ 跳过某�
 
 !!! success "优势"
     1. 对拼写错误、（大小写或形态）变体、多语言混合文本更鲁棒（如`"l0wer", "lOwer", "l〇wer"`）
-
-- [sentencepiece subword regularization and BPE-dropout](https://github.com/google/sentencepiece?tab=readme-ov-file#subword-regularization-and-bpe-dropout)
+    2. Github：[Subword regularization and BPE-dropout](https://github.com/google/sentencepiece?tab=readme-ov-file#subword-regularization-and-bpe-dropout)
 #### 预先分词选择
  - [x] 处理包括大量固定属于的专业领域文本（医学、法律等）时
  - [x] 训练面向特定下游任务的tokenizer

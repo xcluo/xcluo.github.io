@@ -1,7 +1,7 @@
 ### LoRA
 > 论文：**Lo**w-**R**ank **A**daptation of large language models  
 > Github: [LoRA-GA: Low-Rank Adaptation with Gradient Approximation](https://github.com/microsoft/LoRA)  
-> MicroSoft, ICLR, 2022
+> MicroSoft, 2021 Jun, ICLR 2022
 
 #### 工作要点
 1. lora先验地假设可通过lora思想将分解的低秩矩阵来近似待调整的高维矩阵

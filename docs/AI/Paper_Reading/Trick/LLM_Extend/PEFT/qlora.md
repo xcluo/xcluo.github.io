@@ -1,7 +1,8 @@
 ### QLoRA
 > 论文：QLORA: Efficient Finetuning of Quantized LLMs  
 > QLoRA: **Q**uantized **Lo**w-**R**ank **A**daptation  
-> University of Washington, NeurIPS 2023
+> Github：[qlora](https://github.com/artidoro/qlora)  
+> University of Washington, 2023 May, NeurIPS 2023
 
 
 #### 工作要点

@@ -1,6 +1,9 @@
 - [ ] RAG的多实体问题如何解决：爱因斯坦和牛顿在物理学上的贡献有何不同？
+- [ ] 多任务学习中互斥任务影响削减：1) model merging; 2) 基于prompt训练
 - [ ] nvtop
 - [ ] 从零构建DS：https://avoid.overfit.cn/post/ac6d4be0a234412ea00032737365638c#
+- [ ] MCP：model context protocol
+- [ ] function call
 - [x] triton框架
 - [x] ollama, tensorRT
 - [x] langchain (Language Chain)
@@ -11,6 +14,7 @@
 - [x] docker
 - [x] kubernetes (k8s)
 - [ ] 联邦学习
+- [x] Toolformer: Language Models Can Teach Themselves to Use Tools
 - [ ] bits-per-byte, BPB, The Pile: An 800GB Dataset of Diverse Text for Language Modeling
 - [x] scaling laws
     - Deep learning scaling is predictable, empirically
@@ -44,8 +48,6 @@
 - [ ] openCV
 - [ ] cv中常见的数据增强方案：crop 对单张输入图像裁剪
 - [ ] xfyun for xunfei
-- [ ] 多任务学习中互斥任务影响削减：1) model merging; 2) 基于prompt训练
-- [x] kv cache：https://juejin.cn/post/7362789570217885759
 - [ ] Universal transformers.
 - [x] mGTE
 - [x] bge, bge-m3
@@ -58,6 +60,7 @@
 - [x] pipedream, pipedream-2bw
 - [ ] q-learning DQN, DDPG不用重要性采样
 - [x] DPO, PPO, GRPO, DAPO
+- [ ] GLM-4.5, Kimi-K2, Qwen
 - [ ] tf.metrics, torchmetrics
 - [ ] 文档chunk方案
         - Fixed-size window Chunking + overlapping, charatertextsplitter
@@ -90,7 +93,6 @@
 - [ ] 模型幻觉hallucination
 - [ ] 持续学习，避免灾难性遗忘
     - 正则化、数据放回、增量学习、adapter网络，使用pre model软标签数据参与训练等
-- [ ] MCP：model context protocol
 - [x] [gradient checkpointing, activation checkpointing](https://www.bilibili.com/video/BV1nJ4m1M7Qw/?spm_id_from=333.1387.search.video_card.click&vd_source=782e4c31fc5e63b7cb705fa371eeeb78): Training Deep Nets with Sublinear Memory Cost
 - [x] Gradient Checkpointing，[gif](https://pic3.zhimg.com/v2-1679b74a85687cdb250e532931bb266a_b.webp)
 - [ ] length normalization
@@ -104,7 +106,6 @@
 - [ ] Restricted Boltzmann Machines (RBM)
 - [ ] A/B test
 - [ ] TF-IDF_j, MI_{a, b, c, d}
-- [x] Attention softmax后除以$\sqrt{d_k}$是因为权重矩阵中每个元素都是通过两个(1， d_k)方差为1的向量相乘得到的，基于正态分布累加后的标准差公式可知该值方差变为$\sqrt{d_k}$，因此执行该操作，不除以$\sqrt{d_k}$，根据softmax函数曲线，softmax结果表现更倾向于one-hot分布，[会带来梯度消失问题](https://spaces.ac.cn/archives/8620/comment-page-4#comment-24076)
 - tensorflow 1.x中在梯度下降时如何设置L1，L2正则化约束
     ```python
     with tf.variable_scope("layer1", regularizer=l2_regularizer):

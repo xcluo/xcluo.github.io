@@ -1,5 +1,5 @@
 #### C
-- **CDF**：**C**umulative **D**istribution **F**unction，累计分布函数，用$\Phi(z)$表示，等价于$Pr(X\le z)$，其中$Pr$表示概率probability
+- **CDF**：**C**umulative **D**istribution **F**unction，累计分布函数，用$\Phi(z)$表示，等价于$\text{Pr}(X\le z)$，其中$\text{Pr}$表示概率probability
 
 #### G
 - **GEMM**：**GE**neral **M**atrix **M**ultiplication，通用矩阵乘法

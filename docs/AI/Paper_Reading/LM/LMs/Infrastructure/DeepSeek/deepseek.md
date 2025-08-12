@@ -1,7 +1,7 @@
 
 ## DeepSeek-1
 > 论文：DeepSeek LLM Scaling Open-Source Language Models with Longtermism  
-> DeepSeek-AI, 2024 Jan
+> DeepSeek-AI & Tsinghua University & PKU, 2024 Jan
 
 ### 主要内容
 #### Architecture
@@ -111,7 +111,7 @@ $$
         <img src="image/ds-1_scaling_coefficient_vary_data.png" style="width: 100%;">
     </div>
 
-#### Alignment
+#### Post-Training
 1. **Dataset**：1.5M 中英文数据：
     - ^^1.2M helpfulness^^
         - 31.2% 通用语言任务
@@ -125,36 +125,8 @@ $$
 3. **DPO**，`1 epochs, lr=5e-6, bs=512`
 
 
-## DeepSeekMath
-> 论文：DeepSeekMath: Pushing the Limits of Mathematical Reasoning in Open Language Models  
-> DeepSeek-AI & Tsinghua University & Peking University, 2024 Feb  
 
-### 主要内容
-- [x] 提出（PPO变种）GRPO强化学习方案提升模型对齐效果
 
-#### GRPO
-
-<div class="one-image-container">
-    <img src="image/ppo_grpo_diagram.jpg" style="width: 90%;">
-</div>
-
-GRPO (Group Relative Policy Optimization)是PPO算法的一个变种，不再需要维护一个计算量需求巨大的价值模型输出baseline来计算样本优势，而是
-<div class="one-image-container">
-    <img src="image/grpo_algorithm.jpg" style="width: 95%;">
-</div>
-1. 使用$\pi_{old}$对同一问题采样生成$G$个回答  
-2. 根据RM输出对应的奖励分数  
-3. 对奖励分数结果 $\mathbb{R}^{G}$ 进行norm操作得到样本优势结果$A_{i}$  
-
-$$
-\begin{aligned}
-    \mathcal{J}_{GRPO}&(\theta) = \mathbb{E}\left[q \sim P(Q), \{o_i\}_{i=1}^G \sim \pi_{\theta_{\text{old}}} (O|q)\right] \\
-    \frac{1}{G} &\sum_{i=1}^G  \left( \min \left( \frac{\pi_{\theta}(o_i|q)} {\pi_{\theta_{\text{old}}}(o_i|q)} A_i, \operatorname{clip} \left( \frac{\pi_{\theta}(o_i|q)}{\pi_{\theta_{\text{old}}}(o_i|q)}, 1 - \varepsilon, 1 + \varepsilon \right) A_i \right) - \beta \mathbb{D}_{KL} (\pi_{\theta} | \pi_{\text{ref}}) \right) \\
-    &\mathbb{D}_{KL} (\pi_{\theta} | \pi_{\text{ref}}) = \frac{\pi_{\text{ref}}(o_i|q)}{\pi_{\theta}(o_i|q)} - \log \frac{\pi_{\text{ref}}(o_i|q)}{\pi_{\theta}(o_i|q)} - 1.
-\end{aligned}
-$$
-
-## DeepSeek-Coder
 
 ## DeepSeek-2
 > 论文：DeepSeek-V2: A Strong, Economical, and Efficient Mixture-of-Experts Language Model  
@@ -341,13 +313,14 @@ $$
 2. **Tokenizer**：BBPE as [DeepSeek-1](#pre-training)
 3. **Hyperparameter**
     - ^^AdamW^^：$\beta_1 = 0.9, \beta_2 = 0.95, \text{weight_decay}=0.1$
+    - `max_seq_len=4K`  
     - `gradient_clip=1.0`
     - ^^Multi-step LR Scheduler^^
         - ~2000 steps，linearly increase warmup从0升至`max_lr=2.4*1e-4`
         - ~60% tokens，降至 `0.316*max_lr`
         - ~90% tokens，降至 `0.316*0.316*max_lr≈0.1*max_lr`
     - ^^BS Scheduler^^：~225B tokens，从2304升至9216，随后保持
-    - 总设备数和最大激活设备数 $D=8, M=3$
+    - DeepSeekMoE配置 $D=8, M=3$
     - ^^Balance Factor^^：$\alpha_1=0.003, \alpha_2=0.05, \alpha_3=0.02$
 
 #### Context Window Extension
@@ -363,16 +336,16 @@ $$
 
 
 
-#### AI Infras
+#### Infrastructure
 1. 将所有参数量化为FP8精度类型
 2. 进一步对KV cache进行量化，压缩后平均大小为 6-bit
 2. HAI-LLM framework
 3. zero-bubble
 
-#### SFT
-1. 1.5M = 1.2M helpfulness + 0.3M safety
+#### Post-Training
+1. **SFT**，1.5M = 1.2M helpfulness + 0.3M safety
 
-#### GRPO
+2. **GRPO**
 
 模型架构：
 
@@ -381,22 +354,35 @@ $$
 3. DeepSeek-V2-Chat_SFT
 4. DeepSeek-V2-Chat_RL
 
-## DeepSeek-Coder-2
 
 ## DeepSeek-3
 > 论文：DeepSeek-V3 Technical Report  
 > DeepSeek-AI, 2024 Dec
 
 ### 主要内容
-- MTP: 类似于skip-gram，t预测t+1, t+2, ..., t+k
-1. R1中的reward model和v2中的不相同，实际上是一个rulee-based system
-- low-precision training
-- pretrained on 14.8T diverse and high-quality tokens
-#### DeepSeekMoE & Auxiliary-Loss-Free
 
-1. **修正DeepSeekMoe**，在[DeepSeekMoE](#deepseekmoe)的基础上对top-K操作后的Routed MoE权重$g'_{i, t}$归一化
+#### MLA modified
+DeepSeek-3 较 [DeepSeek-2](#mla)，对$c^{KV}, c^Q$ 新增了RMSNorm操作后（包括 Norm + Scale）
 
-    > 因为上述归一化操作 $s_{i, t}$ 的计算改为了 `sigmoid`
+$$
+\begin{aligned}
+    c_{t}^{KV} =& W^{DKV}h_t \\
+    c_{t}^{KV} =& \text{RMSNorm}(c_{t}^{KV}) \\
+    k_t^C =& W^{UK}c_t^{KV} \\
+    v_t^C =& W^{UV}c_t^{KV} \\ 
+    c_{t}^{Q} =& W^{DQ}h_t \\
+    c_{t}^{Q} =& \text{RMSNorm}(c_{t}^{Q}) \\
+    q_t^C =& W^{UQ}c_t^{Q} 
+\end{aligned}
+$$
+
+#### DeepSeekMoE modified
+
+1. **Auxiliary-Loss-Free Load Balancing**，在[DeepSeekMoE](#deepseekmoe)基础上修正并实现了无损失函数负载均衡
+
+    - [x] 为均衡MoE负载与模型效果，新增 per-expert trainable偏置项 $b_i$ 用于 top-K选取
+    - 对top-K操作后的Routed MoE权重$g'_{i, t}$归一化  
+    - 因为后续有归一化操作 $s_{i, t}$ 的计算改为了 `sigmoid`
 
     $$
     \begin{aligned} 
@@ -404,7 +390,7 @@ $$
     g_{i, t} =& \frac{g'_{i, t}}{\sum_{j=1}^{N_r}g'_{j, t}} \\
     g'_{i,t} = & 
     \begin{cases} 
-    s_{i,t}, & s_{i,t} \in \text{Topk}(\{s_{j,t}|1 \leq j \leq N_r\}, K_r), \\
+    s_{i,t}, & s_{i,t} + b_i \in \text{Topk}\left(\{s_{j,t}|1 \leq j \leq N_r\}, K_r\right), \\
     0, & \text{otherwise}
     \end{cases} \\
     s_{i,t} =& \text{Sigmoid} (\mathbf{u}_t^T e_i) \\
@@ -412,43 +398,101 @@ $$
     \end{aligned}
     $$
 
-2. **Auxiliary-Loss-Free Load Balancing**，用于Expert负载均衡的loss值占比过大，容易损伤模型效果，为权衡负载均衡与模型效果，使用了一个per-expert 的偏置项 $b_i$
+    !!! info ""
+        - 偏置项 $b_i$ 只用于top-K路由选择，不参与门限权重 $g_{i, t}$ 计算
+        - 训练时，当Expert的超载 $b_i -= \gamma$，负载不足 $b_i += \gamma$，$\gamma$ 为偏置项更新速度。该方法无需借助额外辅助损失函数便可均衡负载
+        - 推理时，移除$b_i$ 项，即top-K部分改为 $s_{i,t} \in \text{Topk}(\{s_{j,t}|1 \leq j \leq N_r\}, K_r)$，某些情况下仍希望保持某种负载均衡时可能会保留 $b_i$
+        
+2. **Expert-Level Auxiliary Loss**，虽然上述无辅助损失函数放可以有效均衡负载，依然保留了 sequence的 expert-level 损失函数，防止样本MoE激活极端失衡
+
+    > 均衡系数 $\alpha$ 数值非常小，与模型目标损失值相比极小
 
     $$
     \begin{aligned}
-        g'_{i,t} = & 
-    \begin{cases} 
-    s_{i,t}, & s_{i,t} + b_i \in \text{Topk}(\{s_{j,t} + b_i|1 \leq j \leq N_r\}, K_r), \\
-    0, & \text{otherwise}
-    \end{cases} \\
+        \mathcal{L}_\text{SeqBal} =& \alpha \sum_{i=1}^{N_r} f_iP_i \\
+        f_i =& \frac{N_r}{K_r T} \sum_{t=1}^T \mathbb{1} \left( s_{i, t} \in \text{Topk}\left( \left\{s_{j, t}\vert 1 \le j \le N_r\right\}, K_r\right)\right)\\
+        P_i =& \frac{1}{T} \sum_{t=1}^T g_{i, t} \\
     \end{aligned}
     $$
 
-- [x] Complementary Sequence-Wise Auxiliary Loss
-- [x] Node-Limited Routing
-- [x] No Token-Dropping
-#### MTP
-MTP (Multi-Token Predictoin)，基于当前token一次性预测未来$D$个位置的token。如上图所示，通过上一时序的隐层信息与当前状态的token_embedding输入，预测下一时刻的token，即：
+3. **Node-Limited Routing**，继续约束并行时最多选取 $M$ 个设备（选择 $\frac{K_r}{M}$ Expert分数和对应的top-M设备）
+4. **No Token-Dropping**，由于训练时高效的负载均衡策略以及推力时专门的部署策略，不再像[DeekSeek-2](#deepseekmoe) 使用token-dropping方案
+#### DeepSeek-MTP
+MTP (Multi-Token Predictoin) 通过时序顺序连接的 $n$ 个MTP模块（对应深度$n$）实现了 ^^额外^^ 的`next_n_token_prediction`将预测范围扩展到每个位置的未来多个token，主要部分包括：
 
-<div class="one-image-container">
-    <img src="image/mtp.jpg" style="width: 95%;">
-    <!-- <p>LoRA在Attention各部分权重上的消融实验效果</p> -->
-    <!-- <figcaption>DeepSeekMoE</figcaption> -->
-</div>
+1. **MTP Module** 包括共享Embedding层和Output Head、单层Transformer block $\text{MTP}_k$ 以及投影矩阵 $M_k \in \mathbb{R}^{d\times 2d}$，MTP模块具体为
+   
+    $$
+    \begin{aligned}
+        h{'}_t^k =& M_k[\text{RMSNorm}(h_t^{k-1}), \text{RMSNorm}\left(\text{Emb}\left(x_{t+k}\right)\right)] \\
+        h_{1:T-k}^k =& \text{TRM}_k(h{'}_{1:T-k}) \\
+        P^k_{t+k+1} \in \mathbb{R}^{\vert V\vert} =& \text{OutHead}(h_{t}^k)
+    \end{aligned}
+    $$
 
-
-- $MTP_1$输入信息为$\text{cat}\big([t_1], \text{emb}(t_2)\big)$，预测$t_3$
-- $MTP_2$输入信息为$\text{cat}\big([t_1, t_2], \text{emb}(t_3))$，预测$t_4$
-- $MTP_k$输入信息为$\text{cat}\big([t_1, t_2, \dots, t_{k-1}], \text{emb}(t_k)\big)$，预测$t_{k+1}$
-
-!!! info ""
-    - $[t_1, \dots, t_k]$ 表示了整合了$[1, t]$ tokens的$MTP_{k-1}$输出（$MTP_0$为main model），本质上依然保留了时序链  
-    - $\mathcal{L} = \mathcal{L}_{main} + \frac{\lambda}{D}\sum_{i=1}^{D}\mathcal{L}_{MTP}^k$
-    - 在测试时可直接使用main model进行正常文本生成，也可基于提升文本生成效率考量，使用MTP网络快速生成邻近token
-#### FP8 Training
+    !!! info ""
+        - $h_t^{0}$ 为Main Model的 `next_token_last_layer_hidden_state`  
+        - 每个MTP模块均执行`next_token_prediction`
 
 
-## DeepSeek-R1
-> 论文：DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning  
-> Github：[DeepSeek-V3](https://github.com/deepseek-ai/DeepSeek-V3)  
-> DeepSeek-AI, 2025 Jan
+    <div class="one-image-container">
+        <img src="image/mtp.jpg" style="width: 95%;">
+    </div>
+
+2. **MTP Training Objective**
+
+    $$
+    \begin{aligned}
+        \mathcal{L}_\text{MTP}^{k} =& \text{CrossEntropy}(p^k_{2+k:T+1}, x_{2+k:T+1}) = - \frac{1}{T} \sum_{i=2+k}^{T+1} \log p_i^k(x_i) \\
+        \mathcal{L}_\text{MTP} =& \frac{\lambda}{n} \sum_{k=1}^n \mathcal{L}_\text{MTP}^{k}
+    \end{aligned}
+    $$
+
+3. **MTP in Inference**，MTP 模块旨在提升主模型的性能，因此在推理过程中，可以
+    - 直接丢弃 MTP 模块，仅保持Main Model独立运行
+    - 将 MTP 模块继续用于推理解码（可选择 $n$ 的长度），改善生成延迟
+
+
+#### Infrastructure
+
+- **FP8 Training**
+- low-precision training
+
+#### Pre-Training
+1. **Data Construction** 
+   - pretrained on 14.8T diverse and high-quality tokens
+   - compared with DeepSeek-2, enhancing the ratio of mathematical and programming samples, while expanding multilingual coverage beyond English and Chinese.
+
+2. **Tokenizer**：BBPE with vocabulary of 128K tokens，通过下列方法优化多语种压缩效率  
+    - ^^Pre-tokenization^^，较[DeepSeek-1](#pre-training)新增了标点符号和换行符分词，且为防止该方法过分拆分导致分词边界误差，通过在训练过程中设置一定的划分概率来减轻分词误差（类似于[BPE-Dropout](../../../../Component/Tokenizer/SubWord/subword_tokenize.md#bpe-dropout)）以提高泛化性。
+
+3. **Hyperparameter**
+    - ^^AdamW^^：$\beta_1 = 0.9, \beta_2 = 0.95, \text{weight_decay}=0.1$
+    - `max_seq_len=4K`
+    - `gradient_clip=1.0`
+    - ^^Multi-step LR Scheduler^^
+        - ~2000 steps，linearly increase warmup从0升至`max_lr=2.2*1e-4`
+        - ~10T tokens，保持 `max_lr`
+        - ~14.3T tokens, consine decay降至 `0.1*max_lr`
+        - ~14.633T tokens，保持`0.1*max_lr`
+        - ~14.8T tokens，保持`lr=7.3*1e-6`
+    - ^^BS Scheduler^^：~469B tokens，从3072升至15360，随后保持
+    - DeepSeekMoE配置: $D=8, M=4, \alpha=0.0001$，除了前3层，所有FFN均替换为MoE
+        - ~14.3T tokens $\gamma=0.001$
+        - ~14.8T tokens $\gamma=0$
+    - MTP配置：$n=1$
+        - ~10T tokens $\lambda=0.3$
+        - ~14.8T tokens $\lambda=0.1$
+#### Context Window Extension
+在预训练LLM后，应用YaRN阶段性低将文本窗口长度由4K拓展至128K，实际为对解耦合的位置编码 $q^{R}_t, k^{R}_t$ 应用YaRN，其中  
+
+- $s=40, \alpha=1, \beta=32$，理论上最大拓展长度为160K  
+- 长度缩放系数 $\sqrt{\frac{1}{t}} = 0.1 \ln s + 1$  
+- `lr=7.3*1e-6`
+- stage 1：`train_steps=1000, seq_len=32K, batch_size=1920`  
+- stage 2：`train_steps=1000, seq_len=128K, batch_size=480`  
+
+#### Post-Training
+- **SFT**
+- **RL**
+- 1. R1中的reward model和v2中的不相同，实际上是一个rulee-based system

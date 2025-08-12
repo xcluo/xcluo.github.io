@@ -2,7 +2,7 @@
 #### Normal Distribution
 $X \sim\mathcal{N}(\mu, \sigma^2)$，密度函数$f(x)=\frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{(x-\mu)^2}{2\sigma^2}}$
 - 独立分布正态分布组合 $Z = aX  + bY$：$E(Z)=a\mu_X + b\mu_Y$ 和 $Var(Z) = a^2\sigma^2_X + b^2\sigma_Y^2$
-- 累计分布函数CDF $\Phi(x)=Pr(X\le x)=\frac{1}{\sqrt{2\pi}}\int_{-\infty}^{x}e^{-\frac{x^2}{2}}dx$
+- 累计分布函数CDF $\Phi(x)=\text{Pr}(X\le x)=\frac{1}{\sqrt{2\pi}}\int_{-\infty}^{x}e^{-\frac{x^2}{2}}dx$
 
 #### Poisson Distribution
 泊松分布，是一种离散概率分布，用于描述在一定时间或空间内事件发生的次数。它特别适用于当这些事件是独立发生且以恒定的平均速率出现时的情景。

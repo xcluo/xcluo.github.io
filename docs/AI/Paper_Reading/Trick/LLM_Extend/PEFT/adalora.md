@@ -1,8 +1,10 @@
-### LoRA-GA
+## LoRA-GA
 > 论文：AdaLoRA: adaptive budget allocation for parameter-effecient fine-tuning
 > AdaLoRA: **Ada**ptive **Lo**w **R**ank **A**dapation  
-> MicroSoft, ICLA 2023
+> Github：[AdaLoRA](https://github.com/QingruZhang/AdaLoRA)  
+> MicroSoft, 2023 Mar, ICLR 2023
 
+### 主要内容
 - https://zhuanlan.zhihu.com/p/657130029
 
 - train 1.5倍LoRA，infer等同lora
