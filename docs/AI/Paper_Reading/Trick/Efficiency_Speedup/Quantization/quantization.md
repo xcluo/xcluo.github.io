@@ -42,12 +42,24 @@
     - 华盛顿大学在QLoRA中提出的[NF4](../../LLM_Extend/LLM_SFT/qlora.md)(NormalFloat 4)，本质上为4-bit字节码，对应0-15下标的固定浮点数
 
 #### Quantize & Dequantize
-1. 量化Quantize，将高精度数值表示转化为低精度数值表示，如`FP32 → FP16`；
-2. 解量化Dequantize，将量化后的低精度数值表示转化为高精度数值表示，如`FP16 → FP32`
+可通过缓存历史activation（如KV cache）和权重参数优化模型在LLM推理性能，即将  $Y = WX$ 通过量化数据 $\tilde{Y} = \tilde{W}\tilde{X} = \hat{W} \cdot s_w \hat{X} \cdot s_X$ 近似
 
-### 量化类型
-#### AMP
-混合精度训练[Mixed Precision Training](https://arxiv.org/pdf/1710.03740)
+1. 量化Quantize，将高精度数值表示转化为低精度数值表示，如`FP32 → FP16`；
+2. 反量化Dequantize，将量化后的低精度数值表示转化为高精度数值表示，如`FP16 → FP32`
+
+$$
+\begin{aligned}
+s  =& \frac{\max \left(\vert x \vert \right)}{ 2^{b-1} - 1} \\
+\hat{x}  =& \text{round}\left(\frac{x} {s} \right) \\
+\tilde{x} =& \hat{x}\cdot s
+\end{aligned}
+$$
+
+> 某些最值过于极端情况下，可将$\max\left(\vert x \vert \right)$ 转化为分位数 $\text{quantile}\left(\vert x \vert, \text{cdf_value}\right)$
+
+### 量化种类
+#### MPQ
+Mixed-Precision Quantization混合精度量化
 
 #### PTQ
 Post Training Quantization，对训练后的模型进行量化处理，当量化为FP16时，无需校准；当量化为INT8时，一般需要使用少量代表性校准数据集，==不重新训练而是通过统计分析确定最优量化参数==，
@@ -155,37 +167,54 @@ Quantization Aware Training
 
 - TensorFlow Lite Optimizing Converter(Toco) 转换器
 
-量化分类：
+#### QKD
+Quantization-aware Knowledge Distillation，将原始模型作为teacher model、量化后的模型作为student model进行蒸馏
 
-1. 二值化
-2. 线性量化
-3. 对数量化
-- SmoothQuant: Accurate and Efficient Post-Training Quantization for Large Language Models
+### 量化粒度
+#### Layer-wise Quantization
+Layer-wise Quantization 是一种基础的模型量化方法，它将神经网络中每一层的权重或激活值作为一个整体进行量化（使用统一的量化参数缩放因子和零点）
 
+- 粒度较为粗糙，精度损失较大
+
+#### Block-wise Quantization
+Block-wise k-bit Quantization将数据划分成 blocks（如$8\times 8$），对于每个block独立应用INTk量化方案
+
+- [x] 分块独立处理能有效减缓由极端极值 $\max(\vert x \vert)$ 导致量化缩放因子 $s_{x, k}$ 过大，表现量化结果过于集中模糊，损害整体量化效果
+- 转为Tensor Core设计
+
+
+#### Group-wise Quantization
+Block-wise k-bit Quantization将数据按通道方向划分成 groups（$W\in \mathbb{R}^{d_{in}\times d_{out}}$ 按行维度或列维度划分），对于每个block独立应用INTk量化方案
+
+- 更适用于Attention中的注意力权重计算，与GEMM兼容
+- 通用于CPU/GPU硬件架构
+
+#### Token-wise Quantization
+Token-wise Quantization 是一种面向动态序列数据（如Transformer的输入和激活值）的细粒度量化方法，其核心思想是为输入序列中的每个 Token 独立计算量化参数，从而显著提升低比特量化下的模型精度。
+
+- 在推理阶段会因为实时计算 $s_t$ 而引入额外开销，但一般＜5%
 
 ### 量化方案
+量化分类：
+
+1. 二值化/三值化
+2. 线性量化
+3. 对数量化
+6. 非均匀量化（Non-Uniform Quantization）
+    - K-means Quantization
+    - Logarithmic Quantization
+    - Power-of-Two Quantization
+    - Mixture of Experts Quantization
+    - Quantile Quantization
+    - Learned Quantization
+    - Sparse Non-uniform Quantization
+
 #### Float2Float quantization
 浮点型转型量化
 高精度转化为低精度时需要在指数位调整偏移量、尾数位低位截断；低精度转化为高精度时则需要在指数位调整偏移量、尾数位低位进行补0操作，常用 `cast` 方法实现转换
 
-2. block-wise k-bit (symmetric) quantization，对称线性量化  
-将数据划分为多个块block（元素个数为$B$），然后在每个块内应用k-bit量化方案
-
-    $$
-    \begin{aligned}
-    c(x_{up}, k)  =& \frac{2^{k-1} - 1}{\text{absmax}(x_{up})} \\
-    q(x_{up}, k, c) =& round(x_{up}*c) \\
-    deq(x_{low}, k, c) =& \frac{x_{low}}{c}
-    \end{aligned}
-    $$
-
-    > 分块原因：减缓由部分极值导致量化缩放因子 $c$ 过小，导致量化结果过于集中，粒度模糊，损害整体量化效果的现象
-
 1. asymmetric quantization，非对称线性量化  
 
-    $$
-
-    $$
 
 #### [NF4 quantization](../../LLM_Extend/LLM_SFT/qlora.md)
 浮点型分位量化  

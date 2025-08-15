@@ -1,5 +1,3 @@
-- [x] kv cache：https://juejin.cn/post/7362789570217885759
-
 ## KV Cache
 应用 KV Cache 优化的生成大模型在推理过程包含了两个阶段：
 
@@ -16,25 +14,21 @@ $$
 > 只需要基于 $q^n_t$ 与 $K^n_{1:t}$ 便可计算1~t的注意力权重向量，无需缓存或重计算历史$q^n_{\lt t}$
 ### FLOPs分析
 
+
 操作项 | w/o KV Cache| w/ KV Cache
 :---: | :---: | :---:
-$Q, K, V$ | $3*2*ld^2$ |  
-$QK^T$ |
-$\text{Softmax}(logit)$ |
-$score\cdot V$ |
-$O$ |
-Attention | 
-FFN |
+$Q, K, V$ | $3*2*ld^2$ |  $3*2*d^2$
+$QK^T$ | $2*l^2d$ | $2*ld$
+$score\cdot V$ | $2*l^2d$ | $2*ld$
+$O$ | $2*ld^2$ | $2*d^2$
+Attention | $l*(8d^2 + 4ld)$ | $8d^2 + 4ld$
+FFN | $2*2*ldd_{ff}$ | $2*2*dd_{ff}$
+block | $l*(24d^2 + 4ld)$ | $24d^2 + 4ld$
 
-- kv cache 量化
-- [x] Attention softmax后除以$\sqrt{d_h}$是因为权重矩阵中每个元素都是通过两个(1， d_h)方差为1的向量相乘得到的，基于正态分布累加后的标准差公式可知该值方差变为$\sqrt{d_h}$，因此执行该操作，不除以$\sqrt{d_h}$，根据softmax函数曲线，softmax结果表现更倾向于one-hot分布，[会带来梯度消失问题](https://spaces.ac.cn/archives/8620/comment-page-4#comment-24076)
 
-- truncated normal的基于正态分布 $\mathcal{N}(\mu, \sigma^2)$，对于在$[u-2\sigma, u+2\sigma]$范围内采样结果保留，其均值为$\mu$，方差为
+> - FLPOs矩阵操作包括multiply + add两部分，因此需要乘以2
+> - 通常情况下$d_{ff}=4d$
 
-    $$
-    \gamma = \frac{\int_{-2}^2 e^{-x^2/2}x^2 dx}{\int_{-2}^2 e^{-x^2/2} dx} = 0.7737413
-    $$
 
-- 若要得到方差为$\sigma^2$ 采样结果，需要对传入的标准差执行 $\sigma *= \frac{1}{\sqrt{\gamma}} = 1.1368472\sigma$
-- https://spaces.ac.cn/archives/8620
-- https://spaces.ac.cn/archives/8823
+### 量化
+

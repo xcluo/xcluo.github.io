@@ -1,6 +1,5 @@
 - [ ] RAG的多实体问题如何解决：爱因斯坦和牛顿在物理学上的贡献有何不同？
 - [ ] 多任务学习中互斥任务影响削减：1) model merging; 2) 基于prompt训练
-- [ ] nvtop
 - [ ] 从零构建DS：https://avoid.overfit.cn/post/ac6d4be0a234412ea00032737365638c#
 - [ ] MCP：model context protocol
 - [ ] function call
@@ -14,7 +13,9 @@
 - [x] docker
 - [x] kubernetes (k8s)
 - [ ] 联邦学习
-- [x] Toolformer: Language Models Can Teach Themselves to Use Tools
+- [ ] QK-Norm
+    - Scaling vision transformers to 22 billion parameters
+    - Small-scale proxies for large-scale transformer training instabilities
 - [ ] bits-per-byte, BPB, The Pile: An 800GB Dataset of Diverse Text for Language Modeling
 - [x] scaling laws
     - Deep learning scaling is predictable, empirically
@@ -28,6 +29,7 @@
 - [x] MRL paper: Matryoshka Representation Learning, 一般mrl → norm
 - [ ] Reducing activation recomputation in large transformer models.
 - [ ] 3D parallel
+- [x] pipedream, pipedream-2bw
 - [x] Zero bubble pipeline parallelism
 - [ ] Device Capacity Factor
 - [x] Slimmable Neural Networks
@@ -48,7 +50,7 @@
 - [ ] openCV
 - [ ] cv中常见的数据增强方案：crop 对单张输入图像裁剪
 - [ ] xfyun for xunfei
-- [ ] Universal transformers.
+- [ ] Universal transformers. 类似 RNN 的权重共享，所有时间步共享同一组 Self-Attention 和 FFN 参数
 - [x] mGTE
 - [x] bge, bge-m3
 - [x] jina embedding，jina ai推出
@@ -57,7 +59,6 @@
 - [ ] https://github.com/castorini/pyserini
 - [x] cot, cot-sc, tot, got
 - [x] transformers.optmization, transformers.Trainer
-- [x] pipedream, pipedream-2bw
 - [ ] q-learning DQN, DDPG不用重要性采样
 - [x] DPO, PPO, GRPO, DAPO
 - [ ] GLM-4.5, Kimi-K2, Qwen
@@ -73,15 +74,14 @@
 - [x] DeepSeek-3 https://zhuanlan.zhihu.com/p/16323685381
 - [ ] 免费 gpt-4: https://gpt.xfai.online/list/#/home
 - [x] instruct gpt: Training language models to follow instructions with human feedback
+- [ ] Kernel Implementation
 - [x] Kvquant: Towards 10 million context length LLM inference with KV cache quantization
-- [x] zeroquant, 
-- [x] smooth quant
-- [ ] Atom: Low-bit quantization for efficient and accurate LLM serving
+- [x] Atom: Low-bit quantization for efficient and accurate LLM serving
 - [ ] MoE: https://zhuanlan.zhihu.com/p/669312652
 - [ ] [huggingface leaderboard](https://huggingface.co/spaces?q=leaderboard)
 - [ ] [code with paper leaderboard](https://paperswithcode.com/sota)
 - [ ] [大模型面试](https://zhuanlan.zhihu.com/p/691588703)
-- [x] NSA: natively trainable sparse Attention
+- [x] NSA: natively trainable sparse Attention, hierarchical attention
 - [ ] Wizardmath: Empowering mathematical reasoning for large language models via reinforced evol-instruct
 - [ ] Math-shepherd: Verify and reinforce llms step-by-step without human annotations
 - [x] vllm: Efficient Memory Management for Large Language Model Serving with PagedAttention
@@ -96,7 +96,6 @@
 - [x] [gradient checkpointing, activation checkpointing](https://www.bilibili.com/video/BV1nJ4m1M7Qw/?spm_id_from=333.1387.search.video_card.click&vd_source=782e4c31fc5e63b7cb705fa371eeeb78): Training Deep Nets with Sublinear Memory Cost
 - [x] Gradient Checkpointing，[gif](https://pic3.zhimg.com/v2-1679b74a85687cdb250e532931bb266a_b.webp)
 - [ ] length normalization
-- [ ] prompt engineering
 - [ ] lora with diffusion model 
 - [x] LDA潜在迪利克雷分布，b站视频 LDA主题模型
 - [ ] LSA/PLSA

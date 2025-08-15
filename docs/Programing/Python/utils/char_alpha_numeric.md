@@ -413,7 +413,7 @@ class PyTokenizer:
         if not isinstance(pinyin_list, (tuple, list, set)):
             raise ValueError(f"pinyin_list is not tuple or list or set, but {type(pinyin_list)}")
         if len(pinyin_list) == 0:
-            return False
+            return True
         text_pinyin = PyTokenizer.pinyin(text, remain_alpha=remain_alpha, remain_arabic=remain_arabic,
                                          arabic_to_pinyin=arabic_to_pinyin,
                                          white_list_chars=white_list_chars, py_tokenizer=py_tokenizer)
