@@ -28,8 +28,9 @@
 ### FullTokenizer优化
 
 #### 谨慎使用声调上下标去除函数
-将文本经过NFD分解为`基本字符 + 重音符号`后只保留基础字符，如`"ā á ǎ à"   -> "a a a a"`
-  - [ ] 可能直接ignore重音符号会造成信息语素缺失
+将文本经过NFD分解为`基本字符 + 重音符号`后只保留基础字符，如`"ā á ǎ à"   -> "a a a a"`  
+
+  - [ ] 可能直接ignore重音符号会造成信息语素缺失（如形似的数字、字母等变种字符）
 ```python title="BasicTokenizer._run_strip_accents"
 # 去除字符声调 "ā á ǎ à"   -> "a a a a"
 def _run_strip_accents(text):
