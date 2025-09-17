@@ -13,7 +13,9 @@
 - [x] docker
 - [x] kubernetes (k8s)
 - [ ] 联邦学习
-- [ ] QK-Norm
+- [ ] Fisher information matrix
+- [ ] Hessian matrix
+- [ ] QK-Norm, 在W_Q/K/V输入前进行LN操作
     - Scaling vision transformers to 22 billion parameters
     - Small-scale proxies for large-scale transformer training instabilities
 - [ ] bits-per-byte, BPB, The Pile: An 800GB Dataset of Diverse Text for Language Modeling
@@ -27,15 +29,15 @@
     - Transformers are RNNs: Fast Autoregressive Transformers with Linear Attention
     - Linformer: Self-Attention with Linear Complexity
 - [x] MRL paper: Matryoshka Representation Learning, 一般mrl → norm
+- [x] Slimmable Neural Networks
 - [ ] Reducing activation recomputation in large transformer models.
 - [ ] 3D parallel
 - [x] pipedream, pipedream-2bw
 - [x] Zero bubble pipeline parallelism
 - [ ] Device Capacity Factor
-- [x] Slimmable Neural Networks
 - [ ] ROI Pooling, Region of Interest: 1) region proposal; 2) pooling sections; 3) max_pooling of sections
-        - 将feature map划分为 H*W 个区域
-        - 通过max_pooling得到 H*W 大小的特征图
+    - 将feature map划分为 H*W 个区域
+    - 通过max_pooling得到 H*W 大小的特征图
 - [ ] Persona Hub：Scaling Synthetic Data Creation with 1,000,000,000 Personas
 - [ ] dashscope for alibaba; openai for openai; requests for glm4
 - [ ] yolo家族， SSD（Single Shot MultiBox Detector）多尺度特征图预测，RetinaNet
@@ -68,14 +70,12 @@
         - 结构化分块：markdown、html、pdf等结构化文档
 - [x] 对比学习负样本选择方案, improved infonce loss
 - [x] 文档检索top-k后还要进行重排reranking，可在结合搜索推荐中的重排技术
-- [ ] 量化float2float，float2int
 - [ ] sft roberta with multiple sequence concurrent with customized attention mask
 - [x] DeepSeek-2
 - [x] DeepSeek-3 https://zhuanlan.zhihu.com/p/16323685381
 - [ ] 免费 gpt-4: https://gpt.xfai.online/list/#/home
 - [x] instruct gpt: Training language models to follow instructions with human feedback
-- [ ] Kernel Implementation
-- [x] Kvquant: Towards 10 million context length LLM inference with KV cache quantization
+- [x] GPTQ
 - [x] Atom: Low-bit quantization for efficient and accurate LLM serving
 - [ ] MoE: https://zhuanlan.zhihu.com/p/669312652
 - [ ] [huggingface leaderboard](https://huggingface.co/spaces?q=leaderboard)
@@ -85,16 +85,14 @@
 - [ ] Wizardmath: Empowering mathematical reasoning for large language models via reinforced evol-instruct
 - [ ] Math-shepherd: Verify and reinforce llms step-by-step without human annotations
 - [x] vllm: Efficient Memory Management for Large Language Model Serving with PagedAttention
-- [x] DeepSpeed（Zero Redundancy Optimizer）、Megatron-LM、HAI-LLM framework（higher flyer）
+- [x] HAI-LLM framework（higher flyer）
 - [ ] Colossal-AI:  A Unified Deep Learning System For Large-Scale Parallel Training
-- [x] zero-dp：zero 1,2,3 用通信换内存，zero-3引入了额外的通信开销用于forward和backward（用了就扔）
-- [x] zero-r, zero-offload, zero-infinity
 - [ ] accelerate config
 - [ ] 模型幻觉hallucination
 - [ ] 持续学习，避免灾难性遗忘
     - 正则化、数据放回、增量学习、adapter网络，使用pre model软标签数据参与训练等
 - [x] [gradient checkpointing, activation checkpointing](https://www.bilibili.com/video/BV1nJ4m1M7Qw/?spm_id_from=333.1387.search.video_card.click&vd_source=782e4c31fc5e63b7cb705fa371eeeb78): Training Deep Nets with Sublinear Memory Cost
-- [x] Gradient Checkpointing，[gif](https://pic3.zhimg.com/v2-1679b74a85687cdb250e532931bb266a_b.webp)
+- [x] Gradient Checkpointing，[gif](https://pic3.zhimg.com/v2-1679b74a85687cdb250e532931bb266a_b.webp), reduce the activation memory by approximately the square root of the total activations at the expense of 33% re-computation overhead
 - [ ] length normalization
 - [ ] lora with diffusion model 
 - [x] LDA潜在迪利克雷分布，b站视频 LDA主题模型

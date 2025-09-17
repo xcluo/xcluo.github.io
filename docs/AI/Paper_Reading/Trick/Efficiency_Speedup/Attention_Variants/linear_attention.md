@@ -1,3 +1,0 @@
-## Fast AR Transformers
-
-## Linformer

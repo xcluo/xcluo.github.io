@@ -4,6 +4,7 @@
 
 ### 主要内容
 - https://www.zhihu.com/tardis/bd/art/627642632?source_id=1001
+- prefix tuning在首部添加了continue prompt（可理解为virtual instruction），而p-tuning额外在中间添加了continue prompt
 - P-Tuning that employs trainable continuous prompt embeddings in concatenation with discrete prompts，连续的prompt是P，离散的prompt是x和y
 - Results in Table 1 show that manual discrete prompts lead to unstable performance. For example, if we compare the last two prompts in the table, changing a single word in prompt causes a drastic decrease of 20 points in performance
 - Let $[P_i]$ be the ith continuous prompt embedding. The prompt template for P-Tuning is as follows: $T = \{[P_{0:i}], x, [P_{i+1: j}], y, [P_{j+1: k}]\}$，需训练embeddings $\{P_i\}_{i=1}^k$

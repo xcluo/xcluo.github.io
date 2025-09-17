@@ -26,7 +26,7 @@ nav:
         - Optimizer: AI/Paper_Reading/Component/Optimizer/optimizer.md
         - HyperParameter: AI/Paper_Reading/Component/HyperParameter/index.md
         - Activation: AI/Paper_Reading/Component/Activation/activation.md
-      - 炼丹技巧: AI/Paper_Reading/Trick/index.md
+      - 炼丹技巧: AI/Paper_Reading/Trick/trick.md
     - 数据指标: AI/Metrics/index.md
     - 机器学习库: AI/AI_Platform/index.md
       # - Tensorflow: AI/AI_Platform/Tensorflow/index.md
