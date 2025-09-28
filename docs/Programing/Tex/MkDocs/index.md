@@ -1,3 +1,79 @@
+### MedaData
+---
+slug: bigluo            # 别名，自定义post的文件名
+title: luomou           # post的页面标题
+categories:             # 分配 post 的类别
+  - 教程
+  - MkDocs
+tags:                   # 分配 post 的标签
+  - 博客
+  - 教程
+  - 入门
+date: yyyy-MM-dd        # post创建日期
+readtime: 15            # 手动指定post所需阅读时间，min
+description: 学习如何使用 MkDocs 和 mkdocs-blog-plugin 创建自己的技术博客
+---
+
+- https://zhuanlan.zhihu.com/p/613038183/
+### 页面属性
+https://squidfunk.github.io/mkdocs-material/setup/setting-up-tags/
+
+#### 博客
+1. **激活**
+    ```
+    plugins:
+        - blog  # 需提前 pip install mkdocs-blog-plugin
+    ```
+
+#### 标题
+执行网页标题
+
+1. **使用**  
+    - `title`：网页标题，纯str
+    ```
+    ---
+    title: Hello_World
+    ---
+    ```
+
+#### 标签
+指定网页标签信息
+
+1. **激活**
+    ```
+    plugins:
+        - tags
+    ```
+
+2. **使用**  
+    - `tags`：网页标签，纯str list，可自定义标签
+    ```
+    ---
+    tags:
+      - HTML5
+      - JavaScript
+      - CSS
+    ---
+    ```
+
+
+#### 评论显示
+- `giscus`, `pip install mkdocs-giscus`
+#### 页面成分显示
+控制页面中的显示成分
+
+1. **使用**
+    - `hide`：需要隐藏的成分
+    ```
+    ---
+    hide:
+      - navigation # 隐藏左侧目录导航
+      - toc        # 隐藏右侧页面导航
+      - footer
+    ---
+    ```
+
+
 #### 主题
 
 

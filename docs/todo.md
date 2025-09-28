@@ -3,6 +3,8 @@
 - [ ] 从零构建DS：https://avoid.overfit.cn/post/ac6d4be0a234412ea00032737365638c#
 - [ ] MCP：model context protocol
 - [ ] function call
+- [ ] gpt-oss, Open Source Software
+- [ ] curl
 - [x] triton框架
 - [x] ollama, tensorRT
 - [x] langchain (Language Chain)
@@ -59,7 +61,7 @@
 - [x] e5 embedding，intfloat团队研发
 - [x] xlm-roberta，fair研发
 - [ ] https://github.com/castorini/pyserini
-- [x] cot, cot-sc, tot, got
+- [x] cot, cot-sc, tot, got, TCoT, PoT, ICoT
 - [x] transformers.optmization, transformers.Trainer
 - [ ] q-learning DQN, DDPG不用重要性采样
 - [x] DPO, PPO, GRPO, DAPO

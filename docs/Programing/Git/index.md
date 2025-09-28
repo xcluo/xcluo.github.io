@@ -24,7 +24,7 @@
     git reset (--mixed) (HEAD)
     git reset HEAD~n                        # 回退至上n个版本
     git reset <commit-hash>
-    git reset <commit-hash> <file_name>
+    git reset <commit-hash> <file_name>     # 撤销文件缓存
     ```
 
 3. `git rm`，将指定文件从暂存区移除

@@ -8,6 +8,8 @@ use_directory_urls: false           # 所有的页面链接都以`.html`文件�
 
 # [Navigtion]
 nav:
+  - Blog:   # 直接在该行 blog/index.md，左侧将不会展示日期归档（archive）和分类（categories）
+    - blog/index.md
   - AI:
     - 专业名词: AI/annotation.md
     - 训练总览: AI/Train_Overview/index.md
@@ -104,6 +106,7 @@ nav:
 ## [top] 顶部栏
 theme:
   name: material
+  custom_dir: overrides
   # custom_dir: packages/stylesheets/custom_css         # 自定义主题文件夹
   
   # 主题色板，色板主题执行列表循环切换，可不止2个
@@ -128,8 +131,8 @@ theme:
   features:
     - navigation.tabs     # 显示顶部导航栏
     # - navigation.tabs.sticky   
-                          # enable: 页面超过顶部导航栏时依然固定显示
-                          # disable: 页面超过顶部导航栏时不再显示
+                          # enable: 页面超过顶部导航栏时导航栏常驻显示
+                          # disable: 页面超过顶部导航栏时导航栏不再显示
     - navigation.top      # 网页上滑出现【回到页面顶部】按钮
 
 
@@ -141,7 +144,7 @@ theme:
     # - toc.integrate       # enable: 网页内容分级目录合并入左侧分级目录；
                             # disable: 右侧自动生成网页内容分级目录。
 
-    # - navigation.indexes  # 打开目录下的index.md，而不是第一篇文章
+    - navigation.indexes  # 打开目录下的index.md，而不是第一篇文章
     - navigation.path     # 页面上部出现文件目录路径
     
     - search.suggest      # 搜索输入一些内容时会联想要输入的内容进行推荐显示
@@ -194,6 +197,7 @@ extra:
     - icon: fontawesome/brands/github
       link: https://github.com/xcluo
       name: GitHub | xcluo                          # 鼠标悬浮提示文本
+  
 
 
 # [Extensions]
@@ -203,9 +207,55 @@ plugins:
       # 支持语种表：https://squidfunk.github.io/mkdocs-material/plugins/search/
       lang:
         - en
-      separator: '[\s\u200b\-]'                     # 安装jieba后才生效中文搜索
+        - en
+      separator: '[\s\u200b\-\u3000\u3001\u3002\uFF0C\uFF0E\uFF1F\uFF01\uFF1B]+'                     # 安装jieba后才生效中文搜索
   - tags # 给单篇文章添加标签 https://squidfunk.github.io/mkdocs-material/setup/setting-up-tags/?h=tags
   - glightbox
+  - blog:    # 要求 mkdocs-material >= 9.2.0b3
+      # blog relate #
+      blog_dir: blog            # 对应占位符  `blog`
+      # blog_toc: true        # table of content
+
+      # post related #
+      post_dir: "{blog}/posts"  # 指定 posts 目录路径
+      post_url_date_format: yyyy/MM/dd  # 对应占位符 `date`， yyyy/MM/dd，也可通过metadata.date指定
+      post_url_format: "{date}/{slug}"  # 指定 post的路径格式为 `{date}/{slug}`，后者也可通过metadate.slug指定
+                                        # 也可直接{slug}
+      
+      post_date_format: medium  # 指定时间格式{full, ^^long^^, medium, short}
+      post_excerpt: required    # 强制要求定义摘要内容，通过 <!-- more --> 分割摘要与全文
+      post_excerpt_separator: <!-- more -->
+                                # 指定摘要的分隔符
+      
+      post_readtime: true       # 元信息中显示post所需阅读时间，对应占位符`readtime`,也可通过metadata.readtime指定
+      # post_readtime_words_per_minute: 265  # 指定post每分钟阅读的字数
+
+      # draft: true
+      # draft_if_future_date: true #自动将具有未来日期的帖子标记为草稿
+      
+      # categories related #
+      categories: true
+      # categories_toc: true
+      
+      # archive related #
+      archive: true
+      archive_name: 归档             # 指定总归档名
+      archive_date_format: yyyy-MM   # 归档分支粒度显示格式
+      archive_url_date_format: yyyy-MM
+                                     # 归档分支别名（以date为依据）
+      archive_url_format: "archive/{date}"
+                                     # 归档分支url路径
+      pagination_per_page: 10  # 指定归档分支每页最多显示的post数
+      # pagination_url_format: "page/{page}"
+
+  # - document-dates:            # pip install mkdocs-document-dates
+  #     position: top         # 显示位置: {^^bottom^^, top}
+  #     type: date               # Date type: date  datetime  timeago, default: date
+  #     locale: zh               # Localization: en zh zh_TW es fr de ar ja ko ru, default: en
+  #     date_format: '%Y-%m-%d'  # Date format strings, e.g., %Y-%m-%d, %b %d, %Y, etc
+  #     time_format: '%H:%M:%S'  # Time format strings (valid only if type=datetime)
+  #     show_author: false
+  #     recently-updated: true   # Show recently updated date
 
 
 markdown_extensions:

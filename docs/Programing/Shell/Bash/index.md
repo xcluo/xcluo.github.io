@@ -46,3 +46,6 @@
 #### 进程调度
 
 - 多线程：[并发](process_scheduling/concurrent.md)、[并行](process_scheduling/parallel.md)
+
+### 远程操作
+- [`curl`](remote_operation/curl.md)

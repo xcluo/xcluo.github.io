@@ -10,7 +10,27 @@
 1. [`Container`](details/Container.md) 容器类，包括Iterable、Iterator和Generator
 1. [`lambda`](details/lambda.md) 匿名函数 
 1. [`Decorator`](details/Decorator.md) 修饰符
-1. [`fstring`](details/fstring.md) 字符串插值
+1. [`fstring`](details/fstring.md), [`Jinja2`]() 字符串插值
+
+    ```
+    "chat_template": "
+    {% set system_message = 'You are a helpful assistant.' %}{% if messages[0]['role'] == 'system' %}
+        {% set loop_messages = messages[1:] %}
+        {% set system_message = messages[0]['content'] %}
+    {% else %}
+        {% set loop_messages = messages %}
+    {% endif %}
+    {% if system_message is defined %}
+        {{ '<|im_start|>system\n' + system_message + '<|im_end|>\n' }}
+    {% endif %}
+    {% for message in loop_messages %}
+        {% set content = message['content'] %}
+        {% if message['role'] == 'user' %}{{ '<|im_start|>user\n' + content + '<|im_end|>\n<|im_start|>assistant\n' }}
+        {% elif message['role'] == 'assistant' %}{{ content + '<|im_end|>' + '\n' }}
+        {% endif %}
+    {% endfor %}
+    "
+    ```
 
 ### 自用库
 
@@ -60,6 +80,7 @@
 - [`bin`](libs/file_format.md#bin)：二进制文件访存
 - [`json`](libs/file_format.md#json)：提供了在JSON数据和Python对象之间进行转换和序列化的功能。
 - [`pickle`](libs/file_format.md#pkl)：Python专用自定义存储数据格式
+- [`pandas`](libs/pandas.md)：
 - [`csv`](libs/xlsx.md#csv)：CSV文件读写
 - [`xlsx`](libs/xlsx.md#xlsx)：excel文件读写
 - [`pdf`](libs/pdf.md)

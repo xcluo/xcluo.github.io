@@ -98,21 +98,31 @@ ID3算法的改进版本
     P &= \frac{\text{TP}_1 + \text{TP}_2 + ... + \text{TP}_k}{\text{TP}_1 + \text{TP}_2 + ... + \text{TP}_k + \text{FP}_1 + \text{FP}_2 + ... + \text{FP}_k} \\
     R &= \frac{\text{TP}_1 + \text{TP}_2 + ... + \text{TP}_k}{\text{TP}_1 + \text{TP}_2 + ... + \text{TP}_k + \text{FN}_1 + \text{FN}_2 + ... + \text{FN}_k} \\
     & \text{micro-F1} = \frac{2*P*R}{P+R} \\
+    & \frac{2}{\text{micro-F1}} = \frac{1}{P} + \frac{1}{R} \\
     & \text{macro-F1} = \frac{\sum_1^k F1_k}{k}
     \end{aligned}
     $$
 
 
-    !!! info ""
-      - 多(大于2)分类中，对于micro-average，精确率P、召回率R、准确率Accuracy和F1是相等的  
-      - micro更关注整体效果，适用于类别相对平衡的情况；  
-      - macro更关注每个类别的效果，适用于类别不平衡的情况或需要评估每个类别的效果的情景；
+    !!! info
+        - 多(大于2)分类中，对于micro-average，精确率P、召回率R、准确率Accuracy和F1是相等的  
+        - micro更关注整体效果，适用于类别相对平衡的情况；  
+        - macro更关注每个类别的效果，适用于类别不平衡的情况或需要评估每个类别的效果的情景；
 
 
 === "Fn-score"
     $$
-    Fn=\frac{(n^2+1)*P*R}{n^2*P+R}
+    \begin{aligned}
+    \text{F}n=&\frac{(n^2+1)*P*R}{n^2*P+R} \\    
+    \frac{1+n^2}{\text{F}n} =& \frac{1}{P} + \frac{n^2}{R} 
+    \end{aligned}
     $$
+
+    !!! info 
+        $n$ 值越大，$R$的权重越高  
+
+        - $n \gt 1$，$R$的权重大于$P$
+        - $n \lt 1$，$P$的权重大于$R$
 
 #### ROC、AUC
 === "ROC"
@@ -190,6 +200,141 @@ EM=\begin{cases}
 \end{cases}
 $$
 
+#### MaxMatch Score
+也称作 $M^2$ score，通过比较系统输出和参考答案相对于源句子的最小编辑序列，并计算相应的 F1 值，来综合评价GEC系统的效果表现。其核心优势在于基于编辑的对齐与匹配的评估思想，比精确匹配更合理，比单纯的编辑距离更有解释性。
+
+1. **编辑格式** 为`(start, end, cat, cor)`，区间为`[start, end)`，当`start=end`时，表示插入操作
+1. **最优编辑距离集合** 通过动态规划算法实现将源序列S转化为目标序列T所需的最优编辑集合（参考纠正编辑集合为$G$，系统输出编辑集合为$H$），要求满足
+    - ^^最小化（Minimality）^^，编辑操作尽可能少
+    - ^^不相交（Disjoint）^^，同一序列的所有编辑区间不相交
+2. **基于编辑的对齐与匹配** 当且仅当下列条件均匹配时，`g_i`和`h_j`匹配，因此$TP=\vert G \cap H \vert$）
+    - `g_i.start == h_j.start`
+    - `g_i.end == h_j.end`
+    - `g_i.cor == h_j.cor`
+
+> 有多条参考纠正时，选择分数最高的作为最佳匹配参考
+
+??? info "MaxMatch Score Code"
+    ```python
+    def get_edits(source, target):
+        """
+        使用动态规划计算将source转换为target所需的最小编辑序列。
+        这是一个简化实现，返回编辑列表[(start, end, cor)]。
+        """
+        n, m = len(source), len(target)
+        # dp[i][j] 表示source前i个词到target前j个词的最小编辑距离
+        dp = [[0] * (m + 1) for _ in range(n + 1)]
+
+        # 初始化边界条件
+        for i in range(n + 1):
+            dp[i][0] = i  # 删除所有source词
+        for j in range(m + 1):
+            dp[0][j] = j  # 插入所有target词
+
+        # 填充dp表
+        for i in range(1, n + 1):
+            for j in range(1, m + 1):
+                if source[i - 1] == target[j - 1]:
+                    dp[i][j] = dp[i - 1][j - 1]  # 词匹配，无需编辑
+                else:
+                    dp[i][j] = min(dp[i - 1][j] + 1,  # 删除source[i-1]
+                                dp[i][j - 1] + 1,  # 插入target[j-1]
+                                dp[i - 1][j - 1] + 1)  # 替换
+
+        # 回溯提取编辑序列
+        edits = []
+        i, j = n, m
+        while i > 0 or j > 0:
+            if i > 0 and j > 0 and source[i - 1] == target[j - 1]:
+                i -= 1
+                j -= 1  # 匹配，向前移动
+            else:
+                if j > 0 and (i == 0 or dp[i][j - 1] + 1 == dp[i][j]):
+                    # 插入操作: 在位置i插入target[j-1]
+                    edits.append((i, i, target[j - 1]))
+                    j -= 1
+                elif i > 0 and (j == 0 or dp[i - 1][j] + 1 == dp[i][j]):
+                    # 删除操作: 删除位置i-1的词
+                    edits.append((i - 1, i, ''))
+                    i -= 1
+                else:
+                    # 替换操作: 将source[i-1]替换为target[j-1]
+                    edits.append((i - 1, i, target[j - 1]))
+                    i -= 1
+                    j -= 1
+
+        # 反转编辑序列并按起始位置排序
+        edits.reverse()
+        return edits
+
+
+    def edits_match(edit1, edit2):
+        """检查两个编辑是否匹配（边界和内容都相同）"""
+        start1, end1, cor1 = edit1
+        start2, end2, cor2 = edit2
+        return start1 == start2 and end1 == end2 and cor1 == cor2
+
+
+    def calculate_m2(source, gold, hypothesis):
+        """
+        计算M² Score (Precision, Recall, F1)
+        参数:
+            source: 源句子（分词列表），如 ['I', 'have', 'a', 'apple', '.']
+            gold: 参考修正（分词列表）
+            hypothesis: 系统输出（分词列表）
+        返回:
+            precision, recall, f1
+        """
+        # 1. 提取编辑集合
+        gold_edits = get_edits(source, gold)
+        hyp_edits = get_edits(source, hypothesis)
+
+        # 2. 计算匹配情况
+        tp = 0  # True Positive
+        fp = 0  # False Positive
+        fn = 0  # False Negative
+
+        # 检查系统编辑是否与任何参考编辑匹配
+        matched_gold_indices = set()
+
+        # |H ∩ G| = TP, |H| - TP = FP
+        for h_edit in hyp_edits:
+            found_match = False
+            for g_idx, g_edit in enumerate(gold_edits):
+                if edits_match(h_edit, g_edit):
+                    tp += 1
+                    matched_gold_indices.add(g_idx)
+                    found_match = True
+                    break
+            if not found_match:
+                fp += 1
+
+        # 未匹配的参考编辑就是FN
+        fn = len(gold_edits) - len(matched_gold_indices)
+
+        # 3. 计算指标
+        precision = tp / (tp + fp) if (tp + fp) > 0 else 0.0
+        recall = tp / (tp + fn) if (tp + fn) > 0 else 0.0
+        f1 = 2 * precision * recall / (precision + recall) if (precision + recall) > 0 else 0.0
+
+        return precision, recall, f1
+
+    if __name__ == "__main__":
+        # 应考虑分词方式，{token-level, char-level, ...}
+        source = ['I', 'have', 'a', 'apple', '.']
+        gold = ['They', 'have', 'an', 'apple', '.']
+        hypothesis = ['I', 'have', 'a', 'red', 'apple', '.']
+
+        # 对于多个纠正候选，可通查看`m2scorer-master.scripts.maxmatch_gold_pick`文件
+        p, r, f1 = calculate_m2(source, gold, hypothesis)
+        print(f"Precision: {p:.4f}")
+        print(f"Recall: {r:.4f}")
+        print(f"M² F1 Score: {f1:.4f}")
+
+        # 打印编辑细节以便理解
+        print(f"\n参考编辑: {get_edits(source, gold)}")
+        print(f"系统编辑: {get_edits(source, hypothesis)}")
+    ```
 #### F1
 
 $$
@@ -201,8 +346,7 @@ F1 &= \frac{2*P*R}{P+R}
 \end{aligned}
 $$
 
-!!! info ""
-    $W_{match}$取的是`#!python Counter(pred_tokens) & Counter(ref_tokens)` 的就低token交集
+> $W_{match}$取的是`#!python Counter(pred_tokens) & Counter(ref_tokens)` 的就低token交集
 
 ### Translation & Summary
 #### BLEU

@@ -5,7 +5,8 @@ Comma-Separated Values
 import csv
 
 with open(<file_name>, 'r', encoding='utf-8') as f:
-    reader = csv.reader(f)      # file_iterator
+    reader = csv.reader(f)      # 返回file_iterator
+                                # 可通过 `delimiter='\t'` 指定分隔符
     for line in reader:
         ...
 ```

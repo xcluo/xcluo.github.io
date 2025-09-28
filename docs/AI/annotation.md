@@ -29,7 +29,7 @@
 
 ###E
 - **EDA**：**E**asy **D**ata **A**ugmentation，简单的数据增强方法
-- **EM**：**E**xact **M**atch，绝对匹配
+- **EM**：**E**xact **M**atch，精确匹配
 - **EM**：**E**xpectation-**M**aximization algorithm，最大期望算法，EM算法
 
 ###F
@@ -40,6 +40,7 @@
 - **GAN**：**G**enerative **A**versarial **N**etwork，生成对抗模型
 - **GBDT**：**G**radient **B**oosted **D**ecision **T**rees，梯度提升决策树，GBM的一种特殊实现
 - **GBM**：**G**radient **B**oosting **M**achines，梯度提升机
+- **GEC**：**G**rammatical **E**rror **C**orrection，语法纠错
 - **GeMM**：**Ge**neral **M**atrix **M**ultiplication，通用矩阵乘法
 - **GPT**：**G**enerative **P**re-trained **T**ransformer
 - **GQA**：**G**rouped **Q**uery **A**ttention，分组查询注意力
