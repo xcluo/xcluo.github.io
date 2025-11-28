@@ -44,3 +44,10 @@ background-color: 背景颜色
 .md-typeset h3 {
     font-weight: bolder;
 }
+
+/* 表格文本内容自动换行 */
+table td {
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    word-break: break-word !important;
+}

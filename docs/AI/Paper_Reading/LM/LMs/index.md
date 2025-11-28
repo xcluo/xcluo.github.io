@@ -2,8 +2,18 @@
 ### Encoder
 - BERT
 - [ELECTRA](Infrastructure/BERT/ELECTRA/electra.md)
+    - 找错字
 - [RoBERTa](Infrastructure/BERT/RoBERTa/roberta.md)
+- MacBERT  
+    - 该错字
+    - 不再将token进行mask，而是对选定的token进行同义词、错别字、随机词替换，让模型进行纠正
+    - 缓解预训练-微调差异： 消除了 [MASK] 令牌带来的不一致性
+    - 针对中文进行了专门优化
 
+- ALBERT
+- DistillBERT
+- BERT-wwm
+- ViLBERT
 ### Causal/Prefix Decoder
 - OpenAI: GPT
 - Google: Gemini
@@ -33,7 +43,7 @@
             model="GLM-4-Flash",  # 请填写您要调用的模型名称
             messages=[
                 {"role": "user", "content": "你是一个翻译专家，你需要将用户输入的json格式中content对应的文本翻译为中文，并将中文翻译结果作为该json样本中\"t\"键对应的值，结果返回json格式"},
-                {"role": "user", "content": json.dumps(sample, ensure_ascii=False)},
+                {"role": "user", "content": json.dumps(sample_input, ensure_ascii=False)},
             ],
         )
 

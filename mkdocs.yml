@@ -13,7 +13,6 @@ nav:
   - AI:
     - 专业名词: AI/annotation.md
     - 训练总览: AI/Train_Overview/index.md
-    - AI_Lab: AI/AI_Lab/AI_Lab.md
     - 功能实现:
       - 论文笔记: 
         - 语言模型: AI/Paper_Reading/LM/LMs/index.md  
@@ -44,10 +43,10 @@ nav:
     
   
   - 编程语言:
-    - Java: Programing/Java/index.md
-    - Python: Programing/Python/index.md
+    - Java: Programing/Java/java.md
+    - Python: Programing/Python/python.md
     - Shell:
-      - Bash: Programing/Shell/Bash/index.md
+      - Bash: Programing/Shell/Bash/bash.md
       - PowerShell: Programing/Shell/PowerShell/index.md
     - Git: Programing/Git/index.md
     - HTML:
@@ -56,11 +55,11 @@ nav:
     - Tex:
       - Latex: Programing/Tex/Latex/index.md
       - Markdown: Programing/Tex/Markdown/index.md
-      - MkDocs: Programing/Tex/MkDocs/index.md
+      - MkDocs: Programing/Tex/MkDocs/mkdocs.md
     - FTP: 
       - LFTP: Programing/FTP/LFTP/index.md
     - MATLAB: Programing/MATLAB/index.md
-    - SQL: Programing/SQL/index.md
+    - Database: Programing/Database/database.md
     - Algorithm: Programing/Algorithm/index.md
     - 轮子: Programing/wheel/index.md
     - 容器:
@@ -206,9 +205,11 @@ plugins:
       # insider已经支持中文的分词搜索了 https://squidfunk.github.io/mkdocs-material/blog/2022/chinese-search-support/
       # 支持语种表：https://squidfunk.github.io/mkdocs-material/plugins/search/
       lang:
-        - en
+        - zh
         - en
       separator: '[\s\u200b\-\u3000\u3001\u3002\uFF0C\uFF0E\uFF1F\uFF01\uFF1B]+'                     # 安装jieba后才生效中文搜索
+  - mermaid2:
+      version: 10.0.2
   - tags # 给单篇文章添加标签 https://squidfunk.github.io/mkdocs-material/setup/setting-up-tags/?h=tags
   - glightbox
   - blog:    # 要求 mkdocs-material >= 9.2.0b3
@@ -270,9 +271,18 @@ markdown_extensions:
       permalink: true # 固定标题位置为当前位置
 
   # 代码块特征设置
-  - pymdownx.superfences      # enable代码设置
-  - pymdownx.snippets         # 导入外部文件资源
-  - pymdownx.inlinehilite     # 行内代码高亮，https://facelessuser.github.io/pymdown-extensions/extensions/inlinehilite/
+  - pymdownx.superfences:      # enable代码设置
+      custom_fences:
+          - name: mermaid
+            class: mermaid
+            format: !!python/name:pymdownx.superfences.fence_code_format # !!python/name:mermaid2.fence_mermaid # !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.snippets:         # 导入外部文件资源
+      base_path: docs/snippets
+      # auto_prepend: header.md
+      # auto_append: footer.md
+      # check_paths: true        # 启动文件路径存在性检查
+      dedent_subsections: true  # 自动删除无效缩进
+  - pymdownx.inlinehilite       # 行内代码高亮，https://facelessuser.github.io/pymdown-extensions/extensions/inlinehilite/
   - pymdownx.highlight:
       # linenums: true          # 代码块中显示代码行号
       # auto_title: true        # 自动为代码块添加标题
@@ -318,8 +328,7 @@ extra_javascript:
   - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.js  
   - https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js
   - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/contrib/auto-render.min.js
-
-
+  
 extra_css:
   # - packages/mkdocs/css/no-footer.css # 不使用底部的翻页
   # - packages/mkdocs/css/unordered-list-symbols.css # multiplt unordered list symbols

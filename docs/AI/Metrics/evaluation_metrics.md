@@ -114,6 +114,7 @@ ID3算法的改进版本
     $$
     \begin{aligned}
     \text{F}n=&\frac{(n^2+1)*P*R}{n^2*P+R} \\    
+    \text{F}n=&\frac{(n^2+1)\text{TP}}{(n^2 \text{TP} + \text{FN}) + \text{TP} + \text{FP}} \\
     \frac{1+n^2}{\text{F}n} =& \frac{1}{P} + \frac{n^2}{R} 
     \end{aligned}
     $$

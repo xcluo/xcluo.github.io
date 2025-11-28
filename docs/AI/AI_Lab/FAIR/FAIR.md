@@ -1,1 +1,0 @@
-[FAIR (Facebook AI Research)](https://research.facebook.com/publications/)

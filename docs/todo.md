@@ -1,10 +1,24 @@
-- [ ] RAG的多实体问题如何解决：爱因斯坦和牛顿在物理学上的贡献有何不同？
+- [x] RAG的多实体问题如何解决：爱因斯坦和牛顿在物理学上的贡献有何不同？
+    - 创建子查询，即分解为两个查询进行检索，然后合并结果【爱因斯坦在物理学上的贡献】、【牛顿在物理学上的贡献】
+- [ ] [RAG中实用技巧](https://milvus.io/docs/zh/how_to_enhance_your_rag.md)
 - [ ] 多任务学习中互斥任务影响削减：1) model merging; 2) 基于prompt训练
 - [ ] 从零构建DS：https://avoid.overfit.cn/post/ac6d4be0a234412ea00032737365638c#
 - [ ] MCP：model context protocol
+- [ ] `from mcp.server import fastMCP`实际用法类似于`fastapi`
+- [ ] openrouter
+- [ ] docker, uv命令
+- [ ] vscode默认使用国外网下载插件，如何将其设置为默认使用国内网下载
+- [ ] wireshark
+- [x] mysql/sqlite数据库索引结构搭配milvus向量库检索: doc_id对应相应的vector
 - [ ] function call
+- [ ] `uv` 命令构建python环境
+- [ ] PyYAML
 - [ ] gpt-oss, Open Source Software
-- [ ] curl
+- [ ] grid search: 遍历所有取值获取最佳效果
+- [ ] qwen3-next
+    - https://qwen.ai/blog?id=4074cca80393150c248e508aa62983f9cb7d27cd&from=research.latest-advancements-list
+    - https://zhuanlan.zhihu.com/p/1951240906846995196
+    - GATED DELTA NETWORKS: IMPROVING MAMBA2 WITH DELTA RULE
 - [x] triton框架
 - [x] ollama, tensorRT
 - [x] langchain (Language Chain)
@@ -17,9 +31,6 @@
 - [ ] 联邦学习
 - [ ] Fisher information matrix
 - [ ] Hessian matrix
-- [ ] QK-Norm, 在W_Q/K/V输入前进行LN操作
-    - Scaling vision transformers to 22 billion parameters
-    - Small-scale proxies for large-scale transformer training instabilities
 - [ ] bits-per-byte, BPB, The Pile: An 800GB Dataset of Diverse Text for Language Modeling
 - [x] scaling laws
     - Deep learning scaling is predictable, empirically
@@ -69,6 +80,11 @@
 - [ ] tf.metrics, torchmetrics
 - [ ] 文档chunk方案
         - Fixed-size window Chunking + overlapping, charatertextsplitter
+        - CHUNK_BY_MARKDOWN_HEADER
+        - CHUNK_BY_SEPARATOR
+        - CHUNK_BY_PARAGRAPH
+        - CHUNK_BY_PAGE
+        - CHUNK_BY_SIZE
         - 结构化分块：markdown、html、pdf等结构化文档
 - [x] 对比学习负样本选择方案, improved infonce loss
 - [x] 文档检索top-k后还要进行重排reranking，可在结合搜索推荐中的重排技术

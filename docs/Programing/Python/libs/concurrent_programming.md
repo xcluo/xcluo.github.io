@@ -52,25 +52,12 @@ def __init__(
 #### `threading.Lock`
 互斥锁被用来实现同时只有一个线程方寸共享资源，以避免无效赋值（如多个线程同时读取了赋值前的值）
 ```python
-x = 0
+from threading import Lock
 lock = Lock()
 
-def func():
-    global x
-    lock.acquire()              # 保证对共享资源`x`操作是线程安全的
-    for i in range(6000):
-        x = x+1
-    lock.release()
-
-def lock_main():
-    for i in range(3):
-        t = Thread(target=func)
-        t.start()
-        t.join()
-    print(x)
-
-lock_main()
-print(x)                        # 3*6000 = 18000
+# 执行完pass_code将自动释放锁
+while lock:
+    pass_code
 ```
 #### `threading.RLock`
 #### `threading.Condition`
@@ -143,6 +130,33 @@ def __init__(
 #### processing.Queue
 
 
-### asyncio
 
 ### concurrent.features
+```python
+from concurrent.futures import ThreadPoolExecutor, as_completed
+```
+```python
+task_args = all_input_args_iterable
+
+with ThreadPoolExecutor(max_workers=max_concurrent_workers) as executor:
+    # 准备待提交的任务即相关输入参数，传参可单独指定，也可以*args直接解析
+    future_to_tasks = [
+        executor.submit(concurrent_function, *args) for args in task_args
+    ]
+    '''有索引异步任务
+    future_to_tasks = {
+        executor.submit(concurrent_function, *args): i for i, args in enmumerate(task_args)
+    }
+    for future in as_completed(future_to_tasks):
+        idx = future_to_tasks[future]
+    '''
+    # as_completed 按任务完成的先后顺序来迭代处理结果
+    for future in as_completed(future_to_tasks):
+    # 按任务提交的先后顺序迭代处理结果，调用.result()方法可能会阻塞直至之前任务完成
+    # for i, future in enumerate(future_to_tasks):
+        try:
+            # 获取异步任务concurrent_function返回结果
+            result = feature.result()
+        except Exception as e:
+            print(f'任务执行出错：{e}')
+```

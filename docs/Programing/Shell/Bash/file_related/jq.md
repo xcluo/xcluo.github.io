@@ -1,3 +1,7 @@
+---
+title: "jq"
+---
+
 [jq](https://jqlang.github.io/jq/manual/)：commadline JSON processor
 
 ### 安装

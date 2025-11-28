@@ -1,9 +1,7 @@
-- Lucene搜索引擎
-- FAISS: Facebook AI Similarity Search
 - Anserini IR toolkit
-- Anserini，Elasticsearch
 - Pyserini
-
+- 混合搜索：`关键词检索（如BM25） + 基于语义的检索` → `reranker`
+- 自动合并文档块：当检索结果中有多个知识片段属于同一篇文档，直接返回父块文档
 
 ![Alt text](image/bge_gte_jina_comparsion.png)
 

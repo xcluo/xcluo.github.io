@@ -57,3 +57,9 @@ pre {
     width: 12px;
 } */
 
+/* 代码块自动换行 */
+code {
+    white-space: pre-wrap !important;
+    word-wrap: break-word !important;
+}
+

@@ -1,12 +1,22 @@
+---
+title: "fuunctools"
+---
+
 ### `iterable`操作
 #### cmp_to_key
 将比较函数转化为`key`函数
 ```python
-# 设置比较函数
-def my_cmp(a, b):
-    ...
-# 重写比较函数
-my_list.sort(key=cmp_to_key(my_cmp))
+# 定义元素比较顺序
+def cmp_key(x):
+    c_p = int(x[0] > .8)
+    o_ps = sum([int(p > .8) for p in x[:1]])
+    tmp_x = sorted(x[1:], reverse=True)[:2]
+    tmp_x.append(x[0])
+    sum_s = sum(tmp_x)
+    h_count = c_p + min(o_ps, 2)
+    return h_count, sum_s
+
+my_list.sort(key=cmp_key)
 ```
 
 #### reduce
