@@ -7,42 +7,59 @@ Gensim （Generate Similar）核心目标是生成相似内容（如文档相似
 
 ### Embedding相关
 #### KeyedVectors
+类似于词向量的数据结构，用于存储词向量，提供相似度计算、词向量查找等功能。
 
-1. 加载模型 `KeyedVectors.load_word2vec_format`
+1. 构建 `KeyedVectors`
 
-    === "示例"
+    === "创建`KeyedVectors"
         ```python
-        model = KeyedVectors.load_word2vec_format(r'E:\Python\projects\secession\data\label_data\v1/emojional.bin', binary=True)
-        print(e2v)
-        for key, value in model.vocab.items():
-            print(key, value, type(value), value.index, e2v.vectors[value.index])
-            break
-        print(e2v.vectors[value.index].shape, len(e2v.vocab))
+        # 直接定义kv #
+        kv = KeyedVectors(self,
+            vector_size,        # 词向量维度
+            count=0,            # 词向量行数,若指定将预分配空间,否则自动增加
+        )
+
+        # 从word2vec文件加载kv #
+        kv = KeyedVectors.load_word2vec_format(cls,
+            fname,              # word2vec file
+            fvocab=None,
+            binary=False,       # word2vec file是否为2进制格式
+            encoding="utf-8",
+        )        
         ```
-    === "定义"
+
+    === "新增词向量"
         ```python
-        def load_word2vec_format(cls, 
-            fname, 
-            fvocab=None, 
-            binary=False, 
-            encoding='utf8', 
-            unicode_errors='strict',
-            limit=None, 
-            datatype=REAL
+        kv.add_vector(
+            key,                # word
+            vector,             # vector
+        )
+
+        kv.add_vectors(
+            keys,               # list[word]
+            weights,            # 相应的list[vector]
+            replace=False,      # 当key已存在时是否进行覆盖
         )
         ```
 
-2. 计算相似度 `most_similar`
-    
-    === "示例"
-        sss
 
-    === "定义"
+2. 相似度计算
+    
+    === "top-n获取"
         ```python
-        def most_similar(self,
-            positive=None, 
-            negative=None, 
-            topn=10, 
-            restrict_vocab=None, 
-            indexer=None)
+        # 获取给定key的top-n相似词 #
+        kv.similar_by_key/word(
+            key/word,               # word
+            topn=10,                # 返回topn个相似词
+            restrict_vocab=None     # Optional[int], 限定查询的词汇表大小
+        ) -> list[(str, float)]
+
+        # 获取给定vector的top-n相似词 #
+        kv.similar_by_vector(
+            vector,                 # vector
+            topn=10,                # 返回topn个相似词
+            restrict_vocab=None     # Optional[int], 限定查询的词汇表大小
+        ) -> list[(str, float)]
+        
         ```
+

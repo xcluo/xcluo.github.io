@@ -1,0 +1,85 @@
+---
+tags:                   # 分配 post 的标签
+  - 博客
+  - 教程
+  - 入门
+date: yyyy-MM-dd        # post创建日期
+description: 学习如何使用 MkDocs 和 mkdocs-blog-plugin 创建自己的技术博客
+---
+
+#### 库相关
+```bash
+# base
+pip install mkdocs-material     # mkdocs内置内容，应新尽新
+
+# 插件相关
+pip install mkdocs-glightbox    # glightbox plugin，如图片放大、背景变暗突出图片以及自适应屏幕等交互响应式设计
+pip install jieba               # 用于search plugin
+```
+
+#### plugins
+2. [`tags`](plugins/tags.md)
+
+#### theme
+1. [`comments`](theme/comments.md)
+
+#### content
+1. [`code`](content/code.md)
+2. [`maht`](content/math.md)
+3. [`image`](content/image.md)
+4. [`admonition`](content/admonition.md)
+5. [`table`](content/table.md)
+6. [`chart`](content/chart.md)
+### MedaData
+
+
+- https://zhuanlan.zhihu.com/p/613038183/
+### 页面属性
+https://squidfunk.github.io/mkdocs-material/setup/setting-up-tags/
+
+
+
+#### 标题
+执行网页标题
+
+1. **使用**  
+    - `title`：网页标题，纯str
+    ```
+    ---
+    title: Hello_World
+    ---
+    ```
+
+#### 页面成分显示
+控制页面中的显示成分
+
+1. **使用**
+    - `hide`：需要隐藏的成分
+    ```
+    ---
+    hide:
+      - navigation # 隐藏左侧目录导航
+      - toc        # 隐藏右侧页面导航
+      - footer
+    ---
+    ```
+
+
+
+#### 部件
+
+#### 相对路径
+```python
+# in mkdocs.yml
+use_directory_urls: false
+
+# link resource
+"can use relative path and absolute path"
+
+# link file
+"for .md: add file_name suffix"
+"for .md head: file_name.suffix#head_name"
+```
+
+
+

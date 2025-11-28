@@ -6,12 +6,13 @@ title: "this is my first post!"
 readtime: 15
 comments: true
 categories:
-  - Hello
-  - World
+  - 入门
+  - 博客
+  - 教程
 ---
 
 
 
-hello posta
+
 <!-- more -->
 <script>

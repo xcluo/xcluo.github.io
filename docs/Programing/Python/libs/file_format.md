@@ -27,7 +27,7 @@ def json.dumps(
     obj,
     ensure_ascii=True,             # 是否将json字符串转化为ascii编码，为了可视化一般不转化
     sort_keys=Fals,                # 输出字典前是否对键 key 进行排序排序
-    allow_nan=True,                # 
+    indent=None,                   # {0: 只换行， 正整数: 缩进空格数}
 )
 
 

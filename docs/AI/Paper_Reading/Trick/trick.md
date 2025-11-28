@@ -5,7 +5,7 @@
 - [fusion](Multimodality_Fusion/modality_fusion.md)
 - 视觉语言模型：对页面内容进行语义进行分析
 - ali cosyvoice、f5-tts
-
+- grid search
 
 ### 训练数据利用
 #### 集成学习
@@ -26,7 +26,7 @@
     - flipping  
     - rotating  
     - transforming the color  
-    - text_image + mask
+    - text_image + mask, [tesseract](https://github.com/tesseract-ocr/tesseract)
 5. [Subword Regularization](../Component/Tokenizer/SubWord/subword_tokenize.md#subword-regularization)、[BPE-Dropout](../Component/Tokenizer/SubWord/subword_tokenize.md#bpe-dropout)
 #### 对比学习
 

@@ -1,0 +1,2 @@
+- NPU
+- npu-smi info

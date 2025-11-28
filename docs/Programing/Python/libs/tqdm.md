@@ -10,21 +10,20 @@ class tqdm(Comparable):
             ...,
             **kwargs):
 ```
-#### 1. `Iterator`和`Generator`：计数显示
+#### 计数显示
 无法直接获取长度`total`的`iterable`执行计数显示
 ```python
 # 无法确定参数值total
-for element in tqdm(iterable=iterator_var):  # 每次计数值 +1
-for element in tqdm(iterable=generator_var): # 每次计数值 +1
+for element in tqdm(iterable=iterator_var/generator_var):  # 每次计数值 +1
 ```
-#### 2. `Iterable`：百分比显示
+#### 百分比显示
 可直接获取长度`total`的`iterable`执行进度百分比显示
 ```python
-# 直接定义参数total
+# 1. 直接定义参数total
 pbar = tqdm(total=total_num)
 pbar.update(n)                               # 每次更新 n/total_num * 100%
 
-# 通过len(iterable)定义参数total
+# 2. 自动通过len(iterable)定义参数total
 for element in tqdm(iterable=iterable_var):  # 每次更新 1/len(iterable) * 100%
 ```
 
