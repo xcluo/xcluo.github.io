@@ -75,7 +75,7 @@ class Post:
 
     # PostgreSQL: psycopg2 or asyncpg(异步) # 
     db_url = f'postgresql://{user}:{password}@{host}:{port}/{db_path}'
-    db_url = f'postgresql+asyncpg://{user}:{password}@{host}:{port}/{db_path}'
+    db_url = f'postgresql{==+asyncpg==}://{user}:{password}@{host}:{port}/{db_path}'
 
     # SQL Server # 
     db_url = f'mssql+pyodbc://{user}:{password}@{host}:{port}/{db_path}'
@@ -90,6 +90,7 @@ class Post:
         bind=engine,
         )
     
+    session = Sesssion(bind=engine)
     session = session_factory()
 
     def get_session()
@@ -159,4 +160,50 @@ class Post:
 - `GINO` 异步,轻量
 
 
+
+### 建表相关
+- sa_column：SQLAlchemy column，mysql默认65535字节≈64KB
+
+
+```python
+from sqlmodel import Session, SQLModel, create_engine
+
+SQLModel.metadata
+
+- bind=db_service.engine
+- drop_all
+- create_all    # 只负责 “创建不存在的表”，不负责 “更新已有表”
+
+
+# 异步创建表格
+async def create_db_and_tables(self):
+    logger.debug("Creating database and tables (async)")
+
+    async with self.async_engine.begin() as conn:
+        try:
+            await conn.run_sync(SQLModel.metadata.create_all)
+            logger.debug("Tables created successfully")
+        except OperationalError as oe:
+            logger.warning(f"Table creation skipped due to OperationalError: {oe}")
+        except Exception as exc:
+            logger.error(f"Error creating tables: {exc}")
+            raise RuntimeError("Error creating tables") from exc
+
+    logger.debug('Database and tables created successfully')
+
+field.default：python层面的默认值，创建对象时就赋值
+sa_column.default：python层面的默认值，在插入表前（若未赋值）才赋值，传函数对象，不是具体值
+sa_column.server_default：sqlalchemy层面的默认值
+
+优先级：filed.default > sa.column.default > sa_column.server_default
+
+# sa_column.server_default字段（使用text("")） 包裹
+- sa.DateTime(timezone=True)： false为 timestamp，ture为timestamptz
+```
+
+| 数据类型 | PostgreSQL | MySQL| SQlite | 
+| --- | --- | --- | --- |
+| uuid | `gen_random_uuid()` | `UUID()` | - |
+| timestamp | `CURRENT_TIMESTAMP` | `NOW()` | `CURRENT_TIMESTAMP` |
+| bool | `false` | `0`（无布尔） | `0`（无布尔） |
 

@@ -1,7 +1,7 @@
 
 <div class='one-image-container'>
-  <img src="/Programing\Python\details\image\iterable_iterator_generator.png">
-  <p>Python容器关系图</p>
+    <img src="/Programing\Python\details\image\iterable_iterator_generator.png">
+    <p>Python容器关系图</p>
 </div>
 
 ### 容器间的关系
@@ -11,12 +11,16 @@
 - 只有 `Iterable` 可以通过内置函数 `len` 访问容器元素个数
 - `Iterator` 和 `Generator`只能通过内置函数 `next` 或迭代方法遍历元素
 - `Iterable` 可通过内置函数 `iter` 生成一个 `Iterator`，且满足
-    - `id(iter(Iterator)) == id(iter(Iterator))`
-    - `id(iter(Iterable)) != id(iter(Iterable))`
+
+  - `id(iter(Iterator)) == id(iter(Iterator))`
+  - `id(iter(Iterable)) != id(iter(Iterable))`
+
 - `Iterable` 和 `Generator` 是消费型的，每遍历一次都会更新状态，即链表；而 `Iterable` 是恒定的，即数组。
 
-### `Iteratable`
+### `Iterable`
+
 ### `Iterator`
+
 ### `Generator`
 
 https://www.jianshu.com/p/8c29f88952e7

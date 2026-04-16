@@ -1,10 +1,13 @@
 ---
-title: "fuunctools"
+title: "functools"
 ---
 
 ### `iterable`操作
+
 #### cmp_to_key
+
 将比较函数转化为`key`函数
+
 ```python
 # 定义元素比较顺序
 def cmp_key(x):
@@ -20,7 +23,9 @@ my_list.sort(key=cmp_key)
 ```
 
 #### reduce
+
 将一个序列归纳为一个输出
+
 ```python
 def reduce(
     function,       # 归纳函数
@@ -32,8 +37,11 @@ print(reduce(lambda x, y: x + y, alist))  # (1+50)*50/2 - 1225
 ```
 
 ### function 操作
+
 #### partial
+
 创建偏函数方法，即基于一个已有的函数（通过预设该函数的一些参数或关键字），生成一个新的函数
+
 ```python
 def func(a, b, c):
     return a + b + c
@@ -47,7 +55,9 @@ print(result)           # 输出6
 ```
 
 #### partialmethod
+
 与`partial`类似，但是它应用于方法而不是函数
+
 ```python
 class Greeter:
     def __init__(self, greeting):
@@ -68,7 +78,9 @@ print(greeter.greet_hello("Alice!"))  # 输出: Bonjour, HelloAlice!
 ```
 
 ### 装饰器
+
 #### total_ordering
+
 在定义类时只定义一小部分比较方法，然后它会自动补全其余的比较方法，这个装饰器要求
 
 - 类中**至少定义了一个** `__lt__`、`__le__`、`__gt__` 或 `__ge__` 中的一个方法

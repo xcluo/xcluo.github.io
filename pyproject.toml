@@ -1,0 +1,17 @@
+[project]
+name = "xcluo-github-io"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "jieba>=0.42.1",
+    "mkdocs>=1.6.1",
+    "mkdocs-badges>=0.5.2",
+    "mkdocs-document-dates>=3.7.0",
+    "mkdocs-glightbox>=0.5.2",
+    "mkdocs-material>=9.7.5",
+    "mkdocs-material-extensions>=1.3.1",
+    "mkdocs-mermaid2-plugin>=1.2.3",
+    "mkdocs-rss-plugin>=1.17.9",
+]

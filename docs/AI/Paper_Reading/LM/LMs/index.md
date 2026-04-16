@@ -29,35 +29,6 @@
 - 百度：文心一言
 
 - 智谱AI：GLM
-
-    ```python title="翻译"
-    from zhipuai import ZhipuAI
-    import json
-
-
-    api_key = "my_api_key"
-    client = ZhipuAI(api_key=api_key)
-
-    def get_response(sample_input):
-        response = client.chat.completions.create(
-            model="GLM-4-Flash",  # 请填写您要调用的模型名称
-            messages=[
-                {"role": "user", "content": "你是一个翻译专家，你需要将用户输入的json格式中content对应的文本翻译为中文，并将中文翻译结果作为该json样本中\"t\"键对应的值，结果返回json格式"},
-                {"role": "user", "content": json.dumps(sample_input, ensure_ascii=False)},
-            ],
-        )
-
-        return response.choices[0].message.content
-
-    response = get_response(line)
-    # 返回格式为 ```json ... ```
-    left_index, right_index = response.find("{"), response.rfind("}")
-    trans_line = json.loads(response[left_index: right_index + 1])
-    if trans_line["content"] != line["content"]:
-        continue
-    ```
-
-- 讯飞：星火
 - 昆仑万维：天工
 - 腾讯：混元
 - 华为：盘古
@@ -71,7 +42,10 @@
 
 ## 下游任务
 ### [RAG](RAG/index.md)
-
+- 向量增强
+- 文本增强
+- 问题
+### [Agent](Agent/agent.md)
 
 
 

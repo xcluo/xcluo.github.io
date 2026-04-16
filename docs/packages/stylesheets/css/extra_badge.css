@@ -1,0 +1,40 @@
+
+.badge {  
+  display: inline-block;  
+  padding: 0.25em 0.4em;        /* 上下边界，左右边界 */
+  font-size: 75%;               /* 字体缩放比例 */
+  font-weight: 700;             /* 加粗字号 */
+  line-height: 1;               /* 行间距 */
+  text-align: center;  
+  white-space: nowrap;          /* 强制不换行 */
+  vertical-align: baseline;  
+  border-radius: 0.25rem;       /* 块为圆角矩形 */
+} 
+
+  
+/* .badge-info { background-color: #17a2b8; color: white; }  
+.badge-success { background-color: #28a745; color: white; }  
+.badge-warning { background-color: #ffc107; color: black; }  
+.badge-danger { background-color: #dc3545; color: white; } */
+
+
+/* 版本徽章version-badge样式 */
+.badge.version-badge .title {
+    background-color: #e3f2fd;
+    color: #1976d2;
+}
+
+.badge.version-badge .title::before {
+    content: "🏷️";  /* 或使用 FontAwesome 图标 */
+    margin-right: 4px;
+}
+
+.badge.version-badge .value {
+    background-color: #e8f5e9;
+    color: #388e3c;
+}
+
+.badge.version-badge .value::after {
+    content: "⚗️";
+    margin-left: 4px;
+}

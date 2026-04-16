@@ -20,12 +20,13 @@ Gensim （Generate Similar）核心目标是生成相似内容（如文档相似
         )
 
         # 从word2vec文件加载kv #
-        kv = KeyedVectors.load_word2vec_format(cls,
-            fname,              # word2vec file
-            fvocab=None,
-            binary=False,       # word2vec file是否为2进制格式
-            encoding="utf-8",
+        kv = KeyedVectors.save(
+            fname               # word2vec pkl文件名
         )        
+
+        kv.save(
+            fname               # word2vec pkl文件名
+        )
         ```
 
     === "新增词向量"

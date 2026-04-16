@@ -1,4 +1,5 @@
 ### sys.argv
+
 ```python
 sys.argv[0]     # 脚本名
 sys.argv[i]     # i >= 1, 表示i-th个传入参数
@@ -92,4 +93,3 @@ flag.DEFINE_bool('var_name', False, 'var description')
 flags.mark_flag_as_required("var_name")
 flags.mark_flags_as_requred(["var_name1", "var_name2", ...])
 ```
-

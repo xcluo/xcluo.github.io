@@ -33,6 +33,7 @@ title: "jq"
 # 数据访问
 jq -c .prob | jq .[]                    # 逐层操作，获取list: [prob_1, ..., prob_n]
 jq -c .prob[]                           # 直接解析，获取n行prob
+jq -c '.prob | length'                  # 获取list长度
 
 # 数值修改
 jq -c '.name="luo"'                     # 将键name的值修改为 "luo"

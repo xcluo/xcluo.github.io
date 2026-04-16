@@ -37,7 +37,7 @@ client.insert(
     data: : Union[Dict, List[Dict]],
     partition_name=""
     )
-> # 元素除了id与vector字段外，还可以添加其他Collections Schema 中非定义字段，如text，它将自动添加到保留的 JSON 动态字段中，在高层次上可将其视为普通字段。在search时 output_fields可指定text字段返回
+> # 元素除了id与vector字段外，还可以添加其他Collections Schema 中未定义字段，如text，它将自动添加到保留的 JSON 动态字段中，在高层次上可将其视为普通字段。在search时 output_fields可指定text字段返回
 ![alt text](image.png)
 
 # R

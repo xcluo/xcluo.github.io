@@ -1,3 +1,14 @@
+```yaml title="示例配置"
+# (1)!
+Hello world!
+```
+
+1. 如果您希望提供多个日期，可以使用以下语法...
+
+Lorem ipsum dolor sit amet, (1) consectetur adipiscing elit.
+{ .annotate }
+
+1.  :man_raising_hand: 我是一个注释！我可以包含 `code`、__格式化文本__、图像……基本上可以用 Markdown 表达的任何内容。
 
 
 #### Code Block

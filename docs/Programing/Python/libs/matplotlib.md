@@ -127,6 +127,17 @@ ax = plt.gca()
 
 #### 坐标轴文本 `xlabel/ylabel`
 #### 坐标轴刻度文本 `xticks/yticks`
+将文本`labels` 替换掉对应刻度进行显示
+```python
+plt.xticks(
+    ticks: ArrayLike | None = None,
+    labels: Sequence[str] | None = None,
+    *,
+    minor: bool = False,
+    rotation=90,                          # 旋转文本显示方向
+    **kwargs
+)
+```
 
 #### 坐标轴刻度范围
 ```python

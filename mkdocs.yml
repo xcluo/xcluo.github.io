@@ -3,7 +3,7 @@ site_name: xcluo的个人仓库           # 网页标签名
 site_url: https://xcluo.github.io   # 个人网页的url域名
 site_author: xcluo
 site_description: xcluo的个人仓库
-use_directory_urls: false           # 所有的页面链接都以`.html`文件的形式，使引用相对链接资源成立
+use_directory_urls: false           # 所有的页面链接都以`.html`文件的形式，使引用相对路径成立
 
 
 # [Navigtion]
@@ -21,7 +21,7 @@ nav:
         - 模型种类: AI/Paper_Reading/LM/Model_Category/index.md  
         - 架构分析: AI/Paper_Reading/LM/Model_Analysis/index.md  
       - 基本组件: 
-        - Tokenizer: AI/Paper_Reading/Component/Tokenizer/index.md
+        - Tokenizer: AI/Paper_Reading/Component/Tokenizer/tokenizer.md
         - Embedding: AI/Paper_Reading/Component/Embedding/embedding.md
         - Normlization: AI/Paper_Reading/Component/Normalization/normalization.md
         - Optimizer: AI/Paper_Reading/Component/Optimizer/optimizer.md
@@ -29,7 +29,7 @@ nav:
         - Activation: AI/Paper_Reading/Component/Activation/activation.md
       - 炼丹技巧: AI/Paper_Reading/Trick/trick.md
     - 数据指标: AI/Metrics/index.md
-    - 机器学习库: AI/AI_Platform/index.md
+    - 人工智能库: AI/AI_Platform/ai_platform.md
       # - Tensorflow: AI/AI_Platform/Tensorflow/index.md
       # - PyTorch: AI/AI_Platform/PyTorch/index.md
       # - Transformers: AI/AI_Platform/Transformers/index.md
@@ -42,16 +42,20 @@ nav:
     - 微积分: Math/Calculus/index.md
     
   
-  - 编程语言:
+  - 编程相关:
+    - 专业名词: Programing/annotation.md
     - Java: Programing/Java/java.md
     - Python: Programing/Python/python.md
     - Shell:
       - Bash: Programing/Shell/Bash/bash.md
       - PowerShell: Programing/Shell/PowerShell/index.md
-    - Git: Programing/Git/index.md
+    - Git: Programing/Git/git.md
+    - Script: 
+      - JavaScript: Programing/Script/JavaScript/javascript.md
+      - TypeScript: Programing/Script/TypeScript/typescript.md
     - HTML:
-      - html: Programing/HTML/html/index.md
-      - CSS: Programing/HTML/CSS/index.md
+      - html: Programing/HTML/html/html.md
+      - CSS: Programing/HTML/CSS/css.md
     - Tex:
       - Latex: Programing/Tex/Latex/index.md
       - Markdown: Programing/Tex/Markdown/index.md
@@ -63,14 +67,14 @@ nav:
     - Algorithm: Programing/Algorithm/index.md
     - 轮子: Programing/wheel/index.md
     - 容器:
-      - Docker: Programing/Container/Docker/index.md
-      - K8s: Programing/Container/K8s/index.md
+      - Docker: Programing/Container/Docker/docker.md
+      - K8s: Programing/Container/K8s/k8s.md
 
   - 软件:
     - 集成开发环境:
       - IDEA: Software/IDE/IDEA/index.md
-      - PyCharm: Software/IDE/PyCharm/index.md
-      - VSCode: Software/IDE/VSCode/index.md
+      - PyCharm: Software/IDE/PyCharm/pycharm.md
+      - VSCode: Software/IDE/VSCode/vscode.md
     - 编译环境:
       - Conda: Software/Compiler/Conda/index.md
       - CUDA: Software/Compiler/CUDA/index.md
@@ -80,7 +84,7 @@ nav:
       - Adboe: Software/Office/Adobe/index.md
    
   - 系统:
-    - Linux: System/Linux/index.md
+    - Linux: System/Linux/linux.md
     - Windows: System/Windows/index.md
     - 虚拟机: System/Virtual_Machine/index.md
 
@@ -110,49 +114,59 @@ theme:
   
   # 主题色板，色板主题执行列表循环切换，可不止2个
   palette:
-    - scheme: default           # 缺省日间模式
-      primary: green            # 顶部颜色
-      accent: orange            # 鼠标移动至链接等可交互元件的高亮显示颜色
+    - scheme: default           # 日间模式
+      primary: green            # 顶部导航栏颜色
+      accent: orange            # 当前模式下，鼠标移动至链接等可交互元件的强调显示颜色
       toggle:
         icon: material/weather-night    
                                 # 当前模式图标
         name: 切换至夜间模式     # 鼠标悬浮提示
 
-    - scheme: slate             # 切换夜间模式
-      primary: grey             # 顶部颜色
-      accent: orange            # 鼠标移动至链接等可交互元件的高亮显示颜色
+    - scheme: default           # 日间模式
+      primary: blue             # 顶部导航栏颜色
+      accent: orange            # 当前模式下，鼠标移动至链接等可交互元件的强调显示颜色
+      toggle:
+        icon: material/weather-night    
+                                # 当前模式图标
+        name: 切换至夜间模式     # 鼠标悬浮提示
+
+    - scheme: slate             # 夜间模式
+      primary: grey             # 顶部导航栏颜色
+      accent: orange            # 当前模式下，鼠标移动至链接等可交互元件的强调显示颜色
       toggle:
         icon: material/weather-sunny   
                                 # 当前模式图标
         name: 切换至日间模式     # 鼠标悬浮提示
-    
-
+  
   features:
-    - navigation.tabs     # 显示顶部导航栏
-    # - navigation.tabs.sticky   
-                          # enable: 页面超过顶部导航栏时导航栏常驻显示
-                          # disable: 页面超过顶部导航栏时导航栏不再显示
-    - navigation.top      # 网页上滑出现【回到页面顶部】按钮
-
-
-    # - navigation.expand   # enable: 左侧分级目录缺省全部展开
-                            # disable: 左侧分级目录缺省全部折叠
-    # - navigation.sections # enable: 左侧分级目录不缩进显示
-                            # disable: 左侧分级目录缩进显示
-
-    # - toc.integrate       # enable: 网页内容分级目录合并入左侧分级目录；
-                            # disable: 右侧自动生成网页内容分级目录。
-
-    - navigation.indexes  # 打开目录下的index.md，而不是第一篇文章
-    - navigation.path     # 页面上部出现文件目录路径
+  #<--- 导航栏相关 --->#
+    - navigation.instant        # 点击导航栏链接时立即跳转
+    - navigation.tabs           # 显示顶部导航栏
+    # - navigation.tabs.sticky  # 顶部导航栏常驻显示
+    - navigation.top            # 网页上滑出现【回到页面顶部】按钮
+    # - navigation.expand       # 左侧导航分级目录全部展开
+    # - navigation.sections     # 左侧导航分级目录不缩进显示
+    - navigation.indexes        # 打开导航分级目录默认显示index.md文件内容
+    # - navigation.path         # 网页正文顶部显示文件层级目录
+    - navigation.footer         # 页脚显示当前页面的上一页和下一页的链接
     
-    - search.suggest      # 搜索输入一些内容时会联想要输入的内容进行推荐显示
-    - search.highlight    # 搜索出的关键词进行高亮显示
-    # - search.share        # 搜索框输入内容后出现分享按钮
-
-    - content.code.copy   # 网页代码块内容区域出现代码复制按钮
-    - content.action.edit # 网页中显示编辑按钮, 点击按钮跳转到编辑页面
-                          # 需要结合 edit_uri 一起使用
+  #<--- 网页内容目录相关table of content --->#
+    # - toc.follow              # 锚点跟随，左侧导航分级目录自动随正文内容定位
+    # - toc.integrate           # 网页内容目录合并入左侧分级目录还是单独右侧显示
+    
+  #<--- 搜索相关 --->#
+    - search.suggest            # 搜索时会联想推荐
+    - search.highlight          # 对搜索关键词进行高亮显示
+    # - search.share            # 搜索框输入内容后出现分享按钮
+    
+  #<--- 网页内容相关 --->#
+    # - content.action.view     # 网页文件内容源码显示
+    # - content.action.edit     # 网页文件内容编辑跳转按钮，需结合 edit_uri 一起使用
+    - content.tooltips          # 网页内容鼠标悬浮出现提示
+    - content.code.annotate
+    - content.code.copy         # 网页代码块出现内容复制按钮
+    
+    - icons: font
 
   language: zh # 一些提示性的文字会变成中文
 
@@ -179,23 +193,32 @@ edit_uri: edit/main/docs  # 点击编辑按钮跳转的链接
 
 
 ## [top-right corner] 右上角落
-repo_url: https://github.com/xcluo/xcluo.github.io  # 右上角点击跳转的链接
-repo_name: xcluo.github.io                          # 右上角显示的名字
+repo_url: https://github.com/xcluo/xcluo.github.io  # 右上角点击跳转的仓库链接
+repo_name: xcluo.github.io                          # 右上角链接显示的文本
 
  
-## [bottom-left corner] 左下角落
-copyright: Powered by xcluo                         # 版权声明
-
+## [bottom-left corner] 左下角落，显示版权信息
+copyright: Powered by xcluo
 
 ## [bottom-right corner] 右下角落
-extra:
-  social: # icons
+extra:   
+  #<--- 社交媒体、联系方式等额外信息 --->#   
+  social:
     - icon: fontawesome/brands/bilibili
       link: https://space.bilibili.com/
-      name: Bilibili                                # 鼠标悬浮提示文本
+      name: Bilibili                       # 鼠标悬浮提示文本
     - icon: fontawesome/brands/github
       link: https://github.com/xcluo
-      name: GitHub | xcluo                          # 鼠标悬浮提示文本
+      name: GitHub | xcluo                 # 鼠标悬浮提示文本
+  
+  #<--- 网页底部版权信息 --->#
+  generator: false                         # 是否显示网页由Mkdocs生成
+  content:
+    action:
+      view:
+        created: true   # 显示创建时间
+        updated: true   # 显示更新时间
+        timeago: true   # 使用相对时间（如"2天前"）
   
 
 
@@ -209,60 +232,90 @@ plugins:
         - en
       separator: '[\s\u200b\-\u3000\u3001\u3002\uFF0C\uFF0E\uFF1F\uFF01\uFF1B]+'                     # 安装jieba后才生效中文搜索
   - mermaid2:
-      version: 10.0.2
+      # version: 10.0.2
   - tags # 给单篇文章添加标签 https://squidfunk.github.io/mkdocs-material/setup/setting-up-tags/?h=tags
   - glightbox
+  
+  #<-- 徽章渲染功能 -->#
+  - badges:
+      # badge_css: ""           # 自定义CSS文件路径，覆盖默认样式
+      # badge_js: ""            # 自定义JS文件路径
+      disable_warnings: false # 是否禁用警告（谨慎使用）
+      async: true             # 是否异步加载JS脚本，有助于提升加载速度
+
+  #<-- 博客发布功能 -->#
   - blog:    # 要求 mkdocs-material >= 9.2.0b3
-      # blog relate #
-      blog_dir: blog            # 对应占位符  `blog`
-      # blog_toc: true        # table of content
+      #<--- 博客blog相关 --->#
+      blog_dir: blog            # 指定变量 `blog` 值
+      blog_toc: false           
 
-      # post related #
-      post_dir: "{blog}/posts"  # 指定 posts 目录路径
-      post_url_date_format: yyyy/MM/dd  # 对应占位符 `date`， yyyy/MM/dd，也可通过metadata.date指定
-      post_url_format: "{date}/{slug}"  # 指定 post的路径格式为 `{date}/{slug}`，后者也可通过metadate.slug指定
-                                        # 也可直接{slug}
+      #<--- 推文post相关 --->#
+      post_dir: "{blog}/posts"          # 指定推文所处的根文件夹路径 `post_dir` 值
+      post_url_date_format: yyyy/MM/dd  # 格式化变量 `date` 值
+      post_url_format: "{date}/{slug}"  # 格式化变量的 `post_url` 指
+                                        # 也可为 "{categories}/{slug}" ，仅会使用第一个类别渲染
       
-      post_date_format: medium  # 指定时间格式{full, ^^long^^, medium, short}
-      post_excerpt: required    # 强制要求定义摘要内容，通过 <!-- more --> 分割摘要与全文
+      post_date_format: medium          # 指定 `date` 显示格式
+                                        # full,     年月日+星期
+                                        # ^^long^^, 年月日
+                                        # medium,   年月日
+                                        # short     日/月/年
+
+      post_excerpt: required            # 强制要求定义推文摘要内容，通过 <!-- more --> 分割摘要与全文
       post_excerpt_separator: <!-- more -->
-                                # 指定摘要的分隔符
-      
-      post_readtime: true       # 元信息中显示post所需阅读时间，对应占位符`readtime`,也可通过metadata.readtime指定
-      # post_readtime_words_per_minute: 265  # 指定post每分钟阅读的字数
+                                        # 指定摘要与正文部分的分隔符
+      post_readtime: true               # 显示推文所需阅读时间`readtime`
+      # post_readtime_words_per_minute: 265  # 指定推文每分钟阅读的字数
 
+      #<--- 草稿draft相关 --->#
       # draft: true
       # draft_if_future_date: true #自动将具有未来日期的帖子标记为草稿
+      # draft_on_serve: true
       
-      # categories related #
+      #<--- 分类categories相关 --->#
       categories: true
       # categories_toc: true
       
-      # archive related #
+      #<--- 归档archive相关 --->#
       archive: true
       archive_name: 归档             # 指定总归档名
       archive_date_format: yyyy-MM   # 归档分支粒度显示格式
       archive_url_date_format: yyyy-MM
-                                     # 归档分支别名（以date为依据）
+                                      # 归档分支别名（以date为依据）
       archive_url_format: "archive/{date}"
-                                     # 归档分支url路径
+                                      # 归档分支url路径
+      #<-- 分页相关 -->
       pagination_per_page: 10  # 指定归档分支每页最多显示的post数
       # pagination_url_format: "page/{page}"
+      # categories_allowed:
+        # - 
+      
+  - rss:
+      enabled: !ENV [DEPLOY, false]
+      match_path: blog/posts/.*
+      date_from_meta:
+        as_creation: date
+        as_update: date
+  
+  - document-dates:            # pip install mkdocs-document-dates
+      position: top            # 显示位置: {^^bottom^^, top}
+      type: date               # Date type: date  datetime  timeago, default: date
+      locale: zh               # Localization: en zh zh_TW es fr de ar ja ko ru, default: en
+      date_format: '%Y-%m-%d'  # Date format strings, e.g., %Y-%m-%d, %b %d, %Y, etc
+      time_format: '%H:%M:%S'  # Time format strings (valid only if type=datetime)
+      show_author: false
+      fallback_to_file_date: true
+      recently-updated: true   # Show recently updated date
 
-  # - document-dates:            # pip install mkdocs-document-dates
-  #     position: top         # 显示位置: {^^bottom^^, top}
-  #     type: date               # Date type: date  datetime  timeago, default: date
-  #     locale: zh               # Localization: en zh zh_TW es fr de ar ja ko ru, default: en
-  #     date_format: '%Y-%m-%d'  # Date format strings, e.g., %Y-%m-%d, %b %d, %Y, etc
-  #     time_format: '%H:%M:%S'  # Time format strings (valid only if type=datetime)
-  #     show_author: false
-  #     recently-updated: true   # Show recently updated date
-
+# hooks:
+#   - hooks.py
 
 markdown_extensions:
-  - attr_list
-  - pymdownx.tasklist:        # todo list
-      custom_checkbox: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.tasklist:        # 激活todo list使用
+      # custom_checkbox: true # 使用自定义复选框
   - md_in_html
   - pymdownx.arithmatex:      # latex支持
       generic: true
@@ -292,23 +345,24 @@ markdown_extensions:
   - pymdownx.tabbed:            # https://squidfunk.github.io/mkdocs-material/reference/content-tabs/
       alternate_style: true     
 
-  - pymdownx.caret              # enable上标符号^
-                                  # - 下划线：^^xx^^
-                                  # - 上标：^X^
-  - pymdownx.mark               # enable等号=，
-                                  # - 高亮：==xx==
-  - pymdownx.tilde              # enable波浪线符号~
-                                  # - 删除线：~~xx~~
-                                  # - 下标：~x~
-  - pymdownx.critic             # enable大括号{}，https://github.com/CriticMarkup/CriticMarkup-toolkit
-                                  # - 下划线：{++ ++}
-                                  # - 删除线：{-- --}
-                                  # - 将A替换为B，A删除线B下划线：{~~A~>B~~}
-                                  # - 注释：{>> <<}
-                                  # - 高亮：{== ==}
-  - pymdownx.keys               # enabel加号~
-                                  # - 将内容变成按键：++x++
-                                  # - ↑ 仅限键盘按键名的小写
+#<-- 快速文本样式激活 -->#
+  - pymdownx.caret  # 逻辑或符号^
+                      # - 下划线：^^xx^^
+                      # - 上标：^X^
+  - pymdownx.mark   # 等号=
+                      # - 高亮：==xx==
+  - pymdownx.tilde  # enable波浪线符号~
+                      # - 删除线：~~xx~~
+                      # - 下标：~x~
+  - pymdownx.critic # {}，https://github.com/CriticMarkup/CriticMarkup-toolkit
+                      # 下划线：{++ ++}
+                      # 删除线：{-- --}
+                      # 将A替换为B，A删除线B下划线：{~~A~>B~~}
+                      # 注释：{>> <<}
+                      # 高亮：{== ==}
+  - pymdownx.keys   # 加号+
+                      # - 将内容变成按键：++x++
+                      # - ↑ 仅限键盘按键名的小写
 
   - meta # 支持Markdown文件上方自定义标题标签等
   - admonition # https://squidfunk.github.io/mkdocs-material/reference/admonitions/#inline-blocks
@@ -339,6 +393,7 @@ extra_css:
   - packages/stylesheets/css/extra_component.css      # component.css
   # - packages/stylesheets/css/extra_main.css           # main.css
   - packages/stylesheets/css/extra_code.css           # code.css
+  - packages/stylesheets/css/extra_badge.css          # badge.css
 
 
 extra_templates:

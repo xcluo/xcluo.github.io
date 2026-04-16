@@ -1,6 +1,7 @@
 ---
 title: "http"
 ---
+- token是由后端生成的，常为缓存形式，也有永久性token，如api_key
 ## 请求Request
 ### 请求参数Params
 #### 查询参数Path Params

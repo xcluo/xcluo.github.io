@@ -2,20 +2,25 @@
 title: "Python"
 ---
 
+#### 环境搭建
+
+- [`conda`](tools/py_env.md#conda)
+- [`uv`](tools/py_env.md#uv)
+- [`poetry`](tools/py_env.md#poetry)
+
 ### 基础部分
 
 1. [解释器命令行选项](basic/commond_line.md)
 1. [`class`](basic/class.md) 类
 1. [内置方法](basic/builtins.md)
-2. [`typing`](basic/typing.md) 静态类型注解 
+1. [`typing`](basic/typing.md) 静态类型注解 
 
 ### 细节部分
 
-1. [`Container`](details/Container.md) 容器类，包括Iterable、Iterator和Generator
+1. [`Container`容器类](details/container.md) 包括Iterable、Iterator和Generator
 1. [`lambda`](details/lambda.md) 匿名函数 
 1. [`decorator`](details/decorator.md) 修饰符
 1. [`fstring`](details/fstring.md), [`Jinja2`](details/jinja2.md) 字符串插值
-
 
 ### 自用库
 
@@ -25,9 +30,10 @@ title: "Python"
 - [`collections`](libs/collections.md)：Python内建的一个集合模块，提供了许多有用的集合类和方法。
 
 #### 功能类
+
 1. 并发调度相关  
-    - [`threading`](libs/concurrent_programming.md#threading), [`multiprocessing`](libs/concurrent_programming.md#multiprocessing),  [`concurrent.futures`](libs/concurrent_programming.md#concurrentfutures)并发编程
-    - 异步操作：[`asyncio`], [`aiofiles`], [`async + await`]
+    - 并发操作：[`threading`](libs/concurrent_programming.md#threading), [`multiprocessing`](libs/concurrent_programming.md#multiprocessing),  [`concurrent.futures`](libs/concurrent_programming.md#concurrentfeatures)
+    - 异步操作：[`asyncio`](libs/async_operation.md#asyncio), [`aiofiles`](libs/async_operation.md#aiofiles), [`aiohttp`](libs/async_operation.md#aiohttp), [`async + await`]
     - [`schedule`](libs/schedule.md)：定时任务
 
 - [`functools`](libs/functools.md)：提供一些高阶函数
@@ -35,11 +41,12 @@ title: "Python"
 - 文件、系统相关
     - [`os`](libs/os.md)：提供一些方便使用操作系统相关功能的函数
     - [`glob`](libs/os.md#glob)：文件匹配
-- [`sys`](libs/sys.md)：提供一些方便Python解释器
-- [`sys.argv`](libs/argparser.md#sys.argv), [`argparse`](libs/argparser.md#argparse), [`tf.flags`](libs/argparser.md#tfflags)：终端传参
-- [`tqdm`](libs/tqdm.md)：进度条显示
+- 终端控制  
+    - [`sys`](libs/sys.md)：提供一些方便Python解释器
+    - 代码传参：[`sys.argv`](libs/argparser.md#sysargv)，[`argparse`](libs/argparser.md#argparse)，[`tf.flags`](libs/argparser.md#tfflags)
+    - 进度条显示：[`tqdm`](libs/tqdm.md)
+    - [`colorama`](libs/colorama.md)控制终端输出
 - [`pytest`](libs/pytest.md)：测试框架
-- [`uv`](libs/uv.md)
 
 #### 统计、绘图
 
@@ -54,8 +61,10 @@ title: "Python"
 - [`unicodedata`](libs/unicodedata.md)
 - [`codecs`](libs/codecs.md)
 - [`googletrans`](libs/googletrans.md)：google翻译api
+- 图片相关：[`pdf2image`]，[`rapidocr_onnxruntime`]，[`rapidocr`]，[`onnxocr`]
 
 #### utils
+
 - [`ahocorasick.py`](utils/ahocorasick.md)
 - [`generate_regrex`](utils/generate_regrex.md)
 - [`char_alpha_numeric.py`](utils/char_alpha_numeric.md)
@@ -76,6 +85,7 @@ title: "Python"
 - [`pdf`](libs/pdf.md)
 
 ### 进阶：数据库操作
+
 - DatabaseConnection
 - mysql
 - postgresql
@@ -100,7 +110,7 @@ title: "Python"
 ### 进阶: 爬虫
 
 ### 进阶：Web服务
-- pytest
+
 - fastapi: ~3000请求/s
 - flask: ~1000请求/s，同步WSGI (Web Server Gateway Interface)，更灵活更底层
 

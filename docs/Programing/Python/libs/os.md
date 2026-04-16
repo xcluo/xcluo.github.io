@@ -2,19 +2,24 @@
 title: "os"
 ---
 
+### os
+
 ```python
 import os
 ```
 
 #### 操作系统相关
+
 ```python
 os.name                     # 返回操作系统类型，{posix: linux, nt: windows}
 ```
 
 #### 环境变量
-```
+
+```bash
 pip install python-dotenv
 ```
+
 `.env` 文件是一个环境变量配置文件，用于存储应用程序的环境变量，通常位于项目根目录下。该方法具有以下优点：
 
 1. **安全性**: 敏感信息不写入代码  
@@ -26,17 +31,17 @@ pip install python-dotenv
 from dotenv import load_dotenv
 import os
 load_dotenv(
-    dotenv_path=".env",         # 保存环境变量，一般不公开
+    dotenv_path=".env",         # 环境变量文件路径，可通过绝对路径指，如 `Path(__file__).parent / '.env'`
+load_dotenv(dotenv_path=dotenv_path)
     override=False              # 是否覆盖加载
 )     
 
 # 访问环境变量，一般在配置类 `class Config()` 中读取
-os.getenv(key)                  # 环境变量值都字符串类型
+os.getenv(key)                  # 环境变量值都字符串类型（KEY为全大写）
 ```
 
-
-
 #### 文件(夹)相关
+
 === "判断类"
     ```python
     os.path.exists(path)        # 是否存在文件(夹)
@@ -79,6 +84,70 @@ os.getenv(key)                  # 环境变量值都字符串类型
     ```
 
 ### glob
+
 ```python
 from glob import glob
+glob("*.py")    # file list
 ```
+
+### Path
+
+```python
+from pathlib import Path
+```
+
+=== "常用方法"
+    ```python
+    p = Path(__file__)           # 当前文件路径
+    p = Path.cwd()               # 当前工作目录current work directory
+    p = Path.home()              # 用户主目录
+    p = Path() / "xcluo.py"      # Path()等价于Path("./")，使用 / 连算符拼接路径
+    
+    p.exists()                    # 是否存在文件(夹)
+    p.is_file()                   # 是否为文件
+    p.is_dir()                    # 是否为文件夹
+    p.resolve()                   # 解析路径，返回绝对路径，会跳过符号链接
+    ```
+
+=== "常用属性"
+    ```python
+    p.name          # 含扩展文件名
+    p.stem          # 不含拓展文件名
+    p.suffix        # 扩展名，即p.split('.')[-1]
+    p.suffixes      # 所有扩展名（如 .tar.gz 会返回 ['.tar', '.gz']）
+    p.parent        # 父目录
+
+    p.as_posix()    # 转换为正斜杠路径字符串
+    p.as_uri()      # 转换为 file:// URI
+    ```
+
+=== "文件(夹)处理"
+    ```python
+    # 创建目录
+    p.mkdir(
+        parents=False,              # 是否同步创建父目录，类似于 `mkdir -p`
+        exist_ok=False              # 是否忽略目录已存在报错
+    )
+
+    # 删除非空目录
+    p.rmdir()
+
+    # 读写文件（Path 对象自带！）
+    p.write_text(
+        "Hello, World!", 
+        encoding="utf-8"
+    )
+    content = p.read_text(
+        encoding="utf-8"
+    )
+
+    p.write_bytes(
+        b"Hello, World!"
+    )
+    bytes_data = p.read_bytes()
+
+    # 删除文件
+    p.unlink(
+        missing_ok=False            # 是否忽略缺失文件报错
+    )
+    ```

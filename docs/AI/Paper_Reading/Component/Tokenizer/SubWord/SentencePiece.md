@@ -3,7 +3,7 @@
 - [Paper](media/pdf/SentencePiece.pdf)
 - [Github](https://github.com/google/sentencepiece) 
 ### 方法介绍
-SentencePiece包含以下4个主要部件：[`Normalizer`](#2)、[`Trainer`](#3)、[`Encoder`](#4) 和 [`Decoder`](#5)
+SentencePiece包含以下4个主要部件：[`Normalizer`](#normalizer)、[`Trainer`](#trainer)、[`Encoder`](#encoder) 和 [`Decoder`](#decoder)
 #### Normalizer
 
 #### Trainer
@@ -14,6 +14,7 @@ SentencePiece包含以下4个主要部件：[`Normalizer`](#2)、[`Trainer`](#3)
 
 
 #### 示例代码
+
 ```python
 --vocab_size=<size>             # 词典大小|V|, 在训练时设置
 --normalization_rule_name=nfkc  # 正则化规则, 在训练时设置

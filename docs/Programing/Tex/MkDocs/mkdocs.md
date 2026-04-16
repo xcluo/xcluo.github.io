@@ -3,7 +3,6 @@ tags:                   # 分配 post 的标签
   - 博客
   - 教程
   - 入门
-date: yyyy-MM-dd        # post创建日期
 description: 学习如何使用 MkDocs 和 mkdocs-blog-plugin 创建自己的技术博客
 ---
 
@@ -15,6 +14,7 @@ pip install mkdocs-material     # mkdocs内置内容，应新尽新
 # 插件相关
 pip install mkdocs-glightbox    # glightbox plugin，如图片放大、背景变暗突出图片以及自适应屏幕等交互响应式设计
 pip install jieba               # 用于search plugin
+pip install mkdocs-badges       # 用于徽章渲染
 ```
 
 #### plugins
@@ -24,20 +24,22 @@ pip install jieba               # 用于search plugin
 1. [`comments`](theme/comments.md)
 
 #### content
+
+1. [`format`](content/format.md)
+1. [`image`](content/image.md)
+1. [`note`](content/note.md)
 1. [`code`](content/code.md)
-2. [`maht`](content/math.md)
-3. [`image`](content/image.md)
-4. [`admonition`](content/admonition.md)
-5. [`table`](content/table.md)
-6. [`chart`](content/chart.md)
+1. [`math`](content/math.md)
+1. [`table`](content/table.md)
+1. [`chart`](content/chart.md)
+
 ### MedaData
 
-
 - https://zhuanlan.zhihu.com/p/613038183/
+
 ### 页面属性
+
 https://squidfunk.github.io/mkdocs-material/setup/setting-up-tags/
-
-
 
 #### 标题
 执行网页标题
@@ -63,8 +65,6 @@ https://squidfunk.github.io/mkdocs-material/setup/setting-up-tags/
       - footer
     ---
     ```
-
-
 
 #### 部件
 

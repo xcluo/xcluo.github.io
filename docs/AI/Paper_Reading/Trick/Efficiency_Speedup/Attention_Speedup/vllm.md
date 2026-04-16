@@ -112,3 +112,65 @@ https://blog.csdn.net/m0_59164520/article/details/141869967
         <img src="image/vllm_preemption_overhead.png" style="width: 100%;">
         <!-- <p>LoRA在Attention各部分权重上的消融实验效果</p> -->
     </div>
+
+### Python应用方法
+
+#### `api_server`
+是 vLLM 框架中兼容 OpenAI API 协议的推理服务启动入口，核心作用是快速搭建一个和 OpenAI API 接口完全对齐的大模型推理服务器，通过 `chat/completions`、`completions`来调用本地部署的大模型
+
+- `vllm/entrypoints/openai/api_server.py`
+
+`python -m vllm.entrypoints.openai.api_server --help`
+
+Options
+
+- `--host HOST` 0.0.0.0表示允许外网访问，127.0.0.1表示仅本机可访问
+- `--port PORT` 指定服务端口号
+- `--api-key API_KEY` 指定API_KEY，用于鉴权（可选操作）
+
+ModelConfig
+
+- `--dtype data_type` 指定数据计算精度，`{float16, half: 等价fp16, bfloat16, float: 等价fp32, float32, auto}`，其中auto对于FP16或FP32模型，统一采用FP16，对于BF16模型，采用BF16
+- `--max-model-len MAX_MDOEL_LEN`  模型（输入PROMPT+输出）最大支持 token 数，单位`{k: 1000, K: 1024, m: 1000^2, M: 1024^2, g: 1000^3, G: 1024^3}`
+- `-q QUANT_TYPE` --quantization，权重量化方案
+- `--enforce-eager` 是否使用低性能、高兼容模式，默认为False
+- `--max-seq-len-to-capture MAX_SEQ_LEN_TO_CAPTURE` 当序列长度超过指定长度时，退化为低性能、高兼容模式
+
+ParallelConfig
+
+- `--tensor-parallel-size 1` 指定张量并行的 GPU 数量
+- `--datar-parallel-size 1` 指定数据并行的 GPU 数量
+- `--pipeline-parallel-size 1` 指定流水线并行的 GPU 数量（一般在大模型无法放入单张GPU时应用）
+
+> TP降单个请求延迟，DP提高单位时间内服务请求数，PP更多的是为了将超大模型放入多个GPU上，从而能够启动模型
+
+CacheConfig
+
+- `--gpu-memory-utilization 0.9` 指定GPU显存使用率
+- `--kv-cache-dtype kv_dtype` kv cache存储格式，若不显式指定格式时，则默认未model.dtype，可选值为`{auto, fp8, fp8_e4m3, fp8_e5m2}`
+
+SchedulerConfig
+
+- `--max-num-batched-tokens MAX_NUM_BATCHED_TOKENS` 单批次前向传播处理的最大 token 数
+
+
+```bash
+python -m vllm.entrypoints.openai.api_server \
+  --model model_path \              # 本地模型路径名
+  --served-model-name model_name \  # 指定对外提供服务的模型名
+  --host 0.0.0.0 \
+  --port 8000 \
+  --api-key xcluo \
+  --tensor-parallel-size tp_num \   # 指定张量并行的 GPU 数量
+  --gpu-memory-utilization 0.8 \    # 指定 GPU 显存使用率
+  --trust-remote-code \             # 加载模型时信任远程代码（自定义模型是必需的）
+  --max-num-batched-tokens 4096     # 批处理最大 token 数（性能调优）
+  --max-model-len all_token_num \
+  --max_tokens max_token_num \      # 单次请求最大生成token数
+  --dtype float16 \
+  --temperature temperature \       # 指定默认生成温度（0表示确定性生成）
+```
+
+> 多数超参在部署时设置为默认值，调用接口时可指定数值并覆盖
+
+#### `vllm serve`

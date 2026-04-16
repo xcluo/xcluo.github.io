@@ -5,6 +5,7 @@
 ### threading
 
 #### threading函数
+
 ```python
 # 返回主线程
 threading.main_thread()
@@ -72,6 +73,7 @@ while lock:
 - `clear`：置为disable
 - `wait(timeout=None)`：等待event状态为enable
 1
+
 ```python
 event = threading.Event()
 
@@ -98,8 +100,11 @@ event_main()        # 学生1等监考老师发卷
                     # 学生3开始考试了
                     # 学生2开始考试了
 ```
+
 ### multiprocessing
+
 #### porcessinng.Process
+
 ```python
 def __init__(
     self, 
@@ -129,12 +134,12 @@ def __init__(
 
 #### processing.Queue
 
-
-
 ### concurrent.features
+
 ```python
 from concurrent.futures import ThreadPoolExecutor, as_completed
 ```
+
 ```python
 task_args = all_input_args_iterable
 
@@ -156,7 +161,7 @@ with ThreadPoolExecutor(max_workers=max_concurrent_workers) as executor:
     # for i, future in enumerate(future_to_tasks):
         try:
             # 获取异步任务concurrent_function返回结果
-            result = feature.result()
+            result = future.result()
         except Exception as e:
             print(f'任务执行出错：{e}')
 ```

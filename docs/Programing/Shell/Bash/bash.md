@@ -5,11 +5,17 @@
 - 信息查看：`ls`
 - 内容统计：`wc`
 
+#### 文件权限操作
+
+- 修改权限：[chmod](./file_related/permission_related.md#chmod)
+- 修改文件所有者：[chown](./file_related/permission_related.md#chown)
+
 #### 文件内容查看
 
 - 原始文本：`less/more`、`head/tail` tail -f 
 - 内容过滤：[`grep`](file_related/grep.md#grep)
 - 内容比较：[`diff`](file_related/diff)
+
 #### 数据格式处理
 
 - json：[`jq`](file_related/jq.md)
@@ -32,22 +38,29 @@
 
 - format输出：[`printf`](numeric_operation/printf.md)，[`echo`](numeric_operation/echo.md)
 - 序列相关：[`seq`](numeric_operation/seq.md)
+- [循环操作]((numeric_operation/condition_cmd.md))：`for`、`while`、`until`
+
 ### 软件安装
 
 #### 下载工具
 
-- `rpm`、`yum`、`apt`
+- `rpm`、`yum`、[`apt(-get)`](./download_related/apt.md)
 - `dpkg`
-- `sudo apt-get update`, `sudo apt-get upgrade`
+
 
 ### 进程相关
+
 - 查看进程: [`top`](process_related/top.md)、`ps`
 - 终止进程: `kill`
 - watch -n 1
-- [`netstat`](process_related/netstat.md)
+
 #### 进程调度
 
 - 多线程：[并发](process_scheduling/concurrent.md)、[并行](process_scheduling/parallel.md)
 
-### 远程操作
-- [`curl`](remote_operation/curl.md)
+### 网络操作
+
+- [`curl`](network_operation/curl.md)
+- [`ping`](network_operation/ping.md)
+- [`netstat`](network_operation/netstat.md)
+- [`telnet`](network_operation/telnet.md)

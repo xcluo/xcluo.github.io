@@ -22,5 +22,8 @@ jobs:         # 工作流的具体内容
       - run: pip install mkdocs-material  
       - run: pip install mkdocs-glightbox
       - run: pip install mkdocs-mermaid2-plugin
+      - run: pip install mkdocs-document-dates
+      - run: pip install mkdocs-badges
+      - run: pip install mkdocs-rss-plugin
       - run: pip install jieba            # 安装jieba用于中文关键词搜索
       - run: mkdocs gh-deploy --force     # 推送 site pages

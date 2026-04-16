@@ -1,34 +1,32 @@
-- [x] RAG的多实体问题如何解决：爱因斯坦和牛顿在物理学上的贡献有何不同？
-    - 创建子查询，即分解为两个查询进行检索，然后合并结果【爱因斯坦在物理学上的贡献】、【牛顿在物理学上的贡献】
-- [ ] [RAG中实用技巧](https://milvus.io/docs/zh/how_to_enhance_your_rag.md)
+- [x] [RAG中实用技巧](https://milvus.io/docs/zh/how_to_enhance_your_rag.md)
 - [ ] 多任务学习中互斥任务影响削减：1) model merging; 2) 基于prompt训练
 - [ ] 从零构建DS：https://avoid.overfit.cn/post/ac6d4be0a234412ea00032737365638c#
-- [ ] MCP：model context protocol
-- [ ] `from mcp.server import fastMCP`实际用法类似于`fastapi`
-- [ ] openrouter
-- [ ] docker, uv命令
-- [ ] vscode默认使用国外网下载插件，如何将其设置为默认使用国内网下载
-- [ ] wireshark
-- [x] mysql/sqlite数据库索引结构搭配milvus向量库检索: doc_id对应相应的vector
-- [ ] function call
-- [ ] `uv` 命令构建python环境
-- [ ] PyYAML
+- [ ] vllm对设定prefix进行cache缓存
+- [x] vllm: Efficient Memory Management for Large Language Model Serving with PagedAttention
+- [ ] 0.0.0.0， 127.0.0.1, localhost域名解析问题：C:\Windows\System32\drivers\etc\hosts，解除注释
+- [ ] bash变量缺省值：${OPENCLAW_GATEWAY_PORT:-18789}，`:?, :+`
+- [ ] playwright:跨浏览器自动化测试工具
+- [ ] nginx
+- [ ] litellm
+- [ ] pd.apply, pd.Series
+- [ ] from rapidocr_onnxruntime import RapidOCR, rapidocr, onnxocr
+- [ ] pytesseract.image_to_string
+- [ ] https://www.paddlepaddle.org.cn/packages/stable/
+- [ ] io包
+- [ ] 剪映，分段，加速，字幕
+- [ ] OBS录扬声器，录麦克风
+- [ ] pandoc
+- [ ] systemctl, wget
+- [ ] uv add, uv pip install；uv remove uv pip uninstall；pip 是临时工具，不对包管理文件做修改
 - [ ] gpt-oss, Open Source Software
-- [ ] grid search: 遍历所有取值获取最佳效果
 - [ ] qwen3-next
     - https://qwen.ai/blog?id=4074cca80393150c248e508aa62983f9cb7d27cd&from=research.latest-advancements-list
     - https://zhuanlan.zhihu.com/p/1951240906846995196
     - GATED DELTA NETWORKS: IMPROVING MAMBA2 WITH DELTA RULE
 - [x] triton框架
-- [x] ollama, tensorRT
+- [x] tensorRT
 - [x] langchain (Language Chain)
-- [ ] dify(do it for you)
-- [x] ragflow
-- [ ] haystack
-- [ ] 阿里百炼
-- [x] docker
-- [x] kubernetes (k8s)
-- [ ] 联邦学习
+- [x] kubernetes (k8s)：容器协调工具
 - [ ] Fisher information matrix
 - [ ] Hessian matrix
 - [ ] bits-per-byte, BPB, The Pile: An 800GB Dataset of Diverse Text for Language Modeling
@@ -44,15 +42,10 @@
 - [x] MRL paper: Matryoshka Representation Learning, 一般mrl → norm
 - [x] Slimmable Neural Networks
 - [ ] Reducing activation recomputation in large transformer models.
-- [ ] 3D parallel
 - [x] pipedream, pipedream-2bw
 - [x] Zero bubble pipeline parallelism
 - [ ] Device Capacity Factor
-- [ ] ROI Pooling, Region of Interest: 1) region proposal; 2) pooling sections; 3) max_pooling of sections
-    - 将feature map划分为 H*W 个区域
-    - 通过max_pooling得到 H*W 大小的特征图
 - [ ] Persona Hub：Scaling Synthetic Data Creation with 1,000,000,000 Personas
-- [ ] dashscope for alibaba; openai for openai; requests for glm4
 - [ ] yolo家族， SSD（Single Shot MultiBox Detector）多尺度特征图预测，RetinaNet
 - [ ] Faster R-CNN
 - [x] GoogleNet=Inception v1，Inception家族，Inception-ResNet
@@ -64,19 +57,13 @@
 - [ ] DETR
 - [ ] openCV
 - [ ] cv中常见的数据增强方案：crop 对单张输入图像裁剪
-- [ ] xfyun for xunfei
 - [ ] Universal transformers. 类似 RNN 的权重共享，所有时间步共享同一组 Self-Attention 和 FFN 参数
-- [x] mGTE
-- [x] bge, bge-m3
-- [x] jina embedding，jina ai推出
-- [x] e5 embedding，intfloat团队研发
 - [x] xlm-roberta，fair研发
 - [ ] https://github.com/castorini/pyserini
 - [x] cot, cot-sc, tot, got, TCoT, PoT, ICoT
 - [x] transformers.optmization, transformers.Trainer
 - [ ] q-learning DQN, DDPG不用重要性采样
 - [x] DPO, PPO, GRPO, DAPO
-- [ ] GLM-4.5, Kimi-K2, Qwen
 - [ ] tf.metrics, torchmetrics
 - [ ] 文档chunk方案
         - Fixed-size window Chunking + overlapping, charatertextsplitter
@@ -87,11 +74,9 @@
         - CHUNK_BY_SIZE
         - 结构化分块：markdown、html、pdf等结构化文档
 - [x] 对比学习负样本选择方案, improved infonce loss
-- [x] 文档检索top-k后还要进行重排reranking，可在结合搜索推荐中的重排技术
 - [ ] sft roberta with multiple sequence concurrent with customized attention mask
 - [x] DeepSeek-2
 - [x] DeepSeek-3 https://zhuanlan.zhihu.com/p/16323685381
-- [ ] 免费 gpt-4: https://gpt.xfai.online/list/#/home
 - [x] instruct gpt: Training language models to follow instructions with human feedback
 - [x] GPTQ
 - [x] Atom: Low-bit quantization for efficient and accurate LLM serving
@@ -102,7 +87,6 @@
 - [x] NSA: natively trainable sparse Attention, hierarchical attention
 - [ ] Wizardmath: Empowering mathematical reasoning for large language models via reinforced evol-instruct
 - [ ] Math-shepherd: Verify and reinforce llms step-by-step without human annotations
-- [x] vllm: Efficient Memory Management for Large Language Model Serving with PagedAttention
 - [x] HAI-LLM framework（higher flyer）
 - [ ] Colossal-AI:  A Unified Deep Learning System For Large-Scale Parallel Training
 - [ ] accelerate config
@@ -119,7 +103,6 @@
 - [ ] [odds，logit，ligitis](https://zhuanlan.zhihu.com/p/435912211)
 - [ ] [GBDT + LR](https://www.cnblogs.com/wkang/p/9657032.html)
 - [ ] Restricted Boltzmann Machines (RBM)
-- [ ] A/B test
 - [ ] TF-IDF_j, MI_{a, b, c, d}
 - tensorflow 1.x中在梯度下降时如何设置L1，L2正则化约束
     ```python
