@@ -17,7 +17,6 @@
 - [ ] OBS录扬声器，录麦克风
 - [ ] pandoc
 - [ ] systemctl, wget
-- [ ] uv add, uv pip install；uv remove uv pip uninstall；pip 是临时工具，不对包管理文件做修改
 - [ ] gpt-oss, Open Source Software
 - [ ] qwen3-next
     - https://qwen.ai/blog?id=4074cca80393150c248e508aa62983f9cb7d27cd&from=research.latest-advancements-list
