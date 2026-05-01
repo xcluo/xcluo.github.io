@@ -153,15 +153,16 @@ class Post:
     ```
 
 ### tortoise
+
 - `import tortoise` 异步, 轻量
 - `from tortoise import fields, models`, `models.Model`
 
 ### GINO
+
 - `GINO` 异步,轻量
 
-
-
 ### 建表相关
+
 - sa_column：SQLAlchemy column，mysql默认65535字节≈64KB
 
 
@@ -206,4 +207,3 @@ sa_column.server_default：sqlalchemy层面的默认值
 | uuid | `gen_random_uuid()` | `UUID()` | - |
 | timestamp | `CURRENT_TIMESTAMP` | `NOW()` | `CURRENT_TIMESTAMP` |
 | bool | `false` | `0`（无布尔） | `0`（无布尔） |
-

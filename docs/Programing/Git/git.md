@@ -177,6 +177,7 @@ git push origin --delete remote_branch_name
 git branch --vv                 # 查看本地分支和远程分支关联情况
 git branch --unset-upstream     # 解除当前本地分支远程分支的关联
 git branch --set-upstream-to=origin/<new_remote_branch_name>
+git branch -u origin/<new_remote_branch_name>
                                 # 将当前本地分支关联到新的目标远程分支
 ```
 

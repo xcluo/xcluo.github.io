@@ -6,6 +6,7 @@ title: "linux"
 ### 软件相关
 
 #### 更新源
+
 ```bash
 #!/bin/bash
 # change-sources.sh
@@ -115,7 +116,6 @@ sudo systemctl status ssh
 sudo systemctl enable ssh
 ```
 
-
 #### 远程桌面连接(暂未成功)
 
 1. 安装xrdp(remote desktop protocol)
@@ -199,6 +199,5 @@ sudo systemctl enable ssh
         port=-1
         code=20
         ```
-
 
 - `sudo vim /etc/gdm3/custom.conf` 放开`WaylandEnable=false`的注释

@@ -5,7 +5,6 @@
 
 ### NAT模式有网
 
-
 1. `编辑 → 虚拟网络编辑器 → (管理员模式)更改设置`
 2. `VMnet8 → 子网IP(要求和宿主机处于不同网段) → DHCP设置(尾数不为.1, 如设置为.2)`
 3. 将网络连接中VMnet8的IP设置为`子网IP` +`.1`
@@ -23,7 +22,6 @@
 - 需重启NAT服务（取消勾选，再勾选）
 - 关闭虚拟机
 
-
 #### 共享剪切板
 
 ```bash
@@ -36,6 +34,7 @@ sudo reboot
 ```
 
 #### 共享文件
+
 1. 宿主机：虚拟机 → 设置 → 选项 → 共享文件夹
 2. 虚拟机：
     - `vmware-hgfsclient` → 显示共享文件夹信息  
@@ -43,8 +42,8 @@ sudo reboot
     - `sudo /usr/bin/vmhgfs-fuse .host:/ /mnt/hgfs -o allow_other -o uid=1000 -o umask=022` 设置所有用户可访问  
     > 可直接在`/etc/fstab`中配置 `.host:/ /mnt/hgfs fuse.vmhgfs-fuse allow_other,uid=1000,gid=1000,umask=022 0 0` 以实现挂载自启动
 
-
 #### 扩容
+
 ```bash
 sudo apt install gparted
 sudo gparted

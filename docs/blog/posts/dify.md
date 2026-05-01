@@ -36,13 +36,20 @@ categories:
 
 #### [SAM 3](https://github.com/facebookresearch/sam3)
 
-#### 印章识别、多语种
+#### 印章识别
 
 - 印章检测与去除
-- PaddleOCR
-- GLM-OCR
-- PP-OCRv4
 - EasyOCR
+- [PaddleOCR-vl](https://aistudio.baidu.com/paddleocr/task/file/t-10d9c2a9689a)
+- [MinerU](https://www.modelscope.cn/studios/OpenDataLab/MinerU)
+- PP-DocLayoutV3
+
+#### 多语种
+
+- PP-OCRv5，5个大语种效果表现好，小语种待测，最大支持109种
+- Qwen3-VL
+- HunyuanOCR，语种识别加翻译
+- GLM-OCR
 
 #### VLM
 

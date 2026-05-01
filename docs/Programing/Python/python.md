@@ -61,7 +61,7 @@ title: "Python"
 - [`unicodedata`](libs/unicodedata.md)
 - [`codecs`](libs/codecs.md)
 - [`googletrans`](libs/googletrans.md)：google翻译api
-- 图片相关：[`pdf2image`]，[`rapidocr_onnxruntime`]，[`rapidocr`]，[`onnxocr`]
+- 图片相关：[`pdf2image`]，[`rapidocr_onnxruntime, rapidocr, onnxocr`](libs/ocr_tools.md)
 
 #### utils
 

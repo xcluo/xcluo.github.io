@@ -1,14 +1,16 @@
 ### giscus
 
 #### 使用
+
 1. `mkdocs.yml` 中配置，在blog目录所有post文件中激活
+
 ```yaml
 theme: 
     custom_dir: overrides
 ```
 
+1. 非post文件中激活
 
-2. 非post文件中激活
     ```yaml
     ---
     comments: true
@@ -16,6 +18,7 @@ theme:
     ```
 
 #### 配置
+
 1. Github开启讨论模块 `Settings -> General -> Features -> 勾选Discussion`
 1. [install giscus](https://github.com/apps/giscus) 并使用Github授权
 2. [configure giscus](https://giscus.app/zh-CN)

@@ -30,6 +30,7 @@ pip install python-dotenv
 ```python
 from dotenv import load_dotenv
 import os
+
 load_dotenv(
     dotenv_path=".env",         # 环境变量文件路径，可通过绝对路径指，如 `Path(__file__).parent / '.env'`
 load_dotenv(dotenv_path=dotenv_path)

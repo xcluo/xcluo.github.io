@@ -6,17 +6,16 @@
 - [ ] 0.0.0.0， 127.0.0.1, localhost域名解析问题：C:\Windows\System32\drivers\etc\hosts，解除注释
 - [ ] bash变量缺省值：${OPENCLAW_GATEWAY_PORT:-18789}，`:?, :+`
 - [ ] playwright:跨浏览器自动化测试工具
-- [ ] nginx
+- [ ] nginx, Gunicorn, uvicorn
 - [ ] litellm
 - [ ] pd.apply, pd.Series
-- [ ] from rapidocr_onnxruntime import RapidOCR, rapidocr, onnxocr
 - [ ] pytesseract.image_to_string
 - [ ] https://www.paddlepaddle.org.cn/packages/stable/
 - [ ] io包
 - [ ] 剪映，分段，加速，字幕
 - [ ] OBS录扬声器，录麦克风
-- [ ] pandoc
-- [ ] systemctl, wget
+- [ ] pip install --no-cache-dir
+- [ ] systemctl, wget, lsof -i :port
 - [ ] gpt-oss, Open Source Software
 - [ ] qwen3-next
     - https://qwen.ai/blog?id=4074cca80393150c248e508aa62983f9cb7d27cd&from=research.latest-advancements-list
