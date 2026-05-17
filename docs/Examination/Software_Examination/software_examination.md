@@ -31,6 +31,47 @@ title: "软考"
 
 #### 课程内容
 
+### 软件架构设计
+
+![alt text](image-107.png)
+
+#### 软件架构风格
+
+架构风格：是特定应用领域的管用模式。
+
+- 数据流风格：以数据处理流程为导向（数据驱动）
+    - 批处理，大量==整体==数据，无需用户交互
+    - 管道-过滤器风格，==流式==数据，弱用户交互
+    ![alt text](image-110.png)
+    > 常见的如传统编译：词法分析、语法分析、语义分析
+- 调用返回风格：调用并返回结果，调用之间紧密联系，紧耦合
+- 独立构件风格：每个构件尽可能地独立，松耦合
+    - 进程驱动
+    - ==事件驱动系统==（隐式调用）：构件之间不直接调用对方的方法，而是通过触发或广播“事件”来间接通信，以**触发**各构件相应的操作
+    ![alt text](image-111.png)
+    ![alt text](image-112.png)
+    > 常见事件驱动系统包括图形处理界面
+- 虚拟机风格
+    - 解释器：适合需要“自适用”的场合
+    - 规则系统：适用于专家系统，核心思想是“当某些条件满足时，就执行相应的动作”（即 IF-Then 逻辑）。
+    ![alt text](image-113.png)
+    ![alt text](image-114.png)
+- 仓库风格
+    - 数据库系统
+    - 黑板系统：中央数据源，用于构件间共享、展示、更新信息
+    ![alt text](image-115.png)
+    > - 语音识别、模式识别、图像处理以及知识推理，模型参数便类似于多个专家构件，因此多个参数作用便组成黑板形式。
+- 闭环控制风格，也叫过程控制
+    ![alt text](image-116.png)
+- C2风格：构件（Component）和连接件（Connector）
+    ![alt text](image-117.png)
+
+![alt text](image-108.png)
+> 事实上不仅仅只用一种风格，常为应用多种风格
+![alt text](image.png)
+
+#### Web架构设计
+
 系统架构
 
 1. 分层架构
@@ -45,12 +86,6 @@ title: "软考"
 2. 框架模型
 3. 动态模型
 4. 过程模型
-
-架构风格
-
-![alt text](image.png)
-
-1. 管道过滤器风格：将系统分为若干个独立的步骤
 
 冯诺依曼架构：
     - 储存器：包括主存（内存）和外存，CPU片上缓存为SRAM，片下缓存为Cache，主存为DRAM
@@ -83,3 +118,565 @@ title: "软考"
 直接（地址）索引：索引表直接指向物理地址
 一级间接（地址）索引：索引表指向一层索引
 n级间接（地址）索引：索引表指向n曾索引
+
+嵌入式系统特点
+![alt text](image-1.png)
+
+实时性：指的是系统能够在外部事件发生后，在预定的、确定的时间范围内做出正确响应的能力。
+
+
+IEEE 802.3以太网结构：DMAC | SMAC | Length/Type | DATA/PAD | FCS |，分别表示目标mac地址，源mac地址，数据长度或类型（2字节，值＞1500为类型，小于1500为长度），数据或PAD填充值（加上帧头不大足64字节，通过PAD补齐），帧校验字段（Frame Check Sequence）
+
+#### 网路协议
+
+网络协议OSI七层架构
+
+![alt text](image-2.png)
+
+物理层，数据链数层，网络层，传输层，会话层，表示层，应用层
+> 四层：应用层，传输层，网际层，网络接口层
+
+![alt text](image-7.png)
+
+- POP3，收邮件，110端口；POP3S，端口995
+- SMTP，发邮件，25端口；SMTPS，端口465；TCP连接
+
+- DHCP(Dynamic Host Configuration Protocol动态主机配置协议)， DNS → 应用层
+- TCP, UDP → 传输层
+> 基于UDP协议：STDDv，VIOP，SNMP，TFTP，DNS，DHCP
+- ICMP, IGMP, ARP, RARP → 网络层
+
+物理层：集线器，中继器
+数据链路层：交换机，网桥
+网络层：路由器，包过滤防火墙
+
+交换机基本原理，维护MAC地址表
+
+- 数据转发
+- 转发路径学习：转发时建立mac和端口映射表
+- 数据泛洪：查表时未找到dmac，给所有端口广播（不包括源端口）
+- 链路地址更新：每隔一段时间更新一次mac地址表
+
+路由器基本原理，维护路由表
+
+DNS协议
+
+![alt text](image-8.png)
+
+计算机语言：机器语言（二进制代码），汇编语言，高级语言
+
+视频压缩方法：WAV，PCM，TTA，FLAC
+
+分级存储体系：寄存器，cache，内存，外存。其中cache是为了解决高速运行的cpu与内存间速度不匹配的问题
+
+- cache未命中时不记录读取（即cpu探寻命中时间远低于cache访存）
+
+磁盘存取时间：寻道时间 + 旋转时间 + 读/写时间
+
+最短移臂调度
+
+内存三态进程状态：就绪，运行，等待
++外存（新增处于外存的静止态）五态进程状态：活跃阻塞，活跃就绪，静止阻塞，禁止就绪，运行
+
+信号量操作：P( Proberen尝试，s=s-1)，V（Verhogen增加，s=s+1），前者尝试减少信号量，后者释放信号量
+
+银行家算法：操作系统中避免死锁的一种经典算法，由艾兹格·迪杰斯特拉提出。它的核心思想是借鉴银行放贷的风控逻辑：系统像银行家一样，**在给进程分配资源前，先模拟计算“如果分了这些资源，系统会不会陷入不安全状态”，只有安全时才真正分配。**
+
+奇偶校验，通信前双方约定使用奇校验还是偶校验，即约定传输的数据（包括校验位）中1的个数为奇或偶
+
+汉明码（海明码），
+- 校验位长度：需满足2^r≥r+m+1，其中r为校验位位数，m为数据位位数。
+- r+m位编码总长度
+- 校验码位置：2^0, 2^1, ..., 2^(r-1)
+
+![alt text](image-3.png)
+
+输入输出问题
+![alt text](image-4.png)
+
+网络分层设计
+
+![alt text](image-5.png)
+
+网络冗余设计：避免单点网络失效造成应用失效。有两种方式1）备用路径；2）负载分担
+
+RAID（Redundant Array of Inexpensive Disks）便宜磁盘冗余阵列，简称为 磁盘阵列，将多个相对便宜的磁盘组合成一个磁盘组，配合数据分散排列的设计，提升数据的安全性和整个磁盘系统性能
+
+- RAID0
+- RAID1
+- RAID2
+- RAID3, RAID4
+- RAID5
+- RAID6
+- RAID10（1+0，不是10）
+
+![alt text](image-6.png)
+
+#### 系统工程
+
+![alt text](image-45.png)
+
+系统工程方法
+- 霍尔三维结构（“硬科学”方法论）
+    ![alt text](image-47.png)
+- 切克兰德方法（“软科学”方法论）
+
+![alt text](image-46.png)
+
+系统工程生命周期阶段
+![alt text](image-49.png)
+
+系统工程生命周期方法
+![alt text](image-48.png)
+
+#### 信息系统
+
+信息系统生命周期
+![alt text](image-50.png)
+
+信息系统建设原则
+
+- 高层管理人员介入原则：如首席信息官（Chief Information Officer, CIO）介入
+- 用户参与开发原则：用户确定范围、核心用户全称参与、用户深度参与
+- 自顶向下规划原则：以此减少信息不一致的现象
+- 工程化原则：引入【软件工程】
+- 其他原则，如创新性原则，整体性原则，发展性原则以及经济性原则
+
+信息系统开发方法
+
+- 结构化方法：自顶向下，逐步求精，应变能力较差
+    ![alt text](image-51.png)
+- 面向对象：自底向上，阶段界限不明，更符合人的思维习惯，更好应变
+    ![alt text](image-52.png)
+- 面向服务的方法：本质上是在面向对象基础上进一步调整变化
+    ![alt text](image-53.png)
+- 原型方法：可以作为上述所有方法在需求阶段的侧面补充
+    > 功能划分：水平原型，如界面；垂直原型，如复杂算法
+    > 结果划分：抛弃原型；演化原型
+- 形式化方法：数学模型化，所有东西均可证明/验证，而不是测试
+- 统一过程方法UP
+- 敏捷方法
+- 基于架构的开发方法（Architecture-Based Software Design，ABSD）
+
+结构化建模方法，基本工具是数据流图（ DFD）
+信息建模方法，基本工具是实体联系图（ ERD）
+面向对象建模方法，形成了面向对象的建模标准，即 UML （统一建模语言）
+
+信息系统开发方法
+
+1．计算无关模型（ Computation Independent Model , CIM）
+CIM 对系统中使用的重要的领域抽象进行建模，因此有时被称为领域模型。
+2．平台无关模型（ Platform - Independent Model , PIM）
+PIM 在不涉及实现的情况下对系统的运转进行建模。
+3．平台相关模型（ Platform - Specific Model , PSM）
+PSM 是对平台无关模型转换后得到的，对于每个应用平台都有一个单独的 PSM 。
+
+信息系统的分类
+- 业务处理系统（Transaction Processing System，TPS），又称为电子数据处理系统（Electronic Data Processing System，EDP）
+    ![alt text](image-55.png)
+- 信息管理系统（Manage Information System，MIS），是由TPS发展而来。MIS系统四大部件：信息源，信息处理器，信息用户和信息管理者。
+    ![alt text](image-57.png)
+    ![alt text](image-56.png)
+    > 开、闭环的结构区别为是否有循环迭代过程
+    > 数据处理中批处理系统为开环结构；数据处理中计算机实时处理系统为闭环系统。
+- 决策支持系统（Dicision Support System，DSS），由语言系统、知识系统和问题处理系统3个互相关联的部分组成。
+    ![alt text](image-58.png)
+- 专家系统（Expert System，ES），是一个智能计算机系统，其内包含某个领域具有专家水平的大量知识和经验，能够利用人类专家的知识和解决问题的方法来处理该领域的问题。
+    ![alt text](image-59.png)
+    ![alt text](image-60.png)
+- 办公自动化系统（Office Automation System，OAS）
+- 企业资源计划（Enterprise Resource Planing，ERP）
+![alt text](image-54.png)
+
+#### 政务信息化与电子政务
+
+电子政务主要有3类角色：政府（Government），企（事）业单位（Business）及公民（Citizen）
+> 如果有第4类就是公务员（Employee）
+
+![alt text](image-61.png)
+
+#### 企业信息化与电子政务
+
+信息化的概念
+
+- 主体是全体社会成员（政府、企业、团体和个人）
+- 时域是长期过程
+- 空域是经济和社会的一切领域
+- 手段是先进社会生产工具
+![alt text](image-62.png)
+
+企业信息化目的，会涉及三类创新
+
+- 技术创新
+- 管理创新：转向技术、物资、人力资源的管理，并延伸到企业技术创新
+- 制度创新
+
+![alt text](image-63.png)
+
+组织对信息化的需求是组织信息化的原动力。信息化需求从高到低具有3个层次↓
+
+![alt text](image-64.png)
+
+企业信息化方法
+- 业务流程重构方法
+- 核心业务应用方法
+- 信息系统建设方法
+- 主题数据库方法：整合核心业务的数据库，消除“信息孤岛”
+- 资源管理方法：切入点是为企业资源管理提供强大的能力。如ERP、SCM、CRM
+    - 企业资源计划（Enterprise Resource Planning，ERP）
+      ![alt text](image-73.png)
+    - 客户关系管理（Customer Relationship Management，CRM），目的是提高收入，核心思想是以客户为中心
+      ![alt text](image-75.png)
+    - 供应链管理（Supply Chain Management，SCM），理念为强强联合
+      > 三流：信息流（又细分为需求信息流，供应信息流），现金流，物流
+      ![alt text](image-76.png)
+- 人力资本投资方法：把一部分企业的优秀员工看作是一种资本
+![alt text](image-68.png)
+
+信息系统的战略规划
+
+- 第一阶段：以数据处理为核心，包含以下常用方法
+  - 关键成功因素法（Critical Success Factors，CSF）
+    ![alt text](image-69.png)
+  - 战略集合转化法（Strategy Set Transformation，SST）
+    ![alt text](image-70.png)
+  - 企业系统规划法（Business System Planning，BSP），自上而下的规划 + 自下而上的实现。其中U/C矩阵（Use/Create Matrix） 是核心工具，主要用于定义信息系统总体结构和划分子系统。
+    ![alt text](image-71.png)
+  > 三个方法可以综合使用，统称为BCS
+- 第二阶段：以企业内部MIS为核心
+- 第三阶段：以集成为核心
+![alt text](image-66.png)
+
+企业信息化体系
+- 商业智能
+    ![alt text](image-78.png)
+- 数据仓库
+    ![alt text](image-79.png)
+    ![alt text](image-80.png)
+- 数据挖掘：利用隐藏的知识做分析与预测。分类方法包括关联分析，序列模型分析，分类分析，聚类分析
+    ![alt text](image-77.png)
+- 数据湖，既支持分析处理，也支持事物处理
+    ![alt text](image-81.png)
+    ![alt text](image-82.png)
+- 业务流程再造（Business Process Reengineering，BPR）和业务流程管理（Business Process Management，BPM）
+    ![alt text](image-83.png)
+    > PDCA：P(lan)、D(o)、C(heck)、A(ct)
+- 企业应用集成（Enterprise Application Integration，EAI）：没有统一的标准，常用方法包括：表示集成（集成界面）、数据集成（集成数据）、控制集成（集成应用逻辑）以及业务流程集成（集成应用逻辑并考虑业务优化）
+    ![alt text](image-85.png)
+    ![alt text](image-86.png)
+    ![alt text](image-87.png)
+- 企业门户
+    ![alt text](image-88.png)
+- 企业应用集成
+    ![alt text](image-89.png)
+![alt text](image-72.png)
+> 联机分析处理（On-Line Analytical Processing，OLAP）；联机事务处理（On-Line Transaction Processing，OLTP）
+
+电子商务类型：主要有两类角色，即企业Business和个人Customer 
+![alt text](image-90.png)
+> O2O，线上支付，线下体验，如团购
+
+数字化转型，包括五个发展阶段，即初始级、单元及、流程级、网络级以及生态级
+![alt text](image-91.png)
+
+智能制造体系
+![alt text](image-92.png)
+
+遗留系统演化策略象限
+
+![alt text](image-10.png)
+
+程序流程图环形复杂度：V(G) = Edges - Nodes + 2，Nodes包括输入节点和输出节点，Edges包括入边和出边
+
+#### 项目管理
+
+盈亏平衡分析
+![alt text](image-97.png)
+> 可变成本与销售额是成比例的，因此可以根据销售额和可变成本算出比例
+
+进度管理，也称时间管理
+- 进度管理
+    - 单代号网络图，前导图Precedence Diagramming Method
+        ![alt text](image-100.png)
+    - 甘特图Gannt
+        ![alt text](image-101.png)
+
+![alt text](image-98.png)
+![alt text](image-99.png)
+> WBS：Work Breakdown Structure工作分解结构
+
+影响软件质量的3组因素
+![alt text](image-104.png)
+
+软件质量控制与软件质量保证
+- 质量控制Quality Control，QC
+- 质量保证Quality Assurance，QA
+![alt text](image-105.png)
+
+软件能力成熟度模型集成（Capability Maturity Model Integration，CMMI）
+![alt text](image-106.png)
+
+软件配置管理
+- 基本配置项为可交互成果
+- 版本控制
+    ![alt text](image-95.png)
+![alt text](image-94.png)
+
+软件工具
+![alt text](image-96.png)
+
+#### 传统软件开发模型
+
+软件开发生命周期（Software Development Life Cycle，SDLC）使用的模型，也叫软件开发模型
+
+- 瀑布模型：顺序开发模型，严格区分阶段，每个阶段因果关系紧密相连
+    ![alt text](image-11.png)
+- V模型（瀑布模型变种），搭配[软件测试](#软件测试)理解：需求分析→系统测试，验收测试；概要设计→集成测试；详细设计→单元测试。
+    ![alt text](image-13.png)
+- 原型模型：根据一个简易原型来完善需求分析、软件设计和程序设计部分，后续虚线阶段不一定执行
+    > 包括【抛弃型原型】和【演化型原型】
+    ![alt text](image-12.png)
+- 螺旋模型：以快速原型为基础+瀑布模型，每一圈都是一轮瀑布模型，并额外考虑了风险问题
+    ![alt text](image-15.png)
+- 迭代与增量：增量为增加；迭代为完善优化，填充轮廓。
+    ![alt text](image-14.png)
+- 构件组装模型
+    ![alt text](image-16.png)
+    基于构件的软件工程（Component-Based Software Engineering，CBSE）：构件的组装方式包括顺序组装，层次组装以及叠加组装
+    ![alt text](image-17.png)
+- 快速应用开发模型（Rapid Application Development，RAD）：瀑布模型 + CBSE基于构件组装的软件工程
+    ![alt text](image-18.png)
+- 软件开发过程模型，也叫统一过程（Unified Process，UP）
+    > Rational Unified Process，RUP即为 Rational 软件公司推出的一套非常经典且详尽的软件工程过程框架
+    ![alt text](image-19.png)
+
+!!! info
+    - 瀑布模型每个阶段一次性完成该阶段所有工作，实际上太现实，因此该模型开发成功率较低，只适合需求明确、完整以及正确的项目；严格串行化，很长时间才能看到结果；
+    - 原型模型适合不明确需求的项目
+
+#### 敏捷方法
+
+敏捷方法：适应性的（而不是预设性），以人为本，增量迭代，小步快跑，适合小型项目以及需求变化大、需求不清晰的项目
+![alt text](image-20.png)
+
+- 敏捷方法-XP（E**x**treme **P**rogramming）：注重面对面沟通，目的是如何写出高质量代码
+    > 结对编码：一个人写代码，另一个人立马审代码
+    ![alt text](image-21.png)
+- SCRUM：是一套教团队“如何高效协作和管理项目进度”的作战地图
+    ![alt text](image-22.png)
+- 水晶方法
+- 特征驱动开发方法（Feature-Driven Development，FDD）
+![alt text](image-23.png)
+
+#### 逆向工程
+
+指在没有原始源代码或设计文档的情况下，通过分析已有的可执行程序（二进制文件），反向推导出软件的结构、算法、设计原理和业务流程的过程。整体来说是设计的恢复过程。
+![alt text](image-24.png)
+![alt text](image-25.png)
+
+#### 需求工程
+
+包括需求开发（需求获取，需求分析，需求定义以及需求验证）和需求管理
+
+![alt text](image-26.png)
+> Software Requirements Specification，SRS软件需求规格说明书
+
+**需求开发**
+
+- 需求获取：分层部分依次从抽象到物理实际实现
+    ![alt text](image-27.png)
+    ![alt text](image-28.png)
+- 需求分析，结构化分析（Structured Analysis，SA）
+    - 功能模型：（分层）数据流图（Data Flow Diagram，DFD）
+    - 行为模型：状态转换图（State Transition Diagram，STD）
+    - 数据模型：实体联系图（Entity-Relationship Diagram，ERD）
+    - 数据字典：
+    ![alt text](image-29.png)
+- 需求分析，面向对象分析（Object-Oriented Analysis，OOA）
+    - 事物：结构事物，行为事物，分组事物，注释事物
+    ![alt text](image-30.png)
+- 需求定义：将需求分析的成功落地成文档
+    - 严格定义法：所有需求的能被预定义
+    - 原型法：并非所有需求都能在开发前被准确说明
+    ![alt text](image-33.png)
+- 需求验证：已经完成规则说明书，进行需求复审，对齐确认达成共识，形成需求基线
+    ![alt text](image-34.png)
+
+**需求管理**
+
+- 需求跟踪
+    ![alt text](image-35.png)
+    > FR: Functional Requirement
+
+- 需求变更
+    ![alt text](image-36.png)
+    > 变更请求需要变更控制委员会（ Change Control Board，CCB）审批
+
+#### UML
+
+Unified Modeling Language统一建模语言（平台无关、语言无关），包含以下14种经典图形
+![alt text](image-31.png)
+静态图（结构图）
+
+- 类图
+- 对象图
+- 构件图
+- 部署图
+- 制品图
+- 包图
+- 组合结构图
+
+动态图（行为图）
+
+- 用例图
+- 顺序图
+- 通信图（协作图）
+- 状态图
+- 活动图
+- 定时图
+- 交互概览图
+    > 与顺序图、通信图和定时图统称为交互图
+
+4+1视图
+
+![alt text](image-32.png)
+
+- 逻辑视图logical view：系统分析、设计人员
+- 实现视图implementation view
+- 进程试图process view
+- 部署视图deployment view
+- 用例视图use-case view
+
+#### 软件系统建模
+
+![alt text](image-37.png)
+
+常见方法有：
+
+- 结构化建模方法：绘制的模型称为数据流图DFD
+- 信息工程建模方法（或数据库建模方法）：创建的模型称为实体联系图ERD
+- 面向对象建模方法：使用UML定义不同类型的模型图，共建一个信息系统或应用系统
+
+#### 人机界面设计
+
+![alt text](image-38.png)
+
+#### 结构化设计
+
+![alt text](image-41.png)
+![alt text](image-39.png)
+
+- 扇入，也可以理解为入扇（Fan-in）： 指有多少个上级模块直接调用了当前模块。
+- 扇出，也可以理解为出扇（Fan-out）： 指当前模块直接调用了多少个下级模块。
+
+> 扇：像扇子一样打开，表示一对多的关系或多对一的关系
+
+![alt text](image-40.png)
+
+#### 面向对象设计
+
+类的分类
+
+![alt text](image-42.png)
+
+基本过程
+
+![alt text](image-43.png)
+
+（7大）设计原则
+
+![alt text](image-44.png)
+
+- 李氏替换原则：子类不能随意重写父类方法
+
+#### 数据库
+
+三级模式
+
+- 概念模式：也称作模式，全体数据的逻辑结构和特征的描述。一个数据库只有一个概念模式
+- 外模式：也称作子模式、用户模式，用以描述用户看到或使用的部分数据的逻辑结构。
+- 内模式：定义存储记录的类型、存储域的表示以及存储记录的物理顺序，如引元、索引和存储路径等。一个数据库只有一个内模式。
+![alt text](image-124.png)
+> 外模式/模式：逻辑独立性
+> 内模式/模式：物理独立性
+
+数据库设计阶段
+![alt text](image-126.png)
+- 属性冲突：属性值或属性域冲突
+- 命名冲突：同名异义，异名同义
+- 结构冲突：统一对象在不同应用中抽象不同（A应用中是姓名，B应用中是名称）；同一实体在不同ER图中属性个数和排列次序不同
+![alt text](image-127.png)
+
+数据库备份及故障恢复
+![alt text](image-128.png)
+
+事务管理的ACID属性
+- Atomicity原子性：操作要么不做，要么全做
+- Consistency持久性：数据从一个一致性状态变道另一个一致性状态
+- Isolation隔离性：不能被其他事务干扰
+- Durability持久性：一旦提交，改变就是永久的
+
+#### 关系（数据库）模式
+
+集合运算符：∩（行交）∪（行并）-（行减交）×（笛卡尔乘积）÷（象集，含有相同属性值域的其他属性）
+![alt text](image-125.png)
+> 左/右外连接允许右/左表其他属性为空值
+
+关系模式（Relation Schema）简单来说就是数据库中“表的结构定义”。它是对一张二维表的完整描述，决定了这张表有哪些列、每列是什么类型以及列之间有什么规则。
+
+- 关系名R：表名
+- 属性名U：列名
+- 域D：每个属性的取值范围
+- 完整性约束：必须遵守的数据规则，如学号不能重复，外键必须是已存在主键
+
+范式{1NF：确保原子性，2NF：消除部分依赖，3NF：消除传递依赖，BCNF：所有属性都是候选码的组成成分}
+- 原子性：1）每个单元格只能有一个值，如所选课程为“数学，物理”即破坏了原子性；2）无重复列属性，如电话1，电话2等
+- 消除部分依赖：在1NF的基础上增加约束，即所有非主键字段都必须完全依赖于整个主键，而==不能只依赖于主键的一部分==。
+- 消除传递依赖：在2NF的基础上增加约束，即所有非主键字段都必须直接依赖于主键，而不能通过其他非主键字段间接依赖（不能存在A→B→C）。
+
+ArmStrong公理
+- 增广率：X→Y，Z⊆U ==> XZ→YZ
+- 合并规则：X→Y，X→Z  ==> X→YZ
+- 伪传递规则：X→Y，WY→Z ==> XW→Z
+- 分解规则：X→Y，Z⊆Y ==> X→Z
+
+#### 软件测试
+
+白盒：又称结构测试、透明盒测试、逻辑驱动测试或基于代码的测试。测试人员必须了解程序的内部结构和处理过程。
+
+- 基本路径测试
+- 循环覆盖测试
+- 逻辑覆盖测试
+![alt text](image-118.png)
+> 条件组合覆盖关注的是局部判定条件的排列组合，而路径覆盖关注的是程序全局的执行流程。
+
+黑盒：不考虑程序内部结构和处理过程，只在软件接口处进行测试
+
+- 等价类划分
+- 边界值分析
+- 错误推测
+- 因果图
+
+灰盒：介于黑盒和白盒测试之间的测试
+
+!!! info
+    - 黑、白、灰盒测试均属于动态测试
+    - 静态测试：被测试程序不在机器上运行，而采用人工检测和计算机辅助分析的手段对程序进行监测
+
+按照测试的目的、阶段的不同（搭配[V模型](#传统软件开发模型)理解），把测试分为
+
+- 单元测试
+    ![alt text](image-119.png)
+- 集成测试
+    ![alt text](image-120.png)
+- 确认测试
+    ![alt text](image-121.png)
+- 系统测试
+    ![alt text](image-122.png)
+
+其他测试
+- 压力测试：测系统确定的瓶颈下，测试
+- 负载测试：超负荷情况下，测试
+- 强度测试
+- 容量测试
+![alt text](image-123.png)

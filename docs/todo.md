@@ -25,6 +25,7 @@
 - [x] tensorRT
 - [x] langchain (Language Chain)
 - [x] kubernetes (k8s)：容器协调工具
+- [ ] deepseek-mHC, DSA, CSA, HCA
 - [ ] Fisher information matrix
 - [ ] Hessian matrix
 - [ ] bits-per-byte, BPB, The Pile: An 800GB Dataset of Diverse Text for Language Modeling
