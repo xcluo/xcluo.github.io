@@ -8,6 +8,14 @@ import redis                    # 同步操作
 import redis.asyncio as redis   # 异步操作
 ```
 
+```bash
+docker run --name ai_grader-redis \
+  -p 6379:6379 \
+  -v redis_data:/data \
+  -d redis:7-alpine \
+  redis-server --requirepass "" --appendonly yes
+```
+
 
 #### 客户端操作
 === "ping"

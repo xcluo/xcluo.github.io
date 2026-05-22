@@ -15,6 +15,7 @@
 - [ ] 剪映，分段，加速，字幕
 - [ ] OBS录扬声器，录麦克风
 - [ ] pip install --no-cache-dir
+- [ ] FROM node:22.15.1-slim AS builder
 - [ ] systemctl, wget, lsof -i :port
 - [ ] gpt-oss, Open Source Software
 - [ ] qwen3-next

@@ -2,7 +2,7 @@
 title: OCR_tools
 ---
 
-### rapidocr_onnxruntime/rapidocr/onnxocr
+### rapidocr/rapidocr_onnxruntime/onnxocr
 
 - CPU性能：onnxocr（4s），rapid_ocr_onnxruntime（20s），rapidocr（24s）
 - rapidocr可基于torch使用gpu
@@ -47,4 +47,3 @@ def onnx_ocr(imgs):
     _, result = engine(np.array(imgs[0]))
     print([item[0] for item in result])
 ```
-

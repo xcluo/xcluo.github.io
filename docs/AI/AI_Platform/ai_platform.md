@@ -155,6 +155,20 @@ res = requests.post(
             content += data["choices"][0]["delta"]["content"]
     ```
 
+多模态模型语法
+
+type的取值及值的展开：
+
+- `"text": input_text`
+- `"video_url" {"url": video_url/video_base64}`
+    > - `data:video/mp4;base64,`
+- `"input_audio": {"data": audio_url/audio_base64, "format": audio_file_type}`
+    > `data:audio/mp3;base64,`
+- `"image_url": {"url": image_url/image_base64}`
+    > `data:image/jpeg;base64,`
+
+> 也可以只传递`base64,`后的内容
+
 #### Agent
 
 #### RAG
