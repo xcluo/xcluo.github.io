@@ -2,81 +2,174 @@
 title: Docker
 ---
 
-
 #### 安装docker
 
 - 更新wsl系统：`wsl --update --web-download` 
-- 安装Docker：`"Docker Desktop Installer.exe" install --installation-dir=E:\Docker\Desktop --wsl-default-data-root=E:\Docker\DockerDesktopWSL --windows-containers-default-data-root=E:\Docker\Containers`  
-    
+- 安装Docker：`"Docker Desktop Installer.exe" install --installation-dir=E:\Docker\Desktop --wsl-default-data-root=E:\Docker\DockerDesktopWSL --windows-containers-default-data-root=E:\Docker\Containers`，具体参数如下
+
     - 指定安装路径：`--installation-dir=install_absolute_dir`
     - 指定镜像存储路径（需与安装路径不同）：`--wsl-default-data-root=wsl_absolute_dir\DockerDesktopWSL`
     - `--windows-containers-default-data-root=containers_absolute_dir`
-    
-    > 如果无法弹出安装页面,可能是历史安装时使该文件夹需要管理员权限才能写入,可通过删除文件夹后重新启动安装 
 
-- 配置Docker引擎加速器(可通过切换源的顺序完成pull)  
-    ```
+    !!! info
+        若未弹出安装页面，可能是历史安装时使该文件夹需要管理员权限才能写入，需删除该文件夹后再重新安装。
+
+- 配置Docker引擎加速器（可通过切换源的顺序，实现pull）
+
+    ```json
     "registry-mirrors": [
         "https://docker.xuanyuan.me"
     ]
     ```
 
-    1. [`登录SWR`](https://support.huaweicloud.com/usermanual-swr/swr_01_0022.html) `
-    2. 选择区域局点：华东-上海 
+    1. [`登录SWR`](https://support.huaweicloud.com/usermanual-swr/swr_01_0022.html)
+    2. 选择区域局点：华东-上海
     3. 左侧镜像资源 → 镜像中心 → 右上角镜像加速器 →加速器地址
-    4. 复制至 `"registry-mirrors": [url]`  
+    4. 复制至 `#!json "registry-mirrors": [url]`  
 
 - 汉化
-    1. [`汉化包release地址`](https://github.com/asxez/DockerDesktop-CN/releases)   
-    2. 选择指定版本  
+    1. [`汉化包release地址`](https://github.com/asxez/DockerDesktop-CN/releases)
+    2. 选择指定版本
     3. 替换`~/frontend/resources/app.asar`
 
 ### 信息查看
 
 #### `version`
 
-`docker version` 查看docker版本及desktop版本
+`#!bash docker version` 查看docker版本及desktop版本
 
 #### `info`
 
-`docker info` 查看docker详细信息
+`#!bash docker info` 查看docker详细信息，包含
 
-#### `inspect`
+- 容器信息
+- 镜像信息
+- 版本信息
+- 镜像引擎加速器配置信息
 
-`docker inspect` 本地查询镜像/容器信息
+### Dockerfile
 
-#### Dockerfile
+用于定义镜像构建流程的文本配置文件，通过 [`docker build`](#build) 命令可读取指定 Dockerfile 文件内容构建镜像
 
-用于定义镜像构建流程的文本配置文件，通过 [`docker build`](#build) 命令可读取 Dockerfile 并自动构建自定义镜像。
+#### 常用关键字
 
-高频指定关键字（出于规范和可读性全大写）
+每个执行一次条`RUN`、`COPY`或`ADD`就会加一层（Layer），建议尽量压缩`RUN`命令，以减少元数据开销。>出于规范和可读性考虑关键字全大写
 
-- `FROM image_name:tag` 基础镜像，可通过多行From命令包含多个基础镜像
-- `WORKDIR image_dir` 指定镜像工作目录，即`RUN`、`COPY`、`CMD`、`ENTRYPOINT` 等指令默认工作目录
-- `RUN apt update && apt install -y net-tools` 在镜像构建阶段执行指定命令
-- `COPY host_file image_file` 拷贝主机文件到镜像，默认文件拥有者是root，可通过 `--chown` 更改文件拥有者
+=== "FROM"
+    指定基础镜像，必须是 Dockerfile 的第一条指令（支持使用多个基础镜像进行多段构建）。
+    ```yaml
+    # 第一阶段
+    FROM node:22.15.1-slim AS builder
+    ...
+    # 第二阶段
+    FROM nginx:alpine
+    ## 表示将第一阶段镜像中的 `/app/dist` 文件夹复制到当前镜像目录下 `/usr/share/nginx/html`
+    COPY --from=builder /app/dist /usr/share/nginx/html
+    ```
+=== "WORKDIR"
+    设置工作目录，后续的 `RUN`、`CMD`、`ENTRYPOINT`、`COPY`、`ADD` 都会在该目录下执行。不存在时会自动创建
+    ```yaml
+    WORKDIR /app
+    ```
+=== "RUN"
+    在镜像构建时执行命令（如安装软件、创建目录）。每个 `RUN` 会创建一个新层，推荐合并命令以减少层数
+    ```yaml
+    RUN apt-get update && \
+        apt-get install -y --no-install-recommends ffmpeg && \
+        rm -rf /var/lib/apt/lists/* && \
+        apk add --no-cache openssl && \
+        mkdir -p /etc/nginx/certs && \
+        openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+        -keyout /etc/nginx/certs/server.key \
+        -out /etc/nginx/certs/server.crt \
+        -subj "/CN=localhost"
+    ```
+=== "COPY"
+    将构建上下文中的文件/目录复制到镜像内。支持通配符，也支持 `--from` 实现多阶段复制
+    ```yaml
+    # 将宿主机文件复制到镜像内
+    COPY nginx.conf /etc/nginx/conf.d/default.conf
+    # 历史阶段文件复制到镜像内
+    COPY --from=builder /app/dist /usr/share/nginx/html
+    ```
+=== "ADD"
+    在绝大多数情况下优先使用 `COPY` 关键字
+    <div class="one-image-container">
+        <img src="./image/add_vs_copy.png" style="width: 100%;">
+        <p style="text-align: center;">图片标题</p>
+    </div>
 
-    > `ADD` 为增强版兼容 `COPY` 的命令
+=== "ENV"
+    设置环境变量，这些变量在构建阶段和容器运行阶段均可用。 ==ENV变量会占用镜像层空间==
+    > 构建时无法覆盖，运行时可通过 `docker run -e var_name=value` 方式覆盖默认值
 
-- `ENV VAR_NAME=VAR_VALUE` 设置环境变量
-- `ARG VAR_NAME` 定义变量
-- `USER user_name` 切换用户（一般使用 `RUN useradd -m user_name` 先创建用户）
-- `EXPOSE port_num` 声明容器运行时对外暴露的网络端口（仅用于文档说明和镜像使用者参考，不做实际映射）
-- `ENTRYPOINT` 指定容器入口命令
+    ```yaml
+    ENV APP_HOME /app
+    ENV VERSION=1.0.0 DEBUG=false   # 使用空格分隔多变量声明
+    WORKDIR $APP_HOME
+    RUN echo "Version: $VERSION" > version.txt
+    CMD ["sh", "-c", "echo $DEBUG"]
+    ```
+=== "ARG"
+    定义仅在构建阶段（`docker build`过程）有效的变量，用于参数化 Dockerfile。==ARG变量不会占用镜像层空间==
+    > 构建时可通过 `docker build --build-arg var_name=value` 方式覆盖默认值
 
-    > `ENTRYPOINT` 在 `CMD` 前先执行，且不容易被覆盖
+    ```yaml
+    ARG USERNAME=xcluo
+    RUN adduser --disabled-password $USERNAME
+    ```
+=== "CMD"
+    作为镜像在容器启动时默认的执行命令（可被 `docker run` 的参数覆盖）。每个 Dockerfile 只能有一条 CMD，多条则只有最后一条生效
+    ```yaml
+    CMD ["gunicorn", "main:app", "-w", "4", "-k", "uvicorn.workers.UvicornWorker", "-b", "0.0.0.0:8000"]
+    ```
+=== "ENTRYPOINT"
+    指定容器入口命令，在 `CMD` 前先执行，且不容易被覆盖
+=== "VOLUME"
+    声明容器中的某个目录作为数据卷，将容器内指定的路径标记为持久化存储点，以便数据可以在容器重建、更新或删除后依然保留，或者实现容器间数据共享。（镜像不删除就不会有问题）
+    > 尽量不在 Dockerfile 中硬编码 VOLUME，更建议在 `docker run` 或 `docker-compose` 中显式创建命名卷
 
-- `CMD` 容器启动执行的命令（一个 Dockerfile 中仅能有一个有效 CMD，多个则对最后一个生效）
+    ```yaml
+    VOLUME /var/log /var/data
+    ```
+=== "USER"
+    指定运行容器时使用的用户名或 UID以及可选的用户组或 GID。
+    > 切换用户的前提是该用户在镜像中存在，因此在切换之前常执行 `RUN useradd -m user_name` 创建用户操作。
+
+    ```yaml
+    RUN addgroup -g 1001 -S appuser && \
+    adduser -S appuser -u 1001 -G appuser
+    COPY --chown=appuser:appuser . .        # --chown 更改文件拥有者
+    USER appuser
+    ```
+=== "HEALTHCHECK"
+    111
+=== "EXPOSE"
+    声明容器运行时对外暴露的网络端口（仅用于文档说明和镜像使用者参考，不做实际映射）
+
+    ```yaml
+    EXPOSE 8000
+    ```
+=== "LABEL"
+    111
 
 #### .dockerignore
 
-存放在 Dockerfile 同目录下，用于构建 Docker 镜像时排除配置文件，类似于 .gitignore
+存放在 Dockerfile 同目录下，在构建 Docker 镜像时用于排除配置文件，类似于 .gitignore。主要针对 `ADD` 和 `COPY` 两个复制关键字
 
-#### docker-compose.y(a)ml
+### docker-compose.y(a)ml
 
 YAML格式，依赖缩进（2个空格而不是TAB），大小写敏感，#为注释
 
-- `versions` 指定Compose文件格式版本
+=== "versions"
+    指定Compose文件格式版本
+=== "services"
+    pass
+=== "networks"
+    pass
+=== "volumes"
+    pass
+
 - `services` 定义容器
     - `<service_name>` 服务名
         - `image` 指定初始化容器的镜像
@@ -165,7 +258,7 @@ Options
 Options  
 
 - `--build-arg NEXT_PUBLIC_API_URL=YOUR_LANGMANUS_API` 传递构建时环境变量参数
-- `t image_name:tag` --tag 给镜像命名打标签，未指定时默认为`latest`
+- `-t image_name:tag` --tag 给镜像命名打标签，未指定时默认为`latest`
 - `--no-cache` 不适用缓存，强制重新构建
 - `-f file_name` --file 指定Dockerfile路径（未指定则查找当前目录）
 

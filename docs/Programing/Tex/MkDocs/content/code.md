@@ -8,7 +8,7 @@ Hello world!
 Lorem ipsum dolor sit amet, (1) consectetur adipiscing elit.
 { .annotate }
 
-1.  :man_raising_hand: 我是一个注释！我可以包含 `code`、__格式化文本__、图像……基本上可以用 Markdown 表达的任何内容。
+1. :man_raising_hand: 我是一个注释！我可以包含 `code`、__格式化文本__、图像……基本上可以用 Markdown 表达的任何内容。
 
 
 #### Code Block
@@ -60,11 +60,6 @@ def my_function(var):
 ```
 
 
-
-
-
-
-
 #### Code [Content Tabs](https://squidfunk.github.io/mkdocs-material/reference/content-tabs/)
 将多个内容并列显示，常用于Code展示
 
@@ -95,6 +90,7 @@ def my_function(var):
 
 
 #### 配置
+
 ```yaml
 markdown_extensions:
   - pymdownx.highlight:
@@ -110,7 +106,3 @@ theme:
     - content.code.copy           # 代码块内容一键复制按键
     - content.code.annotate
 ```
-
-
-
-

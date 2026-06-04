@@ -7,6 +7,7 @@
 - [ ] bash变量缺省值：${OPENCLAW_GATEWAY_PORT:-18789}，`:?, :+`
 - [ ] playwright:跨浏览器自动化测试工具
 - [ ] nginx, Gunicorn, uvicorn
+- [ ] docx2image，win基于ms，linux基于liberoffice
 - [ ] litellm
 - [ ] pd.apply, pd.Series
 - [ ] pytesseract.image_to_string
@@ -14,8 +15,6 @@
 - [ ] io包
 - [ ] 剪映，分段，加速，字幕
 - [ ] OBS录扬声器，录麦克风
-- [ ] pip install --no-cache-dir
-- [ ] FROM node:22.15.1-slim AS builder
 - [ ] gpt-oss, Open Source Software
 - [ ] qwen3-next
     - https://qwen.ai/blog?id=4074cca80393150c248e508aa62983f9cb7d27cd&from=research.latest-advancements-list

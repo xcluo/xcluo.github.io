@@ -19,6 +19,13 @@ export UV_CACHE_DIR=/path/to/custom/cache
 
 ## conda
 
+常用安装命令
+
+```bash
+# 完全绕过 pip 的缓存机制，强制重新从网络下载
+pip install --no-cache-dir package[==version]
+```
+
 ## uv
 
 - 下载程序 [uv release](https://github.com/astral-sh/uv/releases)
