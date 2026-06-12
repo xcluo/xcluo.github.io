@@ -19,6 +19,10 @@ export UV_CACHE_DIR=/path/to/custom/cache
 
 ## conda
 
+- 安装后cmd中运行 `conda init` 以永久化支持conda
+- 安装后git中运行 `conda init bash` 以永久化支持conda
+
+
 常用安装命令
 
 ```bash
