@@ -207,6 +207,7 @@ git merge --abort                       # 合并时发生冲突，终止合并
 #### `git diff`
 
 - `git diff hash_1 hash_2`
+- `git diff hash_1 hash_2 -- target_file`
 
 #### `rebase`
 
