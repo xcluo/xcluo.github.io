@@ -6,7 +6,7 @@
 - [ ] 0.0.0.0， 127.0.0.1, localhost域名解析问题：C:\Windows\System32\drivers\etc\hosts，解除注释
 - [ ] bash变量缺省值：${OPENCLAW_GATEWAY_PORT:-18789}，`:?, :+`
 - [ ] playwright:跨浏览器自动化测试工具
-- [ ] nginx, Gunicorn, uvicorn
+- [ ] nginx
 - [ ] docx2image，win基于ms，linux基于liberoffice
 - [ ] litellm
 - [ ] pd.apply, pd.Series

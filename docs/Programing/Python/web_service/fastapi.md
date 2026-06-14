@@ -12,12 +12,10 @@ from fastapi import Path, Query
 from fastapi import WebSocket, WebSocketDisconnect
 ```
 
-
 ### 查看网页服务
-- `F12 → 网络 → 点击对应的名称，查看返回信息`
 
 - 主要是编写接口服务，`@app.get()`一般返回json格式数据
--  使用 Pydantic 数据验证库，通过python类型提示，更方便开发效率更高
+- 使用 Pydantic 数据验证库，通过python类型提示，更方便开发效率更高
 - 基于 Starlette 异步Web框架
 - ASGI (Asynchronous Server Gateway Interface) Uvicorn支持高并发请求
 - 内置Swagger UI(docs)和ReDoc(redoc)，自动是生成交互式API文档
@@ -195,7 +193,7 @@ async def websocket_endpoint(websocket: WebSocket):
     ```python
     from fastapi import Query
 
-    '''# 相关形参 #
+    # 相关形参 #
     - 初始值: `default=...` 或具体值
     - 数值相关形参: 
         - 数值大小: `gt, ge, lt, le`
@@ -216,23 +214,23 @@ async def websocket_endpoint(websocket: WebSocket):
 #### 请求体
 
 - 请求体只能通过json字段传入
-- 除手动外，查询参数只能通过params字段传入
+- 除手动拼接url外，查询参数只能通过params字段传入
 
 `from fastapi import Body`
+
 ```python
 requests.post(
     url,            # 通过指定目标url调用相应的请求体函数
     json=None,      # 传入的json格式数据
 )
-
 ```
+
 - `from enum import Enum`
 - 传递方式:直接访问页面;通过本地代码访问
 
 - 自定义验证规则:`typing + pydantic`
 - `from pydantic import Field` 搭配BaseModel进行参数验证
 - 表单数据类型:`from fastapi import Form` `user_name: str = Form(...)`, 引发`-H application/x-www-form-urlencoded` 而不是`application/json`, 查询参数此时不会出现在url处而是在数据 `-d` 处
-
 
 #### 响应体
 
@@ -274,9 +272,6 @@ def lxc():
 - `app.add_middleware()` 自定义中间件
 ![alt text](image.png)
 - `app = request_middleware(app)` 一定需要赋值么？
-
-
-#### 请求体
 
 #### 文件上传
 
