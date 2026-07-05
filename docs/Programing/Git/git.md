@@ -144,6 +144,51 @@ git commit --no-verify -m "commit message"
 
 ### 本地仓库 ⟷ 远程仓库
 
+#### `git remote`
+
+`git remote` 命令是 Git 中用于管理本地仓库与远程仓库之间连接的核心工具，主要有以下常用语法
+
+=== "-v"
+    详细地列出所有远程仓库的简称及其对应的fetch（拉取） 和push（推送） URL
+
+    ```bash
+    git remote -v
+    > origin  https://github.com/xcluo/xcluo.github.io.git (fetch)
+    > origin  https://github.com/xcluo/xcluo.github.io.git (push)
+    ```
+
+=== "add"
+    主要用于将本地仓库与远程代码仓库关联起来，以便进行代码的推送（push）和拉取（pull）等协作操作。基本语法为 `git remote add <仓库别名> <仓库URL>`，其中
+
+    - 仓库别名：在本地为远程仓库指定的一个简短名称，可自定义，一般命名为origin
+    - 仓库URL：远程仓库的地址，支持 HTTPS、SSH 协议或本地绝对/相对路径
+
+    ```bash
+    git remote add origin https://github.com/username/repo.git
+    git remote add local-repo ../my-other-repo
+    ```
+
+=== "rename"
+    用于修改本地仓库中已经配置的远程仓库别名。基本语法为 `git remote rename <旧别名> <新别名>`
+    ```bash
+    git remote rename origin xcluo
+    ```
+
+=== "set-url"
+    用于修改本地仓库中已配置的远程仓库的 URL 地址。基本语法为 `git remote set-url [OPTION] <远程仓库别名> <新的URL>`
+
+    Option
+
+    - `--push` 所有选项均会有该默认选项，可不用指定，表示对 push 操作生效
+    - `--add` 向同一个别名新增 URL，实现执行一次 git push 时同时推送到多个仓库
+    - `--delete` 专门用于删除某个远程仓库别名下配置的特定 URL。
+
+    ```bash
+    git remote set-url --push origin git@new-host:u/repo.git
+    git remote set-url --add --push origin https://backup-host/repo.git
+    git remote set-url --delete origin https://old-host.com/repo.git
+    ```
+
 #### `git push`
 
 #### `git pull`
@@ -216,6 +261,24 @@ git rebase -i HEAD~n                    # 将最近n次提交合并为1次
                                         # HEAD为最新提交，HEAD~n为最近的前n次提交
                                         # HEAD~n，实际上包括n+1次提交
 
+```
+
+#### `archive`
+
+仓库中的指定文件或目录打包成一个（不包含 .git 目录）的归档文件，基本语法为 `git archive [--format=<fmt>] [--prefix=<pfx>/] [<tree-ish>] [<path>...]`
+
+Option
+
+- `--format=<fmt>` 指定输出格式：tar（默认）、zip
+- `--prefix=<prefix>/` 为归档内所有文件添加一个顶级目录前缀，即项目根目录名
+    > `<prefix>/f` 最后的/表示项目根目录文件夹名
+
+- `-o <file>` --output，指定输出文件名，而非输出到标准输出。
+- `--add-file=<file>` 额外添加untracked文件到归档中
+
+```bash
+# 将项目最新状态导出为.zip归档
+git archive --format=zip --output=project_name.zip HEAD
 ```
 
 ### 日志相关

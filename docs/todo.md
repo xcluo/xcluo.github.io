@@ -6,10 +6,10 @@
 - [ ] 0.0.0.0， 127.0.0.1, localhost域名解析问题：C:\Windows\System32\drivers\etc\hosts，解除注释
 - [ ] bash变量缺省值：${OPENCLAW_GATEWAY_PORT:-18789}，`:?, :+`
 - [ ] playwright:跨浏览器自动化测试工具
-- [ ] git archive --format=zip --output=项目名.zip HEAD
 - [ ] nginx
 - [ ] docx2image，win基于ms，linux基于liberoffice
 - [ ] docker compose down删除容器
+- [ ] datetime, timedelta
 - [ ] pd.apply, pd.Series
 - [ ] pytesseract.image_to_string
 - [ ] https://www.paddlepaddle.org.cn/packages/stable/
