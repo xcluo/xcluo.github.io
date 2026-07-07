@@ -1,5 +1,5 @@
 ---
-title: "fastapi"
+title: "FastAPI"
 ---
 
 ```bash
@@ -19,8 +19,41 @@ from fastapi import WebSocket, WebSocketDisconnect
 - 基于 Starlette 异步Web框架
 - ASGI (Asynchronous Server Gateway Interface) Uvicorn支持高并发请求
 - 内置Swagger UI(docs)和ReDoc(redoc)，自动是生成交互式API文档
-- FastAPI() 是应用的主体，而 APIRouter() 是应用的模块化组件
-- 起服务
+
+## Router
+
+FastAPI 是应用的主体，而 APIRouter 是应用的模块化组件
+
+### FastAPI
+
+```python
+FastAPI(
+    title="FastAPI",    # API的标题，会显示在自动生成的交互式文档（如 Swagger UI）中。
+    desctiption="",
+    version="0.1.0",    # 只影响 API 文档的元数据，而不会改变任何 API 的访问路径。
+    lifespan=None
+)
+```
+
+=== "lifespan"
+    lifespan 是 FastAPI 管理应用生命周期启动和关闭事件的推荐方式，负责在应用开始接收请求前执行初始化工作，并在应用结束前进行清理
+    ```python
+    from contextlib import asynccontextmanager
+
+    @asynccontextmanager
+    async def lifespan(app: FastAPI):
+        # ---------- 应用启动逻辑 ----------
+        print("🚀 应用启动，执行初始化...")
+        app.state.db = await connect_to_database() # 将资源保存到 app.state，同时也可以执行 init_db()
+        yield                 # 使用yield分隔启动和关闭时间
+        # ---------- 应用关闭逻辑 ----------
+        print("🛑 应用关闭，执行清理...")
+        await app.state.db.close()
+    
+    app = FastAPI(lifespan=lifespan)
+    ```
+
+起服务
     - `uvicorn file_name:app_name --reload`
     - `fastapi dev file_name.py` 调试fastapi代码
     - `python file_name.py`
@@ -34,6 +67,13 @@ from fastapi import WebSocket, WebSocketDisconnect
             log_level=None,
         )
         ```
+
+### APIRouter
+
+=== "prefix"
+    sss
+=== "tags"
+    sss
 
 ## 请求
 
@@ -257,10 +297,6 @@ def lxc():
 
 ### 请求处理扩展
 
-#### Lifespan
-
-生命周期事件
-
 #### 异常处理器
 
 @app.exception_handler(ValueError)
@@ -391,8 +427,3 @@ class FastAPI:
 - 同步lifespan直接定义函数,异步需要借助修饰器@asynccontextmanager
 - fastapi BackgroundTasks
 - @app.websocket
-
-
-
-是嵌入在“江西省政务服务效能提升项目”大可研里，内容不用太多，写清楚整体功能介绍、每项功能点、提供功能清单、需要的环境等，做一个整体预算。预算内容那天跟周邯沟通了，你们对接一下？
-

@@ -150,7 +150,6 @@ git commit --no-verify -m "commit message"
 
 === "-v"
     详细地列出所有远程仓库的简称及其对应的fetch（拉取） 和push（推送） URL
-
     ```bash
     git remote -v
     > origin  https://github.com/xcluo/xcluo.github.io.git (fetch)
@@ -241,10 +240,12 @@ git checkout -                      # 切换至上一分支
 #### `git merge`
 
 ```bash
-# 将目标分支合并至当前分支
-git merge <merged_branch_name>
+git merge <merged_branch_name>          # 将目标分支合并至当前分支
 git merge --no-ff <merged_branch_name>  # ff: fast-forward，默认参数值
 git merge --abort                       # 合并时发生冲突，终止合并
+
+# 常用命令
+git merge local-repo/master             # 合并远程仓库中指定分支，注意使用"/"分隔而不是空格" "
 ```
 
 > 修改完冲突后, 通过add冲突文件 + `git commit`即可继续完成合并

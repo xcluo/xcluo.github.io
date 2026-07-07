@@ -237,9 +237,10 @@
         print("#line:", total_line)
     ```
 
-
 ### 实用Bash组合命令
+
 #### 批量kill进程
+
 ```bash title="批量kill python pids"
 # 1. 选择对应进行信息
 # 2. 选取进程信息的第二列(pid)进行批量kill
@@ -247,12 +248,14 @@ kill `ps -ux | grep python | grep '<common_process_info>' | awk -F' ' '{print $2
 ```
 
 #### 批量cat文件内容
+
 ```bash title="批量cat文件内容"
 # 1. 批量cat以"part_"开头的json文件
 cat `ls part_*.json`
 ```
 
 #### 获取json文件的键的取值范围
+
 ```bash
 # 1. .key_name获取键的值
 # 2. sort + uniq 实现去重相同的连续行

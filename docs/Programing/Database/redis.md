@@ -219,10 +219,10 @@ client.decr(
 ```
 
 #### 广播操作
+
 === "发布者"
     向 Redis 中指定的频道发布一条消息，所有已订阅该频道的客户端都会实时接收到这条消息
     > 发布的消息不会被 Redis 存储，若此时无订阅者，消息直接丢失
-
     ```python
     client.publish(
         channel: ChannelT,      # 频道名
@@ -266,9 +266,11 @@ client.decr(
     ```
 
 ### CLI命令
+
 为便于区分，命令均使用大写形式（本质上可小写）
 
 #### 远程登录
+
 基本语法 `redis-cli [OPTIONS]`
 
 Options:

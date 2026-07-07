@@ -102,7 +102,6 @@ title: Docker
 === "ENV"
     设置环境变量，这些变量在构建阶段和容器运行阶段均可用。 ==ENV变量会占用镜像层空间==
     > 构建时无法覆盖，运行时可通过 `docker run -e var_name=value` 方式覆盖默认值
-
     ```yaml
     ENV APP_HOME /app
     ENV VERSION=1.0.0 DEBUG=false   # 使用空格分隔多变量声明
@@ -113,8 +112,8 @@ title: Docker
 === "ARG"
     定义仅在构建阶段（`docker build`过程）有效的变量，用于参数化 Dockerfile。==ARG变量不会占用镜像层空间==
     > 构建时可通过 `docker build --build-arg var_name=value` 方式覆盖默认值
-
     ```yaml
+    ARG ARG_NAME            # 声明变量不赋值，通过build-arg传入参数
     ARG USERNAME=xcluo
     RUN adduser --disabled-password $USERNAME
     ```
@@ -128,14 +127,12 @@ title: Docker
 === "VOLUME"
     声明容器中的某个目录作为数据卷，将容器内指定的路径标记为持久化存储点，以便数据可以在容器重建、更新或删除后依然保留，或者实现容器间数据共享。（镜像不删除就不会有问题）
     > 尽量不在 Dockerfile 中硬编码 VOLUME，更建议在 `docker run` 或 `docker-compose` 中显式创建命名卷
-
     ```yaml
     VOLUME /var/log /var/data
     ```
 === "USER"
     指定运行容器时使用的用户名或 UID以及可选的用户组或 GID。
     > 切换用户的前提是该用户在镜像中存在，因此在切换之前常执行 `RUN useradd -m user_name` 创建用户操作。
-
     ```yaml
     RUN addgroup -g 1001 -S appuser && \
     adduser -S appuser -u 1001 -G appuser
@@ -146,7 +143,6 @@ title: Docker
     111
 === "EXPOSE"
     声明容器运行时对外暴露的网络端口（仅用于文档说明和镜像使用者参考，不做实际映射）
-
     ```yaml
     EXPOSE 8000
     ```
@@ -155,47 +151,77 @@ title: Docker
 
 #### .dockerignore
 
-存放在 Dockerfile 同目录下，在构建 Docker 镜像时用于排除配置文件，类似于 .gitignore。主要针对 `ADD` 和 `COPY` 两个复制关键字
+存放在 Dockerfile 同目录下，在构建 Docker 镜像时用于排除配置文件，类似于 .gitignore。主要针对 `ADD` 和 `COPY` 两个复制关键字。默认不忽略任何文件，示例如下
+
+```yaml
+.gitignore
+.Dockerfile
+.dockerignore
+audio_records/*
+# 取反操作
+!audio_records/question_stem_audio/
+```
 
 ### docker-compose.y(a)ml
 
 YAML格式，依赖缩进（2个空格而不是TAB），大小写敏感，#为注释
 
 === "versions"
-    指定Compose文件格式版本
-=== "services"
-    pass
+    指定Compose文件格式版本，注意非Python版本
+    ```yaml
+    version: '3.8'
+    ```
 === "networks"
-    pass
+    网络蓝图定义区，只负责“声明有哪些网络”，以及“这些网络具备什么属性”
 === "volumes"
-    独立于服务之外，集中声明卷的配置，供一个或多个服务通过 `services.<service>.volumes` 字段引用。（如果使用本地路径，则无需在该部分声明）
+    独立于服务之外，集中声明卷的配置，供一个或多个服务通过 `services.<service>.volumes` 字段引用。（若使用本地路径挂载卷，无需在该部分声明）
     ```yaml
     volumes:
-        volume_name_1:
-            external: true      # 已有数据卷
-        volume_name_2:          # 默认为false，表示新建数据卷
+        volume_name:
+            name: <true_volume_name>  # 实际上卷名，不指定时默认为 volume_name
+            external: true            # 应用已有数据卷，不指定时默认新建数据卷并应用
     ```
+=== "services"
+    唯一必填的顶级关键字，是整个编排文件的核心。定义了要运行的每个应用容器实例（即“服务”）配置清单，每个服务都对应着 `docker run` 命令的完整参数集合。
+    ```yaml
+    services:
+        service_name:
+            #--> 身份与镜像源 <--#
+            image: IMAGE
+            build:
+                context: <dockerfile_dir>
+                dockerfile: <dockerfile_name>
+                args:
+                    <ARG_NAME>: <arg_value>
+            container_name: <container_name>    #  指定容器名，默认为service_name
+            #--> 网络与端口访问 <--#
+            ports:
+                - "<host_port>:<container_port>"
+            expose:
+                - <expose_port>         # 仅暴露端口给关联的其他容器，不映射到宿主机
+            #--> 存储与数据持久化 <--#
+            volumes:
+                - <host_volume>:<container_path>
+            #--> 环境变量与配置 <--#
+            environment:
+                - <ENV_NAME>: <ENV_VALUE>   # 设置容器启动时环境参数
+            env_file:
+                - <ENV_FILE_NAME>           # 指定环境变量文件路径，如 ./.env
+            #--> 启动与生命周期控制 <--#
+            restart: <restart_stratety>     # {{++no++}, always, on-failure, unless-stopped}
+            healthcheck:                    # 自定义容器健康检查的命令和间隔
+                - test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+                - interval: 10s             # 探测间隔，默认30s
+                - timeout: 5s               # 单次探测超时时间，默认30s
+                - retries: 5                # 连续失败重试次数，默认3次
+            depends_on:
+                depend_service_name:
+                    condition: <condition>  # {{++service_started++}, service_healthy: 目标容器的healthcheck通过后, service_completed_successfully: 目标容器正常退出后}
+    ```
+    !!! info
+        args使用 `key: value` 方式传递，environment使用 `key=value` 方式传递
 
-- `services` 定义容器
-    - `<service_name>` 服务名
-        - `image` 指定初始化容器的镜像
-        - `build` 容器构建方法
-            - `context` 指定构建上下文路径  （可以是远程 Git 仓库）
-            - `dockerfile` 参考的容器构建文件
-            - `args` 传递给dockfile的ARG
-            - `network` 构建时使用的网络模式
-        - `container_name` 指定容器名
-        - `ports` 指定端口映射
-        - `volumes` 挂载数据卷
-        - `networks` 指定容器所属网络
-        - `depends_on` 依赖关系，先启动依赖的服务后再启动当前服务
-        - `restart` 容器重启策略
-        - `healthcheck` 
-        - `environment` 设定环境变量
-- `networks` 定义网络
-   
-
-### Image相关命令
+### 镜像相关命令
 
 #### `images`
 
@@ -277,7 +303,7 @@ Options
 
 Image：可为 `image_name:tag`、`image_id`，若为image_name则默认删除`image_name:latest`
 
-### Container相关命令
+### 容器相关命令
 
 #### `ps`
 
@@ -397,9 +423,9 @@ Options
 
 Command（常为linux常用命令）
 
-- `/bin/bash` 打开容器bash终端
+- `/bin/bash` 打开容器bash终端，也可以直接bash
 - `/bin/sh` 打开容器sh终端
- 
+
 #### `logs`
 
 查看容器日志输出，基本语法 `docker logs [OPTIONS] CONTAINER`
@@ -407,7 +433,7 @@ Command（常为linux常用命令）
 Options
 
 - `-f` --follow，实时输出容器日志，类似于`tail -f`
-- `-n N` --tail，输出最后N条日志，类似于`tail -N` 
+- `-n N` --tail，输出最后N条日志，类似于`tail -N`
 - `--since timestamp` 开始时间，相对时间时往前倒
 - `--until timestamp` 截至时间，相对时间时往后倒
 
@@ -418,7 +444,6 @@ Options
 #### `port`
 
 查询单个容器的端口映射关系，基本语法 `docker port CONTAINER [PRIVATE_PORT[/PROTO]]`
-
 
 #### `rm`
 
@@ -442,33 +467,44 @@ Options
 
 ### 多容器相关命令
 
-多容器应用批量管理工具，实现一键「启动 / 停止 / 重启 / 销毁」整个应用集群，基本语法 `docker compose [OPTIONS] COMMAND`
+项目多容器批量管理工具，实现一键「启动 / 停止 / 重启 / 销毁」整个应用集群，基本语法 `docker compose [OPTIONS] COMMAND`
 
 Options
 
-- `-f compose_file` --file，指定compose配置文件
-
-
-- docker compose使用yaml文件管理多个容器，协同工作
+- `-f compose_file` --file，指定compose配置文件，默认为 docker-compose.yaml文件
 
 #### `up`
 
-基本语法 `docker compose up [OPTIONS] [SERVICE...]`
+创建（存在即复用，不覆盖）并启动Compose文件，基本语法 `docker compose up [OPTIONS] [SERVICE...]`
+> 不覆盖的前提是镜像或响应配置未发生变换
 
 Options
 
-- `-d` --detach，后台运行
+- `-d` --detach，后台运行容器
+
+!!! info
+    `SERVICE` 为具体服务容器名，不指定时将创建（存在即复用，不覆盖）并启动所有服务
 
 #### `down`
 
+停止并删除Compose文件中容器，基本语法 `docker compose down [OPTIONS] [SERVICE...]`
+
+!!! info
+    `SERVICE` 为具体服务容器名，不指定时将停止并删除所有服务
+
 #### `ps`
 
-### 网络管理
+只列出由当前目录下的Compose文件管理的容器。基本语法为 `docker compose ps [OPTIONS] [SERVICE...]`
+
+Option
+
+- `-a` --all，显示当前项目所有的已有容器
+
+### 网络管理命令
 
 Docker 网络管理，基本语法 `docker network COMMAND`
 
 - docker network(bridge), host, none, docker network list
-
 
 #### `ls`
 
@@ -491,7 +527,7 @@ Docker 网络管理，基本语法 `docker network COMMAND`
 
 #### `prune`
 
-### 仓库操作 
+### 仓库管理命令
 
 1. `docker pull docker.io/library/image_name:tag` 拉取镜像，library为命名空间
     - `--platform` 指定拉取镜像的运行架构

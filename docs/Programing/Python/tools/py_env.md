@@ -22,7 +22,6 @@ export UV_CACHE_DIR=/path/to/custom/cache
 - 安装后cmd中运行 `conda init` 以永久化支持conda
 - 安装后git中运行 `conda init bash` 以永久化支持conda
 
-
 常用安装命令
 
 ```bash
@@ -105,10 +104,9 @@ uv remove pip               # 卸载依赖包
 uv export                   # 将 pyproject.toml 中的依赖导出为其他格式（如 requirements.txt）
 uv python list              # 列出 uv 已下载/管理的所有 Python 版本
 uv python install <version> # 安装指定 Python 版本
-``` 
+```
 
 1. `uv run .` 自动根据文件pyproject.toml处理虚拟环境和依赖安装，然后尝试启动项目。
-- 无需激活使用虚拟环境`uv run python main.py`
-
+2. 无需激活使用虚拟环境`uv run python main.py`
 
 ## poetry

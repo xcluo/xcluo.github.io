@@ -1,3 +1,8 @@
+---
+title: "PowerShell"
+---
+
+CMD的脚本文件是 .bat，而PowerShell的脚本文件是 .ps1。这两种脚本不能互相直接运行。
 
 关闭端口进程
 

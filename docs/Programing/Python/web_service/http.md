@@ -1,14 +1,21 @@
 ---
 title: "http"
 ---
-- token是由后端生成的，常为缓存形式，也有永久性token，如api_key
+
 ## 请求Request
+
 ### 请求参数Params
+
 #### 查询参数Path Params
+
 #### 路径参数Query Params
+
 ### 请求头Headers
+
 #### Content-Type
+
 用于指示资源的媒体类型，告诉客户端或服务器如何解析和处理数据。
+
 ```
 # 基本语法
 Content-Type: media_type; charset=encoding
@@ -44,16 +51,18 @@ Content-Type: media_type; charset=encoding
     Content-Type: application/x-www-form-urlencoded
     Content-Type: multipart/form-data
     ```
-#### Authorization
-用于客户端向服务器证明自己的身份
-```
-# 基本语法
-Authorization: access_type access_token
 
+#### Authorization
+
+用于客户端向服务器证明自己的身份，常用方法为JWT，即将存储的信息加密为紧凑且自包含的签名（Token），用户每次请求附带该签名，服务器通过验证它来识别用户身份。
+
+```yaml
 # 示例
 Authorization: Bearer 643a4348-ed5c-4858-8dce-a677a70d2632
 ```
+
 ### 请求体Body
+
 ### Cookies
 
 ## 响应Response

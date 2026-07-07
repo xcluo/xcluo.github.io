@@ -22,6 +22,7 @@ categories:
 - PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH:C:\Users\LXC\AppData\Local\Google\Chrome\Application\chrome.exe
 
 ## action
+
 - action: {start, stop, open, navigate, navigate_back, snapshot, screenshot, click, type, eval, evaluate, resize, console_messages, network_requests, handle_dialog, file_upload, fill_form, install, press_key, run_code, drag, hover, select_option, tabs, wait_for, pdf, close, cookies_get, cookies_set, cookies_clear, connect_cdp, list_cdp_targets, clear_browser_cache}
 	- start：启动浏览器，常搭配header与cdp_port参数使用，如{"action": "start", "headed": true}
 	- open：创新新标签页并打开网址，常搭配url参数使用
@@ -51,9 +52,7 @@ categories:
 | 通配符选择器 | `*` | `*` | 选中页面上的所有元素。 |
 | 群组选择器 | `A, B` | `h1, p, .title` | 同时选中多个选择器，为它们设置相同的样式。 |
 
-
 元素：div，p，button，a，input
-
 
 - class属性命名风格：`<元素 class="类名1 类名2 类名3">`，每个类由空格隔开
 - 元素选择器：`div`，`p`，div内部的p `div.p`
@@ -61,4 +60,5 @@ categories:
 - 组合选择器：直接子元素 `div > p`，相邻兄弟元素 `p + p`，通用兄弟 `p ~ p`，任意层级所有后代 `div p`
 
 ## headed
+
 false，是否为可见窗口模式

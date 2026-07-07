@@ -5,13 +5,21 @@
 - [x] vllm: Efficient Memory Management for Large Language Model Serving with PagedAttention
 - [ ] 0.0.0.0， 127.0.0.1, localhost域名解析问题：C:\Windows\System32\drivers\etc\hosts，解除注释
 - [ ] bash变量缺省值：${OPENCLAW_GATEWAY_PORT:-18789}，`:?, :+`
-- [ ] playwright:跨浏览器自动化测试工具
 - [ ] nginx
 - [ ] docx2image，win基于ms，linux基于liberoffice
-- [ ] docker compose down删除容器
-- [ ] datetime, timedelta
 - [ ] pd.apply, pd.Series
 - [ ] pytesseract.image_to_string
+- [ ] raise HTTPException(
+                status_code=404,
+                detail=f"考生 {request.examinee_id} 对题目 {request.question_id} 的评分结果不存在",
+            )
+- [ ] except HTTPException as e:
+        return JSONResponse(
+            status_code=200,
+            content={"status_code": e.status_code, "status": "FAILED", "detail": str(e.detail)}
+        )
+- [ ] Base.metadata.create_all 只会创建不存在的表，不会修改已存在的表结构
+- [ ] 新使用playwright电脑开启时就关闭历史网页，会出现报错，第一次应将new_page_to_start置为false即可
 - [ ] https://www.paddlepaddle.org.cn/packages/stable/
 - [ ] io包
 - [ ] 剪映，分段，加速，字幕

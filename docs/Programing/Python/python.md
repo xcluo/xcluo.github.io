@@ -60,6 +60,8 @@ title: "Python"
 - [`pypinyin`](libs/pypinyin.md)：汉字⟷拼音
 - [`unicodedata`](libs/unicodedata.md)
 - [`codecs`](libs/codecs.md)
+- [`datetime`](libs/datetime.md)
+- [`log`]()
 - [`googletrans`](libs/googletrans.md)：google翻译api
 - 图片相关：[`pdf2image`]，[`rapidocr_onnxruntime, rapidocr, onnxocr`](libs/ocr_tools.md)
 
