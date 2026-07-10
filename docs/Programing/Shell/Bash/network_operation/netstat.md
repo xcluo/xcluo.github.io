@@ -11,7 +11,7 @@ title: "netstat"
 ### 基本语法
 
 1. `netstat [-vWeenNcCF]`
-2. `netstat [-vWnNcaeol] `
+2. `netstat [-vWnNcaeol]`
 
 Options:
 
