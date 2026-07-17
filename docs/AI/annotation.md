@@ -67,6 +67,8 @@ title: "annotation"
 
 ### J
 
+- **JWT**：**J**SON **W**eb **T**oken
+
 ### K
 
 ### L

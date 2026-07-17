@@ -3,10 +3,16 @@ title: "ORM"
 ---
 
 ## ORM
-- ORM (Object-Relational Mapping) 对象关系映射,即在python对象和关系型数据库之间建立映射关系,通过操作python对象的方式来操作数据库({`C: create, R: read, U: update, D: delete}`),而不用手动写sql(性能略低于原生sql,对于复杂查询,可能仍需要手动编写sql)
+
+ORM (**O**bject-**R**elational **M**apping) 对象关系映射，即在python对象和关系型数据库之间建立映射关系，并通过操作python对象的方式来操作数据库({`C: create, R: read, U: update, D: delete}`)
+> 性能略低于原生sql，对于复杂查询，出于性能考量可能仍需要手动编写sql
+
+
 - ORM通常支持多种数据库,通过统一的接口减少数据库切换的成本
 - DAO (Data Access Object)，即数据访问对象
+
 ### sqlalchemy
+
 支持 同步/异步, 成熟稳定
 
 ```python
@@ -16,6 +22,7 @@ from sqlalchemy import Column, DateTime, Integer, String, Text, Boolean, Float, 
 ```
 
 #### 数据表定义
+
 ```python
 Column(
     unique=False,               # 是否约束为唯一值
@@ -57,15 +64,15 @@ class Post:
     author_id = Column(Integer, ForeignKey("users.id"))
 ```
 
-
 #### 数据库操作
+
 === "Engine"
     ```python
     db_url = f'{db_type_w_driver}://{user}:{password}@{host}:{port}/{db_path}'
     engine = create_engine(
         url=db_url,
         )
-    
+
     # SQLite # 
     db_url = f'sqlite:///{db_path}'
 
@@ -89,7 +96,7 @@ class Post:
     session_factory = sessionmaker(
         bind=engine,
         )
-    
+
     session = Sesssion(bind=engine)
     session = session_factory()
 
@@ -163,47 +170,59 @@ class Post:
 
 ### 建表相关
 
+#### 设计表格
+
+=== `Base`
+    只有继承了 Base 的 Python 类才会被 SQLAlchemy 识别为“数据库映射类”，从而具备与数据库交互（增删改查）的能力。
+    ```python
+    from sqlalchemy.orm import declarative_base
+
+    Base = declarative_base()
+    ```
+
 - sa_column：SQLAlchemy column，mysql默认65535字节≈64KB
-
-
-```python
-from sqlmodel import Session, SQLModel, create_engine
-
-SQLModel.metadata
-
-- bind=db_service.engine
-- drop_all
-- create_all    # 只负责 “创建不存在的表”，不负责 “更新已有表”
-
-
-# 异步创建表格
-async def create_db_and_tables(self):
-    logger.debug("Creating database and tables (async)")
-
-    async with self.async_engine.begin() as conn:
-        try:
-            await conn.run_sync(SQLModel.metadata.create_all)
-            logger.debug("Tables created successfully")
-        except OperationalError as oe:
-            logger.warning(f"Table creation skipped due to OperationalError: {oe}")
-        except Exception as exc:
-            logger.error(f"Error creating tables: {exc}")
-            raise RuntimeError("Error creating tables") from exc
-
-    logger.debug('Database and tables created successfully')
-
 field.default：python层面的默认值，创建对象时就赋值
 sa_column.default：python层面的默认值，在插入表前（若未赋值）才赋值，传函数对象，不是具体值
 sa_column.server_default：sqlalchemy层面的默认值
 
 优先级：filed.default > sa.column.default > sa_column.server_default
 
-# sa_column.server_default字段（使用text("")） 包裹
+sa_column.server_default字段（使用text("")） 包裹
 - sa.DateTime(timezone=True)： false为 timestamp，ture为timestamptz
-```
 
 | 数据类型 | PostgreSQL | MySQL| SQlite | 
 | --- | --- | --- | --- |
 | uuid | `gen_random_uuid()` | `UUID()` | - |
 | timestamp | `CURRENT_TIMESTAMP` | `NOW()` | `CURRENT_TIMESTAMP` |
 | bool | `false` | `0`（无布尔） | `0`（无布尔） |
+
+#### 创建表格（跨库通用）
+
+```python
+from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, async_sessionmaker
+
+from app.models.base import Base
+from app.models.question import Question
+from app.models.answer import Answer
+
+engine = create_async_engine(db_config.async_url, echo=False)
+AsyncSessionLocal = async_sessionmaker(
+    engine, class_=AsyncSession, expire_on_commit=False
+)
+
+async def init_db():
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
+
+@asynccontextmanager
+async def get_session():
+    async with AsyncSessionLocal() as session:
+        try:
+            yield session
+        finally:
+            await session.close()
+```
+
+!!! info
+    - 所有表格设计时均需要继承同一个`Base`
+    - 在`init_db`实现的文件内，{==需要导入所有继承`Base`的数据表类==}，以完成Base的加载和创建（忽略已创建的表格）

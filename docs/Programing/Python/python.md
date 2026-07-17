@@ -13,12 +13,13 @@ title: "Python"
 1. [解释器命令行选项](basic/commond_line.md)
 1. [`class`](basic/class.md) 类
 1. [内置方法](basic/builtins.md)
-1. [`typing`](basic/typing.md) 静态类型注解 
+1. [`typing`](basic/typing.md) 静态类型注解
+1. [`Exception Handling`](basic/exception.md) 异常处理
 
 ### 细节部分
 
 1. [`Container`容器类](details/container.md) 包括Iterable、Iterator和Generator
-1. [`lambda`](details/lambda.md) 匿名函数 
+1. [`lambda`](details/lambda.md) 匿名函数
 1. [`decorator`](details/decorator.md) 修饰符
 1. [`fstring`](details/fstring.md), [`Jinja2`](details/jinja2.md) 字符串插值
 
@@ -47,6 +48,7 @@ title: "Python"
     - 进度条显示：[`tqdm`](libs/tqdm.md)
     - [`colorama`](libs/colorama.md)控制终端输出
 - [`pytest`](libs/pytest.md)：测试框架
+- [`subprocess`](libs/subprocess.md)
 
 #### 统计、绘图
 
@@ -61,9 +63,9 @@ title: "Python"
 - [`unicodedata`](libs/unicodedata.md)
 - [`codecs`](libs/codecs.md)
 - [`datetime`](libs/datetime.md)
-- [`log`]()
+- [`log`](libs/log.md)
 - [`googletrans`](libs/googletrans.md)：google翻译api
-- 图片相关：[`pdf2image`]，[`rapidocr_onnxruntime, rapidocr, onnxocr`](libs/ocr_tools.md)
+- 图片相关：[`pdf2image`](libs/pdf2image.md)，[`rapidocr_onnxruntime, rapidocr, onnxocr`](libs/ocr_tools.md)
 
 #### utils
 
@@ -110,6 +112,12 @@ title: "Python"
 - [`jieba`]()
 
 ### 进阶: 爬虫
+
+- requests
+
+#### 浏览器操作
+
+- playwright
 
 ### 进阶：Web服务
 

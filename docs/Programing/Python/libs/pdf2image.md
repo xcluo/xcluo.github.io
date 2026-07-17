@@ -28,4 +28,3 @@ def convert_from_path(
     size: Union[Tuple, int] = None,     # 调整图片尺寸
 ) -> List[Image.Image]:
 ```
-
