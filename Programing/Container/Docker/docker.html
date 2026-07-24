@@ -1,0 +1,5672 @@
+<!DOCTYPE html><html lang="zh" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="xcluo的个人仓库">
+      
+      
+        <meta name="author" content="xcluo">
+      
+      
+        <link rel="canonical" href="https://xcluo.github.io/Programing/Container/Docker/docker.html">
+      
+      
+        <link rel="prev" href="../../wheel/index.html">
+      
+      
+        <link rel="next" href="../K8s/k8s.html">
+      
+      
+        
+      
+      
+        <link rel="alternate" type="application/rss+xml" title="RSS 订阅" href="../../../feed_rss_created.xml">
+        <link rel="alternate" type="application/rss+xml" title="已更新内容的 RSS 订阅" href="../../../feed_rss_updated.xml">
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Docker - xcluo的个人仓库</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+  
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+  
+  <style>:root{--md-admonition-icon--note:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20448%20512%22%3E%3C%21--%21%20Font%20Awesome%20Free%207.1.0%20by%20%40fontawesome%20-%20https%3A//fontawesome.com%20License%20-%20https%3A//fontawesome.com/license/free%20%28Icons%3A%20CC%20BY%204.0%2C%20Fonts%3A%20SIL%20OFL%201.1%2C%20Code%3A%20MIT%20License%29%20Copyright%202025%20Fonticons%2C%20Inc.--%3E%3Cpath%20d%3D%22M64%20480c-35.3%200-64-28.7-64-64V96c0-35.3%2028.7-64%2064-64h320c35.3%200%2064%2028.7%2064%2064v213.5c0%2017-6.7%2033.3-18.7%2045.3L322.7%20461.3c-12%2012-28.3%2018.7-45.3%2018.7zm325.5-176H296c-13.3%200-24%2010.7-24%2024v93.5z%22/%3E%3C/svg%3E');--md-admonition-icon--abstract:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20448%20512%22%3E%3C%21--%21%20Font%20Awesome%20Free%207.1.0%20by%20%40fontawesome%20-%20https%3A//fontawesome.com%20License%20-%20https%3A//fontawesome.com/license/free%20%28Icons%3A%20CC%20BY%204.0%2C%20Fonts%3A%20SIL%20OFL%201.1%2C%20Code%3A%20MIT%20License%29%20Copyright%202025%20Fonticons%2C%20Inc.--%3E%3Cpath%20d%3D%22M384%20512H96c-53%200-96-43-96-96V96C0%2043%2043%200%2096%200h304c26.5%200%2048%2021.5%2048%2048v288c0%2020.9-13.4%2038.7-32%2045.3V448c17.7%200%2032%2014.3%2032%2032s-14.3%2032-32%2032zM96%20384c-17.7%200-32%2014.3-32%2032s14.3%2032%2032%2032h256v-64zm32-232c0%2013.3%2010.7%2024%2024%2024h176c13.3%200%2024-10.7%2024-24s-10.7-24-24-24H152c-13.3%200-24%2010.7-24%2024m24%2072c-13.3%200-24%2010.7-24%2024s10.7%2024%2024%2024h176c13.3%200%2024-10.7%2024-24s-10.7-24-24-24z%22/%3E%3C/svg%3E');--md-admonition-icon--info:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20512%20512%22%3E%3C%21--%21%20Font%20Awesome%20Free%207.1.0%20by%20%40fontawesome%20-%20https%3A//fontawesome.com%20License%20-%20https%3A//fontawesome.com/license/free%20%28Icons%3A%20CC%20BY%204.0%2C%20Fonts%3A%20SIL%20OFL%201.1%2C%20Code%3A%20MIT%20License%29%20Copyright%202025%20Fonticons%2C%20Inc.--%3E%3Cpath%20d%3D%22M256%20512a256%20256%200%201%200%200-512%20256%20256%200%201%200%200%20512m-32-352a32%2032%200%201%201%2064%200%2032%2032%200%201%201-64%200m-8%2064h48c13.3%200%2024%2010.7%2024%2024v88h8c13.3%200%2024%2010.7%2024%2024s-10.7%2024-24%2024h-80c-13.3%200-24-10.7-24-24s10.7-24%2024-24h24v-64h-24c-13.3%200-24-10.7-24-24s10.7-24%2024-24%22/%3E%3C/svg%3E');--md-admonition-icon--tip:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20512%20512%22%3E%3C%21--%21%20Font%20Awesome%20Free%207.1.0%20by%20%40fontawesome%20-%20https%3A//fontawesome.com%20License%20-%20https%3A//fontawesome.com/license/free%20%28Icons%3A%20CC%20BY%204.0%2C%20Fonts%3A%20SIL%20OFL%201.1%2C%20Code%3A%20MIT%20License%29%20Copyright%202025%20Fonticons%2C%20Inc.--%3E%3Cpath%20d%3D%22M461.2%2018.9C472.7%2024%20480%2035.4%20480%2048v416c0%2012.6-7.3%2024-18.8%2029.1s-24.8%203.2-34.3-5.1l-46.6-40.7c-43.6-38.1-98.7-60.3-156.4-63V480c0%2017.7-14.3%2032-32%2032h-32c-17.7%200-32-14.3-32-32v-96C57.3%20384%200%20326.7%200%20256s57.3-128%20128-128h84.5c61.8-.2%20121.4-22.7%20167.9-63.3L427%2024c9.4-8.3%2022.9-10.2%2034.3-5.1zM224%20320v.2c70.3%202.7%20137.8%2028.5%20192%2073.4V118.3c-54.2%2044.9-121.7%2070.7-192%2073.4z%22/%3E%3C/svg%3E');--md-admonition-icon--success:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20448%20512%22%3E%3C%21--%21%20Font%20Awesome%20Free%207.1.0%20by%20%40fontawesome%20-%20https%3A//fontawesome.com%20License%20-%20https%3A//fontawesome.com/license/free%20%28Icons%3A%20CC%20BY%204.0%2C%20Fonts%3A%20SIL%20OFL%201.1%2C%20Code%3A%20MIT%20License%29%20Copyright%202025%20Fonticons%2C%20Inc.--%3E%3Cpath%20d%3D%22M434.8%2070.1c14.3%2010.4%2017.5%2030.4%207.1%2044.7l-256%20352c-5.5%207.6-14%2012.3-23.4%2013.1s-18.5-2.7-25.1-9.3l-128-128c-12.5-12.5-12.5-32.8%200-45.3s32.8-12.5%2045.3%200l101.5%20101.5%20234-321.7c10.4-14.3%2030.4-17.5%2044.7-7.1z%22/%3E%3C/svg%3E');--md-admonition-icon--question:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20512%20512%22%3E%3C%21--%21%20Font%20Awesome%20Free%207.1.0%20by%20%40fontawesome%20-%20https%3A//fontawesome.com%20License%20-%20https%3A//fontawesome.com/license/free%20%28Icons%3A%20CC%20BY%204.0%2C%20Fonts%3A%20SIL%20OFL%201.1%2C%20Code%3A%20MIT%20License%29%20Copyright%202025%20Fonticons%2C%20Inc.--%3E%3Cpath%20d%3D%22M256%20512a256%20256%200%201%200%200-512%20256%20256%200%201%200%200%20512m0-336c-17.7%200-32%2014.3-32%2032%200%2013.3-10.7%2024-24%2024s-24-10.7-24-24c0-44.2%2035.8-80%2080-80s80%2035.8%2080%2080c0%2047.2-36%2067.2-56%2074.5v3.8c0%2013.3-10.7%2024-24%2024s-24-10.7-24-24v-8.1c0-20.5%2014.8-35.2%2030.1-40.2%206.4-2.1%2013.2-5.5%2018.2-10.3%204.3-4.2%207.7-10%207.7-19.6%200-17.7-14.3-32-32-32zm-32%20192a32%2032%200%201%201%2064%200%2032%2032%200%201%201-64%200%22/%3E%3C/svg%3E');--md-admonition-icon--warning:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20512%20512%22%3E%3C%21--%21%20Font%20Awesome%20Free%207.1.0%20by%20%40fontawesome%20-%20https%3A//fontawesome.com%20License%20-%20https%3A//fontawesome.com/license/free%20%28Icons%3A%20CC%20BY%204.0%2C%20Fonts%3A%20SIL%20OFL%201.1%2C%20Code%3A%20MIT%20License%29%20Copyright%202025%20Fonticons%2C%20Inc.--%3E%3Cpath%20d%3D%22M256%200c14.7%200%2028.2%208.1%2035.2%2021l216%20400c6.7%2012.4%206.4%2027.4-.8%2039.5S486.1%20480%20472%20480H40c-14.1%200-27.2-7.4-34.4-19.5s-7.5-27.1-.8-39.5l216-400c7-12.9%2020.5-21%2035.2-21m0%20352a32%2032%200%201%200%200%2064%2032%2032%200%201%200%200-64m0-192c-18.2%200-32.7%2015.5-31.4%2033.7l7.4%20104c.9%2012.5%2011.4%2022.3%2023.9%2022.3%2012.6%200%2023-9.7%2023.9-22.3l7.4-104c1.3-18.2-13.1-33.7-31.4-33.7z%22/%3E%3C/svg%3E');--md-admonition-icon--failure:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20576%20512%22%3E%3C%21--%21%20Font%20Awesome%20Free%207.1.0%20by%20%40fontawesome%20-%20https%3A//fontawesome.com%20License%20-%20https%3A//fontawesome.com/license/free%20%28Icons%3A%20CC%20BY%204.0%2C%20Fonts%3A%20SIL%20OFL%201.1%2C%20Code%3A%20MIT%20License%29%20Copyright%202025%20Fonticons%2C%20Inc.--%3E%3Cpath%20d%3D%22M480-16c6.9%200%2013%204.4%2015.2%2010.9l13.5%2040.4%2040.4%2013.5C555.6%2051%20560%2057.1%20560%2064s-4.4%2013-10.9%2015.2l-40.4%2013.5-13.5%2040.4c-2.2%206.5-8.3%2010.9-15.2%2010.9s-13-4.4-15.2-10.9l-13.5-40.4-40.4-13.5C404.4%2077%20400%2070.9%20400%2064s4.4-13%2010.9-15.2l40.4-13.5%2013.5-40.4C467-11.6%20473.1-16%20480-16M321.4%2097.4c12.5-12.5%2032.8-12.5%2045.3%200l80%2080c12.5%2012.5%2012.5%2032.8%200%2045.3l-10.9%2010.9c7.9%2022%2012.2%2045.7%2012.2%2070.5%200%20114.9-93.1%20208-208%20208S32%20418.9%2032%20304%20125.1%2096%20240%2096c24.7%200%2048.5%204.3%2070.5%2012.3zM144%20304c0-53%2043-96%2096-96%2013.3%200%2024-10.7%2024-24s-10.7-24-24-24c-79.5%200-144%2064.5-144%20144%200%2013.3%2010.7%2024%2024%2024s24-10.7%2024-24%22/%3E%3C/svg%3E');--md-admonition-icon--danger:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20512%20512%22%3E%3C%21--%21%20Font%20Awesome%20Free%207.1.0%20by%20%40fontawesome%20-%20https%3A//fontawesome.com%20License%20-%20https%3A//fontawesome.com/license/free%20%28Icons%3A%20CC%20BY%204.0%2C%20Fonts%3A%20SIL%20OFL%201.1%2C%20Code%3A%20MIT%20License%29%20Copyright%202025%20Fonticons%2C%20Inc.--%3E%3Cpath%20d%3D%22M416%20427.4c58.5-44%2096-111.6%2096-187.4C512%20107.5%20397.4%200%20256%200S0%20107.5%200%20240c0%2075.8%2037.5%20143.4%2096%20187.4V464c0%2026.5%2021.5%2048%2048%2048h32v-40c0-13.3%2010.7-24%2024-24s24%2010.7%2024%2024v40h64v-40c0-13.3%2010.7-24%2024-24s24%2010.7%2024%2024v40h32c26.5%200%2048-21.5%2048-48zM96%20256a64%2064%200%201%201%20128%200%2064%2064%200%201%201-128%200m256-64a64%2064%200%201%201%200%20128%2064%2064%200%201%201%200-128%22/%3E%3C/svg%3E');--md-admonition-icon--bug:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20640%20512%22%3E%3C%21--%21%20Font%20Awesome%20Free%207.1.0%20by%20%40fontawesome%20-%20https%3A//fontawesome.com%20License%20-%20https%3A//fontawesome.com/license/free%20%28Icons%3A%20CC%20BY%204.0%2C%20Fonts%3A%20SIL%20OFL%201.1%2C%20Code%3A%20MIT%20License%29%20Copyright%202025%20Fonticons%2C%20Inc.--%3E%3Cpath%20d%3D%22M352%200c0-17.7-14.3-32-32-32s-32%2014.3-32%2032v64h-96c-53%200-96%2043-96%2096v224c0%2053%2043%2096%2096%2096h256c53%200%2096-43%2096-96V160c0-53-43-96-96-96h-96zM160%20368c0-13.3%2010.7-24%2024-24h32c13.3%200%2024%2010.7%2024%2024s-10.7%2024-24%2024h-32c-13.3%200-24-10.7-24-24m120%200c0-13.3%2010.7-24%2024-24h32c13.3%200%2024%2010.7%2024%2024s-10.7%2024-24%2024h-32c-13.3%200-24-10.7-24-24m120%200c0-13.3%2010.7-24%2024-24h32c13.3%200%2024%2010.7%2024%2024s-10.7%2024-24%2024h-32c-13.3%200-24-10.7-24-24M224%20176a48%2048%200%201%201%200%2096%2048%2048%200%201%201%200-96m144%2048a48%2048%200%201%201%2096%200%2048%2048%200%201%201-96%200m-304%200c0-17.7-14.3-32-32-32S0%20206.3%200%20224v96c0%2017.7%2014.3%2032%2032%2032s32-14.3%2032-32zm544-32c-17.7%200-32%2014.3-32%2032v96c0%2017.7%2014.3%2032%2032%2032s32-14.3%2032-32v-96c0-17.7-14.3-32-32-32%22/%3E%3C/svg%3E');--md-admonition-icon--example:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20448%20512%22%3E%3C%21--%21%20Font%20Awesome%20Free%207.1.0%20by%20%40fontawesome%20-%20https%3A//fontawesome.com%20License%20-%20https%3A//fontawesome.com/license/free%20%28Icons%3A%20CC%20BY%204.0%2C%20Fonts%3A%20SIL%20OFL%201.1%2C%20Code%3A%20MIT%20License%29%20Copyright%202025%20Fonticons%2C%20Inc.--%3E%3Cpath%20d%3D%22M288%200H128c-17.7%200-32%2014.3-32%2032s14.3%2032%2032%2032v151.5L7.5%20426.3C2.6%20435%200%20444.7%200%20454.7%200%20486.4%2025.6%20512%2057.3%20512h333.4c31.6%200%2057.3-25.6%2057.3-57.3%200-10-2.6-19.8-7.5-28.4L320%20215.5V64c17.7%200%2032-14.3%2032-32S337.7%200%20320%200zm-96%20215.5V64h64v151.5c0%2011.1%202.9%2022.1%208.4%2031.8L306%20320H142l41.6-72.7c5.5-9.7%208.4-20.6%208.4-31.8%22/%3E%3C/svg%3E');--md-admonition-icon--quote:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20448%20512%22%3E%3C%21--%21%20Font%20Awesome%20Free%207.1.0%20by%20%40fontawesome%20-%20https%3A//fontawesome.com%20License%20-%20https%3A//fontawesome.com/license/free%20%28Icons%3A%20CC%20BY%204.0%2C%20Fonts%3A%20SIL%20OFL%201.1%2C%20Code%3A%20MIT%20License%29%20Copyright%202025%20Fonticons%2C%20Inc.--%3E%3Cpath%20d%3D%22M0%20216C0%20149.7%2053.7%2096%20120%2096h8c17.7%200%2032%2014.3%2032%2032s-14.3%2032-32%2032h-8c-30.9%200-56%2025.1-56%2056v8h64c35.3%200%2064%2028.7%2064%2064v64c0%2035.3-28.7%2064-64%2064H64c-35.3%200-64-28.7-64-64zm256%200c0-66.3%2053.7-120%20120-120h8c17.7%200%2032%2014.3%2032%2032s-14.3%2032-32%2032h-8c-30.9%200-56%2025.1-56%2056v8h64c35.3%200%2064%2028.7%2064%2064v64c0%2035.3-28.7%2064-64%2064h-64c-35.3%200-64-28.7-64-64z%22/%3E%3C/svg%3E');}</style>
+
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.css">
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    
+      <link rel="stylesheet" href="../../../packages/stylesheets/css/extra_img.css">
+    
+      <link rel="stylesheet" href="../../../packages/stylesheets/css/extra_font.css">
+    
+      <link rel="stylesheet" href="../../../packages/stylesheets/css/extra_component.css">
+    
+      <link rel="stylesheet" href="../../../packages/stylesheets/css/extra_code.css">
+    
+      <link rel="stylesheet" href="../../../packages/stylesheets/css/extra_badge.css">
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/badge.css">
+    
+      <link rel="stylesheet" href="../../../assets/document_dates/fonts/material-icons.css">
+    
+      <link rel="stylesheet" href="../../../assets/document_dates/tippy/material.css">
+    
+      <link rel="stylesheet" href="../../../assets/document_dates/tippy/light.css">
+    
+      <link rel="stylesheet" href="../../../assets/document_dates/tippy/backdrop.css">
+    
+      <link rel="stylesheet" href="../../../assets/document_dates/tippy/scale.css">
+    
+      <link rel="stylesheet" href="../../../assets/document_dates/tippy/shift-away.css">
+    
+      <link rel="stylesheet" href="../../../assets/document_dates/tippy/tippy.css">
+    
+      <link rel="stylesheet" href="../../../assets/document_dates/core/core.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <link href="../../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="green" data-md-color-accent="orange">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#docker" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../../.." title="xcluo的个人仓库" class="md-header__button md-logo" aria-label="xcluo的个人仓库" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            xcluo的个人仓库
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Docker
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="green" data-md-color-accent="orange" aria-label="切换至夜间模式" type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换至夜间模式" for="__palette_1" hidden="">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"></path></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="orange" aria-label="切换至夜间模式" type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换至夜间模式" for="__palette_2" hidden="">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"></path></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="grey" data-md-color-accent="orange" aria-label="切换至日间模式" type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="切换至日间模式" for="__palette_0" hidden="">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"></path></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required="">
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix="">
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/xcluo/xcluo.github.io" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    xcluo.github.io
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../blog/index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Blog
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../AI/annotation.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  AI
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../Math/annotation.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  数学
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../annotation.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  编程相关
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../Software/IDE/IDEA/index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  软件
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../System/Linux/linux.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  系统
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../Resource/Media/index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  资源
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../MISC/Wine/index.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  杂项
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="xcluo的个人仓库" class="md-nav__button md-logo" aria-label="xcluo的个人仓库" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+
+    </a>
+    xcluo的个人仓库
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/xcluo/xcluo.github.io" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    xcluo.github.io
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix="">
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1">
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../blog/index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Blog
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Blog
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_2">
+        
+          
+          <label class="md-nav__link" for="__nav_1_2" id="__nav_1_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    归档
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    归档
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../blog/archive/2024-01.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2024-01
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../blog/archive/2025-01.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2025-01
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_3">
+        
+          
+          <label class="md-nav__link" for="__nav_1_3" id="__nav_1_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    分类
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    分类
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../blog/category/hello.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hello
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../blog/category/world.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    World
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../blog/category/%E5%85%A5%E9%97%A8.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    入门
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../blog/category/%E5%8D%9A%E5%AE%A2.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    博客
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../blog/category/%E6%95%99%E7%A8%8B.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    教程
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2">
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../AI/Train_Overview/index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../AI/annotation.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    专业名词
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3">
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    功能实现
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    功能实现
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3_1">
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../AI/Paper_Reading/LM/LMs/index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    论文笔记
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_3_1" id="__nav_2_3_1_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    论文笔记
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../AI/Paper_Reading/LM/Reinforcement_Learning/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    强化学习
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../AI/Paper_Reading/LM/Search_Recommender/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    搜索推荐
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../AI/Paper_Reading/LM/Model_Category/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    模型种类
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../AI/Paper_Reading/LM/Model_Analysis/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    架构分析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3_2">
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../AI/Paper_Reading/Component/HyperParameter/index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    基本组件
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_3_2" id="__nav_2_3_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    基本组件
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../AI/Paper_Reading/Component/Tokenizer/tokenizer.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tokenizer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../AI/Paper_Reading/Component/Embedding/embedding.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Embedding
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../AI/Paper_Reading/Component/Normalization/normalization.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Normlization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../AI/Paper_Reading/Component/Optimizer/optimizer.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Optimizer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../AI/Paper_Reading/Component/Activation/activation.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Activation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../AI/Paper_Reading/Trick/trick.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    炼丹技巧
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../AI/Metrics/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    数据指标
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../AI/AI_Platform/ai_platform.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    人工智能库
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3">
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../Math/Linear_Algebra/index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    数学
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    数学
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Math/annotation.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    专业名词
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Math/Calculus/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    微积分
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked="">
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../MATLAB/index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    编程相关
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    编程相关
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../annotation.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    专业名词
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Java/java.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Java
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Python/python.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Python
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4">
+        
+          
+          <label class="md-nav__link" for="__nav_4_4" id="__nav_4_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Shell
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Shell
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Shell/Bash/bash.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bash
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Shell/PowerShell/index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PowerShell
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Git/git.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Git
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_6">
+        
+          
+          <label class="md-nav__link" for="__nav_4_6" id="__nav_4_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Script
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Script
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Script/JavaScript/javascript.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    JavaScript
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Script/TypeScript/typescript.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    TypeScript
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_7">
+        
+          
+          <label class="md-nav__link" for="__nav_4_7" id="__nav_4_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HTML
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    HTML
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../HTML/html/html.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    html
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../HTML/CSS/css.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CSS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_8">
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../Tex/Latex/index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tex
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_8" id="__nav_4_8_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Tex
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tex/Markdown/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Markdown
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tex/MkDocs/mkdocs.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MkDocs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_9">
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../FTP/LFTP/index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FTP
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    FTP
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Database/database.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Database
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Algorithm/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Algorithm
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../wheel/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    轮子
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_14" checked="">
+        
+          
+          <label class="md-nav__link" for="__nav_4_14" id="__nav_4_14_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    容器
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_14_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4_14">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    容器
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Docker
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="docker.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Docker
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        安装docker
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        信息查看
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="信息查看">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#docker-version" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker version
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-info" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker info
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dockerfile" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dockerfile
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Dockerfile">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        常用关键字
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dockerignore" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        .dockerignore
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#docker-composeyaml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker-compose.y(a)ml
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        镜像相关命令
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="镜像相关命令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#docker-images" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker images
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-save" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker save
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-load" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker load
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-build" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker build
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-tag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker tag
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-rmi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker rmi
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker search
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-pull" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker pull
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        容器相关命令
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="容器相关命令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#docker-ps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker ps
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-create" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker create
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-run" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker run
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#volume" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        volume
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker start
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-stop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker stop
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-restart" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker restart
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-exec" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker exec
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-logs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker logs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-cp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker cp
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-rm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker rm
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-stats" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker stats
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-commit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker commit
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        多容器相关命令
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="多容器相关命令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#docker-compose-up" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker compose up
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-compose-down" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker compose down
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-compose-ps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker compose ps
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        网络管理命令
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="网络管理命令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#docker-network-ls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker network ls
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-network-inspect" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker network inspect
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-network-create" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker network create
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-network-connect" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker network connect
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-network-disconnect" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker network disconnect
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        rm
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prune" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        prune
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        仓库管理命令
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../K8s/k8s.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    K8s
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5">
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    软件
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    软件
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_1">
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../Software/IDE/IDEA/index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    集成开发环境
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_1" id="__nav_5_1_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    集成开发环境
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Software/IDE/PyCharm/pycharm.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PyCharm
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Software/IDE/VSCode/vscode.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    VSCode
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_2">
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../Software/Compiler/Conda/index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    编译环境
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_2" id="__nav_5_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    编译环境
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Software/Compiler/CUDA/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CUDA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Software/Compiler/Maven/index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Maven
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3">
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../Software/Office/Office/index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    办公软件
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_3" id="__nav_5_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    办公软件
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Software/Office/Adobe/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Adboe
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6">
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../System/Windows/index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    系统
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    系统
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../System/Linux/linux.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linux
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../System/Virtual_Machine/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    虚拟机
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7">
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../Resource/Media/index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    资源
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    资源
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Resource/Tool/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    工具
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Resource/Tutorial/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    手册
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8">
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../MISC/Wine/index.html" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    杂项
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_8" id="__nav_8_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    杂项
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../MISC/Car/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    车
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../MISC/Clothes/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    衣服
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../MISC/Shoe/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    鞋子
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_5">
+        
+          
+          <label class="md-nav__link" for="__nav_8_5" id="__nav_8_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    棋牌
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    棋牌
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../MISC/Chess_Cards/Chess.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    棋
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../MISC/Chess_Cards/Cards.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    牌
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../MISC/Chess_Cards/Mahjong.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    麻将
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../MISC/Chess_Cards/PaiGow.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    牌九
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        安装docker
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        信息查看
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="信息查看">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#docker-version" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker version
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-info" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker info
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dockerfile" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dockerfile
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Dockerfile">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        常用关键字
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dockerignore" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        .dockerignore
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#docker-composeyaml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker-compose.y(a)ml
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        镜像相关命令
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="镜像相关命令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#docker-images" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker images
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-save" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker save
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-load" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker load
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-build" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker build
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-tag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker tag
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-rmi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker rmi
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker search
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-pull" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker pull
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        容器相关命令
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="容器相关命令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#docker-ps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker ps
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-create" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker create
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-run" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker run
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#volume" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        volume
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker start
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-stop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker stop
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-restart" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker restart
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-exec" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker exec
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-logs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker logs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-cp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker cp
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-rm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker rm
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-stats" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker stats
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-commit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker commit
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        多容器相关命令
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="多容器相关命令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#docker-compose-up" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker compose up
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-compose-down" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker compose down
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-compose-ps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker compose ps
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        网络管理命令
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="网络管理命令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#docker-network-ls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker network ls
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-network-inspect" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker network inspect
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-network-create" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker network create
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-network-connect" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker network connect
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-network-disconnect" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        docker network disconnect
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        rm
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prune" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        prune
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        仓库管理命令
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+  <h1>Docker</h1>
+
+<div class="document-dates-plugin-wrapper document-dates-top"><div class="document-dates-plugin" locale="zh"><div class="dd-left"><span class="dd-item" data-tippy-content="" data-tippy-raw="2026-05-22"><span class="material-icons" data-icon="doc_created"></span><time datetime="2026-05-22T01:09:19+00:00">2026-05-22</time></span><span class="dd-item" data-tippy-content="" data-tippy-raw="2026-07-24"><span class="material-icons" data-icon="doc_updated"></span><time datetime="2026-07-24T09:37:58+00:00">2026-07-24</time></span></div></div></div>
+<h4 id="docker">安装docker<a class="headerlink" href="#docker" title="Permanent link">¶</a></h4>
+<ul>
+<li>更新wsl系统：<code>wsl --update --web-download</code> </li>
+<li>
+<p>安装Docker：<code>"Docker Desktop Installer.exe" install --installation-dir=E:\Docker\Desktop --wsl-default-data-root=E:\Docker\DockerDesktopWSL --windows-containers-default-data-root=E:\Docker\Containers</code>，具体参数如下</p>
+<ul>
+<li>指定安装路径：<code>--installation-dir=install_absolute_dir</code></li>
+<li>指定镜像存储路径（需与安装路径不同）：<code>--wsl-default-data-root=wsl_absolute_dir\DockerDesktopWSL</code></li>
+<li><code>--windows-containers-default-data-root=containers_absolute_dir</code></li>
+</ul>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>若未弹出安装页面，可能是历史安装时使该文件夹需要管理员权限才能写入，需删除该文件夹后再重新安装。</p>
+</div>
+</li>
+<li>
+<p>配置Docker引擎加速器（可通过切换源的顺序，实现pull）</p>
+<div class="highlight"><pre><span></span><code><span class="nt">"registry-mirrors"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">"https://docker.xuanyuan.me"</span>
+<span class="p">]</span>
+</code></pre></div>
+<ol>
+<li><a href="https://support.huaweicloud.com/usermanual-swr/swr_01_0022.html"><code>登录SWR</code></a></li>
+<li>选择区域局点：华东-上海</li>
+<li>左侧镜像资源 → 镜像中心 → 右上角镜像加速器 →加速器地址</li>
+<li>复制至 <code class="highlight"><span class="nt">"registry-mirrors"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="err">url</span><span class="p">]</span></code>  </li>
+</ol>
+</li>
+<li>
+<p>汉化</p>
+<ol>
+<li><a href="https://github.com/asxez/DockerDesktop-CN/releases"><code>汉化包release地址</code></a></li>
+<li>选择指定版本</li>
+<li>替换<code>~/frontend/resources/app.asar</code></li>
+</ol>
+</li>
+</ul>
+<h3 id="_1">信息查看<a class="headerlink" href="#_1" title="Permanent link">¶</a></h3>
+<h4 id="docker-version"><code>docker version</code><a class="headerlink" href="#docker-version" title="Permanent link">¶</a></h4>
+<p><code class="highlight">docker<span class="w"> </span>version</code> 查看docker版本及desktop版本</p>
+<h4 id="docker-info"><code>docker info</code><a class="headerlink" href="#docker-info" title="Permanent link">¶</a></h4>
+<p><code class="highlight">docker<span class="w"> </span>info</code> 查看docker详细信息，包含</p>
+<ul>
+<li>容器信息</li>
+<li>镜像信息</li>
+<li>版本信息</li>
+<li>镜像引擎加速器配置信息</li>
+</ul>
+<h3 id="dockerfile">Dockerfile<a class="headerlink" href="#dockerfile" title="Permanent link">¶</a></h3>
+<p>用于定义镜像构建流程的文本配置文件，通过 <code>docker build</code> 命令指定 Dockerfile 文件内容构建镜像</p>
+<h4 id="_2">常用关键字<a class="headerlink" href="#_2" title="Permanent link">¶</a></h4>
+<p>每个执行一次条<code>RUN</code>、<code>COPY</code>或<code>ADD</code>就会加一层（Layer），建议尽量压缩<code>RUN</code>命令，以减少元数据开销。&gt;出于规范和可读性考虑关键字全大写</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:14"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio"><input id="__tabbed_1_2" name="__tabbed_1" type="radio"><input id="__tabbed_1_3" name="__tabbed_1" type="radio"><input id="__tabbed_1_4" name="__tabbed_1" type="radio"><input id="__tabbed_1_5" name="__tabbed_1" type="radio"><input id="__tabbed_1_6" name="__tabbed_1" type="radio"><input id="__tabbed_1_7" name="__tabbed_1" type="radio"><input id="__tabbed_1_8" name="__tabbed_1" type="radio"><input id="__tabbed_1_9" name="__tabbed_1" type="radio"><input id="__tabbed_1_10" name="__tabbed_1" type="radio"><input id="__tabbed_1_11" name="__tabbed_1" type="radio"><input id="__tabbed_1_12" name="__tabbed_1" type="radio"><input id="__tabbed_1_13" name="__tabbed_1" type="radio"><input id="__tabbed_1_14" name="__tabbed_1" type="radio"><div class="tabbed-labels"><label for="__tabbed_1_1">FROM</label><label for="__tabbed_1_2">WORKDIR</label><label for="__tabbed_1_3">RUN</label><label for="__tabbed_1_4">COPY</label><label for="__tabbed_1_5">ADD</label><label for="__tabbed_1_6">ENV</label><label for="__tabbed_1_7">ARG</label><label for="__tabbed_1_8">CMD</label><label for="__tabbed_1_9">ENTRYPOINT</label><label for="__tabbed_1_10">VOLUME</label><label for="__tabbed_1_11">USER</label><label for="__tabbed_1_12">HEALTHCHECK</label><label for="__tabbed_1_13">EXPOSE</label><label for="__tabbed_1_14">LABEL</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>指定基础镜像，必须是 Dockerfile 的第一条指令（支持使用多个基础镜像进行多段构建）。
+</p><div class="highlight"><pre><span></span><code><span class="c1"># 第一阶段</span>
+<span class="l l-Scalar l-Scalar-Plain">FROM node:22.15.1-slim AS builder</span>
+<span class="nn">...</span>
+<span class="c1"># 第二阶段</span>
+<span class="l l-Scalar l-Scalar-Plain">FROM nginx:alpine</span>
+<span class="l l-Scalar l-Scalar-Plain">## 表示将第一阶段镜像中的 `/app/dist` 文件夹复制到当前镜像目录下 `/usr/share/nginx/html`</span>
+<span class="l l-Scalar l-Scalar-Plain">COPY --from=builder /app/dist /usr/share/nginx/html</span>
+</code></pre></div><p></p>
+</div>
+<div class="tabbed-block">
+<p>设置工作目录，后续的 <code>RUN</code>、<code>CMD</code>、<code>ENTRYPOINT</code>、<code>COPY</code>、<code>ADD</code> 都会在该目录下执行。不存在时会自动创建
+</p><div class="highlight"><pre><span></span><code><span class="l l-Scalar l-Scalar-Plain">WORKDIR /app</span>
+</code></pre></div><p></p>
+</div>
+<div class="tabbed-block">
+<p>在镜像构建时执行命令（如安装软件、创建目录）。每个 <code>RUN</code> 会创建一个新层，推荐合并命令以减少层数
+</p><div class="highlight"><pre><span></span><code><span class="l l-Scalar l-Scalar-Plain">RUN apt-get update &amp;&amp; \</span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">apt-get install -y --no-install-recommends ffmpeg &amp;&amp; \</span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">rm -rf /var/lib/apt/lists/* &amp;&amp; \</span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">apk add --no-cache openssl &amp;&amp; \</span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">mkdir -p /etc/nginx/certs &amp;&amp; \</span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">openssl req -x509 -nodes -days 365 -newkey rsa:2048 \</span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">-keyout /etc/nginx/certs/server.key \</span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">-out /etc/nginx/certs/server.crt \</span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">-subj "/CN=localhost"</span>
+</code></pre></div><p></p>
+</div>
+<div class="tabbed-block">
+<p>将构建上下文中的文件/目录复制到镜像内。支持通配符，也支持 <code>--from</code> 实现多阶段复制
+</p><div class="highlight"><pre><span></span><code><span class="c1"># 将宿主机文件复制到镜像内</span>
+<span class="l l-Scalar l-Scalar-Plain">COPY nginx.conf /etc/nginx/conf.d/default.conf</span>
+<span class="l l-Scalar l-Scalar-Plain"># 历史阶段文件复制到镜像内</span>
+<span class="l l-Scalar l-Scalar-Plain">COPY --from=builder /app/dist /usr/share/nginx/html</span>
+</code></pre></div><p></p>
+</div>
+<div class="tabbed-block">
+<p>在绝大多数情况下优先使用 <code>COPY</code> 关键字
+</p><div class="one-image-container">
+    <a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./image/add_vs_copy.png" data-desc-position="bottom"><img src="./image/add_vs_copy.png" style="width: 100%;"></a>
+    <p style="text-align: center;">图片标题</p>
+</div><p></p>
+</div>
+<div class="tabbed-block">
+<p>设置环境变量，这些变量在构建阶段和容器运行阶段均可用。 <mark>ENV变量会占用镜像层空间</mark></p>
+<blockquote>
+<p>构建时无法覆盖，运行时可通过 <code>docker run -e var_name=value</code> 方式覆盖默认值
+</p><div class="highlight"><pre><span></span><code><span class="l l-Scalar l-Scalar-Plain">ENV APP_HOME /app</span>
+<span class="l l-Scalar l-Scalar-Plain">ENV VERSION=1.0.0 DEBUG=false</span><span class="w">   </span><span class="c1"># 使用空格分隔多变量声明</span>
+<span class="l l-Scalar l-Scalar-Plain">WORKDIR $APP_HOME</span>
+<span class="l l-Scalar l-Scalar-Plain">RUN echo "Version</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">$VERSION" &gt; version.txt</span>
+<span class="l l-Scalar l-Scalar-Plain">CMD ["sh", "-c", "echo $DEBUG"]</span>
+</code></pre></div><p></p>
+</blockquote>
+</div>
+<div class="tabbed-block">
+<p>定义仅在构建阶段（<code>docker build</code>过程）有效的变量，用于参数化 Dockerfile。<mark>ARG变量不会占用镜像层空间</mark></p>
+<blockquote>
+<p>构建时可通过 <code>docker build --build-arg var_name=value</code> 方式覆盖默认值
+</p><div class="highlight"><pre><span></span><code><span class="l l-Scalar l-Scalar-Plain">ARG ARG_NAME</span><span class="w">            </span><span class="c1"># 声明变量不赋值，通过build-arg传入参数</span>
+<span class="l l-Scalar l-Scalar-Plain">ARG USERNAME=xcluo</span>
+<span class="l l-Scalar l-Scalar-Plain">RUN adduser --disabled-password $USERNAME</span>
+</code></pre></div><p></p>
+</blockquote>
+</div>
+<div class="tabbed-block">
+<p>作为镜像在容器启动时默认的执行命令（可被 <code>docker run</code> 的参数覆盖）。每个 Dockerfile 只能有一条 CMD，多条则只有最后一条生效
+</p><div class="highlight"><pre><span></span><code><span class="l l-Scalar l-Scalar-Plain">CMD ["gunicorn", "main:app", "-w", "4", "-k", "uvicorn.workers.UvicornWorker", "-b", "0.0.0.0:8000"]</span>
+</code></pre></div><p></p>
+</div>
+<div class="tabbed-block">
+<p>指定容器入口命令，在 <code>CMD</code> 前先执行，且不容易被覆盖</p>
+</div>
+<div class="tabbed-block">
+<p>声明容器中的某个目录作为数据卷，将容器内指定的路径标记为持久化存储点，以便数据可以在容器重建、更新或删除后依然保留，或者实现容器间数据共享。（镜像不删除就不会有问题）</p>
+<blockquote>
+<p>尽量不在 Dockerfile 中硬编码 VOLUME，更建议在 <code>docker run</code> 或 <code>docker-compose</code> 中显式创建命名卷
+</p><div class="highlight"><pre><span></span><code><span class="l l-Scalar l-Scalar-Plain">VOLUME /var/log /var/data</span>
+</code></pre></div><p></p>
+</blockquote>
+</div>
+<div class="tabbed-block">
+<p>指定运行容器时使用的用户名或 UID以及可选的用户组或 GID。</p>
+<blockquote>
+<p>切换用户的前提是该用户在镜像中存在，因此在切换之前常执行 <code>RUN useradd -m user_name</code> 创建用户操作。
+</p><div class="highlight"><pre><span></span><code><span class="l l-Scalar l-Scalar-Plain">RUN addgroup -g 1001 -S appuser &amp;&amp; \</span>
+<span class="l l-Scalar l-Scalar-Plain">adduser -S appuser -u 1001 -G appuser</span>
+<span class="l l-Scalar l-Scalar-Plain">COPY --chown=appuser:appuser . .</span><span class="w">        </span><span class="c1"># --chown 更改文件拥有者</span>
+<span class="l l-Scalar l-Scalar-Plain">USER appuser</span>
+</code></pre></div><p></p>
+</blockquote>
+</div>
+<div class="tabbed-block">
+<p>111</p>
+</div>
+<div class="tabbed-block">
+<p>声明容器运行时对外暴露的网络端口（仅用于文档说明和镜像使用者参考，不做实际映射）
+</p><div class="highlight"><pre><span></span><code><span class="l l-Scalar l-Scalar-Plain">EXPOSE 8000</span>
+</code></pre></div><p></p>
+</div>
+<div class="tabbed-block">
+<p>111</p>
+</div>
+</div>
+</div>
+<h4 id="dockerignore">.dockerignore<a class="headerlink" href="#dockerignore" title="Permanent link">¶</a></h4>
+<p>存放在 Dockerfile 同目录下，在构建 Docker 镜像时用于排除配置文件，类似于 .gitignore。主要针对 <code>ADD</code> 和 <code>COPY</code> 两个复制关键字。默认不忽略任何文件，示例如下</p>
+<div class="highlight"><pre><span></span><code><span class="l l-Scalar l-Scalar-Plain">.gitignore</span>
+<span class="l l-Scalar l-Scalar-Plain">.Dockerfile</span>
+<span class="l l-Scalar l-Scalar-Plain">.dockerignore</span>
+<span class="l l-Scalar l-Scalar-Plain">audio_records/*</span>
+<span class="l l-Scalar l-Scalar-Plain"># 取反操作</span>
+<span class="l l-Scalar l-Scalar-Plain">!audio_records/question_stem_audio/</span>
+</code></pre></div>
+<h3 id="docker-composeyaml">docker-compose.y(a)ml<a class="headerlink" href="#docker-composeyaml" title="Permanent link">¶</a></h3>
+<p>YAML格式，依赖缩进（2个空格而不是TAB），大小写敏感，#为注释</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:4"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio"><input id="__tabbed_2_2" name="__tabbed_2" type="radio"><input id="__tabbed_2_3" name="__tabbed_2" type="radio"><input id="__tabbed_2_4" name="__tabbed_2" type="radio"><div class="tabbed-labels"><label for="__tabbed_2_1">versions</label><label for="__tabbed_2_2">networks</label><label for="__tabbed_2_3">volumes</label><label for="__tabbed_2_4">services</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>指定Compose文件格式版本，注意非Python版本
+</p><div class="highlight"><pre><span></span><code><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">'3.8'</span>
+</code></pre></div><p></p>
+</div>
+<div class="tabbed-block">
+<p>网络蓝图定义区，只负责“声明有哪些网络”，以及“这些网络具备什么属性”</p>
+</div>
+<div class="tabbed-block">
+<p>独立于服务之外，集中声明卷的配置，供一个或多个服务通过 <code>services.&lt;service&gt;.volumes</code> 字段引用。（若使用本地路径挂载卷，无需在该部分声明）
+</p><div class="highlight"><pre><span></span><code><span class="nt">volumes</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">volume_name</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;true_volume_name&gt;</span><span class="w">  </span><span class="c1"># 实际上卷名，不指定时默认为 volume_name</span>
+<span class="w">        </span><span class="nt">external</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">            </span><span class="c1"># 应用已有数据卷，不指定时默认新建数据卷并应用</span>
+</code></pre></div><p></p>
+</div>
+<div class="tabbed-block">
+<p>唯一必填的顶级关键字，是整个编排文件的核心。定义了要运行的每个应用容器实例（即“服务”）配置清单，每个服务都对应着 <code>docker run</code> 命令的完整参数集合。
+</p><div class="highlight"><pre><span></span><code><span class="nt">services</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">service_name</span><span class="p">:</span>
+<span class="w">        </span><span class="c1">#--&gt; 身份与镜像源 &lt;--#</span>
+<span class="w">        </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">IMAGE</span>
+<span class="w">        </span><span class="nt">build</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">context</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;dockerfile_dir&gt;</span>
+<span class="w">            </span><span class="nt">dockerfile</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;dockerfile_name&gt;</span>
+<span class="w">            </span><span class="nt">args</span><span class="p">:</span>
+<span class="w">                </span><span class="nt">&lt;ARG_NAME&gt;</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;arg_value&gt;</span>
+<span class="w">        </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;container_name&gt;</span><span class="w">    </span><span class="c1">#  指定容器名，默认为service_name</span>
+<span class="w">        </span><span class="c1">#--&gt; 网络与端口访问 &lt;--#</span>
+<span class="w">        </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"&lt;host_port&gt;:&lt;container_port&gt;"</span>
+<span class="w">        </span><span class="nt">expose</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;expose_port&gt;</span><span class="w">         </span><span class="c1"># 仅暴露端口给关联的其他容器，不映射到宿主机</span>
+<span class="w">        </span><span class="c1">#--&gt; 存储与数据持久化 &lt;--#</span>
+<span class="w">        </span><span class="nt">volumes</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;host_volume&gt;:&lt;container_path&gt;</span>
+<span class="w">        </span><span class="c1">#--&gt; 环境变量与配置 &lt;--#</span>
+<span class="w">        </span><span class="nt">environment</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">&lt;ENV_NAME&gt;</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;ENV_VALUE&gt;</span><span class="w">   </span><span class="c1"># 设置容器启动时环境参数</span>
+<span class="w">        </span><span class="nt">env_file</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;ENV_FILE_NAME&gt;</span><span class="w">           </span><span class="c1"># 指定环境变量文件路径，如 ./.env</span>
+<span class="w">        </span><span class="c1">#--&gt; 启动与生命周期控制 &lt;--#</span>
+<span class="w">        </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;restart_stratety&gt;</span><span class="w">     </span><span class="c1"># {<ins class="critic">no</ins>, always, on-failure, unless-stopped}</span>
+<span class="w">        </span><span class="nt">healthcheck</span><span class="p">:</span><span class="w">                    </span><span class="c1"># 自定义容器健康检查的命令和间隔</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">test</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">"CMD"</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">"mysqladmin"</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">"ping"</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">"-h"</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">"localhost"</span><span class="p p-Indicator">]</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">interval</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10s</span><span class="w">             </span><span class="c1"># 探测间隔，默认30s</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">timeout</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5s</span><span class="w">               </span><span class="c1"># 单次探测超时时间，默认30s</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">retries</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span><span class="w">                </span><span class="c1"># 连续失败重试次数，默认3次</span>
+<span class="w">        </span><span class="nt">depends_on</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">depend_service_name</span><span class="p">:</span>
+<span class="w">                </span><span class="nt">condition</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;condition&gt;</span><span class="w">  </span><span class="c1"># {<ins class="critic">service_started</ins>, service_healthy: 目标容器的healthcheck通过后, service_completed_successfully: 目标容器正常退出后}</span>
+</code></pre></div><p></p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>args使用 <code>key: value</code> 方式传递，environment使用 <code>key=value</code> 方式传递</p>
+</div>
+</div>
+</div>
+</div>
+<h3 id="_3">镜像相关命令<a class="headerlink" href="#_3" title="Permanent link">¶</a></h3>
+<h4 id="docker-images"><code>docker images</code><a class="headerlink" href="#docker-images" title="Permanent link">¶</a></h4>
+<p>列出镜像信息，基本语法 <code>docker images [OPTIONS] [REPOSITORY[:TAG]]</code></p>
+<p>Options</p>
+<ul>
+<li><code>-a</code> -all，包括中间层的所有镜像  </li>
+<li><code>-f cond</code> --filter，执行信息过滤，常用条件为<code>status=running</code>， <code>name=my-nginx</code> 等</li>
+<li><code>-q</code> --quiet，只显示镜像 ID</li>
+</ul>
+<p>Repository</p>
+<ul>
+<li>镜像仓库/镜像名</li>
+</ul>
+<h4 id="docker-save"><code>docker save</code><a class="headerlink" href="#docker-save" title="Permanent link">¶</a></h4>
+<p>导出镜像，基本语法 <code>docker save [OPTIONS] IMAGE [IMAGE...]</code></p>
+<p>Options</p>
+<ul>
+<li>
+<p><code>-o file.tar</code> --output 输出至镜像存档文件  </p>
+<blockquote>
+<p>等价于 <code>docker save IMAGE &gt; file.tar</code></p>
+</blockquote>
+</li>
+</ul>
+<p>Image：可为 <code>image_name:tag</code>（推荐）、<code>image_id</code></p>
+<h4 id="docker-load"><code>docker load</code><a class="headerlink" href="#docker-load" title="Permanent link">¶</a></h4>
+<p>加载导入镜像  <code>docker load [OPTIONS]</code></p>
+<p>Options</p>
+<ul>
+<li><code>-i file.tar</code> --input 输入镜像存档文件  </li>
+<li><code>-q</code> --quiet，忽略加载输出</li>
+</ul>
+<h4 id="docker-build"><code>docker build</code><a class="headerlink" href="#docker-build" title="Permanent link">¶</a></h4>
+<p>从 Dockerfile （首字母大写，无后缀）文件中自定义构建镜像，基本语法 <code>docker build [OPTIONS] PATH|URL|-</code></p>
+<p>Options  </p>
+<ul>
+<li><code>--build-arg NEXT_PUBLIC_API_URL=YOUR_LANGMANUS_API</code> 传递构建时环境变量参数</li>
+<li><code>-t image_name:tag</code> --tag 给镜像命名打标签，未指定时默认为<code>latest</code></li>
+<li><code>--no-cache</code> 不适用缓存，强制重新构建</li>
+<li><code>-f file_name</code> --file 指定Dockerfile路径（未指定则查找当前目录）</li>
+</ul>
+<h4 id="docker-tag"><code>docker tag</code><a class="headerlink" href="#docker-tag" title="Permanent link">¶</a></h4>
+<p>为镜像添加/修改名字，基本语法 <code>docker tag SOURCE_IMAGE[:TAG] TARGET_IMAGE[:TAG]</code></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 复制并重命名docker镜像，常搭配`pull + tag + rmi` 实现从代理hub中下载镜像并删除临时镜像</span>
+docker<span class="w"> </span>tag<span class="w"> </span>A:v1<span class="w"> </span>B:v2
+</code></pre></div>
+<h4 id="docker-rmi"><code>docker rmi</code><a class="headerlink" href="#docker-rmi" title="Permanent link">¶</a></h4>
+<p>删除镜像 <code>docker rmi [OPTIONS] IMAGE [IMAGE...]</code></p>
+<blockquote>
+<p><code>docker image prune</code> 自动筛选删除悬空无用镜像</p>
+</blockquote>
+<p>Options</p>
+<ul>
+<li><code>-f</code> --force，强制删除</li>
+</ul>
+<p>Image：可为 <code>image_name:tag</code>、<code>image_id</code>，若为image_name则默认删除<code>image_name:latest</code></p>
+<h4 id="docker-search"><code>docker search</code><a class="headerlink" href="#docker-search" title="Permanent link">¶</a></h4>
+<p>基本语法 <code>docker search [OPTIONS] TERM</code>，从Docker Hub查找公开镜像</p>
+<p>Options</p>
+<ul>
+<li><code>-f=stars=1000</code> --filter 按条件过滤搜索结果，支持以下过滤条件  <ul>
+<li>stars=<number> 星标数</number></li>
+<li>is-official=<true false=""> 是否为官方镜像</true></li>
+<li>is-automated=<true false=""> 是否为自动化构建</true></li>
+<li><code>--filter=cond1 --filter=cond2</code> 多条件过滤</li>
+</ul>
+</li>
+<li><code>--limit=25</code> 限制返回结果数量（默认25，最大100）</li>
+<li><code>--no-trunc</code> 显示完整的描述信息（不截断）</li>
+<li><code>--format "table {{.Name}}\t{{.Description}}"</code> 自定义输出格式（Go模板）</li>
+</ul>
+<h4 id="docker-pull"><code>docker pull</code><a class="headerlink" href="#docker-pull" title="Permanent link">¶</a></h4>
+<p>未指定标签，默认拉取lastest</p>
+<h3 id="_4">容器相关命令<a class="headerlink" href="#_4" title="Permanent link">¶</a></h3>
+<h4 id="docker-ps"><code>docker ps</code><a class="headerlink" href="#docker-ps" title="Permanent link">¶</a></h4>
+<p>列出本地 Docker 环境中（默认为运行中）的容器信息，基本语法 <code>docker ps [OPTIONS]</code></p>
+<p>Options</p>
+<ul>
+<li><code>-a</code> -all，包括未运行的所有容器</li>
+<li><code>-f cond</code> --filter，执行信息过滤，常用条件为状态<code>status=running</code>， 容器名<code>name=my-nginx</code>, 端口号 <code>publish=8080</code> 等</li>
+<li><code>-q</code> --quiet，只显示容器 ID</li>
+<li><code>-n N</code> --last，显示最新创建的N个容器</li>
+</ul>
+<h4 id="docker-create"><code>docker create</code><a class="headerlink" href="#docker-create" title="Permanent link">¶</a></h4>
+<p>基于镜像创建容器，基本语法 <code>docker create [OPTIONS] IMAGE [COMMAND] [ARG...]</code></p>
+<p>Options</p>
+<ul>
+<li><code>--name container_name</code> 给容器命名</li>
+<li><code>-e DB_HOST=db</code> --env，设置环境变量</li>
+<li><code>-p host_port:container_port</code> --publish，宿主机和容器端口映射</li>
+<li><code>-v host_dir:container_dir[:挂载权限]</code> --volume，挂载卷，将宿主机目录和容器目录绑定（宿主机和容器数据共享），用于持续性保持容器数据，<mark><code>host_dir</code> 必须为绝对路径或以<code>./</code>开头的相对路径</mark>
+    &gt; <code>host_dir</code> 不为宿主机路径时，会自动创建一个同名卷柜
+    &gt; 挂载权限 <code>{ro: 只读, ++rw++: 读写}</code></li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="c1"># 挂载docker命令 + 套接字</span>
+-v<span class="w"> </span>/usr/bin/docker:/usr/bin/docker<span class="w"> </span><span class="se">\</span>
+-v<span class="w"> </span>/var/run/docker.sock:/var/run/docker.sock
+</code></pre></div>
+<h4 id="docker-run"><code>docker run</code><a class="headerlink" href="#docker-run" title="Permanent link">¶</a></h4>
+<p>启动容器（若无容器先执行create），基本语法 <code>docker run [OPTIONS] IMAGE [COMMAND] [ARG...]</code></p>
+<p>Options  </p>
+<ul>
+<li><code>-d</code> 后台运行</li>
+<li><code>-it</code> 交互模式（带终端）</li>
+<li><code>-d</code>, --detach 后台运行</li>
+<li><code>--rm</code> 退出运行后自动删除容器及其关联的匿名卷（命名卷不删除）</li>
+<li><code>--restart strategy</code> 重启策略，<code><ins class="critic">no++: 不重启, on-failure[:N]: 仅异常时重启（最大重启次数为N，未指定时无限制）, unless-stopped: 仅手动停止后不重启, always: 随docker服务持续运行}</ins></code></li>
+<li><code>--name container_name</code> 给容器命名</li>
+<li><code>-p host_port:container_port</code> --publish，宿主机和容器端口映射
+量</li>
+<li>
+<p><code>-e DB_HOST=db</code> --env，设置环境变量</p>
+<blockquote>
+<p>公开镜像中，文档内一般有可设定环境变量参数介绍</p>
+</blockquote>
+</li>
+<li>
+<p><code>--env-file .env</code> 从文件读取环境变</p>
+</li>
+<li>
+<p><code>-v host_dir:container_dir[:挂载权限]</code> --volume，挂载卷，将宿主机目录和容器目录绑定（宿主机和容器数据共享），用于持续性保持容器数据</p>
+<blockquote>
+<p>挂载权限 <code>{ro: 只读, ++rw++: 读写}</code></p>
+</blockquote>
+</li>
+</ul>
+<h4 id="volume"><code>volume</code><a class="headerlink" href="#volume" title="Permanent link">¶</a></h4>
+<p>管理数据卷（匿名卷 / 命名卷），基本语法 <code>docker volume COMMAND</code>  </p>
+<blockquote>
+<p>命名卷：指定了volume_name的卷；匿名卷：未指定volume_name直接挂载的卷</p>
+</blockquote>
+<p>Command</p>
+<ul>
+<li><code>create volume_name</code> 创建命名卷</li>
+<li><code>inspect volume_name|sha_id [volume_name|sha_id]</code> 查看数据卷详情<ul>
+<li><code>docker inspect container_id | jq -c .[0] | jq -c .Mounts</code> 获取容器挂载卷信息</li>
+</ul>
+</li>
+<li><code>ls</code> 列出所有数据卷</li>
+<li><code>prune</code> 批量清理所有未被容器关联的数据卷</li>
+<li><code>rm volume_name|sha_id [volume_name|sha_id]</code> 删除数据卷</li>
+</ul>
+<h4 id="docker-start"><code>docker start</code><a class="headerlink" href="#docker-start" title="Permanent link">¶</a></h4>
+<p>启动容器，基本语法 <code>docker start [OPTIONS] CONTAINER [CONTAINER...]</code></p>
+<p>Options</p>
+<ul>
+<li><code>-i</code> --interactivate，与容器终端交互模式启动</li>
+</ul>
+<h4 id="docker-stop"><code>docker stop</code><a class="headerlink" href="#docker-stop" title="Permanent link">¶</a></h4>
+<p>停止容器运行，基本语法 <code>docker stop [OPTIONS] CONTAINER [CONTAINER...]</code></p>
+<p>Options</p>
+<ul>
+<li><code>-t senc</code> --timeout，等待senc秒后停止容器，可防止立即停止数据异常</li>
+</ul>
+<h4 id="docker-restart"><code>docker restart</code><a class="headerlink" href="#docker-restart" title="Permanent link">¶</a></h4>
+<p>快速重启运行中（或已停止）容器，基本语法 <code>docker restart [OPTIONS] CONTAINER [CONTAINER...]</code></p>
+<p>Options</p>
+<ul>
+<li><code>-t senc</code> --timeout，等待senc秒后重启容器，可防止立即重启数据异常</li>
+</ul>
+<h4 id="docker-exec"><code>docker exec</code><a class="headerlink" href="#docker-exec" title="Permanent link">¶</a></h4>
+<p>在运行中的容器内执行指定命令，基本语法 <code>docker exec [OPTIONS] CONTAINER COMMAND [ARG...]</code></p>
+<p>Options</p>
+<ul>
+<li><code>-i</code> --interactive，保持容器的标准输入（STDIN）打开，允许用户向容器内命令传递输入内容</li>
+<li><code>-t</code> --tty，为容器内的命令分配一个伪终端（TTY），模拟真实终端环境</li>
+<li><code>-d</code> --detach，后台执行命令</li>
+<li><code>-u &lt;name|uid&gt;[:&lt;group|gid&gt;]</code> --user，以指定用户身份执行命令</li>
+<li><code>-w container_dir</code> --workdir，指定命令工作目录</li>
+</ul>
+<p>Command（常为linux常用命令）</p>
+<ul>
+<li><code>/bin/bash</code> 打开容器bash终端，也可以直接bash</li>
+<li><code>/bin/sh</code> 打开容器sh终端</li>
+</ul>
+<h4 id="docker-logs"><code>docker logs</code><a class="headerlink" href="#docker-logs" title="Permanent link">¶</a></h4>
+<p>查看容器日志输出，基本语法 <code>docker logs [OPTIONS] CONTAINER</code></p>
+<p>Options</p>
+<ul>
+<li><code>-f</code> --follow，实时输出容器日志，类似于<code>tail -f</code></li>
+<li><code>-n N</code> --tail，输出最后N条日志，类似于<code>tail -N</code></li>
+<li><code>--since timestamp</code> 开始时间，相对时间时往前倒</li>
+<li>
+<p><code>--until timestamp</code> 截至时间，相对时间时往后倒</p>
+<blockquote>
+<p>绝对时间：YYYY-MM-DDTHH:MM:SS；相对时间 5d/1h/10min/30s</p>
+</blockquote>
+</li>
+<li>
+<p><code>-t</code> --timestamps 显示日志时间戳</p>
+</li>
+</ul>
+<h4 id="docker-cp"><code>docker cp</code><a class="headerlink" href="#docker-cp" title="Permanent link">¶</a></h4>
+<p>用于在 Docker 容器和宿主机文件系统之间复制文件或目录（对运行中或已停止的容器均有效），是一个非常实用的双向数据传输工具</p>
+<ul>
+<li>容器to宿主机：<code>docker cp [OPTIONS] CONTAINER:SRC_PATH DEST_PATH</code></li>
+<li>宿主机to容器：<code>docker cp [OPTIONS] SRC_PATH CONTAINER:DEST_PATH</code></li>
+</ul>
+<blockquote>
+<p>沙箱与宿主机文件交互，常通过 <code>docker cp</code>（按需操作） 与 <code>-v</code> 挂载方式（持续暴露）搭配使用</p>
+</blockquote>
+<p>Option</p>
+<ul>
+<li><code>-q</code> --quiet，静默模式，复制过程中不显示进度信息</li>
+<li><code>-a</code> --archive，归档模式，复制时会保留源文件的所有 UID（用户ID）和 GID（组ID）信息</li>
+<li><code>-L</code> --follow-link，跟随链接，如果 SRC_PATH 是一个符号链接，则复制链接所指向的实际文件或目录，而不是链接本身</li>
+</ul>
+<h4 id="docker-rm"><code>docker rm</code><a class="headerlink" href="#docker-rm" title="Permanent link">¶</a></h4>
+<p>删除容器，基本语法 <code>docker rm [OPTIONS] CONTAINER [CONTAINER...]</code>  </p>
+<blockquote>
+<p><code>docker container prune</code> 批量清理所有停止状态（exited 状态）容器</p>
+</blockquote>
+<p>Options</p>
+<ul>
+<li><code>-f</code> --force 强制删除</li>
+<li><code>-v</code> --volumes 删除容器，并同时清理该容器关联的所有匿名数据卷（命名卷不删除）</li>
+</ul>
+<h4 id="docker-stats"><code>docker stats</code><a class="headerlink" href="#docker-stats" title="Permanent link">¶</a></h4>
+<p>（每秒刷新一次）实时监控容器资源使用情况，基本语法 <code>docker stats [OPTIONS] [CONTAINER...]</code></p>
+<p>Options</p>
+<ul>
+<li><code>-a</code> --all，显示所有容器</li>
+<li><code>--no-stream</code> 输出一次数据后立即退出</li>
+</ul>
+<h4 id="docker-commit"><code>docker commit</code><a class="headerlink" href="#docker-commit" title="Permanent link">¶</a></h4>
+<p>将一个运行中或已停止的容器的当前状态（包括文件系统变更、配置、环境变量等）保存为一个新的 Docker 镜像。基本语法为 <code>docker commit [OPTIONS] CONTAINER [REPOSITORY[:TAG]]</code></p>
+<p>Option</p>
+<ul>
+<li><code>-a author_name</code> --author，指定新镜像的作者</li>
+<li><code>-c</code> --change，在提交时应用 Dockerfile 指令。支持 <code>CMD</code>、<code>ENTRYPOINT</code>、<code>ENV</code>、<code>EXPOSE</code>、<code>LABE</code>L、<code>USER</code>、<code>WORKDIR</code> 等。</li>
+<li><code>-m</code> --message，添加提交信息，类似于 Git 的 commit message，用于记录修改内容。</li>
+<li><code>-p {++ture</code> --pause，提交时暂停容器，确保数据一致性。若设为 false 可能会因写入导致文件损坏。</li>
+</ul>
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"安装了自定义配置文件"</span><span class="w"> </span>-a<span class="w"> </span><span class="s2">"张三"</span><span class="w"> </span>my_web_app<span class="w"> </span>my-nginx:v1.0
+docker<span class="w"> </span>commit<span class="w"> </span>-c<span class="w"> </span><span class="s1">'CMD ["nginx", "-g", "daemon off;"]'</span><span class="w"> </span>-c<span class="w"> </span><span class="s1">'EXPOSE 8080'</span><span class="w"> </span>my_web_app<span class="w"> </span>my-nginx:custom
+</code></pre></div>
+<h3 id="_5">多容器相关命令<a class="headerlink" href="#_5" title="Permanent link">¶</a></h3>
+<p>项目多容器批量管理工具，实现一键「启动 / 停止 / 重启 / 销毁」整个应用集群，基本语法 <code>docker compose [OPTIONS] COMMAND</code></p>
+<p>Options</p>
+<ul>
+<li><code>-f compose_file</code> --file，指定compose配置文件，默认为 docker-compose.yaml文件</li>
+</ul>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p><code>SERVICE</code> 为配置文件中具体服务名，不指定时默认为所有服务</p>
+</div>
+<h4 id="docker-compose-up"><code>docker compose up</code><a class="headerlink" href="#docker-compose-up" title="Permanent link">¶</a></h4>
+<p>创建（存在即复用，不覆盖）并启动Compose文件，基本语法 <code>docker compose up [OPTIONS] [SERVICE...]</code></p>
+<blockquote>
+<p>不覆盖的前提是镜像或相应配置未发生变换</p>
+</blockquote>
+<p>Options</p>
+<ul>
+<li><code>-d</code> --detach，后台运行容器</li>
+</ul>
+<h4 id="docker-compose-down"><code>docker compose down</code><a class="headerlink" href="#docker-compose-down" title="Permanent link">¶</a></h4>
+<p>停止并删除Compose文件中容器，基本语法 <code>docker compose down [OPTIONS] [SERVICE...]</code></p>
+<h4 id="docker-compose-ps"><code>docker compose ps</code><a class="headerlink" href="#docker-compose-ps" title="Permanent link">¶</a></h4>
+<p>只列出由当前目录下的Compose文件管理的容器。基本语法为 <code>docker compose ps [OPTIONS] [SERVICE...]</code></p>
+<p>Option</p>
+<ul>
+<li><code>-a</code> --all，显示当前项目所有的已有容器</li>
+</ul>
+<h3 id="_6">网络管理命令<a class="headerlink" href="#_6" title="Permanent link">¶</a></h3>
+<p>Docker 网络管理，基本语法 <code>docker network COMMAND</code></p>
+<ul>
+<li>docker network(bridge), host, none, docker network list</li>
+</ul>
+<h4 id="docker-network-ls"><code>docker network ls</code><a class="headerlink" href="#docker-network-ls" title="Permanent link">¶</a></h4>
+<p>列出主机上所有 Docker 网络（包括默认网络和自定义网络）</p>
+<h4 id="docker-network-inspect"><code>docker network inspect</code><a class="headerlink" href="#docker-network-inspect" title="Permanent link">¶</a></h4>
+<p>用于查看一个或多个网络详细信息的命令，它能够帮助用户全面了解网络的配置、IP 地址分配以及连接到该网络的容器等底层信息。基本语法为 <code>docker network inspect [OPTIONS] NETWORK [NETWORK...]</code></p>
+<h4 id="docker-network-create"><code>docker network create</code><a class="headerlink" href="#docker-network-create" title="Permanent link">¶</a></h4>
+<p>创建新网络，该命令允许用户指定网络的名称、驱动程序以及其他高级选项（如子网、网关等），以满足不同场景下的容器互联需求，基本语法 <code>docker network create [OPTIONS] NETWORK</code></p>
+<p>Option</p>
+<ul>
+<li>
+<p><code>-d bridge</code> --dirver，网络驱动程序，包括{<ins class="critic">bridge</ins>, overlay, host, macvlan, ipvlan, none}</p>
+<details class="info">
+<summary>网络驱动参数选项</summary>
+<ul>
+<li><code>bridge</code>：运行在单个 Docker 守护进程（Engine）上的隔离网络。</li>
+<li><code>overlay</code>：用于构建跨多宿主机通信的分布式网络，使分布在不同物理机器上的容器能够像在同一个局域网内一样直接通信。</li>
+<li>
+<p><code>host</code>：容器直接使用宿主机的网络栈，不进行网络隔离，网络性能要求极高。</p>
+<blockquote>
+<p>一个宿主机只可以创建一个 host 网络</p>
+</blockquote>
+</li>
+<li>
+<p><code>macvlan</code>：</p>
+</li>
+<li><code>ipvlan</code>：</li>
+<li><code>none</code>：Docker 容器会被完全禁用网络功能，实现与外界的最高级别隔离</li>
+</ul>
+</details>
+</li>
+<li>
+<p><code>--subnet 172.18.0.0/16</code> 指定网络的子网地址（CIDR格式）</p>
+</li>
+<li><code>--gateway 172.18.0.1</code> 指定网络的网关地址</li>
+<li><code>--ip-range 172.18.50.0/24</code> 指定分配给容器的 IP 地址范围。</li>
+</ul>
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>network<span class="w"> </span>create<span class="w"> </span>--driver<span class="w"> </span>overlay<span class="w"> </span>my-overlay-network
+</code></pre></div>
+<h4 id="docker-network-connect"><code>docker network connect</code><a class="headerlink" href="#docker-network-connect" title="Permanent link">¶</a></h4>
+<p>是 Docker 中用于将容器连接到指定网络的命令。它不仅可以用于正在运行的容器，还能在连接时指定 IP 地址、别名等高级网络配置。基本语法为 <code>docker network connect [OPTIONS] NETWORK CONTAINER</code></p>
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>network<span class="w"> </span>create<span class="w"> </span>my-network
+docker<span class="w"> </span>network<span class="w"> </span>connect<span class="w"> </span>my-network<span class="w"> </span>containerA
+docker<span class="w"> </span>network<span class="w"> </span>connect<span class="w"> </span>my-network<span class="w"> </span>containerB
+</code></pre></div>
+<h4 id="docker-network-disconnect"><code>docker network disconnect</code><a class="headerlink" href="#docker-network-disconnect" title="Permanent link">¶</a></h4>
+<p>将容器从指定网络移除，基本语法为 <code>docker network disconnect [OPTIONS] NETWORK CONTAINER</code></p>
+<h4 id="rm"><code>rm</code><a class="headerlink" href="#rm" title="Permanent link">¶</a></h4>
+<h4 id="prune"><code>prune</code><a class="headerlink" href="#prune" title="Permanent link">¶</a></h4>
+<h3 id="_7">仓库管理命令<a class="headerlink" href="#_7" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p><code>docker pull docker.io/library/image_name:tag</code> 拉取镜像，library为命名空间</p>
+<ul>
+<li><code>--platform</code> 指定拉取镜像的运行架构</li>
+</ul>
+</li>
+<li>
+<p><code>docker inspect CONTAINER | jq -c .[0] | jq -c .Mounts</code> 获取指定容器卷信息</p>
+<blockquote>
+<p>修改挂载卷信息：<code>备份数据 -&gt; 删除旧容器 -&gt; 用新挂载方式启动</code>
+<code>docker cp CONTAINER:/path/to/volume/. /path/to/dump</code></p>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden="">
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="页脚">
+        
+          
+          <a href="../../wheel/index.html" class="md-footer__link md-footer__link--prev" aria-label="上一页: 轮子">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              <div class="md-ellipsis">
+                轮子
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../K8s/k8s.html" class="md-footer__link md-footer__link--next" aria-label="下一页: K8s">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              <div class="md-ellipsis">
+                K8s
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"></path></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Powered by xcluo
+    </div>
+  
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://space.bilibili.com/" target="_blank" rel="noopener" title="Bilibili" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M488.6 104.1c16.7 18.1 24.4 39.7 23.3 65.7v202.4c-.4 26.4-9.2 48.1-26.5 65.1-17.2 17-39.1 25.9-65.5 26.7H92c-26.4-.8-48.2-9.8-65.3-27.2S.7 396.5 0 368.2V169.8c.8-26 9.7-47.6 26.7-65.7C43.8 87.8 65.5 78.8 92 78h29.4L96 52.2c-5.7-5.7-8.6-13-8.6-21.8S90.3 14.3 96 8.6 109 0 117.9 0s16.1 2.9 21.9 8.6L213.1 78h88l74.5-69.4C381.7 2.9 389.2 0 398 0s16.1 2.9 21.9 8.6c5.7 5.7 8.6 13 8.6 21.8s-2.9 16.1-8.6 21.8L394.6 78h29.3c26.4.8 48 9.8 64.7 26.1m-38.8 69.7c-.4-9.6-3.7-17.4-10.7-23.5-5.2-6.1-14-9.4-22.7-9.8H96c-9.6.4-17.4 3.7-23.6 9.8-6.1 6.1-9.4 13.9-9.8 23.5v194.4c0 9.2 3.3 17 9.8 23.5s14.4 9.8 23.6 9.8h320.4c9.2 0 17-3.3 23.3-9.8s9.7-14.3 10.1-23.5zm-264.3 42.7c6.3 6.3 9.7 14.1 10.1 23.2V273c-.4 9.2-3.7 16.9-9.8 23.2-6.2 6.3-14 9.5-23.6 9.5s-17.5-3.2-23.6-9.5-9.4-14-9.8-23.2v-33.3c.4-9.1 3.8-16.9 10.1-23.2s13.2-9.6 23.3-10c9.2.4 17 3.7 23.3 10m191.5 0c6.3 6.3 9.7 14.1 10.1 23.2V273c-.4 9.2-3.7 16.9-9.8 23.2s-14 9.5-23.6 9.5-17.4-3.2-23.6-9.5c-7-6.3-9.4-14-9.7-23.2v-33.3c.3-9.1 3.7-16.9 10-23.2s14.1-9.6 23.3-10c9.2.4 17 3.7 23.3 10"></path></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://github.com/xcluo" target="_blank" rel="noopener" title="GitHub | xcluo" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.instant", "navigation.tabs", "navigation.top", "navigation.indexes", "navigation.footer", "search.suggest", "search.highlight", "content.tooltips", "content.code.annotate", "content.code.copy", {"icons": "font"}], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../../../packages/mkdocs/javascripts/mathjax.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+        <script src="../../../packages/mkdocs/javascripts/katex.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/contrib/auto-render.min.js"></script>
+      
+        <script src="../../../assets/javascripts/badge.js" async=""></script>
+      
+        <script src="../../../assets/document_dates/tippy/popper.min.js"></script>
+      
+        <script src="../../../assets/document_dates/tippy/tippy.umd.min.js"></script>
+      
+        <script src="../../../assets/document_dates/core/md5.min.js"></script>
+      
+        <script src="../../../assets/document_dates/core/default.config.js"></script>
+      
+        <script src="../../../assets/document_dates/core/utils.js"></script>
+      
+        <script src="../../../assets/document_dates/core/core.js"></script>
+      
+    
+  
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>
