@@ -8,7 +8,6 @@
 - [ ] pytesseract.image_to_string
 - [ ] pd.apply, pd.Series
 - [ ] https://www.paddlepaddle.org.cn/packages/stable/
-- [ ] io包
 - [ ] 剪映，分段，加速，字幕
 - [ ] OBS录扬声器，录麦克风
 - [ ] gpt-oss, Open Source Software

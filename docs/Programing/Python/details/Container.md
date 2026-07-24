@@ -4,6 +4,16 @@
     <p>Python容器关系图</p>
 </div>
 
+```python
+# *解包可迭代对象
+a = [*(1, (2, 2), 3)]   # [1, (2, 2), 3]
+
+# **展开字典
+d1 = {'x': 10, 'y': 20}
+d2 = {'y': 30, 'z': 40}
+s = {**d1, **d2}        # {'x': 10, 'y': 30, 'z': 40}
+```
+
 ### 容器间的关系
 
 [`Iterable`](#iterable)派生出[`Iterator`](#iterator)，[`Iterator`](#iterator)派生出[`Generator`](#generator)

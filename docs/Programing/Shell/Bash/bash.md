@@ -21,7 +21,6 @@
 - json：[`jq`](file_related/jq.md)
 - xlsx：[`xlsx2csv`]()
 - pandoc：[`pandoc`](file_related/pandoc.md)
-- 
 
 #### 文件修改
 
@@ -62,6 +61,8 @@
 ### 网络操作
 
 - [`curl`](network_operation/curl.md)
+- [`wget`](network_operation/wget.md)
 - [`ping`](network_operation/ping.md)
 - [`netstat`](network_operation/netstat.md)
 - [`telnet`](network_operation/telnet.md)
+- [`ufw`](network_operation/ufw.md)
