@@ -13,20 +13,19 @@ title: Java
 
 #### 线程池
 
-- [ExecutorService](./libs/thread_pool/#executorservice)
+- [ExecutorService](./libs/thread_pool.md#executorservice)
 
 ### 进阶：文件读写
 
 #### 数据格式
 
-- [JSONObject](./libs/file_format/#json)：json格式数据处理
+- [JSONObject](./libs/file_format.md#json)：json格式数据处理
 
 #### 输入输出流
 
-- [IOUtils](./libs/iostream/#ioutils)：IO工具类
-- [Bufferedreader](./libs/iostream/#bufferedreader)：缓冲输入流
+- [IOUtils](./libs/iostream.md#ioutils)：IO工具类
+- [Bufferedreader](./libs/iostream.md#bufferedreader)：缓冲输入流
 
 ### 进阶：数据库操作
 
 #### MyBatis
-

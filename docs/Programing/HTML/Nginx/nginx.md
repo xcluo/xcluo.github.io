@@ -116,13 +116,13 @@ http 块是处理 HTTP/HTTPS 请求的核心容器，基本语法为 `http { ...
 
 基本语法为`location [修饰符] 匹配模式 { ... }`
 
-- 修饰符：决定匹配方式和优先级。
+- 修饰符：决定匹配方式和优先级。URI即Socket与查询参数之间的部分，如`http://101.101.101.101:8000{++/api/v1/chat/completions++}?stream=true`
 
-  - `=`{==最高==} 精确匹配，URI必须与模式完全一致（区分大小写）
-  - `^~`{==次高==} 优先前缀匹配类似于 `re.match`，一旦匹配成功，不再检查正则表达式。
-  - `~`{==第三==} 正则匹配（区分大小写），类似于 `re.search`，一旦匹配成功，不再检查正则表达式。
-  - `~*`{==第三==} 正则匹配（不区分大小写），类似于`re.search + re.I`，一旦匹配成功，不再检查正则表达式。
-  - `{++无修饰符++}`{==最低==}
+    - `=`{==最高==} 精确匹配，URI必须与模式完全一致（区分大小写）
+    - `^~`{==次高==} 优先前缀匹配类似于 `re.match`，一旦匹配成功，不再检查正则表达式。
+    - `~`{==第三==} 正则匹配（区分大小写），类似于 `re.search`，一旦匹配成功，不再检查正则表达式。
+    - `~*`{==第三==} 正则匹配（不区分大小写），类似于`re.search + re.I`，一旦匹配成功，不再检查正则表达式。
+    - `{++无修饰符++}`{==最低==}
 
 - 匹配模式：普通字符串（前缀）或正则表达式
 
@@ -139,10 +139,24 @@ location ~* \.(jpg|png)$
     - **路径替换**：nginx实际发出请求为 `http://192.168.1.100/v1/user?id=1`（即【请求匹配部分及之前路径替换为反向代理 + 剩余请求】）
     ```nginx
     location /api/ {
-        proxy_pass http://192.168.1.100;    # 尾部无斜杠：原样拼接
-        proxy_pass http://192.168.1.100/;   # 尾部有斜杠：请求匹配部分及之前路径替换
+        proxy_pass http://192.168.1.100;        # 尾部无斜杠：原样拼接
+        proxy_pass http://192.168.1.100:80;     # 无路径：原样拼接，等价于↑
+        proxy_pass http://192.168.1.100:80/lxc; # 有路径：请求匹配部分及之前路径替换
+        proxy_pass http://192.168.1.100/;       # 尾部有斜杠：请求匹配部分及之前路径替换
     }
     ```
+
+    !!! info
+        对于 `location = /api/`，不同反向代理写法的结果如下
+
+        | `proxy_pass` 写法 | 判定 | 请求 `/api/chat` | 最终转发地址 | 操作类型 |
+        | :--- | :--- | :--- | :--- | :--- |
+        | `http://1.1.1.1` | **无路径** | → | `http://1.1.1.1/api/chat` | **拼接**（原样保留） |
+        | `http://1.1.1.1:8080` | **无路径** | → | `http://1.1.1.1:8080/api/chat` | **拼接**（原样保留） |
+        | `http://1.1.1.1/` | **有路径**（根路径`/`） | → | `http://1.1.1.1/chat` | **替换**（丢掉 `/api`） |
+        | `http://1.1.1.1/lxc` | **有路径**（`/lxc`） | → | `http://1.1.1.1/lxcchat` | **替换**（但**粘连**，是坑） |
+        | `http://1.1.1.1/lxc/` | **有路径**（`/lxc/`） | → | `http://1.1.1.1/lxc/chat` | **替换**（完美隔离） |
+
 === "client_max_body_siz"
     限制客户端请求体的最大尺寸，常用于防止大文件上传攻击，基本语法为 `client_max_body_size <size>;`
     ```nginx
@@ -151,9 +165,10 @@ location ~* \.(jpg|png)$
     client_max_body_size 100k;
     ```
 === "proxy_set_header"
+    采用“精确覆盖”机制：仅针对你显式指定的请求头进行重写（彻底丢弃客户端原始值）或新增，而配置中未提及的所有其他请求头则默认原封不动透传给后端服务器。
     ```nginx
     # --> Authorization <-- #
-    proxy_set_header Authorization "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiIyYzJkNDJhZmRhYTQ0ODJjYWYxZTBmYTY2ZGMxZWUyNCIsImlzcyI6ImFwaS1hdXRoLWtleSIsImV4cCI6NDkzNzA5NDI4NX0.L0gz6kbVsw5eX52pfLev7m_gaNeScpiQhzkIOI8RfUoCsClkej4FF5yRvTifySaWzf-kva_wAFuOSQOG2y3Pad-DtyUapBy1DpOdkkl3EyHxVZ_8QaEMGTIaIg-Xh35y4-HGww4XAx1Q4RwTmXpRJWtaWcC7h85LeYwnlZC8i7YJwXZF1yvnAXsGedhys-uYi5Lrs74cgu_SLZ-FtKuI2a_v9D9iqeyBIJrhCPe5kb0kITASr2BOP-bsYeWny6Ruu5uvrrnN8jXGrfk7oF14tkINd4Sv0GPGYWl5Nnor9dsEITi7Ph_pZo4gyxLxD0Codw1Ip7zhoKMpb6g3Lc-eNg";
+    proxy_set_header Authorization "Bearer sk-xxx";
     proxy_set_header Authorization "Bearer $http_authcode";
     ```
     !!! info

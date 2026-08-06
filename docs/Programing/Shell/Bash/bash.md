@@ -14,7 +14,7 @@
 
 - 原始文本：`less/more`、`head/tail` tail -f 
 - 内容过滤：[`grep`](file_related/grep.md#grep)
-- 内容比较：[`diff`](file_related/diff)
+- 内容比较：[`diff`](file_related/diff.md)
 
 #### 数据格式处理
 
@@ -28,7 +28,7 @@
 - 内容连接：`cat` (文件末无\n会同行连接)
 - 内容合并：`join`类似于数据库join命令、`paste`
 - 内容分割：`cut`：被awk覆盖了, [`awk`](file_related/awk.md)
-- 内容拆分：[`split`](file_related/split)
+- 内容拆分：[`split`](file_related/split.md)
 - 内容去重：[`sort`](file_related/sort.md) + [`uniq`](file_related/uniq.md)
 - 内容替换：[`tr`](file_related/tr.md)、[`sed`](file_related/sed.md)
 - 内容扰动：`shuf`
@@ -37,6 +37,7 @@
 
 ### 数值操作
 
+- [默认值设置](numeric_operation/variable_default.md)
 - format输出：[`printf`](numeric_operation/printf.md)，[`echo`](numeric_operation/echo.md)
 - 序列相关：[`seq`](numeric_operation/seq.md)
 - [循环操作]((numeric_operation/condition_cmd.md))：`for`、`while`、`until`
@@ -65,4 +66,4 @@
 - [`ping`](network_operation/ping.md)
 - [`netstat`](network_operation/netstat.md)
 - [`telnet`](network_operation/telnet.md)
-- [`ufw`](network_operation/ufw.md)
+- [`ufw`](network_operation/ufw.md) 防火墙操作

@@ -48,7 +48,8 @@ nav:
     - Python: Programing/Python/python.md
     - Shell:
       - Bash: Programing/Shell/Bash/bash.md
-      - PowerShell: Programing/Shell/PowerShell/index.md
+      - PowerShell: Programing/Shell/PowerShell/powershell.md
+      - CMD: Programing/Shell/CMD/cmd.md
     - Git: Programing/Git/git.md
     - Script: 
       - JavaScript: Programing/Script/JavaScript/javascript.md
@@ -57,12 +58,12 @@ nav:
       - html: Programing/HTML/html/html.md
       - CSS: Programing/HTML/CSS/css.md
     - Tex:
-      - Latex: Programing/Tex/Latex/index.md
-      - Markdown: Programing/Tex/Markdown/index.md
+      - Latex: Programing/Tex/Latex/latex.md
+      - Markdown: Programing/Tex/Markdown/markdown.md
       - MkDocs: Programing/Tex/MkDocs/mkdocs.md
     - FTP: 
       - LFTP: Programing/FTP/LFTP/index.md
-    - MATLAB: Programing/MATLAB/index.md
+    - MATLAB: Programing/MATLAB/matlab.md
     - Database: Programing/Database/database.md
     - Algorithm: Programing/Algorithm/index.md
     - 轮子: Programing/wheel/index.md
@@ -78,7 +79,7 @@ nav:
     - 编译环境:
       - Conda: Software/Compiler/Conda/index.md
       - CUDA: Software/Compiler/CUDA/index.md
-      - Maven: Software/Compiler/Maven/index.md
+      - Maven: Software/Compiler/Maven/maven.md
     - 办公软件:
       - Office: Software/Office/Office/index.md
       - Adboe: Software/Office/Adobe/index.md
