@@ -2,3 +2,5 @@
 .vscode/
 *.swp
 .venv/
+site
+hooks/__pycache__

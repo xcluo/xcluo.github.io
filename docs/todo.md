@@ -6,7 +6,6 @@
 - [ ] 0.0.0.0， 127.0.0.1, localhost域名解析问题：C:\Windows\System32\drivers\etc\hosts，解除注释
 - [ ] bash变量缺省值：${OPENCLAW_GATEWAY_PORT:-18789}，`:?, :+`
 - [ ] pytesseract.image_to_string
-- [ ] pd.apply, pd.Series
 - [ ] https://www.paddlepaddle.org.cn/packages/stable/
 - [ ] io包
 - [ ] 剪映，分段，加速，字幕

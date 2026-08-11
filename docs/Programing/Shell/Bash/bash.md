@@ -4,6 +4,7 @@
 
 - 信息查看：`ls`
 - 内容统计：`wc`
+- 文件查询：[`find`](file_related/find.md)
 
 #### 文件权限操作
 
