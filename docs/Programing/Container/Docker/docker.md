@@ -440,6 +440,8 @@ Options
 - 容器to宿主机：`docker cp [OPTIONS] CONTAINER:SRC_PATH DEST_PATH`
 - 宿主机to容器：`docker cp [OPTIONS] SRC_PATH CONTAINER:DEST_PATH`
 
+> 沙箱与宿主机文件交互，常通过 `docker cp`（按需操作） 与 `-v` 挂载方式（持续暴露）搭配使用
+
 Option
 
 - `-q` --quiet，静默模式，复制过程中不显示进度信息

@@ -18,10 +18,10 @@ title: "Python"
 
 ### 细节部分
 
-1. [`Container`容器类](details/container.md) 包括Iterable、Iterator和Generator
-1. [`lambda`](details/lambda.md) 匿名函数
-1. [`decorator`](details/decorator.md) 修饰符
-1. [`fstring`](details/fstring.md), [`Jinja2`](details/jinja2.md) 字符串插值
+1. [`Container`](details/container.md) 包括Iterable、Iterator和Generator
+2. [`lambda`](details/lambda.md) 匿名函数
+3. [`decorator`](details/decorator.md) 修饰符
+4. [`fstring`](details/fstring.md), [`Jinja2`](details/jinja2.md) 字符串插值
 
 ### 自用库
 
@@ -118,6 +118,7 @@ title: "Python"
 #### 浏览器操作
 
 - playwright
+- Selenium
 
 ### 进阶：Web服务
 

@@ -9,6 +9,7 @@ datetime 模块是处理日期和时间的标准库
 ```python
 from datetime import date, time, datetime, timedelta
 from zoneinfo import ZoneInfo   # pip install tzdata
+from chinese_calendar import find_workday   # pip install chinese-calendar
 ```
 
 === "date"
@@ -39,17 +40,24 @@ from zoneinfo import ZoneInfo   # pip install tzdata
     dt.replace(year=None, month=None, day=None, hour=None, minute=None, second=None, microsecond=None, tzinfo=True)
     ```
 
+=== "ZoneInfo"
+    轻量级、高性能且完全符合 IANA 时区数据库标准的时区类
+    ```python
+    # 北京时间时区
+    tz = ZoneInfo("Asia/Shanghai")
+    ```
+
 === "timedelta"
     timedelta 代表两个日期或时间之间的时间差（持续时间），你可以把它理解为一个"时间段"或"时间增量"。比如 1天3小时、5分钟30秒 都是 timedelta。它同样是不可变（immutable）对象。
     ```python
     td = timedelta(days=0, seconds=0, microseconds=0, milliseconds=0, minutes=0, hours=0, weeks=0)
     ```
 
-=== "ZoneInfo"
-    轻量级、高性能且完全符合 IANA 时区数据库标准的时区类
+=== "find_workday"
+    基于当前日期，向前或向后查找最近的工作日，中国的节假日安排每年都可能调整，建议在每年11月前后通过 `pip install -U chinesecalendar` 更新库
     ```python
-    # 北京时间时区
-    tz = ZoneInfo("Asia/Shanghai")
+    dt = datetime.now()
+    next_dt = find_workday(delta_days=0, date=dt)
     ```
 
 ### 格式转化

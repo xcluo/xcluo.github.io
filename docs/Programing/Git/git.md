@@ -268,6 +268,46 @@ git commit --no-verify -m "commit message"
 
 ## 分支操作
 
+#### `git show`
+
+显示 Git 对象（提交、标签、树或 blob）的内容和属性。基本语法为 `git show [OPTIONS] <object>`
+
+Option
+
+- `--stat` 仅显示 diffstat（增、删行数），不显示改动内容
+- `-p` --patch，显示完整的代码改动差异
+- `-s` --no-patch，静默模式，不显示差异，只显示提交信息
+- `--format=<format>` 指定输出格式，支持 `%H`（SHA）、`%h`（短SHA）、`%an`（作者名）、`%s`（提交信息）等
+- `--name-only` 只显示变更文件的文件名
+- `--name-status` 显示变更文件名及其状态（A/M/D）
+- `--encoding=<encoding>` 指定提交信息的字符编码（默认 UTF-8）
+- `-q` --quiet，静默模式，抑制差异输出
+
+```bash
+git show                          # 显示当前 HEAD 提交的详细信息
+git show HEAD                     # 同上，显示当前提交
+git show HEAD~3                   # 显示上三次提交
+
+# 指定任意提交
+git show <commit-hash>            # 显示指定提交
+git show <commit-hash> --stat     # 只显示统计信息，不显示补丁
+
+# 指定标签
+git show v1.0.0                   # 显示标签指向的提交
+
+# 指定格式（常用于脚本）
+git show --format="%H %an" HEAD   # 只输出 SHA 和作者名
+git show --format="%s" HEAD       # 只输出提交信息
+
+# 显示特定文件在某次提交中的内容
+git show <commit-hash>:           # 展示该提交中文件的内容
+git show <commit-hash>:<path>     # 展示该提交中指定路径文件的内容
+```
+
+!!! info
+    - `git show` 默认行为等同于 `git show HEAD`
+    - `git show <tree-ish>:<path>` 可以查看任意提交中某个文件的内容
+
 #### `git branch`
 
 ```bash

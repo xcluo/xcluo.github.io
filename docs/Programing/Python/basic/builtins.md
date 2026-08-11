@@ -1,18 +1,25 @@
 ### 数值相关
+
 1. `min/max`：获取`iterable`中最小值/最大值
+
 ```python
 def min/max(iterable, *, key=None)
 def min/max(*args, key=None)
 ```
+
 > 如果多个元素符合`key`对应的条件，返回第一次出现的元素
+
 1. `sum`：返回`iterable`元素值的和，即
+
 ```python
 ret = 0
 for e in iterable:
     ret += e
 return ret
 ```
+
 1. `pow`：执行幂指数函数，如果指定求模函数底，进一步求模
+
 ```python
 def pow(
     base,       # 指数函数底
@@ -22,6 +29,7 @@ def pow(
 ```
 
 1. `round`
+
 ```python
 def round(
     number,     # 需要被舍入的数字，舍入结果微更接近那个值
@@ -30,7 +38,9 @@ def round(
 ```
 
 ### 命令执行相关
+
 1. `eval/exec`
+
 ```python
 def exec/eval(
     expression,     # type(expression)=str，表示要执行的语句
@@ -43,20 +53,24 @@ a = 1
 print(exec('a+2'), a)   # > None, 3
 print(eval('a+2'), a)   # > 3, 1
 ```
+
 > `exec`函数的`expression`参数出现`=`时会报错`SyntaxError`  
 > 出现修改传入值的情况下一般会选择使用`eval`函数
 
-
 1. `callable`：判断对象是否是可调用的
+
 ```python
 def callable(
     object
 ) -> bool
 ```
+
 > 当`object`是一个方法、函数或者类时是可调用的；当`object`是个类对象且类中实现了 `__call__` 方法时也是可调用的
 
 ### 类型相关
+
 1. `chr/ord`：将单个整型数值/unicode字符转换为对应的unicode字符/整型数值
+
 ```python
 # chr
 def chr(
@@ -68,6 +82,7 @@ def ord(
     c                   # type(c)=str, 表示要转换的unicode字符
 ) -> int
 ```
+
 > `ord` 与 `chr` 功能相反
 1. `bin/hex/oct`
 1. `type`
@@ -85,12 +100,14 @@ def ord(
 1. `enumerate`
 1. `filter`
 1. `map`：将<span class='underline_span'>一个或多个 `iterator` 映射为一个</span>新的 `iterable` ，示意如下图：
+
 ```python
 def map(
     func,               # 具体映射方法
     *iterables,         # iterator 序列，len(iterables)等于func中输入形参个数
 ) -> Iterable
 ```
+
 <div class='one-image-container'>
     <img src='\Programing\Python\basic\image\map.png' width="80%">
     <!-- <p style="text-align: center;">图片标题</p> -->
