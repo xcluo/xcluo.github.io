@@ -15,25 +15,32 @@ title: "JavaScript"
 默认自带包管理器 npm (node packages manager)，用于安装、分享和管理 JavaScript 包，包信息存储在packages.json中，具体包存放在node_modules文件夹中
 
 - install 安装依赖包
+
 ```bash
 pnpm install -g pnpm
 ```
+
 - list 查看本地安装包
+
 ```bash
 npm list -g --depth=0
 ```
+
 - view 查看包信息
 - update 更新包
 - uninstall 卸载包
-```
+
+```bash
 npm uninstall package_name
 npm uninstall -g global_package_name
 ```
+
 #### npx
 
 npx (Node Package Executor) 为npm 5.2+ 自带的包执行工具
 
 #### pnpm
+
 pnpm (Performance npm) 兼容 npm 工作流、快速、磁盘空间高效的包管理器
 
 `npm install -g pnpm`
@@ -50,7 +57,6 @@ pnpm (Performance npm) 兼容 npm 工作流、快速、磁盘空间高效的包�
 
 - next.config.js，Next.js 配置
 - tsconfig.json，TypeScript 配置
-
 
 #### public
 
@@ -75,4 +81,3 @@ Next.js 构建的动态输出结果
 #### node_modules
 
 依赖包安装路径
-

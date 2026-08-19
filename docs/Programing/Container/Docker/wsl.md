@@ -27,9 +27,10 @@ WSL (Windows Subsystem for Linux)
 
 1. 备份分发版数据文件 `wsl --export <发行版名称> D:\ubuntu.tar` 
 2. 删除wsl分发版 `wsl --unregister <发行版名称>` 
-3. 从备份恢复分发版（版本2）并指定位置 `wsl --import <发行版名称> D:\wsl\ D:\ubuntu.tar --version 2` 
+3. 从备份恢复分发版（版本2）并指定位置 `wsl --import <发行版名称> D:\wsl\ D:\ubuntu.tar --version 2`
 
 #### 更新wsl 账户密码
+
 1. 管理员权限进入wsl
 2. `wsl -u root`
 3. `passwd <user_name>`     # 修改指定用户密码

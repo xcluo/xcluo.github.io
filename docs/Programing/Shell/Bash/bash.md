@@ -5,6 +5,7 @@
 - 信息查看：`ls`
 - 内容统计：`wc`
 - 文件查询：[`find`](file_related/find.md)
+- 命令类型查询：[`type`](file_related/type.md)
 
 #### 文件权限操作
 
@@ -13,7 +14,7 @@
 
 #### 文件内容查看
 
-- 原始文本：`less/more`、`head/tail` tail -f 
+- 原始文本：`less/more`、`head/tail` tail -f, tail -\<N>
 - 内容过滤：[`grep`](file_related/grep.md#grep)
 - 内容比较：[`diff`](file_related/diff.md)
 
@@ -47,8 +48,8 @@
 
 #### 下载工具
 
-- `rpm`、`yum`、[`apt(-get)`](./download_related/apt.md)
-- `dpkg`
+- `rpm`、`yum`、`dnf`、`dpkg`、[`apt(-get)`](./download_related/apt.md)
+- 编译安装：[`make`](./download_related/make.md)
 
 ### 进程相关
 

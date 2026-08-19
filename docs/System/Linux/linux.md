@@ -109,11 +109,11 @@ nmcli device show | grep DNS    # 查看DNS服务器信息
 sudo apt update
 sudo apt install -y openssh-server
 
-# 检查 SSH 服务状态（显示 active (running) 即为正常）
-sudo systemctl status ssh
+# 检查 SSH 服务状态（显示 active (running) 即为正常），alias ssh=sshd，所以指定二者均可
+sudo systemctl status sshd
 
 # 设置开机自启
-sudo systemctl enable ssh
+sudo systemctl enable sshd
 ```
 
 #### 远程桌面连接(暂未成功)
