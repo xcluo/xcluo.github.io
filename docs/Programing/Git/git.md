@@ -365,13 +365,18 @@ git merge local-repo/master             # 合并远程仓库中指定分支，�
 
 #### `git rebase`
 
-git rebase 的核心作用是将当前分支的提交“重放”到目标分支的最新提交之后，从而形成一条线性的提交历史。
+git rebase 的核心作用是将当前分支的提交“重放”到目标分支的最新提交之后，从而形成一条线性的提交历史。基本语法为 `git rebase [OPTIONS] [<upstream> [<branch>]]`
 
 <div class="one-image-container">
     <img src="image/git_rebase.png" style="width: 80%;">
     <!-- <p>LoRA在Attention各部分权重上的消融实验效果</p> -->
     <!-- <figcaption>这是图片的标题或描述。</figcaption> -->
 </div>
+
+Option
+
+- `--continue` 解决冲突或编辑后继续
+- `--abort` 放弃变基，回到变基前状态
 
 ```bash
 git rebase <rebased_branch_name>    # 将当前提交重放到rebased_branch_name分支提交之后

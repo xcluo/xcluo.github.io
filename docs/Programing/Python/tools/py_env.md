@@ -3,6 +3,7 @@ title: "py_env"
 ---
 
 ```bash
+pip cache dir       # 查看缓存目录
 pip cache info      # 查看缓存信息（一般存储在c盘）
 pip cache list      # 查看具体缓存情况
 pip cache purge     # 清除缓存
@@ -21,6 +22,24 @@ export UV_CACHE_DIR=/path/to/custom/cache
 
 - 安装后cmd中运行 `conda init` 以永久化支持conda
 - 安装后git中运行 `conda init bash` 以永久化支持conda
+
+基本语法如下：
+```bash
+pip install [OPTIONS] <requirement specifier> [package-index-options] ...
+pip install [OPTIONS] -r <requirements file> [package-index-options] ...
+pip install [OPTIONS] [-e] <vcs project url> ...
+pip install [OPTIONS] [-e] <local project path> ...
+pip install [OPTIONS] <archive url/path> ...
+```
+> **VSC**: **V**ersion **C**ontrol **S**ystem
+
+Option
+
+- `-i url` --index-url，指定镜像源
+    - 科大源 `-i https://pypi.mirrors.ustc.edu.cn/simple/`
+    - 清华源 `-i https://pypi.tuna.tsinghua.edu.cn/simple`
+- `--no-cache-dir` 禁用缓存
+- `--cache_dir dir` 指定缓存目录，未指定缓存option时，使用默认缓存路径
 
 常用安装命令
 

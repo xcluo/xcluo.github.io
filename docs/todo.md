@@ -102,5 +102,4 @@
     - [x] 推荐系统论文精读
     - [x] 经典推荐算法学习
     - [x] 推荐系统与深度学习论文笔记
-- https://km.netease.com/v4/detail/blog/223053  
 - https://readpaper.feishu.cn/docx/CrMGdSVPKow5d1x1XQMcJioRnQe

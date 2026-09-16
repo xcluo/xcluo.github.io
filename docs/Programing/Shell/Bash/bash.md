@@ -6,6 +6,7 @@
 - 内容统计：`wc`
 - 文件查询：[`find`](file_related/find.md)
 - 命令类型查询：[`type`](file_related/type.md)
+- 磁盘空间/占用：[`df/du`](file_related/df_du.md)
 
 #### 文件权限操作
 

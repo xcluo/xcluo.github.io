@@ -47,8 +47,10 @@ title: "Python"
     - 代码传参：[`sys.argv`](libs/argparser.md#sysargv)，[`argparse`](libs/argparser.md#argparse)，[`tf.flags`](libs/argparser.md#tfflags)
     - 进度条显示：[`tqdm`](libs/tqdm.md)
     - [`colorama`](libs/colorama.md)控制终端输出
+    - [`subprocess`](libs/subprocess.md)：在Python程序中执行外部命令、调用其他程序
 - [`pytest`](libs/pytest.md)：测试框架
-- [`subprocess`](libs/subprocess.md)
+- 打包相关
+    - [`pyinstaller`](libs/pyinstaller.md)：将 Python 脚本打包成独立可执行文件
 
 #### 统计、绘图
 
@@ -105,6 +107,10 @@ title: "Python"
 - [`gensim`](ai_libs/gensim/gensim.md)
 - [`lightgbm`]()
 - [`fasttext`] pip install fasttext-wheel
+
+#### 模型平台
+
+- [`modelscope`](ai_libs/modelscope.md)：模型下载与管理（阿里云模型平台）
 
 #### 分词方法
 

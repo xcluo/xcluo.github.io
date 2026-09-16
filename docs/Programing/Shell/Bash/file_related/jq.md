@@ -11,9 +11,10 @@ title: "jq"
 2. `~/.bash_profile` 中设置 `alias jq=jqexe_absoulte_path'`
 3. 加载配置 `source ~/.bash_profile`
 
+> 也可以通过创建jq文件夹，将`.exe`文件放入jq文件夹中，将该文件夹增加至PATH环境变量中
 
 ### 使用方法
-`jq [options] filter [file]`
+`jq [OPTIONS] filter [file]`
 
 #### `options` 选项
 - `-c/--compact-output`：紧凑输出，即把一个JSON对象输出在一行

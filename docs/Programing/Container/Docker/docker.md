@@ -18,14 +18,23 @@ title: Docker
 
     ```json
     "registry-mirrors": [
-        "https://docker.xuanyuan.me"
+        "https://docker.xuanyuan.me",
+        "https://docker.m.daocloud.io"
     ]
     ```
 
-    1. [`登录SWR`](https://support.huaweicloud.com/usermanual-swr/swr_01_0022.html)
-    2. 选择区域局点：华东-上海
-    3. 左侧镜像资源 → 镜像中心 → 右上角镜像加速器 →加速器地址
-    4. 复制至 `#!json "registry-mirrors": [url]`  
+    === "华为云镜像加速"
+
+        1. [`登录SWR`](https://support.huaweicloud.com/usermanual-swr/swr_01_0022.html)
+        2. 选择区域局点：华东-上海
+        3. 左侧镜像资源 → 镜像中心 → 右上角镜像加速器 → 加速器地址
+        4. 复制至 `#!json "registry-mirrors": [url]`
+    
+    === "阿里云镜像加速"
+
+        1. [`登录阿里云`](https://cr.console.aliyun.com/?spm=a2c4g.11186623.0.0.6bd91119BS4bq8)
+        2. 左侧镜像工作 → 镜像加速器 → 加速器地址
+        3. 复制至 `#!json "registry-mirrors": [url]`
 
 - 汉化
     1. [`汉化包release地址`](https://github.com/asxez/DockerDesktop-CN/releases)
@@ -306,7 +315,11 @@ Options
 
 #### `docker pull`
 
-未指定标签，默认拉取lastest
+拉取镜像，基本语法为 `docker pull [OPTIONS] IMAGE`，未指定标签，默认拉取lastest
+
+Option
+
+- `--platform p` 指定拉取镜像的运行架构，如`linux/arm64`, `linux/amd64`, `windows/amd64`，未指定时默认匹配宿主机架构
 
 ### 容器相关命令
 
@@ -575,9 +588,6 @@ docker network connect my-network containerB
 #### `prune`
 
 ### 仓库管理命令
-
-1. `docker pull docker.io/library/image_name:tag` 拉取镜像，library为命名空间
-    - `--platform` 指定拉取镜像的运行架构
 
 - `docker inspect CONTAINER | jq -c .[0] | jq -c .Mounts` 获取指定容器卷信息
 > 修改挂载卷信息：`备份数据 -> 删除旧容器 -> 用新挂载方式启动`
