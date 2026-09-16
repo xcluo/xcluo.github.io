@@ -1,8 +1,13 @@
 ---
-comments: true
+date: 2025-01-31
+slug: vrv-uninstall
 title: 北信源卸载
-date: 2025-01-31 
-slug: xcluo
+comments: true
+categories:
+  - 工具配置
+tags:
+  - 系统工具
+  - 卸载
 ---
 
 <!-- more -->

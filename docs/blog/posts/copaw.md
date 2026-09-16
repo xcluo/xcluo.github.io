@@ -1,8 +1,12 @@
 ---
-date: 
-  created: 2024-01-31
-  updated: 2024-02-28
+date: 2024-01-31
+slug: copaw
 title: "CoPaw" 
+categories:
+  - AI 应用
+tags:
+  - AI
+  - 工具
 ---
 <!-- more -->
 

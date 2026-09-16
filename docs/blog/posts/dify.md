@@ -1,22 +1,25 @@
 ---
-draft: true 
 date: 2026-01-23
+slug: dify
 title: "DIFY"
 comments: true
 categories:
-  - AI应用
+  - AI 应用
+tags:
+  - AI
+  - 平台
 ---
 
 
 
 <!-- more -->
-- 多模态模型[版面内容理解]：分类
-- 图片分割 → 多模态模型[分类 + OCR]
+- 多模态模型 [版面内容理解]：分类
+- 图片分割 → 多模态模型 [分类 + OCR]
 
 ---
 
 1. 文件类型识别（LayoutLMv3），是资质文件 or 证书
-1. 版面分割，指定内容分割（本质上是使用text对图片分割区域进行查询过滤）
+1. 版面分割，指定内容分割（本质上是使用 text 对图片分割区域进行查询过滤）
 > 框 + mask（框内有效像素点）
 2. 具体部分专用采用模型识别
 3. 多语种识别处理
@@ -27,8 +30,8 @@ categories:
 
 ![alt text](image.png)
 
-- 1D position embedding：token序列顺序
-- 2D position embedding：token空间关系，即token所处页面位置坐标【文本边界框归一化后绝对坐标 (x0, y0, x1, y1)，图片网格坐标】
+- 1D position embedding：token 序列顺序
+- 2D position embedding：token 空间关系，即 token 所处页面位置坐标【文本边界框归一化后绝对坐标 (x0, y0, x1, y1)，图片网格坐标】
 
 - MLM：masked language modeling
 - MIM：masked image modeling
@@ -46,7 +49,7 @@ categories:
 
 #### 多语种
 
-- PP-OCRv5，5个大语种效果表现好，小语种待测，最大支持109种
+- PP-OCRv5，5 个大语种效果表现好，小语种待测，最大支持 109 种
 - Qwen3-VL
 - HunyuanOCR，语种识别加翻译
 - GLM-OCR

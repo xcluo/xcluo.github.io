@@ -8,7 +8,7 @@ use_directory_urls: false           # 所有的页面链接都以`.html`文件�
 
 # [Navigtion]
 nav:
-  - Blog:   # 直接在该行 blog/index.md，左侧将不会展示日期归档（archive）和分类（categories）
+  - Blog:
     - blog/index.md
   - AI:
     - 专业名词: AI/annotation.md
@@ -87,7 +87,7 @@ nav:
   - 系统:
     - Linux: System/Linux/linux.md
     - Windows: System/Windows/index.md
-    - 虚拟机: System/Virtual_Machine/index.md
+    - 虚拟机: System/Virtual_Machine/vmware.md
 
   - 资源:
     - 多媒体: Resource/Media/index.md

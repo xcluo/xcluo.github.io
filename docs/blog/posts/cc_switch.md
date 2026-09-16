@@ -1,9 +1,13 @@
 ---
 date: 2026-07-29
+slug: cc-switch
 title: "CC-Switch"
 comments: true
 categories:
   - 工具配置
+tags:
+  - 工具
+  - Claude
 ---
 
 CC-Switch 是一个 Claude Code 的本地路由工具，支持多 API 供应商切换。

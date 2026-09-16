@@ -1,12 +1,14 @@
 ---
-draft: true 
-date: 
-  created: 2026-01-30
-slug: a2ui  # url别名
+date: 2026-01-30
+slug: a2ui  # url 别名
 title: "A2UI"
 comments: true
 categories:
-  - AI应用
+  - AI 应用
+tags:
+  - AI
+  - UI
+  - 工具
 ---
 [A2UI](https://github.com/google/A2UI) 按照用户的需求，给出一些可选表单让用户一次性填完关键信息、指定参数，而不用大模型多轮乒乓交互，盲人摸象般地高负载串行
 
@@ -14,13 +16,13 @@ categories:
 
 ## 快速启动
 
-1. git clone项目并进入仓库
+1. git clone 项目并进入仓库
 
 后端相关
 
-- 进入点餐路径`cd samples/agent/adk/restaurant_finder`
-- 安装python环境`uv venv`，`uv sync`
-- 将`agent.py → _build_agent`中的LlmAgent初始化第一个行改为 `model=LiteLlm(model="openai/{MODEL_NAME}", api_base="{API_BASE_V1}", api_key="{API_KEY}")`以自定义大模型使用
+- 进入点餐路径 `cd samples/agent/adk/restaurant_finder`
+- 安装 python 环境 `uv venv`，`uv sync`
+- 将 `agent.py → _build_agent` 中的 LlmAgent 初始化第一个行改为 `model=LiteLlm(model="openai/{MODEL_NAME}", api_base="{API_BASE_V1}", api_key="{API_KEY}")` 以自定义大模型使用
 - 启动后端服务 `uv run .`
 
 前端相关

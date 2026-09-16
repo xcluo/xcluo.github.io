@@ -1,34 +1,34 @@
 ---
-draft: true 
-date: 
-  created: 2024-01-31
-  updated: 2024-02-28
+date: 2024-01-31
 slug: openclaw
 title: "openclaw"
 comments: true
 categories:
-  - AI应用
+  - AI 应用
+tags:
+  - AI
+  - 工具
 ---
 <!-- more -->
-- [OpenClaw已跑通功能](https://www.yuque.com/ruishi-7yym8/mqxshg/qgcncafnwwziqq8k?singleDoc#GoZBP)
-- [openclaw中文指南: docker, sandbox](https://news-openclaw.smzdm.com/docs/zh-CN/install/docker)
-- [openclaw中文指南: nix](https://news-openclaw.smzdm.com/docs/zh-CN/install/nix)
+- [OpenClaw 已跑通功能](https://www.yuque.com/ruishi-7yym8/mqxshg/qgcncafnwwziqq8k?singleDoc#GoZBP)
+- [openclaw 中文指南：docker, sandbox](https://news-openclaw.smzdm.com/docs/zh-CN/install/docker)
+- [openclaw 中文指南：nix](https://news-openclaw.smzdm.com/docs/zh-CN/install/nix)
 - tools.elevated 提权是显式的"逃逸通道"，可让 exec 工具绕过 sandbox 直接在 Gateway 主机上执行，这也再次说明两者（Gateway 主机 和 Sandbox 容器）是相互独立的。
 
 ### 项目安装 
 
-- windows中间安装中：ps1 脚本需去除 -T 伪终端选项
+- windows 中间安装中：ps1 脚本需去除 -T 伪终端选项
 
 ```bash
 git clone https://github.com/openclaw/openclaw.git
 cd openclaw
 
 pnpm install
-pnpm ui:build     # 构建前端ui，auto-installs UI deps on first run
-pnpm build        # 构建执行脚本dist
+pnpm ui:build     # 构建前端 ui，auto-installs UI deps on first run
+pnpm build        # 构建执行脚本 dist
 
-# 选择GLM4.7 → 输入API_KEY → 选择GLM 4.7-flash
-# API_KEY会存储在 .openclaw/agents/main/agent/auth-profiles.json中
+# 选择 GLM4.7 → 输入 API_KEY → 选择 GLM 4.7-flash
+# API_KEY 会存储在 .openclaw/agents/main/agent/auth-profiles.json 中
 # 默认会开启网关
 pnpm openclaw onboard --install-daemon
 ```
@@ -44,8 +44,8 @@ pnpm openclaw gateway --port 18789 --verbose
 --allow-unconfigured
 pnpm openclaw gateway stop  # 关闭网关
 
-pnpm openclaw config    # 进行配置，ESC退出
-pnpm openclaw skills    # 查看skills
+pnpm openclaw config    # 进行配置，ESC 退出
+pnpm openclaw skills    # 查看 skills
 pnpm openclaw dashboard # 启动浏览器页面
 pnpm openclaw tui       # 终端对话
 
@@ -54,22 +54,22 @@ systemctl --user status # 查看当前用户网关情况
 ```
 
 
-- 无法打开浏览器可以重启wsl：`wsl --shutdown`，等待10s后再`wsl`进入
+- 无法打开浏览器可以重启 wsl：`wsl --shutdown`，等待 10s 后再`wsl`进入
 
-### docker容器化
+### docker 容器化
 
 ```bash
 git clone openclaw
 ./docker-setup.sh
 ```
 
-出现无法安装bun.sh时可采用以下替换方法 `RUN curl -fsSL https://bun.sh/install | bash`
+出现无法安装 bun.sh 时可采用以下替换方法 `RUN curl -fsSL https://bun.sh/install | bash`
 
-1. 下载对应版本的bun.zip
-2. 修改Dockerfile文件
+1. 下载对应版本的 bun.zip
+2. 修改 Dockerfile 文件
 
 ```bash
-# copy对应版本bun.zip进入容器
+# copy 对应版本 bun.zip 进入容器
 COPY bun-linux-x64.zip /tmp/bun.zip
 
 RUN mkdir -p /root/.bun/bin && \
@@ -79,7 +79,7 @@ RUN mkdir -p /root/.bun/bin && \
     rm -rf /tmp/bun.zip /tmp/bun-extract \
 ```
 
-#### docker部署
+#### docker 部署
 ```bash
 docker build -t openclaw:local -f Dockerfile .
 docker compose run --rm openclaw-cli onboard
@@ -87,12 +87,12 @@ docker compose up -d openclaw-gateway
 ```
 
 
-- 默认非root的node用户安装 → USER root
+- 默认非 root 的 node 用户安装 → USER root
 - 增加安装的工具 → OPENCLAW_DOCKER_APT_PACKAGES="jq iputils-ping"
 
 ------
 
-- 运行完cli
+- 运行完 cli
 - openclaw.json，中-"gateway"子键新增，
 ```
 "controlUi": {
@@ -120,7 +120,7 @@ docker compose run --rm openclaw-cli channels login
 }
 ```
 
-#### 沙箱运行tool
+#### 沙箱运行 tool
 
 - https://www.bilibili.com/video/BV158ZABkE5Q/?spm_id_from=333.788.videopod.sections&vd_source=782e4c31fc5e63b7cb705fa371eeeb78
 
@@ -141,10 +141,10 @@ docker compose run --rm openclaw-cli channels login
     "workspaceRoot": "~/.openclaw/sandboxes",
     "network": "bridge",
     "user": "1000:1000",
-    // 挂载卷, host_dir:container_dir:mode
+    // 挂载卷，host_dir:container_dir:mode
     "binds": ["/home/node/.openclaw/workspace:/workspace:ro", "/var/run/docker.sock:/var/run/docker.sock"]
   },
-  // 允许在sandbox中执行浏览器操作
+  // 允许在 sandbox 中执行浏览器操作
   "browser": {
     "enabled": true
   }
@@ -185,12 +185,12 @@ docker compose run --rm openclaw-cli channels login
 
 
 #### 多智能体
-1. 修改.docker-setup.sh中`OPENCLAW_CONFIG_DIR`和`OPENCLAW_WORKSPACE_DIR`，放置写入覆盖
+1. 修改.docker-setup.sh 中`OPENCLAW_CONFIG_DIR`和`OPENCLAW_WORKSPACE_DIR`，放置写入覆盖
 2. 修改`docker-compose.yaml`中端口映射放置端口拥挤
 3. 实现部署
 
 ---
-agents.list中可定义多智能体，类似于models中指定多llm
+agents.list 中可定义多智能体，类似于 models 中指定多 llm
 
 
 
@@ -228,19 +228,19 @@ agents.list中可定义多智能体，类似于models中指定多llm
   }
 }
 
-// 一定要提供provider，该provider对应新增的供应商键值
+// 一定要提供 provider，该 provider 对应新增的供应商键值
 agents.defaults."primary": "{==custom-1==}/XT-LLM"
 ```
 
 
-#### docker配置飞书
+#### docker 配置飞书
 依照教程进行
 
-## OrangePi安装
+## OrangePi 安装
 
-### docker部署
+### docker 部署
 
-#### 改写Dockerfile
+#### 改写 Dockerfile
 
 1. `RUN curl -fsSL https://bun.sh/install | bash` → 先下载指定（arm）版本后安装
 
@@ -258,17 +258,15 @@ RUN mkdir -p /root/.bun/bin && \
 
 - [openclaw skill hub](https://clawhub.ai/skills?sort=downloads)
 
-## 远程访问openclaw服务
+## 远程访问 openclaw 服务
 
 1. openclaw.json：
-    - `mode: remote`，此时启动gateway时需传入参数`--allow-unconfigured`
+    - `mode: remote`，此时启动 gateway 时需传入参数`--allow-unconfigured`
     - `bind: lan`
     - `controlUi`
         - `allowInsecureAuth: true`
-2. 远程机器浏览器中（首次）输入 `http://部署机器IP:端口号port_num/#token=真实token`
+2. 远程机器浏览器中（首次）输入 `http://部署机器 IP:端口号 port_num/#token=真实 token`
 
-> docker部署一定要保证宿主机和容器成功配置端口映射
-
-
+> docker 部署一定要保证宿主机和容器成功配置端口映射
 
 
