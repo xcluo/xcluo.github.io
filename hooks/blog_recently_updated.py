@@ -1,16 +1,82 @@
 """
 MkDocs 钩子：为博客首页生成最近更新列表
+使用 Git commit 时间进行排序，而非文件修改时间
 """
 from pathlib import Path
 from datetime import datetime, date as date_type
 import yaml
 import re
 import html as html_module
+import subprocess
+import os
+
+
+def get_git_last_updated_dates(docs_dir_path: Path) -> dict:
+    """
+    获取所有 .md 文件的 Git 最后提交时间
+    返回格式: {相对路径: 时间戳}
+    """
+    doc_mtime_map = {}
+    try:
+        # 获取 Git 仓库根目录
+        git_root = Path(subprocess.check_output(
+            ['git', 'rev-parse', '--show-toplevel'],
+            cwd=docs_dir_path, encoding='utf-8'
+        ).strip())
+        
+        # docs 目录相对于 git 根目录的路径
+        rel_docs_path = docs_dir_path.relative_to(git_root).as_posix()
+
+        # 获取每个 .md 文件的最后提交时间（不使用 --relative，让 git 返回完整路径）
+        cmd = ['git', 'log', '--no-merges', '--format=%at', '--name-only', 
+               '--', '*.md']
+        process = subprocess.run(cmd, cwd=docs_dir_path, capture_output=True, encoding='utf-8')
+        
+        if process.returncode == 0:
+            # 获取已跟踪的文件列表（相对于 docs 目录）
+            result = subprocess.run(
+                ["git", "ls-files"],
+                cwd=docs_dir_path, capture_output=True, encoding='utf-8'
+            )
+            # 过滤出 .md 文件，并确保路径是相对于 docs 的
+            tracked_files = set()
+            for line in result.stdout.splitlines():
+                line = line.strip()
+                if line.endswith('.md'):
+                    # ls-files 返回的是相对于 cwd 的路径，已经是相对路径
+                    tracked_files.add(line)
+            
+            ts = None
+            for line in process.stdout.splitlines():
+                line = line.strip()
+                if not line:
+                    continue
+                # 时间戳行格式: 1234567890
+                if line.isdigit():
+                    ts = float(line)
+                # 文件路径行（带 docs/ 前缀）
+                elif line.endswith('.md') and ts:
+                    # 去掉 docs/ 前缀（如果存在）
+                    rel_path = line
+                    if rel_path.startswith(rel_docs_path + '/'):
+                        rel_path = rel_path[len(rel_docs_path) + 1:]
+                    elif rel_path.startswith(rel_docs_path):
+                        rel_path = rel_path[len(rel_docs_path):].lstrip('/')
+                    
+                    if rel_path in tracked_files:
+                        # 使用 setdefault，只记录第一次出现的文件（即最近一次提交）
+                        doc_mtime_map.setdefault(rel_path, ts)
+                    ts = None  # 重置，等待下一个文件
+    except Exception as e:
+        print(f"[Blog Hook] Error getting git info: {e}")
+    
+    return doc_mtime_map
 
 
 def on_page_content(html, page, config, files):
     """
     在页面内容生成时，为博客首页添加最近更新列表
+    按 Git commit 时间排序
     """
     # 只处理博客首页
     if "blog/index.md" not in page.file.src_path and "blog\\index.md" not in page.file.src_path:
@@ -22,6 +88,9 @@ def on_page_content(html, page, config, files):
     if not blog_posts_dir.exists():
         print(f"[Blog Hook] Blog posts directory not found: {blog_posts_dir}")
         return html
+
+    # 获取 Git 最后提交时间（所有 .md 文件）
+    git_dates = get_git_last_updated_dates(Path(config["docs_dir"]))
 
     # 收集所有博客帖子及其日期信息
     posts = []
@@ -59,15 +128,26 @@ def on_page_content(html, page, config, files):
                             date_obj = None
                             date_str = ""
 
-                # 如果 frontmatter 中没有日期，尝试从 document-dates 插件的缓存中获取
-                # document-dates 插件会将日期存储在 page.meta["_mx"]["document_dates"]["dates"] 中
-                # 但由于 on_page_content 钩子无法直接访问其他页面的 meta，需要从文件修改时间回退
-                if not date_obj:
-                    # 使用文件的修改时间作为回退（与 document-dates 插件的 fallback_to_file_date 行为一致）
+                # 获取 Git 时间（用于排序）
+                # 文件在 Git 中的相对路径
+                try:
+                    rel_path = md_file.relative_to(Path(config["docs_dir"])).as_posix()
+                except ValueError:
+                    rel_path = str(md_file.name)
+                
+                git_timestamp = git_dates.get(rel_path)
+                
+                # 如果 Git 中没有记录，回退到文件 mtime
+                if git_timestamp:
+                    git_date = datetime.fromtimestamp(git_timestamp)
+                else:
                     file_mtime = datetime.fromtimestamp(md_file.stat().st_mtime)
-                    date_obj = file_mtime.date()
+                    git_date = file_mtime
+
+                # 如果 frontmatter 中没有日期，使用 Git 时间
+                if not date_obj:
+                    date_obj = git_date.date()
                     date_str = date_obj.strftime("%Y-%m-%d")
-                    print(f"[Blog Hook] Using file mtime for {md_file.name}: {date_str}")
 
                 # 获取标题
                 title = frontmatter.get("title", md_file.stem)
@@ -83,24 +163,25 @@ def on_page_content(html, page, config, files):
                 if date_obj:
                     # 日期格式：yyyy/MM/dd (2026/07/29)
                     date_path = date_obj.strftime("%Y/%m/%d")
-                    # URL 格式：blog/2026/07/29/slug.html
-                    url = f"{date_path}/{slug}.html"
+                    # URL 格式：/blog/2026/07/29/slug.html（绝对路径）
+                    url = f"/blog/{date_path}/{slug}.html"
                 else:
                     # 如果没有日期，使用默认路径
-                    url = f"posts/{slug}.html"
+                    url = f"/blog/posts/{slug}.html"
 
                 posts.append({
                     "title": title,
                     "url": url,
                     "date": date_obj,
-                    "date_str": date_str
+                    "date_str": date_str,
+                    "git_date": git_date  # 用于排序
                 })
         except Exception as e:
             print(f"[Blog Hook] Warning: Failed to parse {md_file}: {e}")
             continue
 
-    # 按日期降序排序（最近的在前）
-    posts.sort(key=lambda x: x["date"] or datetime.min, reverse=True)
+    # 按 Git commit 时间降序排序（最近的在前）
+    posts.sort(key=lambda x: x["git_date"] or datetime.min, reverse=True)
 
     # 生成 HTML（对标题进行 HTML 转义以防止 XSS）
     recently_updated_html = '''

@@ -309,7 +309,7 @@ plugins:
 hooks:
   - hooks/copy_css.py
   - hooks/blog_recently_updated.py
-  - hooks/disable_blog_on_home.py
+  - hooks/show_archive_content.py
 
 markdown_extensions:
   - pymdownx.emoji:
