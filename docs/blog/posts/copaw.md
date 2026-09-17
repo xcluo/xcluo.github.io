@@ -1,12 +1,11 @@
 ---
-date: 2024-01-31
+date: 2026-01-31
 slug: copaw
 title: "CoPaw" 
 categories:
-  - AI 应用
+  - Agent
 tags:
-  - AI
-  - 工具
+  - Agent
 ---
 <!-- more -->
 

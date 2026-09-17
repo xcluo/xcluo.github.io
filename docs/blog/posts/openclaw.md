@@ -1,13 +1,12 @@
 ---
-date: 2024-01-31
+date: 2026-01-01
 slug: openclaw
 title: "openclaw"
 comments: true
 categories:
-  - AI 应用
+  - Agent
 tags:
-  - AI
-  - 工具
+  - Agent
 ---
 <!-- more -->
 - [OpenClaw 已跑通功能](https://www.yuque.com/ruishi-7yym8/mqxshg/qgcncafnwwziqq8k?singleDoc#GoZBP)

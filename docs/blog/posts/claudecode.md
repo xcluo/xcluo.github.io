@@ -1,13 +1,12 @@
 ---
-date: 2024-01-31
+date: 2026-01-31
 slug: claude-code
 title: "Claude Code"
 categories:
-  - AI 应用
+  - Agent
 tags:
-  - AI
+  - Agent
   - Claude
-  - 工具
 ---
 <!-- more -->
 1. 安装node.js, git, CC-switch, vscode
