@@ -1,0 +1,8 @@
+i'm bigluo, who are you
+
+heihei
+
+	def hello_world():
+		print(hello world)
+		if name == "lxc":
+			print("here")
