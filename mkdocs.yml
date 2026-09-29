@@ -12,7 +12,7 @@ nav:
     - blog/index.md
   - AI:
     - 专业名词: AI/annotation.md
-    - 训练总览: AI/Train_Overview/index.md
+    - 训练总览: AI/Train_Overview/train_overview.md
     - 功能实现:
       - 论文笔记: 
         - 语言模型: AI/Paper_Reading/LM/LMs/index.md  
@@ -65,28 +65,24 @@ nav:
       - LFTP: Programing/FTP/LFTP/lftp.md
     - MATLAB: Programing/MATLAB/matlab.md
     - Database: Programing/Database/database.md
-    - Algorithm: Programing/Algorithm/index.md
-    - 轮子: Programing/wheel/index.md
+    - Algorithm: Programing/Algorithm/algorithm.md
+    - 轮子: Programing/wheel/wheel.md
     - 容器:
       - Docker: Programing/Container/Docker/docker.md
       - K8s: Programing/Container/K8s/k8s.md
 
   - 软件:
     - 集成开发环境:
-      - IDEA: Software/IDE/IDEA/index.md
+      - IDEA: Software/IDE/IDEA/idea.md
       - PyCharm: Software/IDE/PyCharm/pycharm.md
       - VSCode: Software/IDE/VSCode/vscode.md
-    - 编译环境:
-      - Conda: Software/Compiler/Conda/index.md
-      - CUDA: Software/Compiler/CUDA/index.md
-      - Maven: Software/Compiler/Maven/maven.md
     - 办公软件:
-      - Office: Software/Office/Office/index.md
-      - Adboe: Software/Office/Adobe/index.md
+      - Office: Software/Office/Office/office.md
+      - Adboe: Software/Office/Adobe/adobe.md
    
   - 系统:
     - Linux: System/Linux/linux.md
-    - Windows: System/Windows/index.md
+    - Windows: System/Windows/windows.md
     - 虚拟机: System/Virtual_Machine/vmware.md
 
   - 资源:
