@@ -62,7 +62,7 @@ nav:
       - Markdown: Programing/Tex/Markdown/markdown.md
       - MkDocs: Programing/Tex/MkDocs/mkdocs.md
     - FTP: 
-      - LFTP: Programing/FTP/LFTP/index.md
+      - LFTP: Programing/FTP/LFTP/lftp.md
     - MATLAB: Programing/MATLAB/matlab.md
     - Database: Programing/Database/database.md
     - Algorithm: Programing/Algorithm/index.md

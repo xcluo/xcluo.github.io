@@ -20,24 +20,38 @@ export UV_CACHE_DIR=/path/to/custom/cache
 
 ## conda
 
-- 安装后cmd中运行 `conda init` 以永久化支持conda
-- 安装后git中运行 `conda init bash` 以永久化支持conda
+```bash
+export conda=/home/nisp/anaconda2   # conda路径, 激活conda命令
+export PATH=$PATH:$conda/bin
+```
 
-基本语法如下：
+永久化支持conda
+
+- cmd中运行 `conda init`
+- git bash中运行 `conda init bash`
+
+### pip install
+
+安装依赖包，基本语法如下：
+
 ```bash
 pip install [OPTIONS] <requirement specifier> [package-index-options] ...
-pip install [OPTIONS] -r <requirements file> [package-index-options] ...
-pip install [OPTIONS] [-e] <vcs project url> ...
-pip install [OPTIONS] [-e] <local project path> ...
-pip install [OPTIONS] <archive url/path> ...
+pip install [OPTIONS] -r <requirements_file> [package-index-options] ...
+pip install [OPTIONS] [-e] <vcs_project_url/local_project_path> ...
+# 在线安装远程的包或离线安装下载至本地的包
+pip install [OPTIONS] <online_archive_url/local_archive_path> ...
 ```
-> **VSC**: **V**ersion **C**ontrol **S**ystem
+
+> **VSC**: **V**ersion **C**ontrol **S**ystem，版本控制工具，如git、
 
 Option
 
 - `-i url` --index-url，指定镜像源
-    - 科大源 `-i https://pypi.mirrors.ustc.edu.cn/simple/`
-    - 清华源 `-i https://pypi.tuna.tsinghua.edu.cn/simple`
+  
+  - 科大源 `-i https://pypi.mirrors.ustc.edu.cn/simple/`
+  - 清华源 `-i https://pypi.tuna.tsinghua.edu.cn/simple/`
+
+- `-e` --editable，可编辑安装，不讲安装包复制到site-packages路径中，而是在该目录下放置指向代码的快捷方式，因此可在修改代码后即时生效，无需重新安装
 - `--no-cache-dir` 禁用缓存
 - `--cache_dir dir` 指定缓存目录，未指定缓存option时，使用默认缓存路径
 
@@ -47,6 +61,12 @@ Option
 # 完全绕过 pip 的缓存机制，强制重新从网络下载
 pip install --no-cache-dir package[==version]
 ```
+
+### pip list
+
+### pip config
+
+- `pip config set global.index-url https://pypi.mirrors.ustc.edu.cn/simple`
 
 ## uv
 
@@ -101,9 +121,10 @@ Package
 - 最新兼容版本：`uv add requests`
 - 指定版本：`uv add requests==2.31.0`
 - 指定版本范围
-    - `uv add "requests>=2.31.0,<2.33.0"` 指定上下边界（可只指定单边）
-    - `uv add "requests^2.31.0"` 指定大版本号，即 `≥2.31.0, <3.0.0`
-    - `uv add "requests~=2.31.0"` 指定大版本号和小版本号，即 `≥2.31.0, <2.32.0`
+
+  - `uv add "requests>=2.31.0,<2.33.0"` 指定上下边界（可只指定单边）
+  - `uv add "requests^2.31.0"` 指定大版本号，即 `≥2.31.0, <3.0.0`
+  - `uv add "requests~=2.31.0"` 指定大版本号和小版本号，即 `≥2.31.0, <2.32.0`
 
 #### `uv remove/uv pip uninstall`
 

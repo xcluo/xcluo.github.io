@@ -58,10 +58,16 @@ Option
 
 显示文本文件的内容，基本语法为 `type [drive:][path]<filename>`
 
+```cmd
+type nul > test.txt  # 创建空文件
+```
+
 ### 进程相关
 
 ### 通用命令
 
-#### `ren`
+#### `ren/rename`
 
 #### `findstr`
+
+#### `echo`

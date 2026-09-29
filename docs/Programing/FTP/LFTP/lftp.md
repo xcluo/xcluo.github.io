@@ -1,13 +1,25 @@
+---
+title: "LFTP"
+---
+
+## LFTP内部命令
+
+[FPT-commonds](http://linux.51yip.com/search/lftp)、
+[FTP-slices1](https://linux.cn/article-5460-1.html)、
+[FTP-slices2](https://www.bbsmax.com/A/A2dmPvR45e/)、
+[FTP-经验](https://cloud.tencent.com/developer/article/1831529)
+
 #### 登录命令
-```
+
+```bash
 lftp <user>:<pwd>@<ip>:<port>
 
 lftp nisp:nisp163@sa-dianxin-ftp.hz.163.org
 ```
 
-
 #### 远端命令
-```
+
+```bash
 ls          # 显示远端文件列表
 cd          # 切换远端目录
 pwd         # 显示远端目录     
@@ -20,16 +32,17 @@ du          # 计算远端目录大小
 ```
 
 #### 本地命令
-```
+
+```bash
 !ls         # 显示本地文件列表
 !rm         # 删除本地文件
 lcd         # 切换本地目录 
 lpwd        # 显示本地目录 
 ```
 
-
 #### 下载命令
-```
+
+```bash
 get         # 下载远端文件
 mget        # 批量下载远端文件(支持通配符*)，完全兼容get
 pget        # 使用多个线程来下载远端文件, 预设为五个。 
@@ -37,14 +50,16 @@ mirror      # 下载整个目录
 ```
 
 #### 上传命令
-```
+
+```bash
 put         # 上传文件至远端
 mput        # 批量上传多个文件(支持通配符*)
 mirror -R   # 上传整个目录
 ```
 
 #### 退出命令
-```
+
+```bash
 bye
 exit
 ```

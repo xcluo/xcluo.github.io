@@ -64,6 +64,7 @@ title: "annotation"
 #### S
 
 - **SaaS**：**S**oftware **a**s **a** **S**ervice，软件即服务，直接提供完整的在线软件应用，用户无需关心底层基础设施、平台或软件维护，只需通过浏览器或客户端使用。
+- **SHA**：**S**ecure **H**ash **A**lgorithm，安全哈希算法
 - **SMTP**：**S**imple **M**ail **T**ransfer **P**rotocol，简单邮件传输协议
 - **socket** 套接字，由IP地址和端口号组成，如 `127.0.0.1:8080`
 

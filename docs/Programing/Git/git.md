@@ -206,7 +206,7 @@ git commit --no-verify -m "commit message"
 
 !!! info
     如果最新一次提交已经推送到远程仓库：
-    1. 本地使用 `--amend` 修改提交信息后，的本地仓库SHA就和远程仓库SHA不一致，导致冲突
+    1. 本地使用 `--amend` 修改提交信息后，的本地仓库commit_hash就和远程仓库commit_hash不一致，导致冲突
     2. 需使用 `git push --force` 或更安全的 `git push --force-with-lease` 来强制推送，用本地的新提交覆盖远程的旧提交。
     > 使用 `git push --force-with-lease` 需--amend前的HEAD与远程仓库HEAD一致才可成功
 
@@ -258,6 +258,8 @@ git commit --no-verify -m "commit message"
 
 #### `git push`
 
+- `git push -u origin branch_name` 等价于 `git branch -u + git push`，若未映射绑定upstream，则必须指定branch_name
+
 #### `git pull`
 
 #### `git clone`
@@ -266,7 +268,7 @@ git commit --no-verify -m "commit message"
 
 `git clone -b <branch_name> <git_url of SSH/HTTP>`
 
-## 分支操作
+### 分支操作
 
 #### `git show`
 
@@ -277,7 +279,7 @@ Option
 - `--stat` 仅显示 diffstat（增、删行数），不显示改动内容
 - `-p` --patch，显示完整的代码改动差异
 - `-s` --no-patch，静默模式，不显示差异，只显示提交信息
-- `--format=<format>` 指定输出格式，支持 `%H`（SHA）、`%h`（短SHA）、`%an`（作者名）、`%s`（提交信息）等
+- `--format=<format>` 指定输出格式，支持 `%H`（长commit_hash）、`%h`（短commit_hash）、`%an`（author）、`%s`（commit_message）等
 - `--name-only` 只显示变更文件的文件名
 - `--name-status` 显示变更文件名及其状态（A/M/D）
 - `--encoding=<encoding>` 指定提交信息的字符编码（默认 UTF-8）
@@ -296,7 +298,7 @@ git show <commit-hash> --stat     # 只显示统计信息，不显示补丁
 git show v1.0.0                   # 显示标签指向的提交
 
 # 指定格式（常用于脚本）
-git show --format="%H %an" HEAD   # 只输出 SHA 和作者名
+git show --format="%H %an" HEAD   # 只输出 commit_hash 和作者名
 git show --format="%s" HEAD       # 只输出提交信息
 
 # 显示特定文件在某次提交中的内容
@@ -324,9 +326,9 @@ git branch -d branch_name       # 普通删除分支
 git branch -D branch_name       # 强制删除分支
 
 # 删除远程分支
-git push origin --delete remote_branch_name
+git push origin --delete <remote_branch_name>
 
-git branch -vv                 # 查看本地分支和远程分支关联情况
+git branch -vv                  # 查看本地分支和远程分支关联情况
 git branch --unset-upstream     # 解除当前本地分支远程分支的关联
 git branch --set-upstream-to=origin/<new_remote_branch_name>
 git branch -u origin/<new_remote_branch_name>
@@ -339,11 +341,13 @@ git branch -u origin/<new_remote_branch_name>
 # 以parent_branch_name为父分支生创建新的本地分支new_branch_name
 # origin/remote_branch_name，使用远程分支作为父分支
 git checkout -b <new_branch_name> <parent_branch_name>
-git checkout -b <branch_name> <sha> # 将某次提交结果作为新分支并创建新分支
-git checkout -b <new_branch_name>   # 创建并切换至新分支，默认父分支为当前分支
-git checkout <branch_name>          # 切换至指定分支
-git checkout -                      # 切换至上一分支
+git checkout -b <branch_name> <hash>    # 将某次提交结果作为新分支并创建新分支
+git checkout -b <new_branch_name>       # 创建并切换至新分支，默认父分支为当前分支
+git checkout <branch_name>              # 切换至指定分支
+git checkout -                          # 切换至上一分支
 ```
+
+> `parent_branch_name` 可为远程分支，即 `origin/<origin_branch_name>`
 
 #### `git merge`
 

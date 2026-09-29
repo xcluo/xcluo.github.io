@@ -24,6 +24,7 @@
 - json：[`jq`](file_related/jq.md)
 - xlsx：[`xlsx2csv`]()
 - pandoc：[`pandoc`](file_related/pandoc.md)
+- 压缩/解压：[`compress`](file_related/compress.md)
 
 #### 文件修改
 
@@ -37,6 +38,7 @@
 - 内容扰动：`shuf`
 - 文件传输：[`nc`](file_related/nc.md)
 - [输入输出重定向](file_related/redirection.md)：`<`、`>(>)`
+- 文本编辑：[`vim`](file_related/vim.md)
 
 ### 数值操作
 
@@ -57,6 +59,7 @@
 - 查看进程: [`top`](process_related/top.md)、`ps`
 - 终止进程: `kill`
 - watch -n 1
+- 会话窗口隔离：[`screen`](process_related/screen.md)
 
 #### 进程调度
 
