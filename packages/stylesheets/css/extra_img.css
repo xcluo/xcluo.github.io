@@ -1,0 +1,28 @@
+/* class_name::before, class_name::after 分别定义表示类前、后配置 */
+
+
+/* 单行单图 */
+.one-image-container {
+  text-align: center;                 /* 元素居中对齐 */
+  display: block;
+}
+
+.one-image-container p {
+  margin-top: -10px;
+}
+
+
+/* 单行并列多图 */
+.row-image-container {
+  text-align: center;                 /* 元素居中对齐 */
+  display: flex; 
+  justify-content: space-between;
+}
+
+.row-image-container p {
+  margin-top: -10px;
+}
+
+.row-image-container img {
+  width: 95%;;
+}

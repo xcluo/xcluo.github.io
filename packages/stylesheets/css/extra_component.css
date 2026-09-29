@@ -1,0 +1,60 @@
+/* ######### 列表 ######### */
+    /*
+        - MkDocs会自动外套一个 <div class="highlight"> 模块
+        - ol.marker的type取值，{1: 数字, a: 小写字母, A: 大写字母, i: 小写罗马数字, I: 大写罗马数字}
+    */
+
+/* 有序列表 */
+.highlight ol {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+/* 有序列表的项目 */
+.highlight ol li {
+    margin-bottom: 0px;
+}
+
+
+/* 无序列表 */
+.highlight ul {
+    margin-top: -5px;
+    margin-bottom: -5px;
+}
+
+/* 无序列表的项目 */
+.highlight ul li {
+    margin-bottom: 0px;
+}
+
+
+
+/* markdown ul */
+.md-typeset ul {
+    margin-top: 0px;
+    margin-bottom: 10px; 
+}
+
+/* markdown ul li */
+.md-typeset ul li {
+    margin-top: 0px;
+    margin-bottom: 0px; 
+}
+
+/* markdown ol */
+.md-typeset ol {
+    margin-top: 0px;
+    margin-bottom: 10px; 
+}
+
+/* markdown ol li */
+.md-typeset ol li {
+    margin-top: 0px;
+    margin-bottom: 0px; 
+}
+
+.md-typeset p {
+    margin-top: 0px;
+    margin-bottom: 0px; 
+}
+

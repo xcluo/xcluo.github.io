@@ -1,0 +1,215 @@
+/* ============================================
+   博客列表 - 单行显示样式
+   ============================================ */
+.md-content__inner .md-post {
+    display: none !important;
+}
+
+
+/* 博客文章容器 - 改为紧凑的单行布局 */
+.md-post {
+  display: flex !important;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.6rem 0 !important;
+  border-bottom: 1px solid var(--md-typeset-table-border-color);
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.md-post:hover {
+  background-color: var(--md-hover-bg-color);
+  margin: 0 -1rem;
+  padding: 0.6rem 1rem !important;
+  border-radius: 4px;
+  transform: translateX(4px);
+}
+
+.md-post:first-child {
+  padding-top: 0 !important;
+}
+
+.md-post:last-child {
+  border-bottom: none;
+}
+
+/* 隐藏文章 header 中的元数据（日期、分类、阅读时间） */
+.md-post__header {
+  display: none !important;
+}
+
+/* 文章内容区域 - 单行显示 */
+.md-post__content {
+  flex: 1;
+  display: flex !important;
+  align-items: center;
+  gap: 1rem;
+  min-width: 0;
+}
+
+/* 文章标题 - 单行显示 */
+.md-post__content h2 {
+  margin: 0 !important;
+  font-size: 1rem;
+  line-height: 1.4;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+
+.md-post__content h2 a {
+  color: var(--md-typeset-color);
+  text-decoration: none;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
+.md-post__content h2 a:hover {
+  color: var(--md-primary-fg-color);
+}
+
+/* 隐藏摘要段落 */
+.md-post__content > p {
+  display: none !important;
+}
+
+/* 隐藏分隔线 */
+.md-post__content hr {
+  display: none !important;
+}
+
+/* 隐藏"继续阅读"按钮 */
+.md-post__action {
+  display: none !important;
+}
+
+/* 保留 document-dates 插件的日期显示，但调整为紧凑样式 */
+.md-post__content .document-dates-plugin-wrapper {
+  flex-shrink: 0;
+  display: flex !important;
+  align-items: center;
+}
+
+.md-post__content .document-dates-plugin {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--md-default-fg-color--light);
+}
+
+.md-post__content .dd-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.md-post__content .material-icons {
+  font-size: 1rem;
+  vertical-align: middle;
+}
+
+/* ============================================
+   博客 - 最近更新模块样式（侧边栏用）
+   ============================================ */
+
+.recently-updated {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  background-color: var(--md-code-bg-color);
+  border-radius: 8px;
+  border-left: 4px solid var(--md-primary-fg-color);
+}
+
+.recently-updated h2 {
+  font-size: 1.2rem;
+  margin: 0 0 0.8rem 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--md-typeset-table-border-color);
+  color: var(--md-primary-fg-color);
+}
+
+.recently-updated ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.recently-updated li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.6rem 0.5rem;
+  border-bottom: 1px solid var(--md-typeset-table-border-color);
+  transition: background-color 0.2s ease;
+}
+
+.recently-updated li:hover {
+  background-color: var(--md-hover-bg-color);
+  margin: 0 -0.5rem;
+  padding-left: 1rem;
+  border-radius: 4px;
+}
+
+.recently-updated li:last-child {
+  border-bottom: none;
+}
+
+.recently-updated a {
+  color: var(--md-typeset-color);
+  text-decoration: none;
+  flex: 1;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.recently-updated a:hover {
+  color: var(--md-primary-fg-color);
+}
+
+.post-date {
+  font-size: 0.85rem;
+  color: var(--md-default-fg-color--light);
+  white-space: nowrap;
+  margin-left: 1rem;
+  font-family: var(--md-code-font-family);
+}
+
+/* 响应式设计 */
+@media screen and (max-width: 767px) {
+  .md-post {
+    flex-wrap: wrap;
+  }
+
+  .md-post__content {
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.3rem;
+  }
+
+  .md-post__content .document-dates-plugin-wrapper {
+    width: 100%;
+    margin-top: 0.2rem;
+  }
+
+  .recently-updated {
+    padding: 0.8rem;
+  }
+
+  .recently-updated li {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.3rem;
+  }
+
+  .post-date {
+    margin-left: 0;
+    font-size: 0.75rem;
+  }
+}
