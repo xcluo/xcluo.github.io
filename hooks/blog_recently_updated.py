@@ -192,6 +192,7 @@ def on_page_content(html, page, config, files):
 
     for post in posts:
         date_display = post["date_str"] or "未指定日期"
+        date_display = post["git_date"].strftime("%Y-%m-%d") or "未指定日期"
         # 对标题进行 HTML 转义
         safe_title = html_module.escape(post["title"])
         recently_updated_html += f'''    <li>
