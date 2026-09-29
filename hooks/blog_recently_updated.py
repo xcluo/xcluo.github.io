@@ -26,47 +26,45 @@ def get_git_last_updated_dates(docs_dir_path: Path) -> dict:
         
         # docs 目录相对于 git 根目录的路径
         rel_docs_path = docs_dir_path.relative_to(git_root).as_posix()
-
-        # 获取每个 .md 文件的最后提交时间（不使用 --relative，让 git 返回完整路径）
-        cmd = ['git', 'log', '--no-merges', '--format=%at', '--name-only', 
-               '--', '*.md']
-        process = subprocess.run(cmd, cwd=docs_dir_path, capture_output=True, encoding='utf-8')
         
-        if process.returncode == 0:
-            # 获取已跟踪的文件列表（相对于 docs 目录）
-            result = subprocess.run(
-                ["git", "ls-files"],
-                cwd=docs_dir_path, capture_output=True, encoding='utf-8'
-            )
-            # 过滤出 .md 文件，并确保路径是相对于 docs 的
-            tracked_files = set()
-            for line in result.stdout.splitlines():
-                line = line.strip()
-                if line.endswith('.md'):
-                    # ls-files 返回的是相对于 cwd 的路径，已经是相对路径
-                    tracked_files.add(line)
-            
-            ts = None
-            for line in process.stdout.splitlines():
-                line = line.strip()
-                if not line:
-                    continue
-                # 时间戳行格式: 1234567890
-                if line.isdigit():
-                    ts = float(line)
-                # 文件路径行（带 docs/ 前缀）
-                elif line.endswith('.md') and ts:
-                    # 去掉 docs/ 前缀（如果存在）
-                    rel_path = line
-                    if rel_path.startswith(rel_docs_path + '/'):
-                        rel_path = rel_path[len(rel_docs_path) + 1:]
-                    elif rel_path.startswith(rel_docs_path):
-                        rel_path = rel_path[len(rel_docs_path):].lstrip('/')
-                    
-                    if rel_path in tracked_files:
-                        # 使用 setdefault，只记录第一次出现的文件（即最近一次提交）
-                        doc_mtime_map.setdefault(rel_path, ts)
-                    ts = None  # 重置，等待下一个文件
+        # 调试：打印路径信息
+        print(f"[Blog Hook DEBUG] git_root: {git_root}")
+        print(f"[Blog Hook DEBUG] docs_dir_path: {docs_dir_path}")
+        print(f"[Blog Hook DEBUG] rel_docs_path: {rel_docs_path}")
+
+        # 获取已跟踪的 .md 文件列表（相对于 docs 目录）
+        result = subprocess.run(
+            ["git", "ls-files"],
+            cwd=docs_dir_path, capture_output=True, encoding='utf-8'
+        )
+        tracked_files = set()
+        for line in result.stdout.splitlines():
+            line = line.strip()
+            if line.endswith('.md'):
+                tracked_files.add(line)
+        print(f"[Blog Hook DEBUG] tracked_files count: {len(tracked_files)}")
+        print(f"[Blog Hook DEBUG] sample tracked: {list(tracked_files)[:5]}")
+
+        # 使用 git log 获取每个文件的最后提交时间
+        # 注意：这里直接搜索 docs 目录下的 .md 文件，不用 glob 模式
+        ts = None
+        current_file = None
+        
+        # 逐个文件查询最后 commit 时间
+        for md_file in tracked_files:
+            try:
+                # git log -1 获取最近一次提交，--follow 跟踪文件重命名
+                log_result = subprocess.run(
+                    ['git', 'log', '-1', '--format=%at', '--', md_file],
+                    cwd=docs_dir_path, capture_output=True, encoding='utf-8'
+                )
+                if log_result.returncode == 0 and log_result.stdout.strip():
+                    ts = float(log_result.stdout.strip())
+                    doc_mtime_map[md_file] = ts
+            except Exception as e:
+                print(f"[Blog Hook DEBUG] Error getting log for {md_file}: {e}")
+                
+        print(f"[Blog Hook DEBUG] doc_mtime_map entries: {len(doc_mtime_map)}")
     except Exception as e:
         print(f"[Blog Hook] Error getting git info: {e}")
     
@@ -136,6 +134,9 @@ def on_page_content(html, page, config, files):
                     rel_path = str(md_file.name)
                 
                 git_timestamp = git_dates.get(rel_path)
+                
+                # 调试：打印每个文件的 git 时间戳
+                print(f"[Blog Hook DEBUG] {rel_path}: timestamp={git_timestamp}")
                 
                 # 如果 Git 中没有记录，回退到文件 mtime
                 if git_timestamp:
